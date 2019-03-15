@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-  AppRegistry,
   Image,
   ScrollView,
   StyleSheet,
@@ -11,188 +10,224 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-import { TopbarWithBack } from '../../components/Topbars/TopbarWithBack';
+import { ImagePicker } from 'expo';
+import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 
-class Greetings extends Component {
-  render() {
-    return (
-      <View style={{alignItems : 'center'}}>
-      <Text>Hello {this.props.name}</Text>
-      </View>
-    )
-  }
-}
-const Signup = (
-  <Text onPress={this.onPressSignup} style={{color:"#a695fe", fontSize:13}}>
-    Sign Up!
-  </Text>
-);
-
-export default class LoginScreen extends React.Component {
+export default class SignupScreen extends React.Component {
   
-  onPressLogin = (email, pass) => {
-    alert('email: ' + email + ' password: ' + pass);
-  }
-  onPressForgetPassword() {
-    alert("B");
-  }
-
-  onPressSignup() {
-    alert("Signup");
-  }
-
-  static navigationOptions = {
-    header: null,
+  Necessarry = (
+    <Text style={{color:"#efb5cc", fontSize:13}}>
+      *
+    </Text>
+  );
+  
+  state = {
+    savePressed:false,
+    image: null,
+    email: null,
+    id: null,
+    password: null,
+    password_confirm: null,
   };
 
+  checkValidation = (value, check_type) => {
+    if(value == null || value.length == 0) {
+      return false
+    }
+
+    if(check_type == "id") {
+      if(value.length < 4) {
+        return false
+      }
+    }
+
+    if(check_type == "password") {
+      if(value.length < 8) {
+        return false
+      }
+    }
+
+    if(check_type == "password_confirm") {
+      if(value != this.state.password) {
+        return false
+      }
+    }
+
+    return true
+  }
+
   render() {
+    let {savePressed, image, email, id, password, password_confirm } = this.state;
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
-      <ScrollView style={{flex: 1, flexDirection: 'column'}} keyboardDismissMode="on-drag" >
-        <Image source={require('../../assets/images/Login/login_bg.png')} style={styles.loginBg}/>
-        <TopbarWithBack></TopbarWithBack>
-        <Image source={require('../../assets/images/Login/logo.png')} style={[styles.h_auto, {width:"30%", marginTop:110}]} resizeMode ="contain"></Image>
-        <Text style={{marginLeft:"auto", marginRight:"auto", color:"white", marginTop:-20, fontSize:12, fontWeight:"100"}} >Your Beauty Counselor</Text>
+        <ScrollView style={{flex: 1, flexDirection: 'column'}} keyboardDismissMode="on-drag" >
+          <TopbarWithBlackBack></TopbarWithBlackBack>
 
-        <View style={[styles.h_auto, {width:"85%", marginTop: 90, height : 420, borderRadius : 15, backgroundColor:"white", paddingVertical: 40, paddingHorizontal:18}]}>
-          
-            <TextInput
-                style={styles.inputBox}
-                placeholder="Email"
-                returnKeyLabel="next"
-                onChangeText={(text) => this.setState({email: text})}
+          <View style={styles.container}>
+            <Text style={styles.text_header1}>Welcome!</Text>
+            <Text style={styles.text_desc}>Tell us about you !</Text>
+            
+            <View style={[styles.profile_box]}>
+              <TouchableOpacity onPress={this._pickImage} style={styles.camera_box}>
+                <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={{width:12, height:11, alignSelf:"center"}}></Image>
+              </TouchableOpacity>
+              <Image source={image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: image}} style={image == null ? {width:30, height:43, alignSelf:"center"} : {width:75, height:75, borderRadius:37}}></Image>            
+            </View>
+
+            <View style={[styles.inputBox, (this.checkValidation(email, "email") == false && savePressed == true) ? {borderColor:"#f33f5b"} : {}]}>
+              {this.checkValidation(email, "empty") == false ? <Text style={{color: "#e4e6e5", position:"absolute", top:10}}>Email {this.Necessarry}</Text> : null}
+              <TextInput
+                returnKeyType="next"
+                onChangeText={(text) => {this.setState({email: text})}}
+                onSubmitEditing={() => {this.idTextInput.focus();}}
                 keyboardType="email-address"
-                ref={ref => {
-                  this.inputEmail = ref;
-                }}
-              />
-          
-           <TextInput
-              style={[styles.inputBox, {marginTop: 20}]}
-              placeholder="Password"
-              secureTextEntry={true}
-              onChangeText={(text) => this.setState({password: text})}
-            />
-          <Text style={{marginTop:10, marginLeft:"auto", fontSize: 12}} onPress={this.onPressForgetPassword}>
-            Forget Password
-          </Text>
+                />
+            </View>
+            {
+              ((this.checkValidation(email, "email") == false) && savePressed == true)?
+              <Text style={styles.warningText}>Please Confirm your Email</Text> : null
+            }
 
-          <TouchableOpacity style={{marginTop:30}}>
-              <Button onPress={() => this.onPressLogin(this.state.email, this.state.password)} color="#a695fe" style={{margin:60, borderRadius:5, color:"white", fontSize:15}} title="LOGIN"/>
-          </TouchableOpacity>
+            <View style={[styles.inputBox, (this.checkValidation(id, "id") == false && savePressed == true) ? {borderColor:"#f33f5b"} : {}]}>
+              {this.checkValidation(id, "empty") == false ? <Text style={{color: "#e4e6e5", position:"absolute", top:10}}>ID {this.Necessarry}</Text> : null}
+              <TextInput
+                returnKeyType="next"
+                ref={(input) => {this.idTextInput = input;}}
+                onSubmitEditing={() => {this.pwdTextInput.focus();}}
+                onChangeText={(text) => {this.setState({id: text})}}
+                keyboardType="email-address"
+                />
+            </View>
+            {
+              ((this.checkValidation(id, "id") == false) && savePressed == true)?
+              <Text style={styles.warningText}>Please Enter a ID at least four characters</Text> : null
+            }
 
-          <View style={{alignItems:"center", fontSize:13, marginTop:25}}>
-            <Text style={{color:"#aeaeae"}}>Don't have an account?  {Signup}</Text>
-          </View>
+            <View style={[styles.inputBox, (this.checkValidation(password, "password") == false && savePressed == true) ? {borderColor:"#f33f5b"} : {}]}>
+              {this.checkValidation(password, "empty") == false ? <Text style={{color: "#e4e6e5", position:"absolute", top:10}}>Password {this.Necessarry}</Text> : null}
+              <TextInput
+                returnKeyType="next"
+                ref={(input) => {this.pwdTextInput = input;}}
+                onSubmitEditing={() => {this.pwdConfirmTextInput.focus();}}
+                onChangeText={(text) => {this.setState({password: text})}}
+                secureTextEntry={true}
+                />
+            </View>
+            {
+              ((this.checkValidation(password, "password") == false) && savePressed == true)?
+              <Text style={styles.warningText}>Please Enter a Password at least eight characters</Text> : null
+            }
 
-          <View style={{flexDirection:"row", alignItems:"center", marginTop:20, justifyContent: 'space-between'}}>
-            <View
-                style={{
-                  alignItems:"flex-start",
-                  borderBottomColor: '#aeaeae',
-                  borderBottomWidth: 1,
-                  width:"30%",
-                }}
-              />
-            <Text
-            style={{textAlign:"center", color:"#aeaeae"}}
-            >or Login with</Text>
-            <View
-              style={{
-                alignItems:"flex-end",
-                borderBottomColor: '#aeaeae',
-                borderBottomWidth: 1,
-                width:"30%",
-              }}
-            />
-          </View>
+            <View style={[styles.inputBox, (this.checkValidation(password_confirm, "password_confirm") == false && savePressed == true) ? {borderColor:"#f33f5b"} : {}]}>
+              {this.checkValidation(password_confirm, "empty") == false ? <Text style={{color: "#e4e6e5", position:"absolute", top:10}}>Confirm Password {this.Necessarry}</Text> : null}
+              <TextInput
+                returnKeyType="done"
+                ref={(input) => {this.pwdConfirmTextInput = input;}}
+                onChangeText={(text) => {this.setState({password_confirm: text})}}
+                secureTextEntry={true}
+                />
+            </View>
+            {
+              ((this.checkValidation(password_confirm, "password_confirm") == false) && savePressed == true)?
+              <Text style={styles.warningText}>Please Confirm a Password</Text> : null
+            }
 
-            <View style={{flex:1, flexDirection:"row", marginTop:20}}>
-              <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}>
-              {/*We can use any component which is used to shows something inside 
-                TouchableOpacity. It shows the item inside in horizontal orientation */}
-              <Image
-                //We are showing the Image from online
-                source={require("../../assets/images/Login/ic_facebook.png")}
-                //You can also show the image from you project directory like below
-                //source={require('./Images/facebook.png')}
-                //Image Style
-                style={styles.ImageIconStyle}
-              />
-              <Text style={styles.TextStyle}>Facebook</Text>
+            <TouchableOpacity style={[styles.btn_primary_cover, {marginTop:35}]} onPress = {() => {this.setState({savePressed: true})}}>
+              <Text style={styles.btn_primary}>Save</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.GooglePlusStyle} activeOpacity={0.5}>
-              {/*We can use any component which is used to shows something inside 
-                TouchableOpacity. It shows the item inside in horizontal orientation */}
-              <Image
-                //We are showing the Image from online
-                source={require("../../assets/images/Login/ic_google.png")}
-                //You can also show the image from you project directory like below
-                //source={require('./Images/facebook.png')}
-                //Image Style
-                style={styles.ImageIconStyle}
-              />
-              <Text style={styles.TextStyle}>Google</Text>
-            </TouchableOpacity>
+            
           </View>
-        </View>
-
-      <Text style={{color:"white", marginTop:45, marginBottom:20, textAlign:"center", fontSize:12, fontWeight:"100"}}>copyright © 2019 by Chemi. all rights reserved</Text>
-      </ScrollView>
+        </ScrollView>
       </KeyboardAvoidingView>
     );
   }
+  
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
+
 }
 
 const styles = StyleSheet.create({
-  h_auto: {
-    marginLeft:"auto",
-    marginRight: "auto",
-  },
-  loginBg : {
-    left:0, 
-    right:0,
-    top:0, 
-    bottom:0,
-    position:"absolute",
-    flex:1,
-    height:null,
-    width:null,
-    resizeMode:"cover",
-  },
-  inputBox : {
-    height: 40, borderBottomWidth:1, borderColor:"#e3e5e4",
-  },
-  GooglePlusStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 0.5,
-    borderColor: '#e3e5e4',
-    height: 40,
-    flex:1,
-    borderRadius: 5,
-    justifyContent:"center",
-    marginLeft: 5,
-  },
-  FacebookStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 0.5,
-    borderColor: '#e3e5e4',
-    height: 40,
-    flex:1,
-    borderRadius: 5,
-    justifyContent:"center",
-    marginRight: 5,
-  },
-  ImageIconStyle: {
-    padding: 10,
-    margin: 5,
-    height: 25,
-    width: 25,
-    resizeMode: "contain",
-  },
+    container : {
+      paddingLeft: 15,
+      paddingRight: 15,
+    },
+
+    text_header1 : {
+      marginTop:10,
+      fontSize: 30,
+      color:"black",
+    },
+
+    text_desc : {
+      fontSize: 13,
+      marginTop: 10,
+      color:"#949292",
+    },
+
+    profile_box : {
+      marginTop: 30,
+      alignItems: "center",
+      borderColor: "#ededed",
+      borderWidth: 2,
+      width:75,
+      height:75,
+      borderRadius: 37.5,
+      alignSelf: "center",
+      justifyContent:"center",
+    },
+
+    camera_box : {
+      backgroundColor:"white",
+      borderColor: "#ededed",
+      borderWidth: 2,
+      width:23,
+      height:23,
+      borderRadius: 11.5,
+      position:"absolute",
+      top:0,
+      right:0,
+      justifyContent:"center",
+      zIndex:1,
+    },
+
+    inputBox : {
+      height: 40, 
+      borderBottomWidth:1, 
+      borderColor:"#e3e5e4",
+      marginTop:20,
+      justifyContent:"center"
+    },
+
+    warningText : {
+      color: "#f33f5b",
+      fontSize:12,
+      marginTop:5,
+    },
+
+    btn_primary_cover : {
+      flex:1,
+      borderRadius:5,
+      height:45,
+      backgroundColor: "#a695fe",
+      justifyContent:"center",
+    },
+
+    btn_primary : {
+      color:"white",
+      fontSize:13,
+      justifyContent:"center",
+      textAlign:"center",
+    }
 });

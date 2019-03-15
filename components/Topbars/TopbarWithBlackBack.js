@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-export class TopbarWithBack extends React.Component {
+export class TopbarWithBlackBack extends React.Component {
   render() {
     return (
         <TouchableOpacity activeOpacity={0.5} style={{padding:15, width:45}}>
@@ -9,7 +9,7 @@ export class TopbarWithBack extends React.Component {
                 TouchableOpacity. It shows the item inside in horizontal orientation */}
               <Image style={styles.backButton}
                 //We are showing the Image from online
-                source={require("../../assets/images/ic_back.png")}
+                source={require("../../assets/images/ic_back_black.png")}
                 //You can also show the image from you project directory like below
                 //source={require('./Images/facebook.png')}
                 //Image Style
