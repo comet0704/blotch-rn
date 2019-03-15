@@ -7,6 +7,8 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from '../screens/Login/LoginScreen';
+import SignupScreen from '../screens/Login/SignupScreen';
+import FindPwdScreen from '../screens/Login/FindPwdScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -56,6 +58,11 @@ SettingsStack.navigationOptions = {
 
 const LoginStack = createStackNavigator({
   Login: LoginScreen,
+  Signup:  SignupScreen,
+  FindPwd:  FindPwdScreen,
+},
+{
+  headerMode: 'screen ',
 });
 
 LoginStack.navigationOptions = {

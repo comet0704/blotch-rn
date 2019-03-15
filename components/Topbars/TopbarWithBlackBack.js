@@ -4,7 +4,8 @@ import { Image, TouchableOpacity, StyleSheet } from 'react-native';
 export class TopbarWithBlackBack extends React.Component {
   render() {
     return (
-        <TouchableOpacity activeOpacity={0.5} style={{padding:15, width:45}}>
+        <TouchableOpacity 
+        onPress={this.props.onPress} activeOpacity={0.5} style={{padding:15, width:45}}>
               {/*We can use any component which is used to shows something inside 
                 TouchableOpacity. It shows the item inside in horizontal orientation */}
               <Image style={styles.backButton}

@@ -62,7 +62,7 @@ export default class SignupScreen extends React.Component {
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
         <ScrollView style={{flex: 1, flexDirection: 'column'}} keyboardDismissMode="on-drag" >
-          <TopbarWithBlackBack></TopbarWithBlackBack>
+          <TopbarWithBlackBack onPress = {() => {this.props.navigation.goBack()}}></TopbarWithBlackBack>
 
           <View style={styles.container}>
             <Text style={styles.text_header1}>Welcome!</Text>
