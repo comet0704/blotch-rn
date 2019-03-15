@@ -66,6 +66,7 @@ LoginStack.navigationOptions = {
       name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
     />
   ),
+  // tabBarVisible:false,
 };
 
 export default createBottomTabNavigator({

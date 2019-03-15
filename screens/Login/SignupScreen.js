@@ -12,10 +12,6 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { TopbarWithBack } from '../../components/Topbars/TopbarWithBack';
-import {Navigation} from 'react-native-navigation'
-import {registerScreens} from './'
-
-registerScreens();
 
 class Greetings extends Component {
   render() {
@@ -42,6 +38,7 @@ export default class LoginScreen extends React.Component {
   }
 
   onPressSignup() {
+    alert("Signup");
   }
 
   static navigationOptions = {
