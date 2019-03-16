@@ -57,8 +57,8 @@ SettingsStack.navigationOptions = {
 };
 
 const LoginStack = createStackNavigator({
-  Login: LoginScreen,
   Signup:  SignupScreen,
+  Login: LoginScreen,
   FindPwd:  FindPwdScreen,
 },
 {
