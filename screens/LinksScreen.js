@@ -1,19 +1,34 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import {StyleSheet, Text, View, Slider} from 'react-native';
 
-export default class LinksScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Links',
-  };
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 50,
+    };
+  }
+
+  change(value) {
+    this.setState(() => {
+      return {
+        value: parseFloat(value),
+      };
+    });
+  }
 
   render() {
+    const {value} = this.state;
     return (
-      <ScrollView style={styles.container}>
-        {/* Go ahead and delete ExpoLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */}
-        <ExpoLinksView />
-      </ScrollView>
+      <View style={styles.container}>
+        <Text style={styles.text}>{String(value)}</Text>
+        <Slider
+          step={1}
+          maximumValue={100}
+          onValueChange={this.change.bind(this)}
+          value={value}
+        />
+      </View>
     );
   }
 }
@@ -21,7 +36,11 @@ export default class LinksScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  text: {
+    fontSize: 50,
+    textAlign: 'center',
   },
 });

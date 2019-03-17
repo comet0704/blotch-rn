@@ -171,6 +171,7 @@ export default class SignupScreen extends React.Component {
             <View style={{backgroundColor:"white", borderRadius:10, justifyContent:"center", overflow:"hidden"}}>
               <TouchableOpacity style={{alignSelf:"flex-end", padding:10}} onPress={() => {
                       this.setState({modalVisible:false});
+                      this.props.navigation.navigate('Home')
                     }}>
                 <Image style={{width:14, height:14}} source={require("../../assets/images/ic_close.png")}></Image>
               </TouchableOpacity>
@@ -188,6 +189,7 @@ export default class SignupScreen extends React.Component {
                   style={[styles.btn_primary_white_cover, {borderRadius:0}]}
                     onPress={() => {
                       this.setState({modalVisible:false});
+                      this.props.navigation.navigate('Home')
                     }}>
                   <Text style={styles.btn_primary_white}>Not now</Text>
                 </TouchableHighlight>
