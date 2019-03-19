@@ -16,9 +16,9 @@ import Colors from '../constants/Colors';
 import ArticlesScreen from '../screens/Home/Articles';
 
 const HomeStack = createStackNavigator({
+  BannerDetail: BannerDetailScreen,
   Ariticle: ArticlesScreen,
   Home: HomeScreen,
-  BannerDetail: BannerDetailScreen,
   AboutUs: {
     screen: AboutUsScreen,
     navigationOptions: () => ({

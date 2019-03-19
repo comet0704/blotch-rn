@@ -1,16 +1,6 @@
-import React, {Component} from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from 'react-native';
 import { ImagePicker } from 'expo';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
 export default class DlgAskInputMoreInfo extends React.Component {
   
