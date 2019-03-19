@@ -182,4 +182,8 @@ export default StyleSheet.create({
       width: 30/3,
       height: 39/3,
     },
+    border_bottom_e5e5e5: {
+      borderBottomWidth:0.5,
+      borderBottomColor:"#e5e5e5",
+    }
   });

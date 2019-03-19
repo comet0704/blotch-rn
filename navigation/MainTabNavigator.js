@@ -13,10 +13,12 @@ import FaqScreen from '../screens/Home/FaqScreen';
 import AboutUsScreen from '../screens/Home/AboutUsScreen';
 import BannerDetailScreen from '../screens/Home/BannerDetailScreen';
 import Colors from '../constants/Colors';
+import ArticlesScreen from '../screens/Home/Articles';
 
 const HomeStack = createStackNavigator({
-  BannerDetail: BannerDetailScreen,
+  Ariticle: ArticlesScreen,
   Home: HomeScreen,
+  BannerDetail: BannerDetailScreen,
   AboutUs: {
     screen: AboutUsScreen,
     navigationOptions: () => ({

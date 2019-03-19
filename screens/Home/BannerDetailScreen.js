@@ -11,17 +11,7 @@ export default class FaqScreen extends React.Component {
 
   renderComment(image, index) {
     return (
-      <View key={index}>
-        <TouchableHighlight onPressIn={() => { this.props.navigation.navigate("BannerDetail") }}>
-          <View>
-            <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: image }} />
-            <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
-              <Text style={{ fontSize: 13, color: "white" }}>ESTEE LAUDER</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 24 }}>Advanced Night Repair</Text>
-            </View>
-          </View>
-        </TouchableHighlight>
-      </View>
+      null
     );
   }
 
@@ -32,8 +22,7 @@ export default class FaqScreen extends React.Component {
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
           <View style={[{ flex: 1 }]}>
             <TopbarWithBlackBack rightBtn="true" title="Banner" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { alert("right") }}></TopbarWithBlackBack>
-            <View style={[MyStyles.shadow_1, { height: 6, backgroundColor: "#f1f1f1" }]}></View>
-            <View style={[{ flex: 1 }]}>
+            <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ flex: 1, height: 6 }} ></LinearGradient>            <View style={[{ flex: 1 }]}>
               {/* Title and Image */}
               <View style={[MyStyles.padding_main]}>
                 <Text style={{ color: Colors.color_201f20, fontSize: 21 }}>How to Make up Easy, Fast Drawing From Shis!</Text>
@@ -110,7 +99,7 @@ ple</Text>
 
                 <View>
                   <View style={{ flexDirection: "row", flex: 1, paddingTop: 10, paddingBottom: 5 }}>
-                    <Image source={{uri:"http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"}} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
+                    <Image source={{ uri: "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg" }} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
                     <View style={{ flex: 1, marginLeft: 10 }}>
                       <Text style={{ fontSize: 15, color: Colors.color_201f20, fontWeight: "bold" }}>Username</Text>
                       <Text style={{ fontSize: 13, color: Colors.color_515151 }}>app-header is container element for app-toolbars a
@@ -135,12 +124,12 @@ ple</Text>
 
                 <View>
                   <View style={{ flexDirection: "row", flex: 1, paddingTop: 10, paddingBottom: 5 }}>
-                    <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 13, marginTop: 5, marginRight:10 }]}></Image>
-                    <Image source={{uri:"http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"}} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
+                    <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 13, marginTop: 5, marginRight: 10 }]}></Image>
+                    <Image source={{ uri: "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg" }} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
                     <View style={{ flex: 1, marginLeft: 10 }}>
-                      <View style={{flex:1, flexDirection:"row", alignItems:"center"}}>
+                      <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
                         <Text style={{ fontSize: 15, color: Colors.color_201f20, fontWeight: "bold" }}>Username</Text>
-                        <Text style={[MyStyles.purple_bg_text_12,{marginLeft:5, height:50/3}]}>Me</Text>
+                        <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 50 / 3 }]}>Me</Text>
                       </View>
                       <Text style={{ fontSize: 13, color: Colors.color_515151 }}>app-header is container element for app-toolbars a
   t the top of the screen that can have scroll effects.
