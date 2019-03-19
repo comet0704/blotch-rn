@@ -17,6 +17,8 @@ import {
 
 import { WebBrowser } from 'expo';
 
+import MyStyles from '../../constants/MyStyles'
+
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -45,7 +47,7 @@ export default class HomeScreen extends React.Component {
   renderBanner(image, index) {
     return (
       <View key={index}>
-        <TouchableHighlight onPressIn={() => { WebBrowser.openBrowserAsync(this.state.bannerLinkes[index]) }}>
+        <TouchableHighlight onPressIn={() => { this.props.navigation.navigate("BannerDetail") }}>
           <View>
             <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: image }} />
             <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
@@ -64,8 +66,8 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { WebBrowser.openBrowserAsync(this.state.bannerLinkes[index]) }}>
           <View style={{ flex: 1 }}>
             <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: image }} />
-            <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, styles.heart]}>
-              <Image source={require('../../assets/images/ic_heart_off.png')} style={[styles.background_image]} />
+            <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
+              <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
             </TouchableHighlight>
             <View style={{ position: "absolute", bottom: 0, maxWidth: 130, paddingBottom: 30, alignSelf: "center" }}>
               <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }}>CHANEL</Text>
@@ -83,8 +85,8 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { WebBrowser.openBrowserAsync(this.state.bannerLinkes[index]) }}>
           <View style={{ flex: 1 }}>
             <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: image }} />
-            <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, styles.heart]}>
-              <Image source={require('../../assets/images/ic_heart_off.png')} style={[styles.background_image]} />
+            <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
+              <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
             </TouchableHighlight>
             <View style={{ position: "absolute", bottom: 0, maxWidth: 130, paddingBottom: 30, alignSelf: "center" }}>
               <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }}>CHANEL</Text>
@@ -102,9 +104,9 @@ export default class HomeScreen extends React.Component {
       <View key={index} style={{ width: "100%", height: 166, flex: 1 }}>
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { WebBrowser.openBrowserAsync(this.state.bannerLinkes[index]) }}>
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
-            <Image style={styles.background_image} source={{ uri: image }} />
-            <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, styles.heart]}>
-              <Image source={require('../../assets/images/ic_heart_off.png')} style={[styles.background_image]} />
+            <Image style={MyStyles.background_image} source={{ uri: image }} />
+            <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
+              <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
             </TouchableHighlight>
             <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
               <Text style={{ fontSize: 13, color: "white" }}>ESTEE LAUDER</Text>
@@ -155,9 +157,9 @@ export default class HomeScreen extends React.Component {
             <View key={image.key} style={{ width: 150, height: 75, flex: 1, marginRight: 10 }}>
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { WebBrowser.openBrowserAsync(image.source.uri) }}>
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
-                  <Image style={styles.background_image} source={{ uri: image.source.uri }} />
-                  <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, styles.heart]}>
-                    <Image source={require('../../assets/images/ic_heart_off.png')} style={[styles.background_image]} />
+                  <Image style={MyStyles.background_image} source={{ uri: image.source.uri }} />
+                  <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
+                    <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableHighlight>
                   <View style={{ position: "absolute", bottom: 5, left: 5, maxWidth: 120 }}>
                     <Text style={{ fontSize: 12, color: "white" }}>S/S COLLECTION</Text>
@@ -186,7 +188,7 @@ export default class HomeScreen extends React.Component {
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { WebBrowser.openBrowserAsync(image.source.uri) }}>
                 <Image style={{width:85, height:85, borderRadius:50, overflow:"hidden"}} source={{ uri: image.source.uri }} />
               </TouchableOpacity>
-              <Text style={{ fontSize: 12, color: "#949393", marginTop:5, textAlign:"center" }}>S/S COLLECTION</Text>
+              <Text style={{ fontSize: 12, color: "#949393", marginTop:5, textAlign:"center" }} numberOfLines={1}>S/S COLLECTION</Text>
               <Text style={{ fontSize: 13, color: "#212122", fontWeight: "bold", textAlign:"center"}} numberOfLines={1}>Hydra Beauty Hydra Beauty </Text>
 
             </View>
@@ -208,7 +210,7 @@ export default class HomeScreen extends React.Component {
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
             <View style={{ backgroundColor: "#f8f8f8" }}>
               {/* Search bar */}
-              <View style={[{ flex: 1, marginTop: 27, height: 40, paddingTop: 2, paddingBottom: 2, justifyContent: "center", flexDirection: "row", }, styles.container, styles.bg_white]}>
+              <View style={[{ flex: 1, marginTop: 27, height: 40, paddingTop: 2, paddingBottom: 2, justifyContent: "center", flexDirection: "row", }, MyStyles.container, MyStyles.bg_white]}>
                 <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />
                 <View style={[{ flex: 1, marginLeft: 12, borderRadius: 20, borderWidth: 0.5, borderBottomWidth: 2, flexDirection: "row", width: "100%", borderColor: "#f8f8f8", paddingLeft: 13, paddingRight: 13 }]}>
                   <Image source={require('../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
@@ -218,16 +220,16 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* Today's Beauty Information */}
-              <View style={[{ paddingTop: 25, borderBottomLeftRadius: 20, borderWidth: 0, borderBottomWidth: 2, borderBottomColor: "#dadada", borderLeftColor: "#dadada", borderLeftWidth: 2 }, styles.container, styles.bg_white]}>
+              <View style={[{ paddingTop: 25, borderBottomLeftRadius: 20, borderWidth: 0, borderBottomWidth: 2, borderBottomColor: "#dadada", borderLeftColor: "#dadada", borderLeftWidth: 2 }, MyStyles.container, MyStyles.bg_white]}>
                 <Text style={[{ color: "#949393", fontSize: 12 }]}>Today's counselor</Text>
-                <Text style={[styles.text_20, { marginTop: 10 }]}>Today's Beauty Information</Text>
+                <Text style={[MyStyles.text_20, { marginTop: 10 }]}>Today's Beauty Information</Text>
                 <View style={[{ borderRadius: 3, overflow: "hidden", width: "100%", height: 125, marginTop: 20, padding: 15, marginBottom: 23 }]}>
-                  <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[styles.background_image]} />
+                  <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} />
 
                   <View style={{ flexDirection: "row", flex: 1 }}>
                     <View style={{ flex: 1 }}>
                       <Text style={[{ fontSize: 15, fontWeight: "500", color: "white" }]}>Beauty Advice</Text>
-                      <View style={[styles.seperate_line_white, { marginTop: 10, marginBottom: 10 }]} />
+                      <View style={[MyStyles.seperate_line_white, { marginTop: 10, marginBottom: 10 }]} />
                       <View style={[{ flexDirection: "row", color: "white" }]}>
                         <Image source={require('../../assets/images/Home/ic_weather_type.png')} style={{ width: 13, height: 7, alignSelf: "center" }} />
                         <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {weatherType}</Text> today</Text>
@@ -250,8 +252,8 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* We can search it */}
-              <TouchableOpacity style={[styles.container, { marginTop: 23}]}>
-                <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, styles.bg_white, styles.shadow]}>
+              <TouchableOpacity style={[MyStyles.container, { marginTop: 23}]}>
+                <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                   <View style={{ flex: 1 }}>
                     <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
                     <Text style={{ fontSize: 12, color: "#949393", marginTop: 3 }}>Please set up your skin type</Text>
@@ -262,9 +264,9 @@ export default class HomeScreen extends React.Component {
               </TouchableOpacity>
 
               {/* We recommend It! 로그인 했을때 나타나는 정보 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, styles.bg_white, styles.shadow]}>
-                <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, styles.container]}>
-                  <Text style={[styles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
+              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
+                  <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
                   <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { alert("go We recomment it"); }}>more ></Text>
                 </View>
                 <View style={{
@@ -295,14 +297,14 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* Hi, It's New 부분 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, styles.bg_white, styles.shadow]}>
-                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, styles.container]}>
-                  <Text style={[styles.text_20, { flex: 1, alignSelf: "center" }]}>Hi, It's New</Text>
+              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
+                  <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Hi, It's New</Text>
                   <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { alert("go new more page"); }}>more ></Text>
                 </View>
                 <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, }}>
                   <View style={{ borderBottomRightRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
-                    <Image source={{ uri: 'http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg' }} style={[styles.background_image]} />
+                    <Image source={{ uri: 'http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg' }} style={[MyStyles.background_image]} />
                     <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>NEW ARRIVALARRIVALARRIVAL</Text>
                   </View>
 
@@ -319,11 +321,11 @@ export default class HomeScreen extends React.Component {
                     </Carousel>
                     <View style={{ flex: 1, width: "100%", justifyContent: "center", flexDirection: "row", position: "absolute", marginTop: 90 }}>
                       <TouchableOpacity style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.newCarouselIndicator.gotoPage(this.newCarouselIndicator.currentIndex - 1); }}>
-                        <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, styles.banner_control]} />
+                        <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                       <View style={{ flex: 1 }}></View>
                       <TouchableOpacity style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.newCarouselIndicator.gotoNextPage(); }}>
-                        <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, styles.banner_control]} />
+                        <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -332,9 +334,9 @@ export default class HomeScreen extends React.Component {
 
 
               {/* Best Choice 부분 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, styles.bg_white, styles.shadow]}>
-                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, styles.container]}>
-                  <Text style={[styles.text_20, { flex: 1, alignSelf: "center" }]}>Best Choice</Text>
+              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
+                  <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Best Choice</Text>
                   <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { alert("go new more page"); }}>more ></Text>
                 </View>
                 <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30 }}>
@@ -351,17 +353,17 @@ export default class HomeScreen extends React.Component {
                     </Carousel>
                     <View style={{ flex: 1, width: "100%", justifyContent: "center", flexDirection: "row", position: "absolute", marginTop: 90 }}>
                       <TouchableOpacity style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.bestCarouselIndicator.gotoPage(this.bestCarouselIndicator.currentIndex - 1); }}>
-                        <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, styles.banner_control]} />
+                        <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                       <View style={{ flex: 1 }}></View>
                       <TouchableOpacity style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.bestCarouselIndicator.gotoNextPage(); }}>
-                        <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, styles.banner_control]} />
+                        <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                     </View>
                   </View>
 
                   <View style={{ borderBottomLeftRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
-                    <Image source={{ uri: 'http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg' }} style={[styles.background_image]} />
+                    <Image source={{ uri: 'http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg' }} style={[MyStyles.background_image]} />
                     <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>NEW ARRIVALARRIVALARRIVAL</Text>
                   </View>
 
@@ -370,10 +372,10 @@ export default class HomeScreen extends React.Component {
 
 
               {/* Today's Article & What's Trending 부분 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, marginBottom: 10 }, styles.bg_white, styles.shadow]}>
+              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, marginBottom: 10 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 {/* Today's Article */}
-                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, styles.container]}>
-                  <Text style={[styles.text_20, { flex: 1, alignSelf: "center" }]}>Today's Article</Text>
+                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
+                  <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Today's Article</Text>
                   <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { alert("go new Today's Article page"); }}>more ></Text>
                 </View>
                 <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, justifyContent: "center", marginLeft: 15 }}>
@@ -392,8 +394,8 @@ export default class HomeScreen extends React.Component {
                 </View>
 
                 {/* What's trending */}
-                <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, styles.container]}>
-                  <Text style={[styles.text_20, { flex: 1, alignSelf: "center" }]}>What's Trending</Text>
+                <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
+                  <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>What's Trending</Text>
                   <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { alert("go new What's Trending page"); }}>more ></Text>
                 </View>
                 <View style={{
@@ -410,12 +412,12 @@ export default class HomeScreen extends React.Component {
                 </View>
 
                 {/* FAQ, About 버튼 부분 */}
-                <View style={[styles.seperate_line_e5e5e5]}></View>
+                <View style={[MyStyles.seperate_line_e5e5e5]}></View>
                 <View style={{ flexDirection: "row", justifyContent: "center", flex: 1, height: 53 }}>
-                  <TouchableOpacity style={{ flex: 1, justifyContent: "center" }} onPress={() => { alert("go FAQ"); }}>
+                  <TouchableOpacity style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("Faq")}}>
                     <Text style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>FAQ</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={{ flex: 1, justifyContent: "center" }} onPress={() => { alert("go About Chemi"); }}>
+                  <TouchableOpacity style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("AboutUs"); }}>
                     <Text style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>About Chemi</Text>
                   </TouchableOpacity>
                 </View>
@@ -428,113 +430,3 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingLeft: 15,
-    paddingRight: 15,
-  },
-  bg_white: {
-    backgroundColor: "white"
-  },
-  h_auto: {
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
-  loginBg: {
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    position: "absolute",
-    flex: 1,
-    height: null,
-    width: null,
-    resizeMode: "cover",
-  },
-  inputBox: {
-    height: 40,
-    borderBottomWidth: 1,
-    borderColor: "#e3e5e4",
-    marginTop: 20,
-    justifyContent: "center"
-  },
-
-  warningText: {
-    color: "#f33f5b",
-    fontSize: 12,
-    marginTop: 5,
-  },
-  GooglePlusStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 0.5,
-    borderColor: '#e3e5e4',
-    height: 40,
-    flex: 1,
-    borderRadius: 5,
-    justifyContent: "center",
-    marginLeft: 5,
-  },
-  FacebookStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 0.5,
-    borderColor: '#e3e5e4',
-    height: 40,
-    flex: 1,
-    borderRadius: 5,
-    justifyContent: "center",
-    marginRight: 5,
-  },
-  ImageIconStyle: {
-    padding: 10,
-    margin: 5,
-    height: 25,
-    width: 25,
-    resizeMode: "contain",
-  },
-  shadow: {
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 1,
-      height: 3,
-    },
-    shadowOpacity: 1,
-    elevation: 2,
-    // background color must be set
-    backgroundColor: "white" // invisible color,
-  },
-  background_image: {
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    position: "absolute",
-    flex: 1,
-    height: null,
-    width: null,
-    resizeMode: "cover",
-  },
-  seperate_line_white: {
-    height: 0.5,
-    backgroundColor: "white"
-  },
-  seperate_line_e5e5e5: {
-    height: 0.5,
-    backgroundColor: "#e5e5e5"
-  },
-  text_20: {
-    color: "black", fontSize: 20, fontWeight: "500"
-  },
-  heart: {
-    width: 17.7,
-    height: 15
-  },
-  banner_control: {
-    width: 7.7,
-    height: 14,
-  },
-});

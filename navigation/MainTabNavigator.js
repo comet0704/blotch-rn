@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, Icon , Image} from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
@@ -9,22 +9,46 @@ import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from '../screens/Login/LoginScreen';
 import SignupScreen from '../screens/Login/SignupScreen';
 import FindPwdScreen from '../screens/Login/FindPwdScreen';
+import FaqScreen from '../screens/Home/FaqScreen';
+import AboutUsScreen from '../screens/Home/AboutUsScreen';
+import BannerDetailScreen from '../screens/Home/BannerDetailScreen';
+import Colors from '../constants/Colors';
 
 const HomeStack = createStackNavigator({
+  BannerDetail: BannerDetailScreen,
   Home: HomeScreen,
+  AboutUs: {
+    screen: AboutUsScreen,
+    navigationOptions: () => ({
+      tabBarVisible:false,
+    })
+  },
+  Faq: FaqScreen,
+},
+{
+  headerMode: 'screen ',
 });
+
+// HomeStack.navigationOptions = ({navigation}) => {
+//   tabBarLabel = "HOME";
+
+//   let tabBarVisible = true;
+
+//   let routeName = navigation.state.routes[navigation.state.index].routeName;
+
+//   if(routeName == 'AboutUs') {
+//     tabBarVisible = false
+//   }
+
+//   return {
+//     tabBarVisible
+//   }
+// }
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
+  tabBarIcon: ({focused}) => (
+    focused ? <Image style={{width:57/3, height:53/3}} source={require("../assets/images/ic_menu_home_on.png")}/> : <Image style={{width:57/3, height:53/3}} source={require("../assets/images/ic_menu_home_off.png")}/>
   ),
 };
 
@@ -67,13 +91,12 @@ const LoginStack = createStackNavigator({
 
 LoginStack.navigationOptions = {
   tabBarLabel: 'Login',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
+  tabBarIcon: ({focused}) => (
+    focused ? <Image style={{width:16.7, height:17.7}} source={require("../assets/images/ic_menu_login_off.png")}/> : <Image style={{width:16.7, height:17.7}} source={require("../assets/images/ic_menu_login_off.png")}/>
   ),
+
   tabBarVisible:false,
+  
 };
 
 export default createBottomTabNavigator({
@@ -81,4 +104,9 @@ export default createBottomTabNavigator({
   LinksStack,
   SettingsStack,
   LoginStack,
+}, {
+  backBehavior: "history",
+  tabBarOptions : {
+    activeTintColor:"#a695fe"
+  }
 });
