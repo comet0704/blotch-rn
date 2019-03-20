@@ -56,7 +56,7 @@ export default class FaqScreen extends React.Component {
 
             {/* Title and Image */}
             <View style={[MyStyles.padding_main]}>
-              <Text style={{ color: Colors.color_201f20, fontSize: 21 }}>How to Make up Easy, Fast Drawing From Shis!</Text>
+              <Text style={{ color: Colors.color_primary_dark, fontSize: 21 }}>How to Make up Easy, Fast Drawing From Shis!</Text>
               <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
                 <Image style={{ flex: 1 }} />
                 <Image source={require("../../assets/images/ic_heart_gray.png")} style={MyStyles.ic_heart_gray} />
@@ -79,7 +79,7 @@ export default class FaqScreen extends React.Component {
                 <Text style={{ color: Colors.color_949191, paddingLeft: 5, paddingRight: 5, borderWidth: 0.5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }}>Link</Text>
                 <Text onPress={() => { Linking.openURL("https://brunch.co.kr/@sucopy/182") }} style={[MyStyles.link, { marginLeft: 5 }]}>https://brunch.co.kr/@sucopy/182</Text>
               </View>
-              <Text style={{ fontSize: 13, color: Colors.color_201f20, marginTop: 10, marginBottom: 5 }}>The House of Chanel is known for the "little black dress", th
+              <Text style={{ fontSize: 13, color: Colors.color_primary_dark, marginTop: 10, marginBottom: 5 }}>The House of Chanel is known for the "little black dress", th
 e perfume No. 5 de Chanel, and the Chanel Suit. Chanel's u
 se of jersey fabric produced garments that were comforta
 ble and affordable. Chanel revolutionized fashion — high fa
@@ -95,7 +95,7 @@ me flattering to the woman's figure.
             <View style={[MyStyles.bg_f8f8f8, { marginTop: 5 }]}>
               {/* Comments Header */}
               <View style={[MyStyles.bg_white, MyStyles.container, { paddingTop: 5 }]}>
-                <Text style={{ color: Colors.color_201f20, fontSize: 13, fontWeight: "bold" }}>Comments <Text style={{ fontSize: 13, color: Colors.color_949292 }}>11</Text></Text>
+                <Text style={{ color: Colors.color_primary_dark, fontSize: 13, fontWeight: "bold" }}>Comments <Text style={{ fontSize: 13, color: Colors.color_949292 }}>11</Text></Text>
                 <View style={{ marginTop: 10, flexDirection: "row" }}>
                   <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1]}></Image>
                   <TextInput placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
@@ -110,7 +110,7 @@ me flattering to the woman's figure.
                 <View style={MyStyles.comment_item}>
                   <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
                   <View style={{ flex: 1, marginLeft: 10 }}>
-                    <Text style={{ fontSize: 15, color: Colors.color_201f20, fontWeight: "bold" }}>Username</Text>
+                    <Text style={{ fontSize: 15, color: Colors.color_primary_dark, fontWeight: "bold" }}>Username</Text>
                     <Text style={{ fontSize: 13, color: Colors.color_515151 }}>app-header is container element for app-toolbars a
 t the top of the screen that can have scroll effects.
 B default, an app-header moves aways from the vie
@@ -145,7 +145,7 @@ ple</Text>
                 <View style={MyStyles.comment_item}>
                   <Image source={{ uri: "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg" }} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
                   <View style={{ flex: 1, marginLeft: 10 }}>
-                    <Text style={{ fontSize: 15, color: Colors.color_201f20, fontWeight: "bold" }}>Username</Text>
+                    <Text style={{ fontSize: 15, color: Colors.color_primary_dark, fontWeight: "bold" }}>Username</Text>
                     <Text style={{ fontSize: 13, color: Colors.color_515151 }}>app-header is container element for app-toolbars a
 t the top of the screen that can have scroll effects.
 B default, an app-header moves aways from the vie
@@ -172,7 +172,7 @@ ple</Text>
                   <Image source={{ uri: "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg" }} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
                   <View style={{ flex: 1, marginLeft: 10 }}>
                     <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-                      <Text style={{ fontSize: 15, color: Colors.color_201f20, fontWeight: "bold" }}>Username</Text>
+                      <Text style={{ fontSize: 15, color: Colors.color_primary_dark, fontWeight: "bold" }}>Username</Text>
                       <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 50 / 3 }]}>Me</Text>
                     </View>
                     <Text style={{ fontSize: 13, color: Colors.color_515151 }}>app-header is container element for app-toolbars a

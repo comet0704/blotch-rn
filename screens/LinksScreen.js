@@ -1,37 +1,20 @@
-import React, {Component} from 'react';
-import {Share, Button} from 'react-native';
+import React from 'react';
+import {
+  Text,
+} from 'react-native';
 
-export default class ShareExample extends Component {
-  onShare = async () => {
-    try {
-      const result = await Share.share({
-        message: 'BAM: we\'re helping your business with awesome React Native apps',
-        url: 'http://bam.tech',
-        title: 'Wow, did you see that?'
-      }, {
-        // Android only:
-        dialogTitle: 'Share BAM goodness',
-        // iOS only:
-        excludedActivityTypes: [
-          'com.apple.UIKit.activity.PostToTwitter'
-        ]
-      });
+import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-view';
+import Colors from '../constants/Colors';
 
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-
-  render() {
-    return <Button onPress={this.onShare} title="Share" />;
-  }
+export default () => {
+  return <ScrollableTabView
+    style={{height:20, borderBottomWidth:0, marginTop:10}}
+    initialPage={1}
+    tabBarUnderlineStyle={{backgroundColor:Colors.color_primary_purple}}
+    renderTabBar={() => <DefaultTabBar />}
+  >
+    <Text tabLabel='Tab #1'>My</Text>
+    <Text tabLabel='Tab #2'>favorite</Text>
+    <Text tabLabel='Tab #3'>project</Text>
+  </ScrollableTabView>;
 }

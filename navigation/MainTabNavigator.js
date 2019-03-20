@@ -16,16 +16,16 @@ import Colors from '../constants/Colors';
 import ArticlesScreen from '../screens/Home/Articles';
 
 const HomeStack = createStackNavigator({
-  BannerDetail: BannerDetailScreen,
-  Ariticle: ArticlesScreen,
+  Faq: FaqScreen,
   Home: HomeScreen,
+  BannerDetail: BannerDetailScreen,
+  Article: ArticlesScreen,
   AboutUs: {
     screen: AboutUsScreen,
     navigationOptions: () => ({
       tabBarVisible:false,
     })
   },
-  Faq: FaqScreen,
 },
 {
   headerMode: 'screen ',
@@ -103,8 +103,8 @@ LoginStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
-  LoginStack,
   LinksStack,
+  LoginStack,
   SettingsStack,
 }, {
   backBehavior: "history",

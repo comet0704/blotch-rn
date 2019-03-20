@@ -19,8 +19,10 @@
     "react-native-image-picker": "^0.28.0",
     "react-native-modal": "^9.0.0",
     "react-native-navigation": "^2.13.1",
+    "react-native-reanimated": "^1.0.0-alpha.12",
+    "react-native-scrollable-tab-view": "^0.10.0",
+    "react-native-scrollable-tab-view-mask-bar": "^1.0.8",
     "react-native-snap-carousel": "^3.7.5",
-    "react-native-tab-view": "github:react-navigation/react-native-tab-view",
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {

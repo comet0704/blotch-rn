@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import Colors from './Colors';
+import { randomUI04 } from 'uuid-js';
 
 export default StyleSheet.create({
   container: {
@@ -281,5 +282,9 @@ export default StyleSheet.create({
     borderColor: "#e3e5e4",
     marginTop: 20,
     justifyContent: "center"
+  },
+  ic_arrow_up: {
+    width: 37 / 3,
+    height: 22 / 3,
   },
 });

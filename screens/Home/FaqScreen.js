@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from 'react-native';
-import { ImagePicker } from 'expo';
+import React from 'react';
+import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import Colors from '../../constants/Colors';
+import { KeyboardAvoidingView, 
+        View, 
+        Image,
+        Text,
+        TouchableOpacity,
+} from 'react-native';
+import { LinearGradient } from 'expo';
+import MyStyles from '../../constants/MyStyles';
 
 export default class FaqScreen extends React.Component {
 
@@ -30,148 +28,44 @@ export default class FaqScreen extends React.Component {
     password_confirm: null,
   };
 
-  checkValidation = (value, check_type) => {
-    if (value == null || value.length == 0) {
-      return false
-    }
-
-    if (check_type == "id") {
-      if (value.length < 4) {
-        return false
-      }
-    }
-
-    if (check_type == "password") {
-      if (value.length < 8) {
-        return false
-      }
-    }
-
-    if (check_type == "password_confirm") {
-      if (value != this.state.password) {
-        return false
-      }
-    }
-
-    return true
-  }
-
   render() {
     let { sendPressed, image, email, id, password, password_confirm } = this.state;
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
         <TopbarWithBlackBack title="FAQ" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
-        <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
+        <ScrollableTabView
+          style={{ height: 20, borderBottomWidth: 0, marginTop: 10 }}
+          initialPage={0}
+          tabBarInactiveTextColor={Colors.color_dcdedd}
+          tabBarActiveTextColor={Colors.color_primary_dark}
+          tabBarTextStyle={{ fontWeight: "400", fontSize: 14 }}
+          tabBarUnderlineStyle={{ backgroundColor: Colors.color_primary_purple }}
+          renderTabBar={() => <DefaultTabBar />}
+        >
+          <View tabLabel="All">
+            <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
-          <View style={styles.container}>
-            <Text style={styles.text_header1}>Forgot</Text>
-            <Text style={[styles.text_header1, { marginTop: 0 }]}>Password?</Text>
-            <Text style={styles.text_desc}>Please enter your email address and we will send you an email about how to reset your password.</Text>
+            <View>
+              <View style={[{flexDirection:"row", alignItems:"center"}, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]}>
+                <Text style={{backgroundColor:"red", fontSize:12, borderRadius:2, paddingLeft:5, paddingRight:5, color:"white"}}>Category</Text>
+                <Text style={{flex:1, marginLeft:10, marginRight:10, color:Colors.color_primary_dark, fontSize:15}}>Question?</Text>
+                <TouchableOpacity>
+                  <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')}></Image>
+                </TouchableOpacity>
+              </View>
 
-            <View style={[styles.inputBox, (this.checkValidation(email, "email") == false && sendPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-              {this.checkValidation(email, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Email {this.Necessarry}</Text> : null}
-              <TextInput
-                returnKeyType="done"
-                onChangeText={(text) => { this.setState({ email: text }) }}
-                keyboardType="email-address"
-              />
+              <View style={[MyStyles.padding_main, {backgroundColor:Colors.color_f8f8f8}]}>
+                <Text style={{fontSize:13, color:Colors.color_949191}}>This means you were either born in Australia, became a citize
+n by descent (if one of your parents is an Australian citizen an
+d your birth is registered here)</Text>
+              </View>
             </View>
-            {
-              ((this.checkValidation(email, "email") == false) && sendPressed == true) ?
-                <Text style={styles.warningText}>Please Confirm your Email</Text> : null
-            }
-
-            <View style={{ flex: 1, marginTop: 35, flexDirection: "row" }}>
-              <TouchableOpacity style={[styles.btn_primary_cover]} onPress={() => { this.setState({ sendPressed: true }) }}>
-                <Text style={styles.btn_primary}>Save</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.btn_primary_white_cover, { marginLeft: 20 }]} onPress={() => { }}>
-                <Text style={styles.btn_primary_white}>Back to Login</Text>
-              </TouchableOpacity>
-            </View>
-
           </View>
-        </ScrollView>
+          <View tabLabel="Category"></View>
+        </ScrollableTabView>
+
       </KeyboardAvoidingView>
     );
   }
-
-  _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [1, 1],
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
-    }
-  };
-
-}
-
-const styles = StyleSheet.create({
-  container: {
-    paddingLeft: 15,
-    paddingRight: 15,
-  },
-
-  text_header1: {
-    marginTop: 10,
-    fontSize: 30,
-    color: "black",
-  },
-
-  text_desc: {
-    fontSize: 13,
-    marginTop: 10,
-    color: "#949292",
-  },
-
-  inputBox: {
-    height: 40,
-    borderBottomWidth: 1,
-    borderColor: "#e3e5e4",
-    marginTop: 20,
-    justifyContent: "center"
-  },
-
-  warningText: {
-    color: "#f33f5b",
-    fontSize: 12,
-    marginTop: 5,
-  },
-
-  btn_primary_cover: {
-    flex: 1,
-    borderRadius: 5,
-    height: 45,
-    backgroundColor: "#a695fe",
-    justifyContent: "center",
-  },
-
-  btn_primary: {
-    color: "white",
-    fontSize: 13,
-    justifyContent: "center",
-    textAlign: "center",
-  },
-
-  btn_primary_white_cover: {
-    flex: 1,
-    borderRadius: 5,
-    borderWidth: 1,
-    height: 45,
-    borderColor: "#a695fe",
-    justifyContent: "center",
-  },
-
-  btn_primary_white: {
-    color: "#a695fe",
-    fontSize: 13,
-    justifyContent: "center",
-    textAlign: "center",
-  }
-});
+};
