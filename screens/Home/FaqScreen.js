@@ -61,8 +61,8 @@ export default class FaqScreen extends React.Component {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
+        <TopbarWithBlackBack title="FAQ" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
-          <TopbarWithBlackBack title="FAQ" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
 
           <View style={styles.container}>
             <Text style={styles.text_header1}>Forgot</Text>

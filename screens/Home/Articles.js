@@ -20,10 +20,10 @@ export default class ArticlesScreen extends React.Component {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
+        <TopbarWithBlackBack rightBtn="false" title="Articles" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+        <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ flex: 1, height: 6 }} ></LinearGradient>
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
           <View style={[{ flex: 1 }]}>
-            <TopbarWithBlackBack rightBtn="false" title="Articles" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
-            <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ flex: 1, height: 6 }} ></LinearGradient>
 
             <View style={[MyStyles.container, { flex: 1 }]}>
               <View style={[{ marginTop: 15, flex: 1, flexDirection: "row" }]}>

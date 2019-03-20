@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
+import { Image, Share, TouchableHighlight, Modal, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import Colors from '../../constants/Colors';
 import MyStyles from '../../constants/MyStyles';
@@ -8,6 +8,7 @@ import { LinearGradient } from 'expo';
 export default class FaqScreen extends React.Component {
 
   state = {
+    modalVisible: false,
   };
 
   renderComment(image, index) {
@@ -15,15 +16,43 @@ export default class FaqScreen extends React.Component {
       null
     );
   }
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: 'BAM: we\'re helping your business with awesome React Native apps',
+        url: 'http://bam.tech',
+        title: 'Wow, did you see that?'
+      }, {
+        // Android only:
+        dialogTitle: 'Share It',
+        // iOS only:
+        excludedActivityTypes: [
+          'com.apple.UIKit.activity.PostToTwitter'
+        ]
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
+        <TopbarWithBlackBack rightBtn="true" title="Banner" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
+        <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
           <View style={[{ flex: 1 }]}>
-            <TopbarWithBlackBack rightBtn="true" title="Banner" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { alert("right") }}></TopbarWithBlackBack>
-            <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ flex: 1, height: 6 }} ></LinearGradient>
 
             {/* Title and Image */}
             <View style={[MyStyles.padding_main]}>
@@ -65,7 +94,7 @@ me flattering to the woman's figure.
             {/* Comments */}
             <View style={[MyStyles.bg_f8f8f8, { marginTop: 5 }]}>
               {/* Comments Header */}
-              <View style={[MyStyles.bg_white, MyStyles.container, {paddingTop:5}]}>
+              <View style={[MyStyles.bg_white, MyStyles.container, { paddingTop: 5 }]}>
                 <Text style={{ color: Colors.color_201f20, fontSize: 13, fontWeight: "bold" }}>Comments <Text style={{ fontSize: 13, color: Colors.color_949292 }}>11</Text></Text>
                 <View style={{ marginTop: 10, flexDirection: "row" }}>
                   <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1]}></Image>
@@ -93,7 +122,7 @@ ple</Text>
                       <TouchableOpacity style={{ padding: 5 }}>
                         <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]}></Image>
                       </TouchableOpacity>
-                      <TouchableOpacity style={{ padding: 5 }}>
+                      <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.setState({ modalVisible: true }) }}>
                         <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}></Image>
                       </TouchableOpacity>
                     </View>
@@ -101,8 +130,8 @@ ple</Text>
                 </View>
 
                 {/* 대댓글 부분 */}
-                <View style={[{ margin: 15, flexDirection: "row", padding:5, alignItems:"center" }, MyStyles.bg_white]}>
-                  <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, {marginLeft: 5, marginRight: 5 }]}></Image>
+                <View style={[{ margin: 15, flexDirection: "row", padding: 5, alignItems: "center" }, MyStyles.bg_white]}>
+                  <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginRight: 5 }]}></Image>
                   <TextInput placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
                   <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]}>
                     <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
@@ -167,6 +196,45 @@ ple</Text>
             </View>
           </View>
         </ScrollView>
+
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+          }}>
+          <View style={{ flex: 1 }}>
+            <View style={MyStyles.modal_bg}>
+              <View style={{ backgroundColor: "white", borderRadius: 10, justifyContent: "center", overflow: "hidden" }}>
+                <TouchableOpacity style={{ alignSelf: "flex-end", padding: 10 }} onPress={() => {
+                  this.setState({ modalVisible: false });
+                }}>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
+                </TouchableOpacity>
+
+                <Image style={[{ alignSelf: "center" }, MyStyles.ic_report_big]} source={require("../../assets/images/ic_report_big.png")}></Image>
+                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Would you like to report it?</Text>
+
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableHighlight
+                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                  </TouchableHighlight>
+
+                  <TouchableHighlight
+                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    onPress={() => {
+                      this.setState({ modalVisible: false });
+                    }}>
+                    <Text style={MyStyles.btn_primary_white}>Not now</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+
+            </View>
+          </View>
+        </Modal>
       </KeyboardAvoidingView >
     );
   }

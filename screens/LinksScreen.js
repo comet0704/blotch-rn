@@ -1,46 +1,37 @@
-import React from 'react';
-import {StyleSheet, Text, View, Slider} from 'react-native';
+import React, {Component} from 'react';
+import {Share, Button} from 'react-native';
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 50,
-    };
-  }
+export default class ShareExample extends Component {
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: 'BAM: we\'re helping your business with awesome React Native apps',
+        url: 'http://bam.tech',
+        title: 'Wow, did you see that?'
+      }, {
+        // Android only:
+        dialogTitle: 'Share BAM goodness',
+        // iOS only:
+        excludedActivityTypes: [
+          'com.apple.UIKit.activity.PostToTwitter'
+        ]
+      });
 
-  change(value) {
-    this.setState(() => {
-      return {
-        value: parseFloat(value),
-      };
-    });
-  }
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   render() {
-    const {value} = this.state;
-    return (
-      <View style={styles.container}>
-        <Text style={styles.text}>{String(value)}</Text>
-        <Slider
-          step={1}
-          maximumValue={100}
-          onValueChange={this.change.bind(this)}
-          value={value}
-        />
-      </View>
-    );
+    return <Button onPress={this.onShare} title="Share" />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 50,
-    textAlign: 'center',
-  },
-});

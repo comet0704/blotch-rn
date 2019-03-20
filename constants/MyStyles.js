@@ -30,13 +30,6 @@ export default StyleSheet.create({
     width: null,
     resizeMode: "cover",
   },
-  inputBox: {
-    height: 40,
-    borderBottomWidth: 1,
-    borderColor: "#e3e5e4",
-    marginTop: 20,
-    justifyContent: "center"
-  },
 
   warningText: {
     color: "#f33f5b",
@@ -148,6 +141,10 @@ export default StyleSheet.create({
     height: 82 / 3,
     borderRadius: 82 / 3 / 2,
   },
+  ic_report_big: {
+    width: 71 / 3,
+    height: 96 / 3,
+  },
   purple_btn_r3: {
     justifyContent: "center",
     backgroundColor: "#a695fe",
@@ -189,13 +186,100 @@ export default StyleSheet.create({
     borderBottomWidth: 0.5,
     borderBottomColor: "#e5e5e5",
   },
-  comment_item: { 
-    flexDirection: "row", 
+  comment_item: {
+    flexDirection: "row",
     flex: 1,
-    paddingTop: 10, 
+    paddingTop: 10,
     paddingBottom: 5,
-    paddingLeft:15,
-    paddingRight:15,
-    backgroundColor:"white"
-  }
+    paddingLeft: 15,
+    paddingRight: 15,
+    backgroundColor: "white"
+  },
+
+
+  btn_primary_cover: {
+    flex: 1,
+    borderRadius: 5,
+    height: 45,
+    backgroundColor: "#a695fe",
+    justifyContent: "center",
+  },
+
+  btn_primary: {
+    color: "white",
+    fontSize: 13,
+    justifyContent: "center",
+    textAlign: "center",
+  },
+
+  btn_primary_white_cover: {
+    flex: 1,
+    borderRadius: 5,
+    borderWidth: 1,
+    height: 45,
+    borderColor: "#a695fe",
+    justifyContent: "center",
+  },
+
+  btn_primary_white: {
+    color: "#a695fe",
+    fontSize: 13,
+    justifyContent: "center",
+    textAlign: "center",
+  },
+
+  modal_bg: {
+    paddingLeft: 35,
+    paddingRight: 35,
+    backgroundColor: "#0000009d",
+    width: "100%",
+    justifyContent: "center",
+    height: "100%",
+  },
+
+  text_header1: {
+    marginTop: 10,
+    fontSize: 30,
+    color: "black",
+  },
+
+  text_desc: {
+    fontSize: 13,
+    marginTop: 10,
+    color: "#949292",
+  },
+
+  profile_box: {
+    marginTop: 30,
+    alignItems: "center",
+    borderColor: "#ededed",
+    borderWidth: 2,
+    width: 75,
+    height: 75,
+    borderRadius: 37.5,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+
+  camera_box: {
+    backgroundColor: "white",
+    borderColor: "#ededed",
+    borderWidth: 2,
+    width: 23,
+    height: 23,
+    borderRadius: 11.5,
+    position: "absolute",
+    top: 0,
+    right: 0,
+    justifyContent: "center",
+    zIndex: 1,
+  },
+
+  inputBox: {
+    height: 40,
+    borderBottomWidth: 1,
+    borderColor: "#e3e5e4",
+    marginTop: 20,
+    justifyContent: "center"
+  },
 });

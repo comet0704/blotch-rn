@@ -103,9 +103,9 @@ LoginStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
+  LoginStack,
   LinksStack,
   SettingsStack,
-  LoginStack,
 }, {
   backBehavior: "history",
   tabBarOptions : {
