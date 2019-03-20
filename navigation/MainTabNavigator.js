@@ -12,12 +12,13 @@ import FindPwdScreen from '../screens/Login/FindPwdScreen';
 import FaqScreen from '../screens/Home/FaqScreen';
 import AboutUsScreen from '../screens/Home/AboutUsScreen';
 import BannerDetailScreen from '../screens/Home/BannerDetailScreen';
-import Colors from '../constants/Colors';
 import ArticlesScreen from '../screens/Home/Articles';
+import Colors from '../constants/Colors';
+import ProductContainerScreen from '../screens/Product/ProductContainerScreen';
 
 const HomeStack = createStackNavigator({
-  Faq: FaqScreen,
   Home: HomeScreen,
+  Faq: FaqScreen,
   BannerDetail: BannerDetailScreen,
   Article: ArticlesScreen,
   AboutUs: {
@@ -51,6 +52,20 @@ HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({focused}) => (
     focused ? <Image style={{width:57/3, height:53/3}} source={require("../assets/images/ic_menu_home_on.png")}/> : <Image style={{width:57/3, height:53/3}} source={require("../assets/images/ic_menu_home_off.png")}/>
+  ),
+};
+
+const ProductStack = createStackNavigator({
+  ProductContainer: ProductContainerScreen,
+},
+{
+  headerMode: 'screen ',
+});
+
+ProductStack.navigationOptions = {
+  tabBarLabel: 'Product',
+  tabBarIcon: ({focused}) => (
+    focused ? <Image style={{width:49/3, height:53/3}} source={require("../assets/images/ic_menu_product_on.png")}/> : <Image style={{width:49/3, height:53/3}} source={require("../assets/images/ic_menu_product_off.png")}/>
   ),
 };
 
@@ -102,6 +117,7 @@ LoginStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
+  ProductStack,
   HomeStack,
   LinksStack,
   LoginStack,

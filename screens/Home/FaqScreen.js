@@ -13,19 +13,7 @@ import MyStyles from '../../constants/MyStyles';
 
 export default class FaqScreen extends React.Component {
 
-  Necessarry = (
-    <Text style={{ color: "#efb5cc", fontSize: 13 }}>
-      *
-    </Text>
-  );
-
   state = {
-    sendPressed: false,
-    image: null,
-    email: null,
-    id: null,
-    password: null,
-    password_confirm: null,
   };
 
   render() {
@@ -38,9 +26,9 @@ export default class FaqScreen extends React.Component {
           style={{ height: 20, borderBottomWidth: 0, marginTop: 10 }}
           initialPage={0}
           tabBarInactiveTextColor={Colors.color_dcdedd}
-          tabBarActiveTextColor={Colors.color_primary_dark}
+          tabBarActiveTextColor={Colors.primary_dark}
           tabBarTextStyle={{ fontWeight: "400", fontSize: 14 }}
-          tabBarUnderlineStyle={{ backgroundColor: Colors.color_primary_purple }}
+          tabBarUnderlineStyle={{ backgroundColor: Colors.primary_purple }}
           renderTabBar={() => <DefaultTabBar />}
         >
           <View tabLabel="All">
@@ -49,7 +37,7 @@ export default class FaqScreen extends React.Component {
             <View>
               <View style={[{flexDirection:"row", alignItems:"center"}, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]}>
                 <Text style={{backgroundColor:"red", fontSize:12, borderRadius:2, paddingLeft:5, paddingRight:5, color:"white"}}>Category</Text>
-                <Text style={{flex:1, marginLeft:10, marginRight:10, color:Colors.color_primary_dark, fontSize:15}}>Question?</Text>
+                <Text style={{flex:1, marginLeft:10, marginRight:10, color:Colors.primary_dark, fontSize:15}}>Question?</Text>
                 <TouchableOpacity>
                   <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')}></Image>
                 </TouchableOpacity>

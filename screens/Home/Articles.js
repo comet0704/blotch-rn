@@ -28,7 +28,7 @@ export default class ArticlesScreen extends React.Component {
             <View style={[MyStyles.container, { flex: 1 }]}>
               <View style={[{ marginTop: 15, flex: 1, flexDirection: "row" }]}>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.color_primary_dark }}>How to Make up Easy
+                  <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>How to Make up Easy
                     ing From Shis! How to Make up E
 asy, Fast Drawing From Shis! </Text>
                   <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
@@ -50,7 +50,7 @@ asy, Fast Drawing From Shis! </Text>
             <View style={[MyStyles.container, { flex: 1 }]}>
               <View style={[{ marginTop: 15, flex: 1, flexDirection: "row" }]}>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.color_primary_dark }}>How to Make up Easy
+                  <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>How to Make up Easy
 asy, Fast Drawing From Shis! </Text>
                   <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
                     www.makeup.com

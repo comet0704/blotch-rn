@@ -172,7 +172,6 @@ export default class HomeScreen extends React.Component {
         </ScrollView>
       </View>
     );
-    return null;
   }
 
   renderRecommendingScroll() {
@@ -196,7 +195,6 @@ export default class HomeScreen extends React.Component {
         </ScrollView>
       </View>
     );
-    return null;
   }
 
 

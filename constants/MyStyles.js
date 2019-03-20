@@ -10,6 +10,22 @@ export default StyleSheet.create({
   padding_main: {
     padding: 15,
   },
+  padding_h_main: {
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+  padding_v_main: {
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+  padding_v_5: {
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  padding_h_5: {
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
   bg_white: {
     backgroundColor: "white"
   },
@@ -286,5 +302,117 @@ export default StyleSheet.create({
   ic_arrow_up: {
     width: 37 / 3,
     height: 22 / 3,
+  },
+  gridView: {
+    flex: 1,
+  },
+  productItemContainer: {
+    justifyContent: 'flex-end',
+    borderRadius: 5,
+    padding: 10,
+    aspectRatio: 1,
+  },
+  productName: {
+    fontSize: 13,
+    color: Colors.primary_dark,
+    fontWeight: '400',
+    marginBottom: 5,
+    textAlign: "center",
+  },
+  productBrand: {
+    fontSize: 13,
+    marginTop: 5,
+    textAlign: "center",
+    color: '#c2c1c1',
+  },
+  ic_skin_care: {
+    width: 68 / 3,
+    height: 84 / 3,
+  },
+  ic_mask: {
+    width: 78 / 3,
+    height: 84 / 3,
+  },
+  ic_sun_care: {
+    width: 43 / 3,
+    height: 84 / 3,
+  },
+  ic_make_up: {
+    width: 66 / 3,
+    height: 85 / 3,
+  },
+  ic_cleansing: {
+    width: 61 / 3,
+    height: 84 / 3,
+  },
+  ic_body: {
+    width: 99 / 3,
+    height: 84 / 3,
+  },
+  ic_hair: {
+    width: 51 / 3,
+    height: 84 / 3,
+  },
+  ic_nail: {
+    width: 61 / 3,
+    height: 84 / 3,
+  },
+  ic_perfume: {
+    width: 69 / 3,
+    height: 84 / 3,
+  },
+  ic_oral: {
+    width: 69 / 3,
+    height: 84 / 3,
+  },
+  ic_baby: {
+    width: 69 / 3,
+    height: 84 / 3,
+  },
+  ic_men: {
+    width: 69 / 3,
+    height: 84 / 3,
+  },
+  ic_all: {
+    width: 40 / 3,
+    height: 28 / 3,
+  },
+  category_image_container: {
+    backgroundColor: "white",
+    borderColor: "#e3e5e4",
+    borderWidth: 1,
+    borderRadius: 169 / 6,
+    width: 169 / 3,
+    aspectRatio: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  category_text: {
+    fontSize: 13,
+    color: Colors.color_949191,
+    fontWeight: "400",
+    textAlign: "center",
+    marginTop: 5,
+  },
+  ic_best_ranking: {
+    width: 70 / 3,
+    height: 102 / 3,
+  },
+  ic_arrow_down_white_small: {
+    width: 16 / 3,
+    height: 11 / 3,
+  },
+  skin_info_container: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    justifyContent: "center",
+    aspectRatio: 1,
+    flex: 1,
+    alignItems: "center"
+  },
+  ic_filter: {
+    width: 51 / 3,
+    height: 45 / 3,
   },
 });
