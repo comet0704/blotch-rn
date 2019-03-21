@@ -177,7 +177,7 @@ export class FragmentRecommendProduct extends React.Component {
         <View style={{ flexDirection: "row", justifyContent: "center", width: "100%" }}>
           <Text style={{ fontSize: 14, color: Colors.primary_dark, fontWeight: "bold" }}>My Skin Info</Text>
           <View style={{ flex: 1 }}></View>
-          <TouchableOpacity style={{ flexDirection: "row", borderRadius: 10, height: 20, paddingLeft: 10, paddingRight: 10, backgroundColor: Colors.primary_purple, justifyContent: "center", alignItems: "center" }}>
+          <TouchableOpacity style={[{ height:20 }, MyStyles.purple_round_btn]}>
             <Text style={{ fontSize: 13, color: "white" }}>Me</Text>
             <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { marginLeft: 5 }]} />
           </TouchableOpacity>
@@ -237,9 +237,8 @@ export class FragmentRecommendProduct extends React.Component {
 
     let { productList } = this.state;
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         {this.state.no_search_result == false ?
-
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
 
             <View>
@@ -306,7 +305,7 @@ export class FragmentRecommendProduct extends React.Component {
                 <View style={MyStyles.modal_bg1}>
                   <View style={MyStyles.modalContainer}>
                     {/* modal header */}
-                    <View style={{ flexDirection: "row", alignItems: "center", fle: 1, width: "100%", height: 50 }}>
+                    <View style={{ flexDirection: "row", alignItems: "center", width: "100%", height: 50 }}>
                       <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", width: 70 }]} onPress={() => {
                         this.setState({ filterModalVisible: false });
                       }}>
@@ -371,11 +370,11 @@ export class FragmentRecommendProduct extends React.Component {
           <View>
             <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
             <View style={{ height: "100%", justifyContent: "center", alignItems: "center" }}>
-              <View style={{alignItems:"center"}}>
+              <View style={{ alignItems: "center" }}>
                 <Image source={require("../../assets/images/ic_search_big.png")} style={[MyStyles.ic_search_big,]} />
                 <Text style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</Text>
                 <Text style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Tell us about your skin and we'll show you some products that you might want to check out!</Text>
-                <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100/3}]}>
+                <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]}>
                   <Text style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Check Out!</Text>
                 </TouchableOpacity>
               </View>

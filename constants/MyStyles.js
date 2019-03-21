@@ -14,9 +14,17 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
+  margin_h_main: {
+    marginLeft: 15,
+    marginRight: 15,
+  },
   padding_v_main: {
     paddingTop: 15,
     paddingBottom: 15,
+  },
+  padding_v_25: {
+    paddingTop: 25,
+    paddingBottom: 25,
   },
   padding_v_5: {
     paddingTop: 5,
@@ -446,5 +454,219 @@ export default StyleSheet.create({
   ic_search_big: {
     width: 235 / 3,
     height: 258 / 3,
+  },
+  ic_arrow_right_gray: {
+    width: 14 / 3,
+    height: 22 / 3,
+  },
+  tabbar_button_container: {
+    height: 145 / 3,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    width: "100%",
+  },
+  tabbar_button: {
+    flex:1, height:"100%", justifyContent:"center", alignItems:"center", borderBottomColor:Colors.primary_purple,
+  },
+  tabbar_button_selected: {
+    flex:1, height:"100%", justifyContent:"center", alignItems:"center", borderBottomColor:Colors.primary_purple, borderBottomWidth:3
+  },
+  tabbar_text_selected: {
+    fontSize:14,
+    color:Colors.primary_dark,
+  },
+  tabbar_text: {
+    fontSize:14,
+    color:Colors.color_dcdedd,
+  },  
+  tabbar_button_container1: {
+    height: 115 / 3,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    width: "100%",
+  },
+  tabbar_button1: {
+    flex:1, height:"100%", justifyContent:"center", alignItems:"center",
+  },
+  ingredient_good_button_selected: {
+    flex:1, height:"100%", justifyContent:"center", alignItems:"center", backgroundColor:Colors.ingredient_good_dark, borderRadius:5
+  },
+  ingredient_normal_button_selected: {
+    flex:1, height:"100%", justifyContent:"center", alignItems:"center", backgroundColor:Colors.ingredient_normal_dark, borderRadius:5
+  },
+  ingredient_bad_button_selected: {
+    flex:1, height:"100%", justifyContent:"center", alignItems:"center", backgroundColor:Colors.ingredient_bad_dark, borderRadius:5
+  },
+  tabbar_text_selected1: {
+    fontSize:13,
+    color:Colors.color_white,
+  },
+  tabbar_text1: {
+    fontSize:14,
+    color:Colors.color_dcdedd,
+  },
+  ingredient_good_container: {
+    height: 120/3,
+    flex:1,
+    marginBottom:1,
+    backgroundColor:Colors.ingredient_good_light,
+  },
+  ingredient_good_text : {
+    padding:10,
+    fontSize:13,
+    color:Colors.ingredient_good_dark,
+  },
+  ingredient_good_content_text: {
+    color:Colors.color_949191, fontSize:13,
+    padding:15,
+  },
+  ingredient_good_container_selected: {
+    height: 120/3,
+    flex:1,
+    marginBottom:1,
+    backgroundColor:Colors.ingredient_good_dark,
+  },
+  ingredient_good_text_selected : {
+    padding:10,
+    fontSize:13,
+    color:Colors.ingredient_good_light,
+  },
+  
+  ingredient_normal_container: {
+    height: 120/3,
+    flex:1,
+    marginBottom:1,
+    backgroundColor:Colors.ingredient_normal_light,
+  },
+  ingredient_normal_text : {
+    padding:10,
+    fontSize:13,
+    color:Colors.ingredient_normal_dark,
+  },
+  ingredient_normal_content_text: {
+    color:Colors.color_949191, fontSize:13,
+    padding:15,
+  },
+  ingredient_normal_container_selected: {
+    height: 120/3,
+    flex:1,
+    marginBottom:1,
+    backgroundColor:Colors.ingredient_normal_dark,
+  },
+  ingredient_normal_text_selected : {
+    padding:10,
+    fontSize:13,
+    color:Colors.ingredient_bad_light,
+  },
+  
+  ingredient_bad_container: {
+    height: 120/3,
+    flex:1,
+    marginBottom:1,
+    backgroundColor:Colors.ingredient_bad_light,
+  },
+  ingredient_bad_text : {
+    padding:10,
+    fontSize:13,
+    color:Colors.ingredient_bad_dark,
+  },
+  ingredient_bad_content_text: {
+    color:Colors.color_949191, fontSize:13,
+    padding:15,
+  },
+  ingredient_bad_container_selected: {
+    height: 120/3,
+    flex:1,
+    marginBottom:1,
+    backgroundColor:Colors.ingredient_bad_dark,
+  },
+  ingredient_bad_text_selected : {
+    padding:10,
+    fontSize:13,
+    color:Colors.ingredient_bad_light,
+  },
+
+  
+  ingredient_allergic_container: {
+    height: 120/3,
+    flex:1,
+    marginBottom:1,
+    backgroundColor:Colors.ingredient_allergic_light,
+  },
+  ingredient_allergic_text : {
+    padding:10,
+    fontSize:13,
+    color:Colors.ingredient_allergic_dark,
+  },
+  ingredient_allergic_content_text: {
+    color:Colors.color_949191, fontSize:13,
+    padding:15,
+  },
+  ingredient_allergic_container_selected: {
+    height: 120/3,
+    flex:1,
+    marginBottom:1,
+    backgroundColor:Colors.ingredient_allergic_dark,
+  },
+  ingredient_allergic_text_selected : {
+    padding:10,
+    fontSize:13,
+    color:Colors.ingredient_allergic_light,
+  },
+  
+  ingredient_potential_allergen_container: {
+    height: 120/3,
+    flex:1,
+    marginBottom:1,
+    backgroundColor:Colors.ingredient_potential_allergen_light,
+  },
+  ingredient_potential_allergen_text : {
+    padding:10,
+    fontSize:13,
+    color:Colors.ingredient_potential_allergen_dark,
+  },
+  ingredient_potential_allergen_content_text: {
+    color:Colors.color_949191, fontSize:13,
+    padding:15,
+  },
+  ingredient_potential_allergen_container_selected: {
+    height: 120/3,
+    flex:1,
+    marginBottom:1,
+    backgroundColor:Colors.ingredient_potential_allergen_dark,
+  },
+  ingredient_potential_allergen_text_selected : {
+    padding:10,
+    fontSize:13,
+    color:Colors.ingredient_potential_allergen_light,
+  },
+
+  purple_round_btn : {
+    flexDirection: "row", borderRadius: 20, paddingLeft: 10, paddingRight: 10, backgroundColor: Colors.primary_purple, justifyContent: "center", alignItems: "center" 
+  },
+
+  ic_match : {
+    width:78/3,
+    height:78/3,
+  },
+  ic_blotch : {
+    width:78/3,
+    height:78/3,
+  },
+  ic_allergic_ingredient : {
+    width:31/3,
+    height:31/3,
+  },
+  ic_potential_allergins : {
+    width:31/3,
+    height:31/3,
+  },
+  ic_preferred_ingredient : {
+    width:31/3,
+    height:31/3,
   },
 });

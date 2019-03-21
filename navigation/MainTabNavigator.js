@@ -15,6 +15,7 @@ import BannerDetailScreen from '../screens/Home/BannerDetailScreen';
 import ArticlesScreen from '../screens/Home/Articles';
 import Colors from '../constants/Colors';
 import ProductContainerScreen from '../screens/Product/ProductContainerScreen';
+import ProductDetailScreen from '../screens/Product/ProductDetailScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -56,6 +57,7 @@ HomeStack.navigationOptions = {
 };
 
 const ProductStack = createStackNavigator({
+  ProductDetail: ProductDetailScreen,
   ProductContainer: ProductContainerScreen,
 },
 {

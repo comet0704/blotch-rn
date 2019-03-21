@@ -20,91 +20,91 @@ import { FlatGrid } from 'react-native-super-grid';
 import MyConstants from '../../constants/MyConstants';
 
 export class FragmentBestProduct extends React.Component {
-  
+
   categoryItems = [
     {
       categoryName: MyConstants.CategoryName.all,
       image_off: require("../../assets/images/Categories/ic_all.png"),
       image_on: require("../../assets/images/Categories/ic_all_on.png"),
-      image_style : MyStyles.ic_all,
-      is_selected : true,
+      image_style: MyStyles.ic_all,
+      is_selected: true,
     },
     {
       categoryName: MyConstants.CategoryName.skin_care,
       image_off: require("../../assets/images/Categories/ic_skin_care.png"),
       image_on: require("../../assets/images/Categories/ic_skin_care_on.png"),
-      image_style : MyStyles.ic_skin_care,
-      is_selected : false,
+      image_style: MyStyles.ic_skin_care,
+      is_selected: false,
     },
     {
       categoryName: MyConstants.CategoryName.mask,
       image_off: require("../../assets/images/Categories/ic_mask.png"),
       image_on: require("../../assets/images/Categories/ic_mask_on.png"),
-      image_style : MyStyles.ic_mask,
-      is_selected : false,
+      image_style: MyStyles.ic_mask,
+      is_selected: false,
     },
     {
       categoryName: MyConstants.CategoryName.sun_care,
       image_off: require("../../assets/images/Categories/ic_sun_care.png"),
       image_on: require("../../assets/images/Categories/ic_sun_care_on.png"),
-      image_style : MyStyles.ic_sun_care,
-      is_selected : false,
+      image_style: MyStyles.ic_sun_care,
+      is_selected: false,
     },
     {
       categoryName: MyConstants.CategoryName.make_up,
       image_off: require("../../assets/images/Categories/ic_make_up.png"),
       image_on: require("../../assets/images/Categories/ic_make_up_on.png"),
-      image_style : MyStyles.ic_make_up,
-      is_selected : false,
+      image_style: MyStyles.ic_make_up,
+      is_selected: false,
     },
     {
       categoryName: MyConstants.CategoryName.cleansing,
       image_off: require("../../assets/images/Categories/ic_cleansing.png"),
       image_on: require("../../assets/images/Categories/ic_cleansing_on.png"),
-      image_style : MyStyles.ic_cleansing,
-      is_selected : false,
+      image_style: MyStyles.ic_cleansing,
+      is_selected: false,
     },
     {
       categoryName: MyConstants.CategoryName.hair,
       image_off: require("../../assets/images/Categories/ic_hair.png"),
       image_on: require("../../assets/images/Categories/ic_hair_on.png"),
-      image_style : MyStyles.ic_hair,
-      is_selected : false,
+      image_style: MyStyles.ic_hair,
+      is_selected: false,
     },
     {
       categoryName: MyConstants.CategoryName.nail,
       image_off: require("../../assets/images/Categories/ic_nail.png"),
       image_on: require("../../assets/images/Categories/ic_nail_on.png"),
-      image_style : MyStyles.ic_nail,
-      is_selected : false,
+      image_style: MyStyles.ic_nail,
+      is_selected: false,
     },
     {
       categoryName: MyConstants.CategoryName.perfume,
       image_off: require("../../assets/images/Categories/ic_perfume.png"),
       image_on: require("../../assets/images/Categories/ic_perfume_on.png"),
-      image_style : MyStyles.ic_perfume,
-      is_selected : false,
+      image_style: MyStyles.ic_perfume,
+      is_selected: false,
     },
     {
       categoryName: MyConstants.CategoryName.oral,
       image_off: require("../../assets/images/Categories/ic_oral.png"),
       image_on: require("../../assets/images/Categories/ic_oral_on.png"),
-      image_style : MyStyles.ic_oral,
-      is_selected : false,
+      image_style: MyStyles.ic_oral,
+      is_selected: false,
     },
     {
       categoryName: MyConstants.CategoryName.baby,
       image_off: require("../../assets/images/Categories/ic_baby.png"),
       image_on: require("../../assets/images/Categories/ic_baby_on.png"),
-      image_style : MyStyles.ic_baby,
-      is_selected : false,
+      image_style: MyStyles.ic_baby,
+      is_selected: false,
     },
     {
       categoryName: MyConstants.CategoryName.men,
       image_off: require("../../assets/images/Categories/ic_men.png"),
       image_on: require("../../assets/images/Categories/ic_men_on.png"),
-      image_style : MyStyles.ic_men,
-      is_selected : false,
+      image_style: MyStyles.ic_men,
+      is_selected: false,
     },
   ];
   state = {
@@ -133,7 +133,7 @@ export class FragmentBestProduct extends React.Component {
       { name: 'PUMPKIN', code: '#d35400' }, { name: 'POMEGRANATE', code: '#c0392b' },
       { name: 'SILVER', code: '#bdc3c7' }, { name: 'ASBESTOS', code: '#7f8c8d' },
     ],
-    categoryItems : this.categoryItems,
+    categoryItems: this.categoryItems,
   };
 
   BannerHeight = 560 / 3;
@@ -176,10 +176,10 @@ export class FragmentBestProduct extends React.Component {
           showsHorizontalScrollIndicator={false}
         >
           {this.state.categoryItems.map(item => (
-            <View key={item.categoryName} style={{ marginRight: 10}}>
-              <TouchableOpacity onPress={() => {this.onCategorySelect(item.categoryName)}} style={[MyStyles.category_image_container]}>  
+            <View key={item.categoryName} style={{ marginRight: 10 }}>
+              <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={[MyStyles.category_image_container]}>
                 {item.is_selected ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
-                {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> :  <Image style={item.image_style} source={item.image_off} />}
+                {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
               </TouchableOpacity>
               <Text style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</Text>
             </View>
@@ -207,82 +207,82 @@ export class FragmentBestProduct extends React.Component {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
-            <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" automaticallyAdjustContentInsets={true}>
-            <View >
-        <TopbarWithBlackBack title="Product" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
-        <ScrollableTabView
-          style={{ height: 20, borderBottomWidth: 0, marginTop: 10 }}
-          initialPage={0}
-          tabBarInactiveTextColor={Colors.color_dcdedd}
-          tabBarActiveTextColor={Colors.primary_dark}
-          tabBarTextStyle={{ fontWeight: "400", fontSize: 14 }}
-          tabBarUnderlineStyle={{ backgroundColor: Colors.primary_purple }}
-          renderTabBar={() => <DefaultTabBar />}
-        >
+        <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" automaticallyAdjustContentInsets={true}>
+          <View  style={{minHeight:1500}}>
+            <TopbarWithBlackBack title="Product" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+            <ScrollableTabView
+              style={{ height: 20, borderBottomWidth: 0, marginTop: 10 }}
+              initialPage={0}
+              tabBarInactiveTextColor={Colors.color_dcdedd}
+              tabBarActiveTextColor={Colors.primary_dark}
+              tabBarTextStyle={{ fontWeight: "400", fontSize: 14 }}
+              tabBarUnderlineStyle={{ backgroundColor: Colors.primary_purple }}
+              renderTabBar={() => <DefaultTabBar />}
+            >
 
-          <View tabLabel="New" style={{ flex: 1 }}>
+              <View tabLabel="New" style={{ flex: 1 }}>
 
-              <View>
-                <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+                <View style={{flex:1}}>
+                  <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
-                {/* 배너 부분 */}
-                <View style={{ overflow: "hidden" }}>
-                  <Carousel
-                    autoplay
-                    autoplayTimeout={3000}
-                    loop
-                    index={0}
-                    pageSize={this.BannerWidth}
-                  >
-                    {this.state.bannerImages.map((image, index) => this.renderBanner(image, index))}
-                  </Carousel>
-                </View>
+                  {/* 배너 부분 */}
+                  <View style={{ overflow: "hidden" }}>
+                    <Carousel
+                      autoplay
+                      autoplayTimeout={3000}
+                      loop
+                      index={0}
+                      pageSize={this.BannerWidth}
+                    >
+                      {this.state.bannerImages.map((image, index) => this.renderBanner(image, index))}
+                    </Carousel>
+                  </View>
 
-                {/* 카테고리 나열 부분 */}
-                <View style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: Colors.color_f8f8f8,
-                  padding: 15,
-                  height: 110
-                }}>
-                  {
-                    this.renderCategoryScroll()
-                  }
-                </View>
+                  {/* 카테고리 나열 부분 */}
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: Colors.color_f8f8f8,
+                    padding: 15,
+                    height: 110
+                  }}>
+                    {
+                      this.renderCategoryScroll()
+                    }
+                  </View>
 
-                {/* product 나열 */}
-                <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-                  <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>New Product</Text>
-                  <FlatGrid
-                    itemDimension={this.ScreenWidth / 2 - 30}
-                    items={productList}
-                    style={MyStyles.gridView}
-                    spacing={10}
-                    // staticDimension={300}
-                    // fixed
-                    // spacing={20}
-                    renderItem={({ item, index }) => (
-                      <View>
-                        <View style={[MyStyles.productItemContainer, { backgroundColor: item.code }]}>
-                          <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} />
-                          <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]}>
-                            <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-                          </TouchableHighlight>
+                  {/* product 나열 */}
+                  <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
+                    <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>New Product</Text>
+                    <FlatGrid
+                      itemDimension={this.ScreenWidth / 2 - 30}
+                      items={productList}
+                      style={MyStyles.gridView}
+                      spacing={10}
+                      // staticDimension={300}
+                      // fixed
+                      // spacing={20}
+                      renderItem={({ item, index }) => (
+                        <View>
+                          <View style={[MyStyles.productItemContainer, { backgroundColor: item.code }]}>
+                            <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} />
+                            <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]}>
+                              <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
+                            </TouchableHighlight>
+                          </View>
+                          <Text style={[MyStyles.productBrand]}>{item.name}</Text>
+                          <Text style={[MyStyles.productName]}>{item.code}</Text>
                         </View>
-                        <Text style={[MyStyles.productBrand]}>{item.name}</Text>
-                        <Text style={[MyStyles.productName]}>{item.code}</Text>
-                      </View>
-                    )}
-                  />
-                </View>
+                      )}
+                    />
+                  </View>
 
+                </View>
               </View>
+              <View tabLabel="Category"></View>
+            </ScrollableTabView>
           </View>
-          <View tabLabel="Category"></View>
-        </ScrollableTabView>
-        </View>
-            </ScrollView>
+        </ScrollView>
 
       </KeyboardAvoidingView>
     );
