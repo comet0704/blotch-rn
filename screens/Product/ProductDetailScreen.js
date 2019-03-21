@@ -7,6 +7,7 @@ import MyStyles from '../../constants/MyStyles';
 import { LinearGradient } from 'expo';
 import StarRating from 'react-native-star-rating';
 import { FragmentProductDetailIngredients } from './FragmentProductDetailIngredients';
+import { FragmentProductDetailReviews } from './FragmentProductDetailReviews';
 
 
 export default class ProductDetailScreen extends React.Component {
@@ -28,8 +29,8 @@ export default class ProductDetailScreen extends React.Component {
       "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
     ],
     tabbar: {
-      Ingredients: true,
-      Reviews: false,
+      Ingredients: false,
+      Reviews: true,
     }
   };
 
@@ -88,22 +89,22 @@ export default class ProductDetailScreen extends React.Component {
   }
 
   onBlotchProduct = () => {
-    this.setState({matched:false, blotched:true});
+    this.setState({ matched: false, blotched: true });
   }
 
   onSaveToAllergicIngredients = () => {
     alert("alergicIng");
-    this.setState({saveToModalVisible:false})
+    this.setState({ saveToModalVisible: false })
   }
 
   onSaveToPotentilAllergens = () => {
     alert("potential allergens");
-    this.setState({saveToModalVisible:false})
+    this.setState({ saveToModalVisible: false })
   }
 
   onSaveToPreferredIngredients = () => {
     alert("preferred ingredients");
-    this.setState({saveToModalVisible:false})
+    this.setState({ saveToModalVisible: false })
   }
 
 
@@ -177,12 +178,13 @@ export default class ProductDetailScreen extends React.Component {
               </View>
 
               <View>
-                <FragmentProductDetailIngredients></FragmentProductDetailIngredients>
+                {this.state.tabbar.Ingredients ? <FragmentProductDetailIngredients></FragmentProductDetailIngredients> : <FragmentProductDetailReviews></FragmentProductDetailReviews>}
               </View>
             </View>
           </View>
         </ScrollView>
 
+          {/* 하단바 */}
         <LinearGradient colors={['#fefefe', '#f8f8f8']} style={{ height: 3 }} ></LinearGradient>
         <View style={{ height: 215 / 3, flexDirection: "row", alignItems: "center" }}>
           <View style={{ flex: 1 }}>
@@ -198,18 +200,17 @@ export default class ProductDetailScreen extends React.Component {
             </TouchableOpacity>
           </View>
 
-          <View style={{ flex: 1}}>
-            <TouchableOpacity style={[{ height: 30, width: 250 / 3, justifyContent: "center", alignSelf:"center", alignItems: "center" }, MyStyles.purple_round_btn]} onPress={() => {
-                this.setState({saveToModalVisible:true})
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity style={[{ height: 30, width: 250 / 3, justifyContent: "center", alignSelf: "center", alignItems: "center" }, MyStyles.purple_round_btn]} onPress={() => {
+              this.setState({ saveToModalVisible: true })
             }}>
               <Text style={{ fontSize: 13, color: "white" }}>Save as</Text>
               <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { position: "absolute", right: 10 }]} />
             </TouchableOpacity>
           </View>
         </View>
-        
+
         {/* Save to modal */}
-        
         <Modal
           animationType="slide"
           transparent={true}
@@ -221,7 +222,7 @@ export default class ProductDetailScreen extends React.Component {
               <View style={MyStyles.modalContainer}>
                 {/* modal header */}
                 <View style={{ flexDirection: "row", alignItems: "center", width: "100%", height: 50 }}>
-                  <View style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute"}]}>
+                  <View style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute" }]}>
                     <Text style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</Text>
                   </View>
                   <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
@@ -233,26 +234,26 @@ export default class ProductDetailScreen extends React.Component {
 
                 <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
-                <View style={[MyStyles.padding_h_main, {height:130}]}>
+                <View style={[MyStyles.padding_h_main, { height: 130 }]}>
                   {/* Allergic Ingredients(Dislike) */}
-                  <TouchableOpacity style={{flex:1, flexDirection:"row", borderBottomColor:Colors.color_dcdedd, borderBottomWidth:0.5, justifyContent:"center", alignItems:"center"}} onPress={this.onSaveToAllergicIngredients}>
+                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }} onPress={this.onSaveToAllergicIngredients}>
                     <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")}></Image>
-                    <Text style={{fontSize:13, marginLeft:10, color:Colors.primary_dark}}>Allergic Ingredients(Dislike)</Text>
-                    <Image style={{flex:1}}></Image>
+                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
+                    <Image style={{ flex: 1 }}></Image>
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}></Image>
                   </TouchableOpacity>
                   {/* Potential Allergens */}
-                  <TouchableOpacity style={{flex:1, flexDirection:"row", borderBottomColor:Colors.color_dcdedd, borderBottomWidth:0.5, justifyContent:"center", alignItems:"center"}} onPress={this.onSaveToPotentilAllergens}>
+                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }} onPress={this.onSaveToPotentilAllergens}>
                     <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")}></Image>
-                    <Text style={{fontSize:13, marginLeft:10, color:Colors.primary_dark}}>Potential Allergens</Text>
-                    <Image style={{flex:1}}></Image>
+                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
+                    <Image style={{ flex: 1 }}></Image>
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}></Image>
                   </TouchableOpacity>
                   {/* Preferred Ingredients */}
-                  <TouchableOpacity style={{flex:1, flexDirection:"row", borderBottomColor:Colors.color_dcdedd, borderBottomWidth:0.5, justifyContent:"center", alignItems:"center"}} onPress={this.onSaveToAllergicIngredients}>
+                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }} onPress={this.onSaveToAllergicIngredients}>
                     <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")}></Image>
-                    <Text style={{fontSize:13, marginLeft:10, color:Colors.primary_dark}}>Preferred Ingredients</Text>
-                    <Image style={{flex:1}}></Image>
+                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
+                    <Image style={{ flex: 1 }}></Image>
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}></Image>
                   </TouchableOpacity>
                 </View>

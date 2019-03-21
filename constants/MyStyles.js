@@ -435,6 +435,10 @@ export default StyleSheet.create({
     width: 16 / 3,
     height: 11 / 3,
   },
+  ic_arrow_down_gray_small: {
+    width: 27 / 3,
+    height: 18 / 3,
+  },
   skin_info_container: {
     backgroundColor: "white",
     borderRadius: 10,
@@ -668,5 +672,29 @@ export default StyleSheet.create({
   ic_preferred_ingredient : {
     width:31/3,
     height:31/3,
+  },
+  ic_blotch_prog : {
+    width:72/3,
+    height:72/3,
+  },
+  ic_watch_prog : {
+    width:72/3,
+    height:72/3,
+  },
+  ic_match_prog : {
+    width:72/3,
+    height:72/3,
+  },
+  ic_save_prog : {
+    width:72/3,
+    height:72/3,
+  },
+  ic_gallery : {
+    width:55/3,
+    height:52/3,
+  },
+  text_13_primary_dark : {
+    fontSize:13,
+    color:Colors.primary_dark,
   },
 });

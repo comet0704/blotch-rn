@@ -1,36 +1,116 @@
 import React from 'react';
-import StarRating from 'react-native-star-rating';
-import Colors from '../constants/Colors';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Button,
+  Alert,
+  Text,
+} from 'react-native';
  
-class GeneralStarExample extends React.Component {
+import ProgressBarAnimated from 'react-native-progress-bar-animated';
  
-  constructor(props) {
-    super(props);
-    this.state = {
-      starCount: 3.5
-    };
+export default class App extends React.Component {
+ 
+  state = {
+    progress: 20,
+    progressWithOnComplete: 0,
+    progressCustomized: 0,
   }
  
-  onStarRatingPress(rating) {
+  increase = (key, value) => {
     this.setState({
-      starCount: rating
+      [key]: this.state[key] + value,
     });
   }
  
   render() {
+    const barWidth = Dimensions.get('screen').width - 30;
+    const progressCustomStyles = {
+      backgroundColor: 'red', 
+      borderRadius: 0,
+      borderColor: 'orange',
+    };
+ 
     return (
-      <StarRating
-        disabled={false}
-        maxStars={5}
-        starSize={20}
-        emptyStarColor={Colors.color_star_empty}
-        rating={this.state.starCount}
-        selectedStar={(rating) => this.onStarRatingPress(rating)}
-        fullStarColor={Colors.color_star_full}
-
-      />
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.label}>Bar with backgroundColorOnComplete prop</Text>
+          <ProgressBarAnimated
+            width={barWidth}
+            value={this.state.progress}
+            backgroundColorOnComplete="#6CC644"
+          />
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonInner}>
+              <Button
+                title="Increase 20%"
+                onPress={this.increase.bind(this, 'progress', 20)}
+              />
+            </View>
+          </View>
+        </View>
+        <View style={styles.separator} />
+        <View>
+          <Text style={styles.label}>Bar with onComplete event</Text>
+          <ProgressBarAnimated
+            width={barWidth}
+            value={this.state.progressWithOnComplete}
+            onComplete={() => {
+              Alert.alert('Hey!', 'onComplete event fired!');
+            }}
+          />
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonInner}>
+              <Button
+                title="Increase 50%"
+                onPress={this.increase.bind(this, 'progressWithOnComplete', 50)}
+              />
+            </View>
+          </View>
+        </View>
+        <View style={styles.separator} />
+        <View>
+          <Text style={styles.label}>Custom style with max value in 30%</Text>
+          <ProgressBarAnimated
+            {...progressCustomStyles}
+            width={barWidth}
+            maxValue={30}
+            value={this.state.progressCustomized}
+          />
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonInner}>
+              <Button
+                title="Increase 10%"
+                onPress={this.increase.bind(this, 'progressCustomized', 10)}
+              />
+            </View>
+          </View>
+        </View>
+      </View>
     );
   }
 }
  
-export default GeneralStarExample
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFF',
+    marginTop: 50,
+    padding: 15,
+  },
+  buttonContainer: {
+    marginTop: 15,
+  },
+  separator: {
+    marginVertical: 30,
+    borderWidth: 0.5,
+    borderColor: '#DCDCDC',
+  },
+  label: {
+    color: '#999',
+    fontSize: 14,
+    fontWeight: '500',
+    marginBottom: 10,
+  },
+});

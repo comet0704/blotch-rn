@@ -1,96 +1,130 @@
 import React from 'react';
-import { Image, Share, TouchableHighlight, Modal, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
+import StarRating from 'react-native-star-rating';
+import Carousel from 'react-native-banner-carousel';
+import ProgressBarAnimated from 'react-native-progress-bar-animated';
+import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import Colors from '../../constants/Colors';
-import MyStyles from '../../constants/MyStyles';
+import {
+  KeyboardAvoidingView,
+  View,
+  Modal,
+  Image,
+  TextInput,
+  Dimensions,
+  WebBrowser,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  TouchableHighlight,
+} from 'react-native';
 import { LinearGradient } from 'expo';
+import MyStyles from '../../constants/MyStyles';
+import { FlatGrid } from 'react-native-super-grid';
+import MyConstants from '../../constants/MyConstants';
 
-export default class FaqScreen extends React.Component {
-
+export class FragmentProductDetailReviews extends React.Component {
   state = {
-    modalVisible: false,
-  };
-
-  renderComment(image, index) {
-    return (
-      null
-    );
-  }
-  onShare = async () => {
-    try {
-      const result = await Share.share({
-        message: 'BAM: we\'re helping your business with awesome React Native apps',
-        url: 'http://bam.tech',
-        title: 'Wow, did you see that?'
-      }, {
-        // Android only:
-        dialogTitle: 'Share It',
-        // iOS only:
-        excludedActivityTypes: [
-          'com.apple.UIKit.activity.PostToTwitter'
-        ]
-      });
-
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      alert(error.message);
-    }
+    starCount:3,
+    progress: {
+      blotch: 13,
+      watch: 19,
+      match: 27,
+      save: 18,
+    },
+    curSelectedIngredient: -1,
+    selectedIngredientType: 0, // Good, Normal, Bad 분류하기 위함.
   };
 
   render() {
+    const progressBlotchStyle = {
+      backgroundColor: Colors.ingredient_allergic_dark, 
+      height:6,
+    };
+    const progressWatchStyle = {
+      backgroundColor: Colors.color_c2c1c1, 
+      height:6,
+    };
+    const progressMatchStyle = {
+      backgroundColor: Colors.color_6bd5be, 
+      height:6,
+    };
+    const progressSaveStyle = {
+      backgroundColor: Colors.color_f3f3f3, 
+      height:6,
+    };
+
+    const barWidth = Dimensions.get('screen').width - 30;
+
     return (
-      <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
-
-        <TopbarWithBlackBack rightBtn="true" title="Banner" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
+      <View>
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-        <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
-          <View style={[{ flex: 1 }]}>
 
-            {/* Title and Image */}
-            <View style={[MyStyles.padding_main]}>
-              <Text style={{ color: Colors.primary_dark, fontSize: 21 }}>How to Make up Easy, Fast Drawing From Shis!</Text>
-              <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-                <Image style={{ flex: 1 }} />
-                <Image source={require("../../assets/images/ic_heart_gray.png")} style={MyStyles.ic_heart_gray} />
-                <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>73</Text>
-                <Image source={require("../../assets/images/ic_eye.png")} style={[MyStyles.ic_eye, { marginLeft: 10 }]} />
-                <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>173</Text>
+        {/* Progress Bars */}
+        <View style={[MyStyles.margin_h_main, MyStyles.padding_v_25, MyStyles.border_bottom_e5e5e5]}>
+          {/* Blotch'd */}
+          <View>
+              <View style={{flexDirection:"row", alignItems:"center", justifyContent:"center", marginBottom:5}}>
+                <Image source={require("../../assets/images/ic_blotch_prog.png")} style={[MyStyles.ic_blotch_prog]} />
+                <Text style={[MyStyles.text_13_primary_dark, {marginLeft:5, fontWeight:"500"}]}>Blotch'd</Text>
+                <Image style={{flex:1}}/>
+                <Text style={[MyStyles.text_13_primary_dark, {marginLeft:5, fontWeight:"500"}]}>{this.state.progress.blotch}%</Text>
               </View>
-            </View>
+              <ProgressBarAnimated
+                {...progressBlotchStyle}
+                width={barWidth}
+                value={this.state.progress.blotch}
+              />
+          </View>
 
-            {/* Description */}
-            <View style={{ height: 780 / 3, flex: 1, marginTop: 5 }}>
-              <Image style={MyStyles.background_image} source={{ uri: "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg" }} />
-              <TouchableOpacity style={{ position: "absolute", top: 15, right: 15 }} onPress={() => { alert("onHeartClick") }}>
-                <Image source={require("../../assets/images/ic_heart_button.png")} style={[MyStyles.ic_heart_button, { marginLeft: 10 }]} />
-              </TouchableOpacity>
-            </View>
-
-            <View style={[{ marginTop: 5 }, MyStyles.padding_main]}>
-              <View style={[{ marginTop: 5, flexDirection: "row", flex: 1 }]}>
-                <Text style={{ color: Colors.color_949191, paddingLeft: 5, paddingRight: 5, borderWidth: 0.5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }}>Link</Text>
-                <Text onPress={() => { Linking.openURL("https://brunch.co.kr/@sucopy/182") }} style={[MyStyles.link, { marginLeft: 5 }]}>https://brunch.co.kr/@sucopy/182</Text>
+          {/* Watch List */}
+          <View style={{marginTop:10}}>
+              <View style={{flexDirection:"row", alignItems:"center", justifyContent:"center", marginBottom:5}}>
+                <Image source={require("../../assets/images/ic_watch_prog.png")} style={[MyStyles.ic_watch_prog]} />
+                <Text style={[MyStyles.text_13_primary_dark, {marginLeft:5, fontWeight:"500"}]}>Watch List</Text>
+                <Image style={{flex:1}}/>
+                <Text style={[MyStyles.text_13_primary_dark, {marginLeft:5, fontWeight:"500"}]}>{this.state.progress.watch}%</Text>
               </View>
-              <Text style={{ fontSize: 13, color: Colors.primary_dark, marginTop: 10, marginBottom: 5 }}>The House of Chanel is known for the "little black dress", th
-e perfume No. 5 de Chanel, and the Chanel Suit. Chanel's u
-se of jersey fabric produced garments that were comforta
-ble and affordable. Chanel revolutionized fashion — high fa
-shion (haute couture) and everyday fashion — by replacing
-structured-silhouettes, based upon the corset and the bod
-ice, with garments that were functional and at the same ti
-me flattering to the woman's figure.
-                </Text>
-            </View>
-            <View style={MyStyles.seperate_line_e5e5e5}></View>
+              <ProgressBarAnimated
+                {...progressWatchStyle}
+                width={barWidth}
+                value={this.state.progress.watch}
+              />
+          </View>
 
+          {/* Match'd */}
+          <View style={{marginTop:10}}>
+              <View style={{flexDirection:"row", alignItems:"center", justifyContent:"center", marginBottom:5}}>
+                <Image source={require("../../assets/images/ic_match_prog.png")} style={[MyStyles.ic_match_prog]} />
+                <Text style={[MyStyles.text_13_primary_dark, {marginLeft:5, fontWeight:"500"}]}>Match'd</Text>
+                <Image style={{flex:1}}/>
+                <Text style={[MyStyles.text_13_primary_dark, {marginLeft:5, fontWeight:"500"}]}>{this.state.progress.match}%</Text>
+              </View>
+              <ProgressBarAnimated
+                {...progressMatchStyle}
+                width={barWidth}
+                value={this.state.progress.match}
+              />
+          </View>
+
+          {/* Save as Others */}
+          <View style={{marginTop:10}}>
+              <View style={{flexDirection:"row", alignItems:"center", justifyContent:"center", marginBottom:5}}>
+                <Image source={require("../../assets/images/ic_save_prog.png")} style={[MyStyles.ic_save_prog]} />
+                <Text style={[MyStyles.text_13_primary_dark, {marginLeft:5, fontWeight:"500"}]}>Save as Others</Text>
+                <Image style={{flex:1}}/>
+                <Text style={[MyStyles.text_13_primary_dark, {marginLeft:5, fontWeight:"500"}]}>{this.state.progress.save}%</Text>
+              </View>
+              <ProgressBarAnimated
+                {...progressSaveStyle}
+                width={barWidth}
+                value={this.state.progress.save}
+              />
+          </View>
+        </View>
+
+        {/* Comments */}
+        
             {/* Comments */}
             <View style={[MyStyles.bg_f8f8f8, { marginTop: 5 }]}>
               {/* Comments Header */}
@@ -102,11 +136,31 @@ me flattering to the woman's figure.
                     returnKeyType="go"
                     multiline={true}
                     style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
+                  <TouchableOpacity style={{marginRight:10, marginTop:5}}>
+                    <Image source={require("../../assets/images/ic_gallery.png")} style={[MyStyles.ic_gallery]}></Image>
+                  </TouchableOpacity>
                   <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]}>
                     <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={[MyStyles.seperate_line_e5e5e5, { marginTop: 5 }]}></View>
+                <View style={{borderWidth:0.5, borderColor:Colors.color_dcdedd, borderTopWidth:0, height:115/3, justifyContent:"center", alignItems:"center"}}>
+                  <StarRating
+                    disabled={false}
+                    maxStars={5}
+                    containerStyle={{ width: 273 / 3}}
+                    starSize={50 / 3}
+                    emptyStarColor={Colors.color_star_empty}
+                    rating={this.state.starCount}
+                    selectedStar={(rating) => {
+                      this.setState({
+                        starCount: rating
+                      });
+                    }}
+                    fullStarColor={Colors.color_star_full}
+                  />
+                  <Image source={require("../../assets/images/ic_arrow_down_gray_small.png")} style={[MyStyles.ic_arrow_down_gray_small, {position:"absolute", right:10}]}></Image>
+                </View>
               </View>
 
               <View>
@@ -197,48 +251,8 @@ ple</Text>
 
 
             </View>
-          </View>
-        </ScrollView>
-
-
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-          }}>
-          <View style={{ flex: 1 }}>
-            <View style={MyStyles.modal_bg}>
-              <View style={MyStyles.modalContainer}>
-                <TouchableOpacity style={ MyStyles.modal_close_btn } onPress={() => {
-                  this.setState({ modalVisible: false });
-                }}>
-                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
-                </TouchableOpacity>
-
-                <Image style={[{ alignSelf: "center" }, MyStyles.ic_report_big]} source={require("../../assets/images/ic_report_big.png")}></Image>
-                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Would you like to report it?</Text>
-
-                <View style={{ flexDirection: "row" }}>
-                  <TouchableHighlight
-                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
-                    <Text style={MyStyles.btn_primary}>Yes</Text>
-                  </TouchableHighlight>
-
-                  <TouchableHighlight
-                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
-                    onPress={() => {
-                      this.setState({ modalVisible: false });
-                    }}>
-                    <Text style={MyStyles.btn_primary_white}>Not now</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-
-            </View>
-          </View>
-        </Modal>
-      </KeyboardAvoidingView >
+         
+      </View>
     );
   }
-}
+};
