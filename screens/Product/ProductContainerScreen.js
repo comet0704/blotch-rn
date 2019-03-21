@@ -221,14 +221,14 @@ export default class ProductContainerScreen extends React.Component {
           renderTabBar={() => <DefaultTabBar />}
         >
 
+          <View tabLabel="Recommendation" style={{ flex: 1 }}>
+            <FragmentRecommendProduct></FragmentRecommendProduct>
+          </View>
           <View tabLabel="New" style={{ flex: 1 }}>
             <FragmentNewProduct></FragmentNewProduct>
           </View>
           <View tabLabel="Best" style={{ flex: 1 }}>
             <FragmentBestProduct></FragmentBestProduct>
-          </View>
-          <View tabLabel="Recommendation" style={{ flex: 1 }}>
-            <FragmentRecommendProduct></FragmentRecommendProduct>
           </View>
         </ScrollableTabView>
 

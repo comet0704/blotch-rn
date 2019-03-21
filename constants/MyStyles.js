@@ -254,6 +254,23 @@ export default StyleSheet.create({
     height: "100%",
   },
 
+  modal_bg1: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    backgroundColor: "#0000009d",
+    width: "100%",
+    justifyContent: "center",
+    height: "100%",
+  },
+
+  modal_close_btn: {
+    alignSelf: "flex-end", padding: 15
+  },
+
+  modalContainer: {
+    backgroundColor: "white", borderRadius: 20, justifyContent: "center", overflow: "hidden",
+  },
+
   text_header1: {
     marginTop: 10,
     fontSize: 30,
@@ -395,6 +412,13 @@ export default StyleSheet.create({
     textAlign: "center",
     marginTop: 5,
   },
+  category_text1: {
+    fontSize: 13,
+    color: Colors.color_d8d7d7,
+    fontWeight: "400",
+    textAlign: "center",
+    marginTop: 5,
+  },
   ic_best_ranking: {
     width: 70 / 3,
     height: 102 / 3,
@@ -414,5 +438,13 @@ export default StyleSheet.create({
   ic_filter: {
     width: 51 / 3,
     height: 45 / 3,
+  },
+  ic_check_small: {
+    width: 38 / 3,
+    height: 33 / 3,
+  },
+  ic_search_big: {
+    width: 235 / 3,
+    height: 258 / 3,
   },
 });

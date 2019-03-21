@@ -170,8 +170,8 @@ export default class SignupScreen extends React.Component {
           }}>
           <View style={{ flex: 1 }}>
             <View style={MyStyles.modal_bg}>
-              <View style={{ backgroundColor: "white", borderRadius: 10, justifyContent: "center", overflow: "hidden" }}>
-                <TouchableOpacity style={{ alignSelf: "flex-end", padding: 10 }} onPress={() => {
+              <View style={MyStyles.modalContainer}>
+                <TouchableOpacity style={ MyStyles.modal_close_btn } onPress={() => {
                   this.setState({ modalVisible: false });
                   this.props.navigation.navigate('Home')
                 }}>

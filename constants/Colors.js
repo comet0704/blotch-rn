@@ -12,6 +12,7 @@ export default {
   noticeBackground: tintColor,
   noticeText: '#fff',
   primary_dark: '#201f20',
+  primary_purple: "#a695fe",
   color_dcdedd: '#dcdedd',
   color_949292: "#949292",
   color_949191: "#949191",
@@ -19,7 +20,9 @@ export default {
   color_e5e6e5: "#e5e6e5",
   color_white: "white",
   color_515151: "#515151",
+  color_dfdfdf: "#dfdfdf",
   color_e3e5e4: "#e3e5e4",
   color_bfbfbf: "#bfbfbf",
-  primary_purple: "#a695fe",
+  color_d8d7d7: "#d8d7d7",
+  color_c2c1c1: "#c2c1c1",
 };

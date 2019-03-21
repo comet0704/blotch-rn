@@ -206,8 +206,8 @@ ple</Text>
           }}>
           <View style={{ flex: 1 }}>
             <View style={MyStyles.modal_bg}>
-              <View style={{ backgroundColor: "white", borderRadius: 10, justifyContent: "center", overflow: "hidden" }}>
-                <TouchableOpacity style={{ alignSelf: "flex-end", padding: 10 }} onPress={() => {
+              <View style={MyStyles.modalContainer}>
+                <TouchableOpacity style={ MyStyles.modal_close_btn } onPress={() => {
                   this.setState({ modalVisible: false });
                 }}>
                   <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
