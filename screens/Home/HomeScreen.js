@@ -1,12 +1,18 @@
+// common
 import React from 'react';
+import {AsyncStorage} from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-whc-toast';
+import MyStyles from '../../constants/MyStyles'
+import MyConstants from '../../constants/MyConstants'
+import Common from '../../assets/Common';
+import Net from '../../Net/Net';
+import Colors from '../../constants/Colors';
+
 import Carousel from 'react-native-banner-carousel';
 import {
   Image,
-  AsyncStorage,
-  Button,
-  Platform,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -17,12 +23,6 @@ import {
 } from 'react-native';
 
 import { WebBrowser } from 'expo';
-
-import MyStyles from '../../constants/MyStyles'
-import MyConstants from '../../constants/MyConstants'
-import Common from '../../assets/Common';
-import Models from '../../Net/Models';
-import Net from '../../Net/Net';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -36,17 +36,8 @@ export default class HomeScreen extends React.Component {
       }
     });
     this.state = {
+      isLoading:false,
       weatherType: "dry",
-      bannerImages: [
-        "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
-        "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
-        "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
-      ],
-      bannerLinkes: [
-        "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
-        "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
-        "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
-      ],
       weatherInfo: "Seoul. -6˚C",
       result_data: {
           recommend_product_list: [],
@@ -207,6 +198,15 @@ export default class HomeScreen extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
+        <Spinner
+          //visibility of Overlay Loading Spinner
+          visible={this.state.isLoading}
+          //Text with the Spinner 
+          textContent={MyConstants.Loading_text}
+          //Text style of the Spinner Text
+          textStyle={MyStyles.spinnerTextStyle}
+        />
+        <Toast ref='toast' />
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >

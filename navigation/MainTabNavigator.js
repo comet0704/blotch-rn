@@ -19,9 +19,9 @@ import ProductDetailScreen from '../screens/Product/ProductDetailScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  Article: ArticlesScreen,
   Faq: FaqScreen,
   BannerDetail: BannerDetailScreen,
-  Article: ArticlesScreen,
   AboutUs: {
     screen: AboutUsScreen,
     navigationOptions: () => ({
