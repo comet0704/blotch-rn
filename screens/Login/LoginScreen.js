@@ -1,38 +1,23 @@
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  NavigationActions
-} from 'react-native';
+import React from 'react';
+import { AsyncStorage, Button, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-whc-toast';
 import { TopbarWithWhiteBack } from '../../components/Topbars/TopbarWithWhiteBack';
-import SignupScreen from './SignupScreen';
-import FindPwdScreen from './FindPwdScreen';
+import MyStyles from '../../constants/MyStyles';
+import Models from '../../Net/Models';
+import Net from '../../Net/Net';
+import MyConstants from '../../constants/MyConstants';
 
-class Greetings extends Component {
-  render() {
-    return (
-      <View style={{ alignItems: 'center' }}>
-        <Text>Hello {this.props.name}</Text>
-      </View>
-    )
-  }
-}
 export default class LoginScreen extends React.Component {
-
-  Signup = (
-    <Text onPress={() => this.onPressSignup()} style={{ color: "#a695fe", fontSize: 13 }}>
-      Sign Up!
-    </Text>
-  );
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      loginPressed: false,
+      email: null,
+      password: null,
+    };
+  }
 
   checkValidation = (value, check_type) => {
     if (value == null || value.length == 0) {
@@ -60,16 +45,11 @@ export default class LoginScreen extends React.Component {
     return true
   }
 
-  state = {
-    isSignUpPressed: false,
-    loginPressed: false,
-    isFindPwdPressed: false,
-    email: null,
-    password: null,
-  };
-
   onPressLogin = (email, pass) => {
     this.setState({ loginPressed: true });
+    if (this.checkValidation(this.state.email, "email") && this.checkValidation(this.state.password, "password")) { // 이메일, 패스워드 모두 유효한 값이면
+      this.requestLogin(email, pass)
+    }
   }
 
   onPressForgetPassword() {
@@ -84,20 +64,35 @@ export default class LoginScreen extends React.Component {
     header: null,
   };
 
+  Signup = (
+    <Text onPress={() => this.onPressSignup()} style={{ color: "#a695fe", fontSize: 13 }}>
+      Sign Up!
+    </Text>
+  );
+
   render() {
-    const { isSignUpPressed, loginPressed, isFindPwdPressed, email, password } = this.state;
+    const { loginPressed, email, password } = this.state;
     return (
       <View style={{ flex: 1 }}>
+        <Spinner
+          //visibility of Overlay Loading Spinner
+          visible={this.state.isLoading}
+          //Text with the Spinner 
+          textContent={MyConstants.Loading_text}
+          //Text style of the Spinner Text
+          textStyle={MyStyles.spinnerTextStyle}
+        />
+        <Toast ref='toast' />
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
-            <Image source={require('../../assets/images/Login/login_bg.png')} style={styles.background_image} />
+            <Image source={require('../../assets/images/Login/login_bg.png')} style={MyStyles.background_image} />
             <TopbarWithWhiteBack onPress={() => { this.props.navigation.navigate("Home") }}></TopbarWithWhiteBack>
-            <Image source={require('../../assets/images/Login/logo.png')} style={[styles.h_auto, { width: "30%", marginTop: 110 }]} resizeMode="contain"></Image>
+            <Image source={require('../../assets/images/Login/logo.png')} style={[MyStyles.h_auto, { width: "30%", marginTop: 110 }]} resizeMode="contain"></Image>
             <Text style={{ marginLeft: "auto", marginRight: "auto", color: "white", marginTop: -20, fontSize: 12, fontWeight: "100" }} >Your Beauty Counselor</Text>
 
-            <View style={[styles.h_auto, { width: "85%", marginTop: 90, borderRadius: 15, backgroundColor: "white", paddingVertical: 40, paddingHorizontal: 18 }]}>
-              <View style={[styles.inputBox, (this.checkValidation(email, "email") == false && loginPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
+            <View style={[MyStyles.h_auto, { width: "85%", marginTop: 90, borderRadius: 15, backgroundColor: "white", paddingVertical: 40, paddingHorizontal: 18 }]}>
+              <View style={[MyStyles.inputBox, (this.checkValidation(email, "email") == false && loginPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
                 {this.checkValidation(email, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Email {this.Necessarry}</Text> : null}
                 <TextInput
                   returnKeyType="next"
@@ -108,10 +103,10 @@ export default class LoginScreen extends React.Component {
               </View>
               {
                 ((this.checkValidation(email, "email") == false) && loginPressed == true) ?
-                  <Text style={styles.warningText}>Please Confirm your Email</Text> : null
+                  <Text style={MyStyles.warningText}>Please Confirm your Email</Text> : null
               }
 
-              <View style={[styles.inputBox, (this.checkValidation(password, "password") == false && loginPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
+              <View style={[MyStyles.inputBox, (this.checkValidation(password, "password") == false && loginPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
                 {this.checkValidation(password, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Password {this.Necessarry}</Text> : null}
                 <TextInput
                   returnKeyType="done"
@@ -122,7 +117,7 @@ export default class LoginScreen extends React.Component {
               </View>
               {
                 ((this.checkValidation(password, "password") == false) && loginPressed == true) ?
-                  <Text style={styles.warningText}>Please Confirm your password</Text> : null
+                  <Text style={MyStyles.warningText}>Please Confirm your password</Text> : null
               }
 
               <Text style={{ marginTop: 10, marginLeft: "auto", fontSize: 12 }} onPress={() => this.onPressForgetPassword()}>
@@ -160,7 +155,7 @@ export default class LoginScreen extends React.Component {
               </View>
 
               <View style={{ flex: 1, flexDirection: "row", marginTop: 20 }}>
-                <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5}>
+                <TouchableOpacity style={MyStyles.FacebookStyle} activeOpacity={0.5}>
                   {/*We can use any component which is used to shows something inside 
                   TouchableOpacity. It shows the item inside in horizontal orientation */}
                   <Image
@@ -169,11 +164,11 @@ export default class LoginScreen extends React.Component {
                     //You can also show the image from you project directory like below
                     //source={require('./Images/facebook.png')}
                     //Image Style
-                    style={styles.ImageIconStyle}
+                    style={MyStyles.ImageIconStyle}
                   />
-                  <Text style={styles.TextStyle}>Facebook</Text>
+                  <Text style={MyStyles.TextStyle}>Facebook</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.GooglePlusStyle} activeOpacity={0.5}>
+                <TouchableOpacity style={MyStyles.GooglePlusStyle} activeOpacity={0.5}>
                   {/*We can use any component which is used to shows something inside 
                   TouchableOpacity. It shows the item inside in horizontal orientation */}
                   <Image
@@ -182,9 +177,9 @@ export default class LoginScreen extends React.Component {
                     //You can also show the image from you project directory like below
                     //source={require('./Images/facebook.png')}
                     //Image Style
-                    style={styles.ImageIconStyle}
+                    style={MyStyles.ImageIconStyle}
                   />
-                  <Text style={styles.TextStyle}>Google</Text>
+                  <Text style={MyStyles.TextStyle}>Google</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -195,66 +190,45 @@ export default class LoginScreen extends React.Component {
       </View>
     );
   }
+
+  requestLogin(p_email, p_pwd) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.auth.login, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        email: p_email,
+        password: p_pwd,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        this.setState({
+          isLoading: false
+        });
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+        } else {
+          Models.login_user = responseJson.login_user;
+          global.login_user = Models.login_user;
+          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
+          this.props.navigation.navigate("Home")
+        }
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+
+  }
 }
-
-const styles = StyleSheet.create({
-  h_auto: {
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
-  background_image: {
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    position: "absolute",
-    flex: 1,
-    height: null,
-    width: null,
-    resizeMode: "cover",
-  },
-  inputBox: {
-    height: 40,
-    borderBottomWidth: 1,
-    borderColor: "#e3e5e4",
-    marginTop: 20,
-    justifyContent: "center"
-  },
-
-  warningText: {
-    color: "#f33f5b",
-    fontSize: 12,
-    marginTop: 5,
-  },
-  GooglePlusStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 0.5,
-    borderColor: '#e3e5e4',
-    height: 40,
-    flex: 1,
-    borderRadius: 5,
-    justifyContent: "center",
-    marginLeft: 5,
-  },
-  FacebookStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 0.5,
-    borderColor: '#e3e5e4',
-    height: 40,
-    flex: 1,
-    borderRadius: 5,
-    justifyContent: "center",
-    marginRight: 5,
-  },
-  ImageIconStyle: {
-    padding: 10,
-    margin: 5,
-    height: 25,
-    width: 25,
-    resizeMode: "contain",
-  },
-});

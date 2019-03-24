@@ -2,6 +2,7 @@ import React from 'react';
 import Carousel from 'react-native-banner-carousel';
 import {
   Image,
+  AsyncStorage,
   Button,
   Platform,
   ScrollView,
@@ -18,25 +19,55 @@ import {
 import { WebBrowser } from 'expo';
 
 import MyStyles from '../../constants/MyStyles'
+import MyConstants from '../../constants/MyConstants'
+import Common from '../../assets/Common';
+import Models from '../../Net/Models';
+import Net from '../../Net/Net';
 
 export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.login_info, (err, result) => {
+      global.login_info = JSON.parse(result);
+      if (global.login_info) {
+        this.requestHomeList()
+      } else {
+
+      }
+    });
+    this.state = {
+      weatherType: "dry",
+      bannerImages: [
+        "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
+        "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
+        "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
+      ],
+      bannerLinkes: [
+        "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
+        "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
+        "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
+      ],
+      weatherInfo: "Seoul. -6˚C",
+      result_data: {
+          recommend_product_list: [],
+          banner_list: [],
+          new_product_list: [],
+          best_product_list: [],
+          latest_article_list: [],
+          trend_article_list: [],
+      },
+      newProductBanner: {
+        image_list: "",
+        title: "",
+      },
+      bestProductBanner: {
+        image_list: "",
+        title: "",
+      }
+    };
+  }
   static navigationOptions = {
     header: null,
-  };
-
-  state = {
-    weatherType: "dry",
-    bannerImages: [
-      "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
-      "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
-      "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
-    ],
-    bannerLinkes: [
-      "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
-      "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
-      "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
-    ],
-    weatherInfo: "Seoul. -6˚C",
   };
 
   BannerHeight = 265;
@@ -44,15 +75,15 @@ export default class HomeScreen extends React.Component {
   newCarouselIndicator = null;
   bestCarouselIndicator = null;
 
-  renderBanner(image, index) {
+  renderBanner(item, index) {
     return (
       <View key={index}>
         <TouchableHighlight onPressIn={() => { this.props.navigation.navigate("BannerDetail") }}>
           <View>
-            <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: image }} />
+            <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
-              <Text style={{ fontSize: 13, color: "white" }}>ESTEE LAUDER</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 24 }}>Advanced Night Repair</Text>
+              <Text style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{item.title}</Text>
+              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
             </View>
           </View>
         </TouchableHighlight>
@@ -60,18 +91,18 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  renderNewProductBanner(image, index) {
+  renderNewProductBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { WebBrowser.openBrowserAsync(this.state.bannerLinkes[index]) }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go product detail") }}>
           <View style={{ flex: 1 }}>
-            <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: image }} />
+            <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
             <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
               <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
             </TouchableHighlight>
             <View style={{ position: "absolute", bottom: 0, maxWidth: 130, paddingBottom: 30, alignSelf: "center" }}>
-              <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }}>CHANEL</Text>
-              <Text style={{ fontSize: 14, color: "black", marginTop: 5, textAlign: "center" }}>HYDRA BEAUTY MICRO CREME</Text>
+              <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }}>{item.brand_title}</Text>
+              <Text style={{ fontSize: 14, color: "black", marginTop: 5, textAlign: "center" }}>{item.title}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -79,18 +110,18 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  renderBestProductBanner(image, index) {
+  renderBestProductBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { WebBrowser.openBrowserAsync(this.state.bannerLinkes[index]) }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go product detail") }}>
           <View style={{ flex: 1 }}>
-            <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: image }} />
+            <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
             <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
               <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
             </TouchableHighlight>
             <View style={{ position: "absolute", bottom: 0, maxWidth: 130, paddingBottom: 30, alignSelf: "center" }}>
-              <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }}>CHANEL</Text>
-              <Text style={{ fontSize: 14, color: "black", marginTop: 5, textAlign: "center" }}>HYDRA BEAUTY MICRO CREME</Text>
+              <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }}>{item.brand_title}</Text>
+              <Text style={{ fontSize: 14, color: "black", marginTop: 5, textAlign: "center" }}>{item.title}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -99,18 +130,18 @@ export default class HomeScreen extends React.Component {
   }
 
 
-  renderTodayArticleBanner(image, index) {
+  renderTodayArticleBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 166, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { WebBrowser.openBrowserAsync(this.state.bannerLinkes[index]) }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go article detail") }}>
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
-            <Image style={MyStyles.background_image} source={{ uri: image }} />
+            <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
             <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
               <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
             </TouchableHighlight>
             <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
-              <Text style={{ fontSize: 13, color: "white" }}>ESTEE LAUDER</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 24 }}>Advanced Night Repair</Text>
+              <Text style={{ fontSize: 13, color: "white" }}>{item.title}</Text>
+              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{item.content}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -118,33 +149,6 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  trendingImages = [
-    {
-      key: "1",
-      source: {
-        uri: 'https://cdn.pixabay.com/photo/2017/05/19/07/34/teacup-2325722__340.jpg',
-      },
-    },
-    {
-      key: "2",
-      source: {
-        uri: 'https://cdn.pixabay.com/photo/2017/05/02/22/43/mushroom-2279558__340.jpg',
-      },
-    },
-    {
-      key: "3",
-      source: {
-        uri: 'https://cdn.pixabay.com/photo/2017/05/18/21/54/tower-bridge-2324875__340.jpg',
-      },
-    },
-    {
-      key: "4",
-      source: {
-        uri: 'https://cdn.pixabay.com/photo/2017/05/16/21/24/gorilla-2318998__340.jpg',
-      },
-    },
-
-  ];
   renderTrendingScroll() {
     return (
       <View
@@ -153,17 +157,17 @@ export default class HomeScreen extends React.Component {
           horizontal
           showsHorizontalScrollIndicator={false}
         >
-          {this.trendingImages.map(image => (
-            <View key={image.key} style={{ width: 150, height: 75, flex: 1, marginRight: 10 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { WebBrowser.openBrowserAsync(image.source.uri) }}>
+          {this.state.result_data.trend_article_list.map(item => (
+            <View key={item.id} style={{ width: 150, height: 75, flex: 1, marginRight: 10 }}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go article detail" )}}>
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
-                  <Image style={MyStyles.background_image} source={{ uri: image.source.uri }} />
+                  <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
                   <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
                     <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableHighlight>
                   <View style={{ position: "absolute", bottom: 5, left: 5, maxWidth: 120 }}>
-                    <Text style={{ fontSize: 12, color: "white" }}>S/S COLLECTION</Text>
-                    <Text style={{ fontSize: 14, color: "white", fontWeight: "bold"}} numberOfLines={1}>SPRING.SUMMERSUMMER...</Text>
+                    <Text style={{ fontSize: 12, color: "white" }}>{item.title}</Text>
+                    <Text style={{ fontSize: 14, color: "white", fontWeight: "bold"}} numberOfLines={1}>{item.content}</Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -182,13 +186,13 @@ export default class HomeScreen extends React.Component {
           horizontal
           showsHorizontalScrollIndicator={false}
         >
-          {this.trendingImages.map(image => (
-            <View key={image.key} style={{flex: 1, marginRight: 10, width:85 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { WebBrowser.openBrowserAsync(image.source.uri) }}>
-                <Image style={{width:85, height:85, borderRadius:50, overflow:"hidden"}} source={{ uri: image.source.uri }} />
+          {this.state.result_data.recommend_product_list.map(item => (
+            <View key={item.id} style={{flex: 1, marginRight: 10, width:85 }}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go product detail")}}>
+                <Image style={{width:85, height:85, borderRadius:50, overflow:"hidden"}} source={{ uri: Common.getImageUrl(item.image_list) }} />
               </TouchableOpacity>
-              <Text style={{ fontSize: 12, color: "#949393", marginTop:5, textAlign:"center" }} numberOfLines={1}>S/S COLLECTION</Text>
-              <Text style={{ fontSize: 13, color: "#212122", fontWeight: "bold", textAlign:"center"}} numberOfLines={1}>Hydra Beauty Hydra Beauty </Text>
+              <Text style={{ fontSize: 12, color: "#949393", marginTop:5, textAlign:"center" }} numberOfLines={1}>{item.brand_title}</Text>
+              <Text style={{ fontSize: 13, color: "#212122", fontWeight: "bold", textAlign:"center"}} numberOfLines={1}>{item.title}</Text>
 
             </View>
           ))}
@@ -290,7 +294,7 @@ export default class HomeScreen extends React.Component {
                   index={0}
                   pageSize={this.BannerWidth}
                 >
-                  {this.state.bannerImages.map((image, index) => this.renderBanner(image, index))}
+                  {this.state.result_data.banner_list.map((item, index) => this.renderBanner(item, index))}
                 </Carousel>
               </View>
 
@@ -302,20 +306,28 @@ export default class HomeScreen extends React.Component {
                 </View>
                 <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, }}>
                   <View style={{ borderBottomRightRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
-                    <Image source={{ uri: 'http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg' }} style={[MyStyles.background_image]} />
-                    <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>NEW ARRIVALARRIVALARRIVAL</Text>
+                    <Image source={{ uri: Common.getImageUrl(this.state.newProductBanner.image_list) }} style={[MyStyles.background_image]} />
+                    <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>{this.state.newProductBanner.title}</Text>
                   </View>
 
                   <View style={{ flex: 1, justifyContent: "center" }}>
                     <Carousel
                       autoplay={false}
+                      onPageChanged={(index) => {
+                        this.setState( {
+                          'newProductBanner': {
+                            'image_list': this.state.result_data.new_product_list[index].image_list,
+                            'title' : this.state.result_data.new_product_list[index].title,
+                          }
+                        })
+                      }}
                       showsPageIndicator={false}
                       loop
                       index={0}
                       pageSize={this.BannerWidth / 2}
                       ref={(carousel) => { this.newCarouselIndicator = carousel }}
                     >
-                      {this.state.bannerImages.map((image, index) => this.renderNewProductBanner(image, index))}
+                      {this.state.result_data.new_product_list.map((item, index) => this.renderNewProductBanner(item, index))}
                     </Carousel>
                     <View style={{ flex: 1, width: "100%", justifyContent: "center", flexDirection: "row", position: "absolute", marginTop: 90 }}>
                       <TouchableOpacity style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.newCarouselIndicator.gotoPage(this.newCarouselIndicator.currentIndex - 1); }}>
@@ -341,13 +353,24 @@ export default class HomeScreen extends React.Component {
                   <View style={{ flex: 1, justifyContent: "center" }}>
                     <Carousel
                       autoplay={false}
+                      onPageChanged={(index) => {
+                        try {
+                          this.setState( {
+                            'bestProductBanner': {
+                              'image_list': this.state.result_data.best_product_list[index].image_list,
+                              'title' : this.state.result_data.best_product_list[index].title,
+                            }
+                          })  
+                        } catch (error) {                          
+                        }                        
+                      }}
                       showsPageIndicator={false}
                       loop
                       index={0}
                       pageSize={this.BannerWidth / 2}
                       ref={(carousel) => { this.bestCarouselIndicator = carousel }}
                     >
-                      {this.state.bannerImages.map((image, index) => this.renderBestProductBanner(image, index))}
+                      {this.state.result_data.best_product_list.map((item, index) => this.renderBestProductBanner(item, index))}
                     </Carousel>
                     <View style={{ flex: 1, width: "100%", justifyContent: "center", flexDirection: "row", position: "absolute", marginTop: 90 }}>
                       <TouchableOpacity style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.bestCarouselIndicator.gotoPage(this.bestCarouselIndicator.currentIndex - 1); }}>
@@ -361,8 +384,8 @@ export default class HomeScreen extends React.Component {
                   </View>
 
                   <View style={{ borderBottomLeftRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
-                    <Image source={{ uri: 'http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg' }} style={[MyStyles.background_image]} />
-                    <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>NEW ARRIVALARRIVALARRIVAL</Text>
+                    <Image source={{ uri: Common.getImageUrl(this.state.bestProductBanner.image_list) }} style={[MyStyles.background_image]} />
+                    <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>{this.state.bestProductBanner.title}</Text>
                   </View>
 
                 </View>
@@ -386,7 +409,7 @@ export default class HomeScreen extends React.Component {
                       pageSize={this.BannerWidth - 30}
                       style={{ alignSelf: "center", flex: 1 }}
                     >
-                      {this.state.bannerImages.map((image, index) => this.renderTodayArticleBanner(image, index))}
+                      {this.state.result_data.latest_article_list.map((item, index) => this.renderTodayArticleBanner(item, index))}
                     </Carousel>
                   </View>
                 </View>
@@ -426,5 +449,58 @@ export default class HomeScreen extends React.Component {
         </KeyboardAvoidingView>
       </View>
     );
+  }
+  
+  requestHomeList() {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.home.homeList, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token' : global.login_info.token
+
+      },
+      body: JSON.stringify({
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+          result_data: responseJson.result_data
+        });
+        try {
+          this.setState( {
+            'newProductBanner': {
+              'image_list': this.state.result_data.new_product_list[0].image_list,
+              'title' : this.state.result_data.new_product_list[0].title,
+            }
+          })
+        } catch (error) {
+          
+        }
+        try {
+          this.setState( {
+            'bestProductBanner': {
+              'image_list': this.state.result_data.best_product_list[0].image_list,
+              'title' : this.state.result_data.best_product_list[0].title,
+            }
+          })
+        } catch (error) {
+          
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+
   }
 }

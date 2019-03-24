@@ -1,22 +1,30 @@
-import React, { Component } from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Modal,
-  TouchableHighlight,
-} from 'react-native';
 import { ImagePicker } from 'expo';
+import React from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-whc-toast';
+import { Image, AsyncStorage, KeyboardAvoidingView, Modal, ScrollView, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import MyStyles from '../../constants/MyStyles'
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
+import MyConstants from '../../constants/MyConstants';
+import Models from '../../Net/Models';
 
 export default class SignupScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      savePressed: false,
+      selectedImage: null,
+      uploadedImagePath: null,
+      email: null,
+      id: null,
+      password: null,
+      password_confirm: null,
+      askInputQueModal: false,
+    };
+  }
 
   Necessarry = (
     <Text style={{ color: "#efb5cc", fontSize: 13 }}>
@@ -24,18 +32,8 @@ export default class SignupScreen extends React.Component {
     </Text>
   );
 
-  state = {
-    savePressed: false,
-    image: null,
-    email: null,
-    id: null,
-    password: null,
-    password_confirm: null,
-    modalVisible: false,
-  };
-
-  showAskInputModal = (visible) => {
-    this.setState({ modalVisible: visible });
+  showAskInputQueModal = (visible) => {
+    this.setState({ askInputQueModal: visible });
   }
 
 
@@ -66,11 +64,11 @@ export default class SignupScreen extends React.Component {
   }
 
   onSavePressed = () => {
-    this.showAskInputModal();
-    return
     // 유효한 값들이 입력되었는지 검사
-    if (this.state.email && this.state.id && this.state.password && this.state.password_confirm && this.state.email.length > 0 && this.state.id.length >= 4 && this.state.password.length >= 8 && this.state.password == this.state.password_confirm) {
-      // 저장하고 저장이 성공하면 추가정보 입력 modal 띄우기.
+    if (this.state.email && this.state.id && this.state.password && this.state.password_confirm &&
+      this.state.email.length > 0 && this.state.id.length >= 4 && this.state.password.length >= 8 &&
+      this.state.password == this.state.password_confirm) {
+      this.requestRegister(this.state.email, this.state.id, this.state.password, this.state.password_confirm, this.state.uploadedImagePath)
     } else {
       this.setState({ savePressed: true });
     }
@@ -78,10 +76,19 @@ export default class SignupScreen extends React.Component {
   }
 
   render() {
-    let { savePressed, image, email, id, password, password_confirm } = this.state;
+    let { savePressed, selectedImage: image, email, id, password, password_confirm } = this.state;
     return (
 
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
+        <Spinner
+          //visibility of Overlay Loading Spinner
+          visible={this.state.isLoading}
+          //Text with the Spinner 
+          textContent={MyConstants.Loading_text}
+          //Text style of the Spinner Text
+          textStyle={MyStyles.spinnerTextStyle}
+        />
+        <Toast ref='toast' />
         <TopbarWithBlackBack onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
 
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
@@ -165,14 +172,14 @@ export default class SignupScreen extends React.Component {
         <Modal
           animationType="slide"
           transparent={true}
-          visible={this.state.modalVisible}
+          visible={this.state.askInputQueModal}
           onRequestClose={() => {
           }}>
           <View style={{ flex: 1 }}>
             <View style={MyStyles.modal_bg}>
               <View style={MyStyles.modalContainer}>
-                <TouchableOpacity style={ MyStyles.modal_close_btn } onPress={() => {
-                  this.setState({ modalVisible: false });
+                <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                  this.setState({ askInputQueModal: false });
                   this.props.navigation.navigate('Home')
                 }}>
                   <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
@@ -182,7 +189,7 @@ export default class SignupScreen extends React.Component {
                 <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Tell us little more about you so {"\n"} we can find recommendation!</Text>
 
                 <View style={{ flexDirection: "row" }}>
-                  <TouchableHighlight
+                  <TouchableHighlight onPress={() => { this.refs.toast.showBottom("2차개발 준비중") }}
                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
                     <Text style={MyStyles.btn_primary}>Yes</Text>
                   </TouchableHighlight>
@@ -190,7 +197,7 @@ export default class SignupScreen extends React.Component {
                   <TouchableHighlight
                     style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
                     onPress={() => {
-                      this.setState({ modalVisible: false });
+                      this.setState({ askInputQueModal: false });
                       this.props.navigation.navigate('Home')
                     }}>
                     <Text style={MyStyles.btn_primary_white}>Not now</Text>
@@ -215,8 +222,101 @@ export default class SignupScreen extends React.Component {
     console.log(result);
 
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.setState({ selectedImage: result.uri });
+      this.uploadUserPhoto(result)
     }
   };
 
+  // Net
+  uploadUserPhoto(image) {
+    this.setState({
+      isLoading: true,
+    });
+    imgUri = image.uri.replace("file://", "")
+    let fileType = imgUri.substring(imgUri.lastIndexOf(".") + 1);
+
+    const data = new FormData();
+    console.log(imgUri)
+    data.append('file', {
+      uri: image.uri,
+      type: `image/${fileType}`,
+      name: image.uri.substring(image.uri.lastIndexOf("/") + 1)
+    })
+
+    console.log(data)
+    fetch(Net.upload.image.user, {
+      method: 'POST',
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "multipart/form-data"
+      },
+      body: data
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        result_code = responseJson.result_code;
+        if (result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+        } else {
+          this.setState({
+            isLoading: false,
+            uploadedImagePath: responseJson.result_data.upload_path
+          });
+        }
+        console.log(responseJson)
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestRegister(p_email, p_user_id, p_pwd, p_pwd2, p_profile_image) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.auth.register, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        email: p_email,
+        user_id: p_user_id,
+        password: p_pwd,
+        password2: p_pwd2,
+        profile_image: p_profile_image,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        this.setState({
+          isLoading: false
+        });
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+        } else {
+          console.log(global.login_user);
+          Models.login_user = responseJson.login_user;
+          global.login_user = Models.login_user;
+          console.log("requestRegister--------")
+          console.log(responseJson.login_user);
+          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
+          this.showAskInputQueModal();
+        }
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+        console.log("error----------------\n" + error)
+      })
+      .done();
+  }
 }

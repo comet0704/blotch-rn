@@ -697,4 +697,15 @@ export default StyleSheet.create({
     fontSize:13,
     color:Colors.primary_dark,
   },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    textAlign: 'center',
+    paddingTop: 30,
+    backgroundColor: '#ecf0f1',
+    padding: 8,
+  },
+  spinnerTextStyle: {
+    color: '#FFF',
+  },
 });

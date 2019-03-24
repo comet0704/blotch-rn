@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { ImagePicker } from 'expo';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import { MyStyles } from '../../constants/MyStyles'
+import MyStyles from '../../constants/MyStyles'
 
 export default class FindPwdScreen extends React.Component {
 
