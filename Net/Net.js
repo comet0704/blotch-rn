@@ -20,5 +20,16 @@ export default {
         detail: MyConstants.SERVER_URL + "/banner/detail",
         commentList: MyConstants.SERVER_URL + "/banner/commentList",
         postComment: MyConstants.SERVER_URL + "/banner/postComment",
+        list2: MyConstants.SERVER_URL + "/banner/list2",
+    },
+    product : {
+        newList: MyConstants.SERVER_URL + "/product/newList",        
+        like: MyConstants.SERVER_URL + "/product/like",        
+        unlike: MyConstants.SERVER_URL + "/product/unlike",        
+        detail: MyConstants.SERVER_URL + "/product/detail",        
+        ingredientList: MyConstants.SERVER_URL + "/product/ingredientList",        
+    },
+    ingredient : {
+        userIngredientList: MyConstants.SERVER_URL + "/ingredient/userIngredientList",               
     },
 };

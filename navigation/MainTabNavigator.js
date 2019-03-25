@@ -117,12 +117,12 @@ LoginStack.navigationOptions = {
   tabBarVisible:false,
   
 };
-
+global.login_info = {};
 export default createBottomTabNavigator({
   HomeStack,
+  ProductStack,
   LoginStack,
   LinksStack,
-  ProductStack,
   SettingsStack,
 }, {
   backBehavior: "history",

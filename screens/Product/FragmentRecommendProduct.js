@@ -109,7 +109,7 @@ export class FragmentRecommendProduct extends React.Component {
     },
   ];
   state = {
-    no_search_result: true,
+    no_search_result: false,
     filterModalVisible: false,
     weatherType: "dry",
     bannerImages: [

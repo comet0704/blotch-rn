@@ -501,8 +501,10 @@ export default class HomeScreen extends React.Component {
         } catch (error) {
           
         }
-        this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
+      // this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
       // this.props.navigation.navigate("Article");
+      // this.props.navigation.navigate("ProductContainer") 
+      this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
       })
       .catch((error) => {
         this.setState({

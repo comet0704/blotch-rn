@@ -1,4 +1,5 @@
 export default {
+  ITEMS_PER_PAGE : 30,
   SERVER_URL : "http://192.168.0.74:3000",
   UPLOAD_SERVER_URL : "http://192.168.0.74:3001/",
   CategoryName : {
@@ -16,6 +17,26 @@ export default {
     baby : "Baby",
     men : "Men",
   },
+  SubCategoryname : {
+    toner: "Toner",
+    lotion: "Lotion",
+    cream: "Cream",
+    sun_block: "Sun block",
+    after_care: "After care",
+    base: "Base",
+    eye : "Eye",
+    lip: "Lip",
+    remover: "Remover",
+    cleanser: "Cleanser",
+    peeling: "Peeling",
+    cleanser: "Cleanser",
+    lotion: "Lotion",
+    shampoo: "Shampoo",
+    treatment: "Treatment",
+    essense: "Essense",
+    nail_care: "Nail care",
+    toothpaste: "Toothpaste",
+  },  
   Loading_text:"Loading...",
   ASYNC_PARAMS : {
     login_info : "LoginInfo"
