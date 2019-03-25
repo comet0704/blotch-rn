@@ -12,7 +12,7 @@ import FindPwdScreen from '../screens/Login/FindPwdScreen';
 import FaqScreen from '../screens/Home/FaqScreen';
 import AboutUsScreen from '../screens/Home/AboutUsScreen';
 import BannerDetailScreen from '../screens/Home/BannerDetailScreen';
-import ArticlesScreen from '../screens/Home/Articles';
+import ArticlesScreen from '../screens/Home/ArticlesScreen';
 import Colors from '../constants/Colors';
 import ProductContainerScreen from '../screens/Product/ProductContainerScreen';
 import ProductDetailScreen from '../screens/Product/ProductDetailScreen';
@@ -57,8 +57,8 @@ HomeStack.navigationOptions = {
 };
 
 const ProductStack = createStackNavigator({
-  ProductDetail: ProductDetailScreen,
   ProductContainer: ProductContainerScreen,
+  ProductDetail: ProductDetailScreen,
 },
 {
   headerMode: 'screen ',

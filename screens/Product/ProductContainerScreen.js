@@ -142,23 +142,6 @@ export default class ProductContainerScreen extends React.Component {
   BannerHeight = 560 / 3;
   BannerWidth = Dimensions.get('window').width;
   ScreenWidth = Dimensions.get('window').width;
-
-  renderBanner(image, index) {
-    return (
-      <View key={index}>
-        <TouchableHighlight onPressIn={() => { this.props.navigation.navigate("BannerDetail") }}>
-          <View>
-            <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: image }} />
-            <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
-              <Text style={{ fontSize: 13, color: "white" }}>ESTEE LAUDER</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 24 }}>Advanced Night Repair</Text>
-            </View>
-          </View>
-        </TouchableHighlight>
-      </View>
-    );
-  }
-
   beforeCatIdx = 0;
   onCategorySelect = (p_catName) => {
     const categoryItems = [...this.state.categoryItems]
@@ -220,15 +203,14 @@ export default class ProductContainerScreen extends React.Component {
           tabBarUnderlineStyle={{ backgroundColor: Colors.primary_purple }}
           renderTabBar={() => <DefaultTabBar />}
         >
-
           <View tabLabel="Best" style={{ flex: 1 }}>
-            <FragmentBestProduct></FragmentBestProduct>
+            <FragmentBestProduct navigation = {this.props.navigation} ></FragmentBestProduct>
           </View>
           <View tabLabel="Recommendation" style={{ flex: 1 }}>
-            <FragmentRecommendProduct></FragmentRecommendProduct>
+            <FragmentRecommendProduct navigation = {this.props.navigation} ></FragmentRecommendProduct>
           </View>
-          <View tabLabel="New" style={{ flex: 1 }}>
-            <FragmentNewProduct></FragmentNewProduct>
+          <View tabLabel="New"style={{ flex: 1 }}>
+            <FragmentNewProduct  navigation = {this.props.navigation} ></FragmentNewProduct>
           </View>
         </ScrollableTabView>
 

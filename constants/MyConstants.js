@@ -19,5 +19,9 @@ export default {
   Loading_text:"Loading...",
   ASYNC_PARAMS : {
     login_info : "LoginInfo"
-  }
+  },
+  NAVIGATION_PARAMS : {
+    item_id: "item_id",
+    back_page: "back_page",
+  },
 };

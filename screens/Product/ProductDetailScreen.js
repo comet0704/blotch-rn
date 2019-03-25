@@ -68,7 +68,7 @@ export default class ProductDetailScreen extends React.Component {
   renderBanner(image, index) {
     return (
       <View key={index}>
-        <TouchableHighlight onPressIn={() => { this.props.navigation.navigate("BannerDetail") }}>
+        <TouchableHighlight>
           <View>
             <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: image }} />
             <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>

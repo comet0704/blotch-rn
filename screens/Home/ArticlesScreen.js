@@ -14,32 +14,20 @@ import { LinearGradient } from 'expo';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 
 export default class ArticlesScreen extends React.Component {
+  offset = 0;
   constructor(props) {
     super(props);
     this.state = {
       isLoading:false,
       result_data: {
-        "list": [
-          {
-            "id": 2,
-            "title": "기사2",
-            "image": "uploads/product/charisse-kenion-746077-unsplash.jpg",
-            "url": "www.naver.com"
-          },
-          {
-            "id": 1,
-            "title": "기사1",
-            "image": "uploads/product/caleb-simpson-1394514-unsplash.jpg",
-            "url": "www.naver.com"
-          }
-        ]
+        list: []
       }
     };    
   }
 
 
   componentDidMount() {
-    this.requestArticleList('0');
+    this.requestArticleList(this.offset);
   }
 
   renderArticle(item, index) {
@@ -84,7 +72,7 @@ export default class ArticlesScreen extends React.Component {
         <ScrollView
           onScroll={({nativeEvent}) => {
             if (Common.scrollIsCloseToBottom(nativeEvent)) {
-              
+              this.requestArticleList(this.offset)
             }
           }}
          style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
@@ -108,7 +96,7 @@ export default class ArticlesScreen extends React.Component {
         'x-access-token' : global.login_info.token
       },
       body: JSON.stringify({
-        offset:p_offset
+        offset:p_offset.toString()
       }),
     })
       .then((response) => response.json())
@@ -116,8 +104,15 @@ export default class ArticlesScreen extends React.Component {
         console.log(responseJson);
         this.setState({
           isLoading: false,
-          result_data: responseJson.result_data
         });
+        if(responseJson.result_code < 0) {          
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.offset += responseJson.result_data.list.length
+        const list = this.state.result_data.list
+        result = {list : [ ...list, ...responseJson.result_data.list]};
+        this.setState({ result_data : result})
       })
       .catch((error) => {
         this.setState({

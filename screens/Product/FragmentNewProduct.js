@@ -20,6 +20,9 @@ import { FlatGrid } from 'react-native-super-grid';
 import MyConstants from '../../constants/MyConstants';
 
 export class FragmentNewProduct extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
   categoryItems = [
     {
@@ -143,7 +146,8 @@ export class FragmentNewProduct extends React.Component {
   renderBanner(image, index) {
     return (
       <View key={index}>
-        <TouchableHighlight onPressIn={() => { this.props.navigation.navigate("BannerDetail") }}>
+        <TouchableHighlight onPressIn={() => { this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 5, [MyConstants.NAVIGATION_PARAMS.back_page] : "ProductContainer"}) 
+          }}>
           <View>
             <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: image }} />
             <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>

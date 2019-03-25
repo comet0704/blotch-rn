@@ -57,6 +57,7 @@ export default class HomeScreen extends React.Component {
       }
     };
   }
+
   static navigationOptions = {
     header: null,
   };
@@ -69,7 +70,9 @@ export default class HomeScreen extends React.Component {
   renderBanner(item, index) {
     return (
       <View key={index}>
-        <TouchableHighlight onPressIn={() => { this.props.navigation.navigate("BannerDetail") }}>
+        <TouchableHighlight onPressIn={() => { 
+          this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
+          }}>
           <View>
             <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
@@ -254,7 +257,7 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* We can search it */}
-              <TouchableOpacity style={[MyStyles.container, { marginTop: 23}]}>
+              <TouchableOpacity style={[MyStyles.container, { marginTop: 23}]} onPress={() => {alert("2차 개발 준비중입니다.")}}>
                 <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                   <View style={{ flex: 1 }}>
                     <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
@@ -269,7 +272,7 @@ export default class HomeScreen extends React.Component {
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { alert("go We recomment it"); }}>more ></Text>
+                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { this.props.navigation.navigate("ProductContainer") }}>more ></Text>
                 </View>
                 <View style={{
                   flex: 1,
@@ -473,6 +476,11 @@ export default class HomeScreen extends React.Component {
           isLoading: false,
           result_data: responseJson.result_data
         });
+        
+        if(responseJson.result_code < 0) {          
+          this.refs.toast.showBottom(responseJson.result_msg);
+        }
+
         try {
           this.setState( {
             'newProductBanner': {
@@ -493,6 +501,8 @@ export default class HomeScreen extends React.Component {
         } catch (error) {
           
         }
+        this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
+      // this.props.navigation.navigate("Article");
       })
       .catch((error) => {
         this.setState({
