@@ -32,25 +32,26 @@ export class FragmentProductDetailIngredients extends React.Component {
   constructor(props) {
     super(props)
     this.item_id = this.props.item_id    
+    this.state = {
+      isLoading:false,
+      tabbar: {
+        Good: true,
+        Normal: false,
+        Bad: false,
+      },
+      curSelectedIngredient: -1,
+      selectedIngredientType: 1, // Good, Normal, Bad 분류하기 위함.
+      ingredient_list_result_data: {
+        product_ingredient_list: []
+      },
+      user_ingredient_list_result_data: {
+        user_ingredient_list: [
+  
+        ]
+      }
+    };
   }
-  state = {
-    isLoading:false,
-    tabbar: {
-      Good: true,
-      Normal: false,
-      Bad: false,
-    },
-    curSelectedIngredient: -1,
-    selectedIngredientType: 1, // Good, Normal, Bad 분류하기 위함.
-    ingredient_list_result_data: {
-      product_ingredient_list: []
-    },
-    user_ingredient_list_result_data: {
-      user_ingredient_list: [
-
-      ]
-    }
-  };
+  
   componentDidMount() {
     this.requestIngredientList(this.item_id)
     this.requestUserIngredientList()

@@ -209,7 +209,7 @@ export default class ProductDetailScreen extends React.Component {
               </View>
 
               <View>
-                {this.state.tabbar.Ingredients ? <FragmentProductDetailIngredients item_id={item_id}></FragmentProductDetailIngredients> : <FragmentProductDetailReviews></FragmentProductDetailReviews>}
+                {this.state.tabbar.Ingredients ? <FragmentProductDetailIngredients item_id={item_id}></FragmentProductDetailIngredients> : <FragmentProductDetailReviews item_id={item_id} comment_count = {this.state.product_detail_result_data.detail.comment_count}></FragmentProductDetailReviews>}
               </View>
             </View>
           </View>

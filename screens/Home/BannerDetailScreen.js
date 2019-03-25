@@ -21,6 +21,7 @@ export default class BannerDetailScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading_end: false,
       modalVisible: false,
       banner_detail_result_data: {
         detail: {
@@ -44,7 +45,8 @@ export default class BannerDetailScreen extends React.Component {
     item_id = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_id)
     back_page = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.back_page)
     this.requestBannerDetail(item_id);
-    this.requestBannerCommentList(item_id, this.offset);
+    this.setState({loading_end : false})
+    this.requestBannerCommentList(item_id, 0);
   }
   
   beforeCommentIdx = -1;
@@ -69,6 +71,7 @@ export default class BannerDetailScreen extends React.Component {
       banner_detail_result_data.detail.comment_count += 1;
       this.setState({ banner_comment_list_result_data : result, banner_detail_result_data : banner_detail_result_data})
     } else { // 자식댓글의 경우 보무댓글의 밑에 추가. 현재는 구현이 말째서 api 다시 호출해주겠음.
+      this.setState({loading_end : false})
       this.requestBannerCommentList(item_id, 0);
       return
     }
@@ -173,7 +176,7 @@ export default class BannerDetailScreen extends React.Component {
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({nativeEvent}) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent)) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
               this.requestBannerCommentList(item_id, this.offset);
             }
           }}>
@@ -425,7 +428,11 @@ ple</Text>
         if(responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
         }        
-        this.offset += responseJson.result_data.comment_list.length
+        this.offset += responseJson.result_data.comment_list.length        
+        if(responseJson.result_data.comment_list.length < MyConstants.ITEMS_PER_PAGE) {
+          this.setState({loading_end : true})
+        }
+        
         if(p_offset == 0) {          
           this.setState({
             banner_comment_list_result_data: responseJson.result_data

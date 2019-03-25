@@ -28,6 +28,8 @@ export default {
         unlike: MyConstants.SERVER_URL + "/product/unlike",        
         detail: MyConstants.SERVER_URL + "/product/detail",        
         ingredientList: MyConstants.SERVER_URL + "/product/ingredientList",        
+        commentList: MyConstants.SERVER_URL + "/product/commentList",
+        postComment: MyConstants.SERVER_URL + "/product/postComment",        
     },
     ingredient : {
         userIngredientList: MyConstants.SERVER_URL + "/ingredient/userIngredientList",               
