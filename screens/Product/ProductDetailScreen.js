@@ -322,6 +322,7 @@ export default class ProductDetailScreen extends React.Component {
         });
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(error);
+          return;
         }
 
       })

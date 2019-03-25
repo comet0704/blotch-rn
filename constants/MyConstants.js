@@ -44,5 +44,6 @@ export default {
   NAVIGATION_PARAMS : {
     item_id: "item_id",
     back_page: "back_page",
+    product_container_initial_page: "product_container_initial_page",
   },
 };

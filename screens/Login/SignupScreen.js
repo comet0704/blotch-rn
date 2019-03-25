@@ -299,6 +299,7 @@ export default class SignupScreen extends React.Component {
         });
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
+          return;
         } else {
           console.log(global.login_user);
           Models.login_user = responseJson.login_user;

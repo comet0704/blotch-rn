@@ -15,6 +15,9 @@ export default {
     },
     article : {
         list: MyConstants.SERVER_URL + "/article/list",
+        detail: MyConstants.SERVER_URL + "/article/detail",
+        commentList: MyConstants.SERVER_URL + "/article/commentList",
+        postComment: MyConstants.SERVER_URL + "/article/postComment",
     },
     banner : {
         detail: MyConstants.SERVER_URL + "/banner/detail",

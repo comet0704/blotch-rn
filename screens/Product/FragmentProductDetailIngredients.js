@@ -239,6 +239,7 @@ export class FragmentProductDetailIngredients extends React.Component {
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
+          return;
         }
         this.setState({
           ingredient_list_result_data: responseJson.result_data
@@ -275,6 +276,7 @@ export class FragmentProductDetailIngredients extends React.Component {
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
+          return;
         }
 
         this.setState({

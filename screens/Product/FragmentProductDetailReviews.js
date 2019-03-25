@@ -325,6 +325,7 @@ export class FragmentProductDetailReviews extends React.Component {
         
         if(responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
+          return;
         }        
         this.offset += responseJson.result_data.comment_list.length        
         if(responseJson.result_data.comment_list.length < MyConstants.ITEMS_PER_PAGE) {
@@ -379,6 +380,7 @@ export class FragmentProductDetailReviews extends React.Component {
         });
         if(responseJson.result_code < 0) {          
           this.refs.toast.showBottom(responseJson.result_msg);
+          return;
         }
         // 댓글 추가해주자.
         this.onCommentPosted(responseJson.result_data.comment, p_parent)

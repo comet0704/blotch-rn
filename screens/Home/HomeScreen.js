@@ -88,7 +88,7 @@ export default class HomeScreen extends React.Component {
   renderNewProductBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go product detail") }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) }}>
           <View style={{ flex: 1 }}>
             <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
             <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
@@ -107,7 +107,7 @@ export default class HomeScreen extends React.Component {
   renderBestProductBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go product detail") }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) }}>
           <View style={{ flex: 1 }}>
             <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
             <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
@@ -127,7 +127,7 @@ export default class HomeScreen extends React.Component {
   renderTodayArticleBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 166, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go article detail") }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"})  }}>
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
             <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
             <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
@@ -153,7 +153,7 @@ export default class HomeScreen extends React.Component {
         >
           {this.state.result_data.trend_article_list.map(item => (
             <View key={item.id} style={{ width: 150, height: 75, flex: 1, marginRight: 10 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go article detail" )}}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"})  }}>
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
                   <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
                   <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
@@ -272,7 +272,8 @@ export default class HomeScreen extends React.Component {
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { this.props.navigation.navigate("ProductContainer") }}>more ></Text>
+                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => 
+                     this.props.navigation.navigate("ProductContainer", {[MyConstants.NAVIGATION_PARAMS.product_container_initial_page] : 2}) }>more ></Text>
                 </View>
                 <View style={{
                   flex: 1,
@@ -305,7 +306,8 @@ export default class HomeScreen extends React.Component {
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Hi, It's New</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { alert("go new more page"); }}>more ></Text>
+                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }}
+                   onPress={() => { this.props.navigation.navigate("ProductContainer", {[MyConstants.NAVIGATION_PARAMS.product_container_initial_page] : 0}) }}>more ></Text>
                 </View>
                 <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, }}>
                   <View style={{ borderBottomRightRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
@@ -350,7 +352,7 @@ export default class HomeScreen extends React.Component {
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Best Choice</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { alert("go new more page"); }}>more ></Text>
+                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { this.props.navigation.navigate("ProductContainer", {[MyConstants.NAVIGATION_PARAMS.product_container_initial_page] : 1}) }}>more ></Text>
                 </View>
                 <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30 }}>
                   <View style={{ flex: 1, justifyContent: "center" }}>
@@ -420,7 +422,7 @@ export default class HomeScreen extends React.Component {
                 {/* What's trending */}
                 <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>What's Trending</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { alert("go new What's Trending page"); }}>more ></Text>
+                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { this.props.navigation.navigate("Article") }}>more ></Text>
                 </View>
                 <View style={{
                   flex: 1,
@@ -479,6 +481,7 @@ export default class HomeScreen extends React.Component {
         
         if(responseJson.result_code < 0) {          
           this.refs.toast.showBottom(responseJson.result_msg);
+          return;
         }
 
         try {
@@ -504,7 +507,8 @@ export default class HomeScreen extends React.Component {
       // this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
       // this.props.navigation.navigate("Article");
       // this.props.navigation.navigate("ProductContainer") 
-      this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
+      // this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
+      // this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
       })
       .catch((error) => {
         this.setState({

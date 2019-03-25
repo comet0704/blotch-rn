@@ -16,10 +16,12 @@ import ArticlesScreen from '../screens/Home/ArticlesScreen';
 import Colors from '../constants/Colors';
 import ProductContainerScreen from '../screens/Product/ProductContainerScreen';
 import ProductDetailScreen from '../screens/Product/ProductDetailScreen';
+import ArticleDetailScreen from '../screens/Home/ArticleDetailScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Article: ArticlesScreen,
+  ArticleDetail: ArticleDetailScreen,
   Faq: FaqScreen,
   BannerDetail: BannerDetailScreen,
   AboutUs: {

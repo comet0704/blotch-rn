@@ -272,6 +272,7 @@ export class FragmentNewProduct extends React.Component {
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
+          return;
         }
         if (p_offset == 0) { // 카테고리 선택했을대 offset값을 0에서부터 검색해야 함.
           this.offset = 0;
@@ -323,6 +324,7 @@ export class FragmentNewProduct extends React.Component {
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
+          return;
         }
 
         this.setState({

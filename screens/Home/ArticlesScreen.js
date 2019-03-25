@@ -18,6 +18,7 @@ export default class ArticlesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading_end: false,
       isLoading:false,
       result_data: {
         list: []
@@ -27,12 +28,13 @@ export default class ArticlesScreen extends React.Component {
 
 
   componentDidMount() {
+    this.setState({loading_end : false})
     this.requestArticleList(this.offset);
   }
 
   renderArticle(item, index) {
     return (
-      <View key={item.id} style={[MyStyles.container, { flex: 1 }]}>
+      <TouchableOpacity key={item.id} style={[MyStyles.container, { flex: 1 }]} onPress = {() => {this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) }}>
         <View style={[{ marginTop: 15, flex: 1, flexDirection: "row" }]}>
           <View style={{ flex: 1 }}>
             <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>
@@ -51,7 +53,7 @@ export default class ArticlesScreen extends React.Component {
         </View>
 
         <View style={[MyStyles.seperate_line_e5e5e5, { marginTop: 10 }]}></View>
-      </View>
+      </TouchableOpacity>
     );
   }
   render() {
@@ -71,7 +73,7 @@ export default class ArticlesScreen extends React.Component {
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <ScrollView
           onScroll={({nativeEvent}) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent)) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
               this.requestArticleList(this.offset)
             }
           }}
@@ -110,6 +112,10 @@ export default class ArticlesScreen extends React.Component {
           return
         }
         this.offset += responseJson.result_data.list.length
+        if(responseJson.result_data.list.length < MyConstants.ITEMS_PER_PAGE) {
+          this.setState({loading_end : true})
+        }
+        
         const list = this.state.result_data.list
         result = {list : [ ...list, ...responseJson.result_data.list]};
         this.setState({ result_data : result})

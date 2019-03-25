@@ -23,6 +23,16 @@ import { FragmentBestProduct } from './FragmentBestProduct';
 import { FragmentRecommendProduct } from './FragmentRecommendProduct';
 
 export default class ProductContainerScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    initialPage = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.product_container_initial_page)
+    // this.setState({initialPage: 2})
+    this.state = {
+      initialPage: initialPage
+    }
+  }
+  componentDidMount() {
+  }
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
@@ -30,7 +40,7 @@ export default class ProductContainerScreen extends React.Component {
         <TopbarWithBlackBack title="Product" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
         <ScrollableTabView
           style={{ height: 20, borderBottomWidth: 0, marginTop: 10 }}
-          initialPage={0}
+          initialPage={this.state.initialPage}
           tabBarInactiveTextColor={Colors.color_dcdedd}
           tabBarActiveTextColor={Colors.primary_dark}
           tabBarTextStyle={{ fontWeight: "400", fontSize: 14 }}
