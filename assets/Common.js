@@ -2,14 +2,19 @@ import MyConstants from "../constants/MyConstants";
 import MyStyles from "../constants/MyStyles";
 
 export default {
-    getImageUrl(image_list) {
-        return MyConstants.UPLOAD_SERVER_URL + image_list.split("###")[0]
-    },
-    scrollIsCloseToBottom({layoutMeasurement, contentOffset, contentSize}){
-        const paddingToBottom = 20;
-        return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
-    },
-    categoryItems : [
+  getImageUrl(image_list) {
+    return MyConstants.UPLOAD_SERVER_URL + image_list.split("###")[0]
+  },
+  scrollIsCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
+    const paddingToBottom = 20;
+    return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
+  },
+
+  getRandomColor() {
+    var ColorCode = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+    return ColorCode
+  },
+  categoryItems: [
     {
       categoryName: MyConstants.CategoryName.all,
       image_off: require("../assets/images/Categories/ic_all.png"),
@@ -27,16 +32,16 @@ export default {
       is_selected: false,
       sub_category: [
         {
-            name : MyConstants.SubCategoryname.toner,
-            is_selected : true,
+          name: MyConstants.SubCategoryname.toner,
+          is_selected: true,
         },
         {
-            name : MyConstants.SubCategoryname.lotion,
-            is_selected : false,
+          name: MyConstants.SubCategoryname.lotion,
+          is_selected: false,
         },
         {
-            name : MyConstants.SubCategoryname.cream,
-            is_selected : false,
+          name: MyConstants.SubCategoryname.cream,
+          is_selected: false,
         },
       ]
     },
@@ -57,12 +62,12 @@ export default {
       is_selected: false,
       sub_category: [
         {
-            name : MyConstants.SubCategoryname.sun_block,
-            is_selected : true,
+          name: MyConstants.SubCategoryname.sun_block,
+          is_selected: true,
         },
         {
-            name : MyConstants.SubCategoryname.after_care,
-            is_selected : false,
+          name: MyConstants.SubCategoryname.after_care,
+          is_selected: false,
         },
       ]
     },
@@ -74,16 +79,16 @@ export default {
       is_selected: false,
       sub_category: [
         {
-            name : MyConstants.SubCategoryname.base,
-            is_selected : true,
+          name: MyConstants.SubCategoryname.base,
+          is_selected: true,
         },
         {
-            name : MyConstants.SubCategoryname.eye,
-            is_selected : false,
+          name: MyConstants.SubCategoryname.eye,
+          is_selected: false,
         },
         {
-            name : MyConstants.SubCategoryname.lip,
-            is_selected : false,
+          name: MyConstants.SubCategoryname.lip,
+          is_selected: false,
         },
       ]
     },
@@ -95,16 +100,16 @@ export default {
       is_selected: false,
       sub_category: [
         {
-            name : MyConstants.SubCategoryname.remover,
-            is_selected : true,
+          name: MyConstants.SubCategoryname.remover,
+          is_selected: true,
         },
         {
-            name : MyConstants.SubCategoryname.cleanser,
-            is_selected : false,
+          name: MyConstants.SubCategoryname.cleanser,
+          is_selected: false,
         },
         {
-            name : MyConstants.SubCategoryname.peeling,
-            is_selected : false,
+          name: MyConstants.SubCategoryname.peeling,
+          is_selected: false,
         },
       ]
     },
@@ -116,12 +121,12 @@ export default {
       is_selected: false,
       sub_category: [
         {
-            name : MyConstants.SubCategoryname.cleanser,
-            is_selected : true,
+          name: MyConstants.SubCategoryname.cleanser,
+          is_selected: true,
         },
         {
-            name : MyConstants.SubCategoryname.lotion,
-            is_selected : false,
+          name: MyConstants.SubCategoryname.lotion,
+          is_selected: false,
         },
       ]
     },
@@ -133,16 +138,16 @@ export default {
       is_selected: false,
       sub_category: [
         {
-            name : MyConstants.SubCategoryname.shampoo,
-            is_selected : true,
+          name: MyConstants.SubCategoryname.shampoo,
+          is_selected: true,
         },
         {
-            name : MyConstants.SubCategoryname.treatment,
-            is_selected : false,
+          name: MyConstants.SubCategoryname.treatment,
+          is_selected: false,
         },
         {
-            name : MyConstants.SubCategoryname.essense,
-            is_selected : false,
+          name: MyConstants.SubCategoryname.essense,
+          is_selected: false,
         },
       ]
     },
@@ -154,12 +159,12 @@ export default {
       is_selected: false,
       sub_category: [
         {
-            name : MyConstants.SubCategoryname.colors,
-            is_selected : true,
+          name: MyConstants.SubCategoryname.colors,
+          is_selected: true,
         },
         {
-            name : MyConstants.SubCategoryname.nail_care,
-            is_selected : false,
+          name: MyConstants.SubCategoryname.nail_care,
+          is_selected: false,
         },
       ]
     },
@@ -180,8 +185,8 @@ export default {
       is_selected: false,
       sub_category: [
         {
-            name : MyConstants.SubCategoryname.toothpaste,
-            is_selected : true,
+          name: MyConstants.SubCategoryname.toothpaste,
+          is_selected: true,
         },
       ]
     },
@@ -203,5 +208,5 @@ export default {
       sub_category: [
       ]
     },
-  ], 
+  ],
 }

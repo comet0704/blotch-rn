@@ -124,7 +124,7 @@ export default createBottomTabNavigator({
   HomeStack,
   ProductStack,
   LoginStack,
-  // LinksStack,
+  LinksStack,
   // SettingsStack,
 }, {
   backBehavior: "history",

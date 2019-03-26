@@ -1,6 +1,6 @@
 // common
 import React from 'react';
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import MyStyles from '../../constants/MyStyles'
@@ -23,29 +23,22 @@ import {
 } from 'react-native';
 
 import { WebBrowser } from 'expo';
+import { NavigationEvents } from 'react-navigation';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
-    AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.login_info, (err, result) => {
-      global.login_info = JSON.parse(result);
-      if (global.login_info) {
-        this.requestHomeList()
-      } else {
-
-      }
-    });
     this.state = {
-      isLoading:false,
+      isLoading: false,
       weatherType: "dry",
       weatherInfo: "Seoul. -6˚C",
       result_data: {
-          recommend_product_list: [],
-          banner_list: [],
-          new_product_list: [],
-          best_product_list: [],
-          latest_article_list: [],
-          trend_article_list: [],
+        recommend_product_list: [],
+        banner_list: [],
+        new_product_list: [],
+        best_product_list: [],
+        latest_article_list: [],
+        trend_article_list: [],
       },
       newProductBanner: {
         image_list: "",
@@ -70,9 +63,9 @@ export default class HomeScreen extends React.Component {
   renderBanner(item, index) {
     return (
       <View key={index}>
-        <TouchableHighlight onPressIn={() => { 
-          this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
-          }}>
+        <TouchableHighlight onPressIn={() => {
+          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" })
+        }}>
           <View>
             <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
@@ -88,7 +81,7 @@ export default class HomeScreen extends React.Component {
   renderNewProductBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
           <View style={{ flex: 1 }}>
             <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
             <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
@@ -107,7 +100,7 @@ export default class HomeScreen extends React.Component {
   renderBestProductBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
           <View style={{ flex: 1 }}>
             <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
             <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
@@ -127,7 +120,7 @@ export default class HomeScreen extends React.Component {
   renderTodayArticleBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 166, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"})  }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
             <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
             <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
@@ -153,7 +146,7 @@ export default class HomeScreen extends React.Component {
         >
           {this.state.result_data.trend_article_list.map(item => (
             <View key={item.id} style={{ width: 150, height: 75, flex: 1, marginRight: 10 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"})  }}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
                   <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
                   <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
@@ -161,7 +154,7 @@ export default class HomeScreen extends React.Component {
                   </TouchableHighlight>
                   <View style={{ position: "absolute", bottom: 5, left: 5, maxWidth: 120 }}>
                     <Text style={{ fontSize: 12, color: "white" }}>{item.title}</Text>
-                    <Text style={{ fontSize: 14, color: "white", fontWeight: "bold"}} numberOfLines={1}>{item.content}</Text>
+                    <Text style={{ fontSize: 14, color: "white", fontWeight: "bold" }} numberOfLines={1}>{item.content}</Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -181,12 +174,12 @@ export default class HomeScreen extends React.Component {
           showsHorizontalScrollIndicator={false}
         >
           {this.state.result_data.recommend_product_list.map(item => (
-            <View key={item.id} style={{flex: 1, marginRight: 10, width:85 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go product detail")}}>
-                <Image style={{width:85, height:85, borderRadius:50, overflow:"hidden"}} source={{ uri: Common.getImageUrl(item.image_list) }} />
+            <View key={item.id} style={{ flex: 1, marginRight: 10, width: 85 }}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go product detail") }}>
+                <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image_list) }} />
               </TouchableOpacity>
-              <Text style={{ fontSize: 12, color: "#949393", marginTop:5, textAlign:"center" }} numberOfLines={1}>{item.brand_title}</Text>
-              <Text style={{ fontSize: 13, color: "#212122", fontWeight: "bold", textAlign:"center"}} numberOfLines={1}>{item.title}</Text>
+              <Text style={{ fontSize: 12, color: "#949393", marginTop: 5, textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
+              <Text style={{ fontSize: 13, color: "#212122", fontWeight: "bold", textAlign: "center" }} numberOfLines={1}>{item.title}</Text>
 
             </View>
           ))}
@@ -201,6 +194,19 @@ export default class HomeScreen extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
+        <NavigationEvents
+          onWillFocus={payload => {
+            AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.login_info, (err, result) => {
+              global.login_info = JSON.parse(result);
+              if (global.login_info == null) {
+                global.login_info = {
+                  token: ""
+                }
+              }
+              this.requestHomeList()
+            });
+          }}
+        />
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -257,7 +263,7 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* We can search it */}
-              <TouchableOpacity style={[MyStyles.container, { marginTop: 23}]} onPress={() => {alert("2차 개발 준비중입니다.")}}>
+              <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress={() => { alert("2차 개발 준비중입니다.") }}>
                 <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                   <View style={{ flex: 1 }}>
                     <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
@@ -272,8 +278,8 @@ export default class HomeScreen extends React.Component {
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => 
-                     this.props.navigation.navigate("ProductContainer", {[MyConstants.NAVIGATION_PARAMS.product_container_initial_page] : 2}) }>more ></Text>
+                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
+                    this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
                 </View>
                 <View style={{
                   flex: 1,
@@ -290,7 +296,7 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* 배너 부분 */}
-              <View style={{ borderTopRightRadius: 20, overflow: "hidden", marginTop:10}}>
+              <View style={{ borderTopRightRadius: 20, overflow: "hidden", marginTop: 10 }}>
                 <Carousel
                   autoplay
                   autoplayTimeout={3000}
@@ -307,7 +313,7 @@ export default class HomeScreen extends React.Component {
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Hi, It's New</Text>
                   <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }}
-                   onPress={() => { this.props.navigation.navigate("ProductContainer", {[MyConstants.NAVIGATION_PARAMS.product_container_initial_page] : 0}) }}>more ></Text>
+                    onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 0 }) }}>more ></Text>
                 </View>
                 <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, }}>
                   <View style={{ borderBottomRightRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
@@ -319,10 +325,10 @@ export default class HomeScreen extends React.Component {
                     <Carousel
                       autoplay={false}
                       onPageChanged={(index) => {
-                        this.setState( {
+                        this.setState({
                           'newProductBanner': {
                             'image_list': this.state.result_data.new_product_list[index].image_list,
-                            'title' : this.state.result_data.new_product_list[index].title,
+                            'title': this.state.result_data.new_product_list[index].title,
                           }
                         })
                       }}
@@ -352,7 +358,7 @@ export default class HomeScreen extends React.Component {
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Best Choice</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { this.props.navigation.navigate("ProductContainer", {[MyConstants.NAVIGATION_PARAMS.product_container_initial_page] : 1}) }}>more ></Text>
+                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 1 }) }}>more ></Text>
                 </View>
                 <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30 }}>
                   <View style={{ flex: 1, justifyContent: "center" }}>
@@ -360,14 +366,14 @@ export default class HomeScreen extends React.Component {
                       autoplay={false}
                       onPageChanged={(index) => {
                         try {
-                          this.setState( {
+                          this.setState({
                             'bestProductBanner': {
                               'image_list': this.state.result_data.best_product_list[index].image_list,
-                              'title' : this.state.result_data.best_product_list[index].title,
+                              'title': this.state.result_data.best_product_list[index].title,
                             }
-                          })  
-                        } catch (error) {                          
-                        }                        
+                          })
+                        } catch (error) {
+                        }
                       }}
                       showsPageIndicator={false}
                       loop
@@ -440,7 +446,7 @@ export default class HomeScreen extends React.Component {
                 {/* FAQ, About 버튼 부분 */}
                 <View style={[MyStyles.seperate_line_e5e5e5]}></View>
                 <View style={{ flexDirection: "row", justifyContent: "center", flex: 1, height: 53 }}>
-                  <TouchableOpacity style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("Faq")}}>
+                  <TouchableOpacity style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("Faq") }}>
                     <Text style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>FAQ</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("AboutUs"); }}>
@@ -455,7 +461,7 @@ export default class HomeScreen extends React.Component {
       </View>
     );
   }
-  
+
   requestHomeList() {
     this.setState({
       isLoading: true,
@@ -465,7 +471,7 @@ export default class HomeScreen extends React.Component {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'x-access-token' : global.login_info.token
+        'x-access-token': global.login_info.token
 
       },
       body: JSON.stringify({
@@ -478,37 +484,37 @@ export default class HomeScreen extends React.Component {
           isLoading: false,
           result_data: responseJson.result_data
         });
-        
-        if(responseJson.result_code < 0) {          
+
+        if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
 
         try {
-          this.setState( {
+          this.setState({
             'newProductBanner': {
               'image_list': this.state.result_data.new_product_list[0].image_list,
-              'title' : this.state.result_data.new_product_list[0].title,
+              'title': this.state.result_data.new_product_list[0].title,
             }
           })
         } catch (error) {
-          
+
         }
         try {
-          this.setState( {
+          this.setState({
             'bestProductBanner': {
               'image_list': this.state.result_data.best_product_list[0].image_list,
-              'title' : this.state.result_data.best_product_list[0].title,
+              'title': this.state.result_data.best_product_list[0].title,
             }
           })
         } catch (error) {
-          
+
         }
-      // this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
-      // this.props.navigation.navigate("Article");
-      // this.props.navigation.navigate("ProductContainer") 
-      // this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
-      // this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
+        // this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
+        // this.props.navigation.navigate("Article");
+        // this.props.navigation.navigate("ProductContainer") 
+        // this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
+        // this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
       })
       .catch((error) => {
         this.setState({

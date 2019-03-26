@@ -465,7 +465,6 @@ export default StyleSheet.create({
   },
   tabbar_button_container: {
     height: 145 / 3,
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",

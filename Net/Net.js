@@ -12,6 +12,8 @@ export default {
     },
     home : {
         homeList: MyConstants.SERVER_URL + "/home/homeList",
+        faqCategory: MyConstants.SERVER_URL + "/home/faqCategory",
+        faqList: MyConstants.SERVER_URL + "/home/faqList",
     },
     article : {
         list: MyConstants.SERVER_URL + "/article/list",
