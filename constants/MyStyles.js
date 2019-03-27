@@ -354,49 +354,97 @@ export default StyleSheet.create({
     width: 68 / 3,
     height: 84 / 3,
   },
+  ic_skin_care_small: {
+    width: 43 / 3,
+    height: 52 / 3,
+  },
   ic_mask: {
     width: 78 / 3,
     height: 84 / 3,
+  },
+  ic_mask_small: {
+    width: 48 / 3,
+    height: 52 / 3,
   },
   ic_sun_care: {
     width: 43 / 3,
     height: 84 / 3,
   },
+  ic_sun_care_small: {
+    width: 27 / 3,
+    height: 52 / 3,
+  },
   ic_make_up: {
     width: 66 / 3,
     height: 85 / 3,
+  },
+  ic_make_up_small: {
+    width: 40 / 3,
+    height: 52 / 3,
   },
   ic_cleansing: {
     width: 61 / 3,
     height: 84 / 3,
   },
+  ic_cleansing_small: {
+    width: 39 / 3,
+    height: 52 / 3,
+  },
   ic_body: {
     width: 99 / 3,
     height: 84 / 3,
+  },
+  ic_body_small: {
+    width: 60 / 3,
+    height: 52 / 3,
   },
   ic_hair: {
     width: 51 / 3,
     height: 84 / 3,
   },
+  ic_hair_small: {
+    width: 61 / 3,
+    height: 52 / 3,
+  },
   ic_nail: {
     width: 61 / 3,
     height: 84 / 3,
+  },
+  ic_nail_small: {
+    width: 31 / 3,
+    height: 52 / 3,
   },
   ic_perfume: {
     width: 69 / 3,
     height: 84 / 3,
   },
+  ic_perfume_small: {
+    width: 38 / 3,
+    height: 52 / 3,
+  },
   ic_oral: {
     width: 69 / 3,
     height: 84 / 3,
+  },
+  ic_oral_small: {
+    width: 41 / 3,
+    height: 52 / 3,
   },
   ic_baby: {
     width: 69 / 3,
     height: 84 / 3,
   },
+  ic_baby_small: {
+    width: 24 / 3,
+    height: 52 / 3,
+  },
   ic_men: {
     width: 69 / 3,
     height: 84 / 3,
+  },
+  ic_men_small: {
+    width: 44 / 3,
+    height: 52 / 3,
   },
   ic_all: {
     width: 40 / 3,
@@ -425,7 +473,6 @@ export default StyleSheet.create({
     color: Colors.color_d8d7d7,
     fontWeight: "400",
     textAlign: "center",
-    marginTop: 5,
   },
   ic_best_ranking: {
     width: 70 / 3,

@@ -20,6 +20,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_all.png"),
       image_on: require("../assets/images/Categories/ic_all_on.png"),
       image_style: MyStyles.ic_all,
+      image_style_small: MyStyles.ic_all,
       is_selected: true,
       sub_category: [
       ]
@@ -29,6 +30,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_skin_care.png"),
       image_on: require("../assets/images/Categories/ic_skin_care_on.png"),
       image_style: MyStyles.ic_skin_care,
+      image_style_small: MyStyles.ic_skin_care_small,
       is_selected: false,
       sub_category: [
         {
@@ -50,6 +52,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_mask.png"),
       image_on: require("../assets/images/Categories/ic_mask_on.png"),
       image_style: MyStyles.ic_mask,
+      image_style_small: MyStyles.ic_mask_small,
       is_selected: false,
       sub_category: [
       ]
@@ -59,6 +62,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_sun_care.png"),
       image_on: require("../assets/images/Categories/ic_sun_care_on.png"),
       image_style: MyStyles.ic_sun_care,
+      image_style_small: MyStyles.ic_sun_care_small,
       is_selected: false,
       sub_category: [
         {
@@ -76,6 +80,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_make_up.png"),
       image_on: require("../assets/images/Categories/ic_make_up_on.png"),
       image_style: MyStyles.ic_make_up,
+      image_style_small: MyStyles.ic_make_up_small,
       is_selected: false,
       sub_category: [
         {
@@ -97,6 +102,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_cleansing.png"),
       image_on: require("../assets/images/Categories/ic_cleansing_on.png"),
       image_style: MyStyles.ic_cleansing,
+      image_style_small: MyStyles.ic_cleansing_small,
       is_selected: false,
       sub_category: [
         {
@@ -118,6 +124,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_body.png"),
       image_on: require("../assets/images/Categories/ic_body_on.png"),
       image_style: MyStyles.ic_body,
+      image_style_small: MyStyles.ic_body_small,
       is_selected: false,
       sub_category: [
         {
@@ -135,6 +142,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_hair.png"),
       image_on: require("../assets/images/Categories/ic_hair_on.png"),
       image_style: MyStyles.ic_hair,
+      image_style_small: MyStyles.ic_hair_small,
       is_selected: false,
       sub_category: [
         {
@@ -156,6 +164,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_nail.png"),
       image_on: require("../assets/images/Categories/ic_nail_on.png"),
       image_style: MyStyles.ic_nail,
+      image_style_small: MyStyles.ic_nail_small,
       is_selected: false,
       sub_category: [
         {
@@ -173,6 +182,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_perfume.png"),
       image_on: require("../assets/images/Categories/ic_perfume_on.png"),
       image_style: MyStyles.ic_perfume,
+      image_style_small: MyStyles.ic_perfume_small,
       is_selected: false,
       sub_category: [
       ]
@@ -182,6 +192,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_oral.png"),
       image_on: require("../assets/images/Categories/ic_oral_on.png"),
       image_style: MyStyles.ic_oral,
+      image_style_small: MyStyles.ic_oral_small,
       is_selected: false,
       sub_category: [
         {
@@ -195,6 +206,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_baby.png"),
       image_on: require("../assets/images/Categories/ic_baby_on.png"),
       image_style: MyStyles.ic_baby,
+      image_style_small: MyStyles.ic_baby_small,
       is_selected: false,
       sub_category: [
       ]
@@ -204,6 +216,7 @@ export default {
       image_off: require("../assets/images/Categories/ic_men.png"),
       image_on: require("../assets/images/Categories/ic_men_on.png"),
       image_style: MyStyles.ic_men,
+      image_style_small: MyStyles.ic_men_small,
       is_selected: false,
       sub_category: [
       ]

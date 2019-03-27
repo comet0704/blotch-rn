@@ -19,95 +19,9 @@ import { LinearGradient } from 'expo';
 import MyStyles from '../../constants/MyStyles';
 import { FlatGrid } from 'react-native-super-grid';
 import MyConstants from '../../constants/MyConstants';
+import Common from '../../assets/Common';
 
 export class FragmentRecommendProduct extends React.Component {
-
-  categoryItems = [
-    {
-      categoryName: MyConstants.CategoryName.all,
-      image_off: require("../../assets/images/Categories/ic_all.png"),
-      image_on: require("../../assets/images/Categories/ic_all_on.png"),
-      image_style: MyStyles.ic_all,
-      is_selected: true,
-    },
-    {
-      categoryName: MyConstants.CategoryName.skin_care,
-      image_off: require("../../assets/images/Categories/ic_skin_care.png"),
-      image_on: require("../../assets/images/Categories/ic_skin_care_on.png"),
-      image_style: MyStyles.ic_skin_care,
-      is_selected: false,
-    },
-    {
-      categoryName: MyConstants.CategoryName.mask,
-      image_off: require("../../assets/images/Categories/ic_mask.png"),
-      image_on: require("../../assets/images/Categories/ic_mask_on.png"),
-      image_style: MyStyles.ic_mask,
-      is_selected: false,
-    },
-    {
-      categoryName: MyConstants.CategoryName.sun_care,
-      image_off: require("../../assets/images/Categories/ic_sun_care.png"),
-      image_on: require("../../assets/images/Categories/ic_sun_care_on.png"),
-      image_style: MyStyles.ic_sun_care,
-      is_selected: false,
-    },
-    {
-      categoryName: MyConstants.CategoryName.make_up,
-      image_off: require("../../assets/images/Categories/ic_make_up.png"),
-      image_on: require("../../assets/images/Categories/ic_make_up_on.png"),
-      image_style: MyStyles.ic_make_up,
-      is_selected: false,
-    },
-    {
-      categoryName: MyConstants.CategoryName.cleansing,
-      image_off: require("../../assets/images/Categories/ic_cleansing.png"),
-      image_on: require("../../assets/images/Categories/ic_cleansing_on.png"),
-      image_style: MyStyles.ic_cleansing,
-      is_selected: false,
-    },
-    {
-      categoryName: MyConstants.CategoryName.hair,
-      image_off: require("../../assets/images/Categories/ic_hair.png"),
-      image_on: require("../../assets/images/Categories/ic_hair_on.png"),
-      image_style: MyStyles.ic_hair,
-      is_selected: false,
-    },
-    {
-      categoryName: MyConstants.CategoryName.nail,
-      image_off: require("../../assets/images/Categories/ic_nail.png"),
-      image_on: require("../../assets/images/Categories/ic_nail_on.png"),
-      image_style: MyStyles.ic_nail,
-      is_selected: false,
-    },
-    {
-      categoryName: MyConstants.CategoryName.perfume,
-      image_off: require("../../assets/images/Categories/ic_perfume.png"),
-      image_on: require("../../assets/images/Categories/ic_perfume_on.png"),
-      image_style: MyStyles.ic_perfume,
-      is_selected: false,
-    },
-    {
-      categoryName: MyConstants.CategoryName.oral,
-      image_off: require("../../assets/images/Categories/ic_oral.png"),
-      image_on: require("../../assets/images/Categories/ic_oral_on.png"),
-      image_style: MyStyles.ic_oral,
-      is_selected: false,
-    },
-    {
-      categoryName: MyConstants.CategoryName.baby,
-      image_off: require("../../assets/images/Categories/ic_baby.png"),
-      image_on: require("../../assets/images/Categories/ic_baby_on.png"),
-      image_style: MyStyles.ic_baby,
-      is_selected: false,
-    },
-    {
-      categoryName: MyConstants.CategoryName.men,
-      image_off: require("../../assets/images/Categories/ic_men.png"),
-      image_on: require("../../assets/images/Categories/ic_men_on.png"),
-      image_style: MyStyles.ic_men,
-      is_selected: false,
-    },
-  ];
   state = {
     no_search_result: false,
     filterModalVisible: false,
@@ -136,7 +50,7 @@ export class FragmentRecommendProduct extends React.Component {
       { name: 'PUMPKIN', code: '#d35400' }, { name: 'POMEGRANATE', code: '#c0392b' },
       { name: 'SILVER', code: '#bdc3c7' }, { name: 'ASBESTOS', code: '#7f8c8d' },
     ],
-    mainCategoryItems: this.categoryItems,
+    mainCategoryItems: Common.categoryItems.splice(1, Common.categoryItems.length - 1),
   };
 
   BannerHeight = 560 / 3;
@@ -348,8 +262,8 @@ export class FragmentRecommendProduct extends React.Component {
                               <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
                                 <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
                                   {item.is_selected ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
-                                  <View style={{ flexDirection: "row" }}>
-                                    {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
+                                  <View style={{ flexDirection: "row", alignItems:"center", justifyContent:"center" }}>
+                                    {item.is_selected ? <Image style={item.image_style_small} source={item.image_on} /> : <Image style={item.image_style_small} source={item.image_off} />}
                                     {item.is_selected ? <Text style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.categoryName}</Text> : <Text style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</Text>}
                                   </View>
                                 </View>
