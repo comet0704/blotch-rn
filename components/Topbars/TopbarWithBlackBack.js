@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import Colors from '../../constants/Colors';
 
 export class TopbarWithBlackBack extends React.Component {
   render() {
     return (
-      <View style={{ flexDirection: "row", justifyContnt: "center" }}>
+      <View style={{ flexDirection: "row", justifyContnt: "center", backgroundColor:Colors.color_white }}>
         <Text style={{ flex: 1, textAlign: "center", left: 0, right: 0, height: 48, top: 35, fontSize: 16, fontWeight: "500", position: "absolute" }}>{this.props.title}</Text>
         <TouchableOpacity
           onPress={this.props.onPress} activeOpacity={0.5} style={{ padding: 15, width: 45 }}>

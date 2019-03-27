@@ -38,5 +38,6 @@ export default {
     },
     ingredient : {
         userIngredientList: MyConstants.SERVER_URL + "/ingredient/userIngredientList",               
+        deleteUserIngredient: MyConstants.SERVER_URL + "/ingredient/deleteUserIngredient",               
     },
 };

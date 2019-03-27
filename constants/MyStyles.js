@@ -136,6 +136,9 @@ export default StyleSheet.create({
   text_20: {
     color: "black", fontSize: 20, fontWeight: "500"
   },
+  text_normal: {
+    color: "#949191", fontSize: 13
+  },
   heart: {
     width: 17.7,
     height: 15
@@ -270,7 +273,13 @@ export default StyleSheet.create({
     justifyContent: "center",
     height: "100%",
   },
-
+  modal_header: {
+    flexDirection: "row", alignItems: "center", width: "100%", height: 50
+  },
+  modal_title: {
+    flex: 1, textAlign: "center", fontWeight: "bold", position: "absolute", width: "100%",
+    fontSize:16,
+  },
   modal_close_btn: {
     alignSelf: "flex-end", padding: 15
   },
@@ -340,7 +349,7 @@ export default StyleSheet.create({
   productName: {
     fontSize: 13,
     color: Colors.primary_dark,
-    fontWeight: '400',
+    fontWeight: '500',
     marginBottom: 5,
     textAlign: "center",
   },
@@ -450,6 +459,41 @@ export default StyleSheet.create({
     width: 40 / 3,
     height: 28 / 3,
   },
+  baby_container: {
+    backgroundColor: "white",
+    borderColor: "#e3e5e4",
+    borderWidth: 1,
+    borderRadius: 180 / 6,
+    width: 180 / 3,
+    aspectRatio: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  baby_container_selected: {
+    backgroundColor: "white",
+    borderColor: "#e3e5e4",
+    borderWidth: 1,
+    borderRadius: 240 / 6,
+    width: 240 / 3,
+    aspectRatio: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+
+  baby_text: {
+    fontSize: 13,
+    color: Colors.color_949191,
+    textAlign: "center",
+  },
+
+  baby_text_selected: {
+    fontSize: 15,
+    color: Colors.color_white,
+    textAlign: "center",
+  },
+
   category_image_container: {
     backgroundColor: "white",
     borderColor: "#e3e5e4",
@@ -518,19 +562,19 @@ export default StyleSheet.create({
     width: "100%",
   },
   tabbar_button: {
-    flex:1, height:"100%", justifyContent:"center", alignItems:"center", borderBottomColor:Colors.primary_purple,
+    flex: 1, height: "100%", justifyContent: "center", alignItems: "center", borderBottomColor: Colors.primary_purple,
   },
   tabbar_button_selected: {
-    flex:1, height:"100%", justifyContent:"center", alignItems:"center", borderBottomColor:Colors.primary_purple, borderBottomWidth:3
+    flex: 1, height: "100%", justifyContent: "center", alignItems: "center", borderBottomColor: Colors.primary_purple, borderBottomWidth: 3
   },
   tabbar_text_selected: {
-    fontSize:14,
-    color:Colors.primary_dark,
+    fontSize: 14,
+    color: Colors.primary_dark,
   },
   tabbar_text: {
-    fontSize:14,
-    color:Colors.color_dcdedd,
-  },  
+    fontSize: 14,
+    color: Colors.color_dcdedd,
+  },
   tabbar_button_container1: {
     height: 115 / 3,
     flex: 1,
@@ -540,208 +584,235 @@ export default StyleSheet.create({
     width: "100%",
   },
   tabbar_button1: {
-    flex:1, height:"100%", justifyContent:"center", alignItems:"center",
+    flex: 1, height: "100%", justifyContent: "center", alignItems: "center",
   },
   ingredient_good_button_selected: {
-    flex:1, height:"100%", justifyContent:"center", alignItems:"center", backgroundColor:Colors.ingredient_good_dark, borderRadius:5
+    flex: 1, height: "100%", justifyContent: "center", alignItems: "center", backgroundColor: Colors.ingredient_good_dark, borderRadius: 5
   },
   ingredient_normal_button_selected: {
-    flex:1, height:"100%", justifyContent:"center", alignItems:"center", backgroundColor:Colors.ingredient_normal_dark, borderRadius:5
+    flex: 1, height: "100%", justifyContent: "center", alignItems: "center", backgroundColor: Colors.ingredient_normal_dark, borderRadius: 5
   },
   ingredient_bad_button_selected: {
-    flex:1, height:"100%", justifyContent:"center", alignItems:"center", backgroundColor:Colors.ingredient_bad_dark, borderRadius:5
+    flex: 1, height: "100%", justifyContent: "center", alignItems: "center", backgroundColor: Colors.ingredient_bad_dark, borderRadius: 5
   },
   tabbar_text_selected1: {
-    fontSize:13,
-    color:Colors.color_white,
+    fontSize: 13,
+    color: Colors.color_white,
   },
   tabbar_text1: {
-    fontSize:14,
-    color:Colors.color_dcdedd,
+    fontSize: 14,
+    color: Colors.color_dcdedd,
   },
   ingredient_good_container: {
-    height: 120/3,
-    flex:1,
-    marginBottom:1,
-    backgroundColor:Colors.ingredient_good_light,
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_good_light,
   },
-  ingredient_good_text : {
-    padding:10,
-    fontSize:13,
-    color:Colors.ingredient_good_dark,
+  ingredient_good_text: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_good_dark,
   },
   ingredient_good_content_text: {
-    color:Colors.color_949191, fontSize:13,
-    padding:15,
+    color: Colors.color_949191, fontSize: 13,
+    padding: 15,
   },
   ingredient_good_container_selected: {
-    height: 120/3,
-    flex:1,
-    marginBottom:1,
-    backgroundColor:Colors.ingredient_good_dark,
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_good_dark,
   },
-  ingredient_good_text_selected : {
-    padding:10,
-    fontSize:13,
-    color:Colors.ingredient_good_light,
+  ingredient_good_text_selected: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_good_light,
   },
-  
+
   ingredient_normal_container: {
-    height: 120/3,
-    flex:1,
-    marginBottom:1,
-    backgroundColor:Colors.ingredient_normal_light,
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_normal_light,
   },
-  ingredient_normal_text : {
-    padding:10,
-    fontSize:13,
-    color:Colors.ingredient_normal_dark,
+  ingredient_normal_text: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_normal_dark,
   },
   ingredient_normal_content_text: {
-    color:Colors.color_949191, fontSize:13,
-    padding:15,
+    color: Colors.color_949191, fontSize: 13,
+    padding: 15,
   },
   ingredient_normal_container_selected: {
-    height: 120/3,
-    flex:1,
-    marginBottom:1,
-    backgroundColor:Colors.ingredient_normal_dark,
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_normal_dark,
   },
-  ingredient_normal_text_selected : {
-    padding:10,
-    fontSize:13,
-    color:Colors.ingredient_bad_light,
+  ingredient_normal_text_selected: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_bad_light,
   },
-  
+
   ingredient_bad_container: {
-    height: 120/3,
-    flex:1,
-    marginBottom:1,
-    backgroundColor:Colors.ingredient_bad_light,
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_bad_light,
   },
-  ingredient_bad_text : {
-    padding:10,
-    fontSize:13,
-    color:Colors.ingredient_bad_dark,
+  ingredient_bad_text: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_bad_dark,
   },
   ingredient_bad_content_text: {
-    color:Colors.color_949191, fontSize:13,
-    padding:15,
+    color: Colors.color_949191, fontSize: 13,
+    padding: 15,
   },
   ingredient_bad_container_selected: {
-    height: 120/3,
-    flex:1,
-    marginBottom:1,
-    backgroundColor:Colors.ingredient_bad_dark,
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_bad_dark,
   },
-  ingredient_bad_text_selected : {
-    padding:10,
-    fontSize:13,
-    color:Colors.ingredient_bad_light,
+  ingredient_bad_text_selected: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_bad_light,
   },
 
-  
+
   ingredient_allergic_container: {
-    height: 120/3,
-    flex:1,
-    marginBottom:1,
-    backgroundColor:Colors.ingredient_allergic_light,
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_allergic_light,
   },
-  ingredient_allergic_text : {
-    padding:10,
-    fontSize:13,
-    color:Colors.ingredient_allergic_dark,
+  ingredient_allergic_text: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_allergic_dark,
   },
   ingredient_allergic_content_text: {
-    color:Colors.color_949191, fontSize:13,
-    padding:15,
+    color: Colors.color_949191, fontSize: 13,
+    padding: 15,
   },
   ingredient_allergic_container_selected: {
-    height: 120/3,
-    flex:1,
-    marginBottom:1,
-    backgroundColor:Colors.ingredient_allergic_dark,
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_allergic_dark,
   },
-  ingredient_allergic_text_selected : {
-    padding:10,
-    fontSize:13,
-    color:Colors.ingredient_allergic_light,
+  ingredient_allergic_text_selected: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_allergic_light,
   },
-  
+
   ingredient_potential_allergen_container: {
-    height: 120/3,
-    flex:1,
-    marginBottom:1,
-    backgroundColor:Colors.ingredient_potential_allergen_light,
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_potential_allergen_light,
   },
-  ingredient_potential_allergen_text : {
-    padding:10,
-    fontSize:13,
-    color:Colors.ingredient_potential_allergen_dark,
+  ingredient_potential_allergen_text: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_potential_allergen_dark,
   },
   ingredient_potential_allergen_content_text: {
-    color:Colors.color_949191, fontSize:13,
-    padding:15,
+    color: Colors.color_949191, fontSize: 13,
+    padding: 15,
   },
   ingredient_potential_allergen_container_selected: {
-    height: 120/3,
-    flex:1,
-    marginBottom:1,
-    backgroundColor:Colors.ingredient_potential_allergen_dark,
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_potential_allergen_dark,
   },
-  ingredient_potential_allergen_text_selected : {
-    padding:10,
-    fontSize:13,
-    color:Colors.ingredient_potential_allergen_light,
-  },
-
-  purple_round_btn : {
-    flexDirection: "row", borderRadius: 20, paddingLeft: 10, paddingRight: 10, backgroundColor: Colors.primary_purple, justifyContent: "center", alignItems: "center" 
+  ingredient_potential_allergen_text_selected: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_potential_allergen_light,
   },
 
-  ic_match : {
-    width:78/3,
-    height:78/3,
+  ingredient_preferred_container: {
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_preferred_light,
   },
-  ic_blotch : {
-    width:78/3,
-    height:78/3,
+  ingredient_preferred_text: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_preferred_dark,
   },
-  ic_allergic_ingredient : {
-    width:31/3,
-    height:31/3,
+  ingredient_preferred_content_text: {
+    color: Colors.color_949191, fontSize: 13,
+    padding: 15,
   },
-  ic_potential_allergins : {
-    width:31/3,
-    height:31/3,
+  ingredient_preferred_container_selected: {
+    height: 120 / 3,
+    flex: 1,
+    marginBottom: 1,
+    backgroundColor: Colors.ingredient_preferred_dark,
   },
-  ic_preferred_ingredient : {
-    width:31/3,
-    height:31/3,
+  ingredient_preferred_text_selected: {
+    padding: 10,
+    fontSize: 13,
+    color: Colors.ingredient_preferred_light,
   },
-  ic_blotch_prog : {
-    width:72/3,
-    height:72/3,
+
+  purple_round_btn: {
+    flexDirection: "row", borderRadius: 20, paddingLeft: 10, paddingRight: 10, backgroundColor: Colors.primary_purple, justifyContent: "center", alignItems: "center"
   },
-  ic_watch_prog : {
-    width:72/3,
-    height:72/3,
+
+  ic_match: {
+    width: 78 / 3,
+    height: 78 / 3,
   },
-  ic_match_prog : {
-    width:72/3,
-    height:72/3,
+  ic_blotch: {
+    width: 78 / 3,
+    height: 78 / 3,
   },
-  ic_save_prog : {
-    width:72/3,
-    height:72/3,
+  ic_allergic_ingredient: {
+    width: 31 / 3,
+    height: 31 / 3,
   },
-  ic_gallery : {
-    width:55/3,
-    height:52/3,
+  ic_potential_allergins: {
+    width: 31 / 3,
+    height: 31 / 3,
   },
-  text_13_primary_dark : {
-    fontSize:13,
-    color:Colors.primary_dark,
+  ic_preferred_ingredient: {
+    width: 31 / 3,
+    height: 31 / 3,
+  },
+  ic_blotch_prog: {
+    width: 72 / 3,
+    height: 72 / 3,
+  },
+  ic_watch_prog: {
+    width: 72 / 3,
+    height: 72 / 3,
+  },
+  ic_match_prog: {
+    width: 72 / 3,
+    height: 72 / 3,
+  },
+  ic_save_prog: {
+    width: 72 / 3,
+    height: 72 / 3,
+  },
+  ic_gallery: {
+    width: 55 / 3,
+    height: 52 / 3,
+  },
+  text_13_primary_dark: {
+    fontSize: 13,
+    color: Colors.primary_dark,
   },
   loading: {
     flex: 1,
@@ -753,5 +824,57 @@ export default StyleSheet.create({
   },
   spinnerTextStyle: {
     color: '#FFF',
+  },
+  ic_allergic_face: {
+    width: 89 / 3,
+    height: 126 / 3,
+  },
+  ic_preferred_face: {
+    width: 89 / 3,
+    height: 126 / 3,
+  },
+  ic_potential_face: {
+    width: 89 / 3,
+    height: 89 / 3,
+  },
+  ic_polygon_down: {
+    width: 21 / 3,
+    height: 14 / 3,
+  },
+  ic_polygon_up: {
+    width: 21 / 3,
+    height: 14 / 3,
+  },
+  ic_plus_button_purple_round: {
+    width: 90 / 3,
+    height: 93 / 3,
+  },
+  ingredient_section: {
+    margin: 15, borderLeftWidth: 3,
+    borderRadius: 3,
+    backgroundColor: Colors.color_white,
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
+    shadowOpacity: 1,
+    elevation: 1,
+    // background color must be set
+    backgroundColor: "white" // invisible color,
+  },
+  ingredient_section_plus_btn: {
+    position: "absolute", top: -30, right: 0,
+    padding:15,
+  },
+  ingredient_section_header: {
+    padding: 15,
+    flex: 1, flexDirection: "row", alignItems: "center"
+  },
+  ingredient_section_header_text1: {
+    color: Colors.primary_dark, fontSize: 14, fontWeight: "bold"
+  },
+  ingredient_section_header_text2: {
+    color: Colors.color_b28ffe, fontSize: 12, fontWeight: "400"
   },
 });

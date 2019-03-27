@@ -219,13 +219,13 @@ export class FragmentRecommendProduct extends React.Component {
                 <View style={MyStyles.modal_bg1}>
                   <View style={MyStyles.modalContainer}>
                     {/* modal header */}
-                    <View style={{ flexDirection: "row", alignItems: "center", width: "100%", height: 50 }}>
+                    <View style={MyStyles.modal_header}>
                       <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", width: 70 }]} onPress={() => {
                         this.setState({ filterModalVisible: false });
                       }}>
                         <Text style={{ color: Colors.color_dfdfdf, fontSize: 13, fontWeight: "500", }}>reset</Text>
                       </TouchableOpacity>
-                      <Text style={{ flex: 1, textAlign: "center", fontWeight: "400", position: "absolute", width: "100%", }}>Filter</Text>
+                      <Text style={MyStyles.modal_title}>Filter</Text>
                       <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ filterModalVisible: false });
                       }}>
