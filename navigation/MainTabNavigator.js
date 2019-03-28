@@ -18,6 +18,7 @@ import ProductContainerScreen from '../screens/Product/ProductContainerScreen';
 import ProductDetailScreen from '../screens/Product/ProductDetailScreen';
 import ArticleDetailScreen from '../screens/Home/ArticleDetailScreen';
 import IngredientScreen from '../screens/Ingredient/IngredientScreen';
+import PotentialAllergensProductScreen from '../screens/Ingredient/PotentialAllergensProductScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -77,6 +78,7 @@ ProductStack.navigationOptions = {
 
 const IngredientStack = createStackNavigator({
   Ingredient: IngredientScreen,
+  PotentialAllergenProduct : PotentialAllergensProductScreen,
 },
 {
   headerMode: 'screen ',
@@ -85,7 +87,7 @@ const IngredientStack = createStackNavigator({
 IngredientStack.navigationOptions = {
   tabBarLabel: 'Ingredient',
   tabBarIcon: ({focused}) => (
-    focused ? <Image style={{width:42/3, height:53/3}} source={require("../assets/images/ic_menu_ingredient_on.png")}/> : <Image style={{width:42/3, height:53/3}} source={require("../assets/images/ic_menu_product_off.png")}/>
+    focused ? <Image style={{width:42/3, height:53/3}} source={require("../assets/images/ic_menu_ingredient_on.png")}/> : <Image style={{width:42/3, height:53/3}} source={require("../assets/images/ic_menu_ingredient_off.png")}/>
   ),
 };
 
@@ -137,9 +139,9 @@ LoginStack.navigationOptions = {
 };
 global.login_info = {};
 export default createBottomTabNavigator({
-  IngredientStack,
   HomeStack,
   ProductStack,
+  IngredientStack,
   LoginStack,
   LinksStack,
   // SettingsStack,

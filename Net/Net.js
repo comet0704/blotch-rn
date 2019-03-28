@@ -38,6 +38,10 @@ export default {
     },
     ingredient : {
         userIngredientList: MyConstants.SERVER_URL + "/ingredient/userIngredientList",               
+        myList: MyConstants.SERVER_URL + "/ingredient/myList",               
         deleteUserIngredient: MyConstants.SERVER_URL + "/ingredient/deleteUserIngredient",               
+        potentialAllergenProductList: MyConstants.SERVER_URL + "/ingredient/potentialAllergenProductList",               
+        searchIngredient: MyConstants.SERVER_URL + "/ingredient/search",               
+        addUserIngredient: MyConstants.SERVER_URL + "/ingredient/addUserIngredient",               
     },
 };

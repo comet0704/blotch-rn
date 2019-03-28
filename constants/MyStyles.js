@@ -278,7 +278,7 @@ export default StyleSheet.create({
   },
   modal_title: {
     flex: 1, textAlign: "center", fontWeight: "bold", position: "absolute", width: "100%",
-    fontSize:16,
+    fontSize: 16,
   },
   modal_close_btn: {
     alignSelf: "flex-end", padding: 15
@@ -865,7 +865,7 @@ export default StyleSheet.create({
   },
   ingredient_section_plus_btn: {
     position: "absolute", top: -30, right: 0,
-    padding:15,
+    padding: 15,
   },
   ingredient_section_header: {
     padding: 15,
@@ -876,5 +876,9 @@ export default StyleSheet.create({
   },
   ingredient_section_header_text2: {
     color: Colors.color_b28ffe, fontSize: 12, fontWeight: "400"
+  },
+  ic_white_polygon: {
+    width: 68 / 3,
+    height: 36 / 3,
   },
 });

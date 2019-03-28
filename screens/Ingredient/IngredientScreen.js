@@ -29,9 +29,13 @@ import { NavigationEvents } from 'react-navigation';
 import { LinearGradient } from 'expo';
 
 export default class IngredientScreen extends React.Component {
+  offset = 0;
   constructor(props) {
     super(props)
     this.state = {
+      showLoginModal: false,
+      searchKeyword: null,
+      ingredient_add_type: -1,
       beforeBabyIdx: 0,
       section_allergic_show: false,
       section_potential_show: false,
@@ -39,6 +43,7 @@ export default class IngredientScreen extends React.Component {
       searchModalVisible: false,
       searchResultModalVisible: false,
       saveToModalVisible: false,
+      potentialInfoModal: false,
       babyItems: [
         {
           id: 1,
@@ -61,99 +66,9 @@ export default class IngredientScreen extends React.Component {
           id: 5,
           name: "Baby5"
         },
-        {
-          id: 6,
-          name: "Baby6"
-        },
-        {
-          id: 7,
-          name: "Baby7"
-        },
-        {
-          id: 8,
-          name: "Baby8"
-        },
       ],
       mylist_result_data: {
         "my_list": [
-          {
-            "id": 2,
-            "title": "ingredient-2",
-            "content": "ingredient-2",
-            "type": 0
-          },
-          {
-            "id": 3,
-            "title": "ingredient-3",
-            "content": "ingredient-3",
-            "type": 0
-          },
-          {
-            "id": 4,
-            "title": "ingredient-4",
-            "content": "ingredient-4",
-            "type": 0
-          },
-          {
-            "id": 5,
-            "title": "ingredient-5",
-            "content": "ingredient-5",
-            "type": 1
-          },
-          {
-            "id": 6,
-            "title": "ingredient-6",
-            "content": "ingredient-6",
-            "type": 1
-          }
-        ],
-        "potential_allergen_product_list": [
-          {
-            "id": 1,
-            "title": "Product-1",
-            "image_list": "uploads/product/ana-francisconi-1382802-unsplash.jpg",
-            "brand_title": "LUSH",
-            "is_liked": 5
-          },
-          {
-            "id": 2,
-            "title": "Product-2",
-            "image_list": "uploads/product/caleb-simpson-1394514-unsplash.jpg",
-            "brand_title": "BEAUTY",
-            "is_liked": null
-          }
-        ],
-        "potential_allergen_ingredient_list": [
-          {
-            "id": 2,
-            "title": "ingredient-2",
-            "content": "ingredient-2",
-            "type": 0
-          },
-          {
-            "id": 3,
-            "title": "ingredient-3",
-            "content": "ingredient-3",
-            "type": 0
-          },
-          {
-            "id": 4,
-            "title": "ingredient-4",
-            "content": "ingredient-4",
-            "type": 0
-          },
-          {
-            "id": 5,
-            "title": "ingredient-5",
-            "content": "ingredient-5",
-            "type": 1
-          },
-          {
-            "id": 6,
-            "title": "ingredient-6",
-            "content": "ingredient-6",
-            "type": 1
-          }
         ]
       },
       searchIngredient_result_data: {
@@ -217,6 +132,7 @@ export default class IngredientScreen extends React.Component {
     }
   }
   componentDidMount() {
+
   }
 
 
@@ -285,7 +201,51 @@ export default class IngredientScreen extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => {
+            this.setState({ saveToModalVisible: true, selectedIngredient_id: item.id })
+          }}>
+            <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</Text>
+          </TouchableOpacity>
+        </TouchableOpacity>
+        {this.state.curSelectedIngredient == item.id ? <View style={{ justifyContent: "center" }}>
+          <Text style={style_content_text}>{item.content}</Text>
+        </View> : null}
+      </View>
+    )
+  }
+
+  renderSearchModalGoodNormalBadIngredientList(item, index) {
+    style_container = {};
+    style_container_selected = {};
+    style_text = {};
+    style_text_selected = {};
+    style_content_text = {};
+    if (item.type == 0) { // Normal 인경우
+      style_container = MyStyles.ingredient_normal_container
+      style_container_selected = MyStyles.ingredient_normal_container_selected
+      style_text = MyStyles.ingredient_normal_text;
+      style_text_selected = MyStyles.ingredient_normal_text_selected;
+      style_content_text = MyStyles.ingredient_normal_content_text;
+    } else if (item.type == 1) { // Good 인 경우        
+      style_container = MyStyles.ingredient_good_container
+      style_container_selected = MyStyles.ingredient_good_container_selected
+      style_text = MyStyles.ingredient_good_text;
+      style_text_selected = MyStyles.ingredient_good_text_selected;
+      style_content_text = MyStyles.ingredient_good_content_text;
+    } else { // Bad 인 경우
+      style_container = MyStyles.ingredient_bad_container
+      style_container_selected = MyStyles.ingredient_bad_container_selected
+      style_text = MyStyles.ingredient_bad_text;
+      style_text_selected = MyStyles.ingredient_bad_text_selected;
+      style_content_text = MyStyles.ingredient_bad_content_text;
+    }
+
+    return (
+      <View key={item.id} style={{ flex: 1 }}>
+        <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
+          <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
+          <Image style={{ flex: 1 }} />
+          <TouchableOpacity onPress={() => { this.requestAddUserIngredient(item.id, this.state.ingredient_add_type) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -310,7 +270,7 @@ export default class IngredientScreen extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -335,7 +295,7 @@ export default class IngredientScreen extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -360,7 +320,7 @@ export default class IngredientScreen extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -411,6 +371,15 @@ export default class IngredientScreen extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: Colors.color_f8f8f8 }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
+        <NavigationEvents
+          onWillFocus={payload => {
+            if (global.login_info.token == null || global.login_info.token.length < 1) {
+              this.setState({ showLoginModal: true });
+              return;
+            }
+            this.requestMyList();
+          }}
+        />
         <TopbarWithBlackBack title="My Ingredients" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
         <Spinner
           //visibility of Overlay Loading Spinner
@@ -463,7 +432,7 @@ export default class IngredientScreen extends React.Component {
                   : null
               }
 
-              <TouchableOpacity style={[MyStyles.ingredient_section_plus_btn]} onPress={() => { this.setState({ searchModalVisible: true }) }}>
+              <TouchableOpacity style={[MyStyles.ingredient_section_plus_btn]} onPress={() => { this.setState({ searchModalVisible: true, ingredient_add_type: 0 }) }}>
                 <Image source={require("../../assets/images/ic_plus_button_purple_round.png")} style={[MyStyles.ic_plus_button_purple_round]} />
               </TouchableOpacity>
             </View>
@@ -481,7 +450,7 @@ export default class IngredientScreen extends React.Component {
                     <TouchableOpacity style={{
                       backgroundColor: Colors.color_efeeee, overflow: "hidden", borderRadius: 10, marginLeft: 5,
                       width: 15, height: 15, justifyContent: "center"
-                    }}>
+                    }} onPress={() => { this.setState({ potentialInfoModal: true }) }}>
                       <Text style={[MyStyles.ingredient_section_header_text1, { fontSize: 12, textAlign: "center" }]}>?</Text>
                     </TouchableOpacity>
                   </View>
@@ -491,11 +460,6 @@ export default class IngredientScreen extends React.Component {
                   this.state.section_potential_show ? <Image source={require("../../assets/images/ic_polygon_up.png")} style={[MyStyles.ic_polygon_up]} />
                     : <Image source={require("../../assets/images/ic_polygon_down.png")} style={[MyStyles.ic_polygon_down]} />
                 }
-                <View style={{ position: "absolute" }}>
-                        <Text style={[MyStyles.padding_main, { width: "80%", top: 10, left: 10, borderRadius: 5, backgroundColor: "red" }]}>We will analyze the common ingredients of
-  two or more products and inform you of the
-ingredients that can cause allergies.</Text>
-                      </View>
               </TouchableOpacity>
               <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}></Image>
 
@@ -510,7 +474,7 @@ ingredients that can cause allergies.</Text>
                         <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }]}>
                           <Text style={[{ fontSize: 14, flex: 1, alignSelf: "center", fontWeight: "bold" }]}>Ingredients that can cause Allergies</Text>
                           <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                            this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                            this.props.navigation.navigate("PotentialAllergenProduct")}>more ></Text>
                         </View>
                         <View>
                           {
@@ -528,7 +492,7 @@ ingredients that can cause allergies.</Text>
                   : null
               }
 
-              <TouchableOpacity style={[MyStyles.ingredient_section_plus_btn]} onPress={() => { this.setState({ searchModalVisible: true }) }}>
+              <TouchableOpacity style={[MyStyles.ingredient_section_plus_btn]} onPress={() => { this.setState({ searchModalVisible: true, ingredient_add_type: 1 }) }}>
                 <Image source={require("../../assets/images/ic_plus_button_purple_round.png")} style={[MyStyles.ic_plus_button_purple_round]} />
               </TouchableOpacity>
             </View>
@@ -559,7 +523,7 @@ ingredients that can cause allergies.</Text>
                   : null
               }
 
-              <TouchableOpacity style={[MyStyles.ingredient_section_plus_btn]} onPress={() => { this.setState({ searchModalVisible: true }) }}>
+              <TouchableOpacity style={[MyStyles.ingredient_section_plus_btn]} onPress={() => { this.setState({ searchModalVisible: true, ingredient_add_type: 2 }) }}>
                 <Image source={require("../../assets/images/ic_plus_button_purple_round.png")} style={[MyStyles.ic_plus_button_purple_round]} />
               </TouchableOpacity>
             </View>
@@ -592,12 +556,23 @@ ingredients that can cause allergies.</Text>
                 {/* body */}
                 <View style={[MyStyles.padding_h_main, { paddingTop: 70 / 3, paddingBottom: 120 / 3 }]}>
                   <Text style={[MyStyles.text_13_primary_dark, { fontWeight: "500" }]}>Ingredient Name</Text>
-                  <TextInput style={[{ borderWidth: 0.5, marginTop: 10, borderColor: Colors.color_e5e6e5, color: Colors.color_656565, fontSize: 13, padding: 10 }]}>
+                  <TextInput
+                    onChangeText={(text) => { this.setState({ searchKeyword: text }) }}
+                    value={this.state.searchKeyword}
+                    style={[{ borderWidth: 0.5, marginTop: 10, borderColor: Colors.color_e5e6e5, color: Colors.color_656565, fontSize: 13, padding: 10 }]}>
                   </TextInput>
                 </View>
 
                 <View style={{ flexDirection: "row" }}>
-                  <TouchableHighlight onPress={() => { this.setState({ searchResultModalVisible: true, searchModalVisible: false }) }}
+                  <TouchableHighlight onPress={() => {
+                    this.setState({ loading_end: false })
+                    if (this.state.searchKeyword == null) {
+                      this.refs.toast.showBottom("Please input search keyword");
+                      return;
+                    }
+                    this.requestSearchIngredient(this.state.searchKeyword, 0)
+                  }
+                  }
                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
                     <Text style={MyStyles.btn_primary}>Search</Text>
                   </TouchableHighlight>
@@ -631,9 +606,14 @@ ingredients that can cause allergies.</Text>
                 {/* body */}
                 <View style={[MyStyles.padding_h_main, { paddingTop: 70 / 3, paddingBottom: 120 / 3, }]}>
                   {this.state.searchIngredient_result_data.ingredient_list.length > 0 ? null : <Text style={[MyStyles.text_normal, { textAlign: "center" }]}>Sorry, no result found</Text>}
-                  <ScrollView style={{ width: "100%", maxHeight: 200, }}>
+                  <ScrollView style={{ width: "100%", maxHeight: 200, }}
+                    onScroll={({ nativeEvent }) => {
+                      if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+                        this.requestSearchIngredient(this.state.searchKeyword, this.offset);
+                      }
+                    }}>
                     <View>
-                      {this.state.searchIngredient_result_data.ingredient_list.map((item, index) => this.renderGoodNormalBadIngredientList(item, index))}
+                      {this.state.searchIngredient_result_data.ingredient_list.map((item, index) => this.renderSearchModalGoodNormalBadIngredientList(item, index))}
                     </View>
                   </ScrollView>
                 </View>
@@ -660,7 +640,7 @@ ingredients that can cause allergies.</Text>
                     <Text style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</Text>
                   </View>
                   <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
-                    this.setState({ saveToModalVisible: false });
+                    this.setState({ saveToModalVisible: false })
                   }}>
                     <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
                   </TouchableOpacity>
@@ -670,21 +650,30 @@ ingredients that can cause allergies.</Text>
 
                 <View style={[MyStyles.padding_h_main, { height: 130 }]}>
                   {/* Allergic Ingredients(Dislike) */}
-                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }} onPress={this.onSaveToAllergicIngredients}>
+                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                    onPress={() => {
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 0)
+                    }}>
                     <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")}></Image>
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
                     <Image style={{ flex: 1 }}></Image>
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}></Image>
                   </TouchableOpacity>
                   {/* Potential Allergens */}
-                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }} onPress={this.onSaveToPotentilAllergens}>
+                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                    onPress={() => {
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 1)
+                    }}>
                     <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")}></Image>
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
                     <Image style={{ flex: 1 }}></Image>
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}></Image>
                   </TouchableOpacity>
                   {/* Preferred Ingredients */}
-                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }} onPress={this.onSaveToAllergicIngredients}>
+                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                    onPress={() => {
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 2)
+                    }}>
                     <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")}></Image>
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
                     <Image style={{ flex: 1 }}></Image>
@@ -697,10 +686,116 @@ ingredients that can cause allergies.</Text>
           </View>
         </Modal>
 
+        {/* Potential Info modal */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.potentialInfoModal}
+          onRequestClose={() => {
+            this.setState({ potentialInfoModal: false })
+          }}>
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ potentialInfoModal: false }) }}>
+            <View style={MyStyles.modal_bg}>
+              <View style={[MyStyles.modalContainer, { backgroundColor: "transparent", overflow: "visible" }]}>
+
+                <View>
+                  <Image source={require('../../assets/images/ic_white_polygon.png')} style={[MyStyles.ic_white_polygon, { marginLeft: "55%" }]}></Image>
+                  <Text style={[MyStyles.padding_main, MyStyles.text_13_primary_dark, { width: "100%", marginTop: -3, borderRadius: 10, backgroundColor: "white" }]}>We will analyze the common ingredients of
+two or more products and inform you of the
+ingredients that can cause allergies.</Text>
+                </View>
+
+              </View>
+
+            </View>
+          </TouchableOpacity>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.showLoginModal}
+          onRequestClose={() => {
+          }}>
+          <View style={{ flex: 1 }}>
+            <View style={MyStyles.modal_bg}>
+              <View style={MyStyles.modalContainer}>
+                <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                  this.setState({ showLoginModal: false });
+                  this.props.navigation.navigate('Home')
+                }}>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
+                </TouchableOpacity>
+
+                <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")}></Image>
+                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>You need to login</Text>
+
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableHighlight onPress={() => {
+                    this.setState({ showLoginModal: false });
+                    this.props.navigation.navigate('Login')
+                  }}
+                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                  </TouchableHighlight>
+
+                  <TouchableHighlight
+                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    onPress={() => {
+                      this.setState({ showLoginModal: false });
+                      this.props.navigation.navigate('Home')
+                    }}>
+                    <Text style={MyStyles.btn_primary_white}>Not now</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+
+            </View>
+          </View>
+        </Modal>
+
       </KeyboardAvoidingView>
     );
   }
 
+
+  requestMyList() {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.ingredient.myList, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.setState({ mylist_result_data: responseJson.result_data })
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
 
   requestDeleteUserIngredient(p_ingredient_id) {
     this.setState({
@@ -728,6 +823,8 @@ ingredients that can cause allergies.</Text>
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
+
+        this.requestMyList();
       })
       .catch((error) => {
         this.setState({
@@ -737,4 +834,179 @@ ingredients that can cause allergies.</Text>
       })
       .done();
   }
+
+  requestSearchIngredient(p_ingredient_name, p_offset) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.ingredient.searchIngredient, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        ingredient_name: p_ingredient_name,
+        offset: p_offset.toString(),
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showTop(responseJson.result_msg);
+          return
+        }
+        if (p_offset == 0) { // 카테고리 선택했을대 offset값을 0에서부터 검색해야 함.
+          this.offset = 0;
+        }
+
+        this.offset += responseJson.result_data.ingredient_list.length
+        if (responseJson.result_data.ingredient_list.length < MyConstants.ITEMS_PER_PAGE) {
+          this.setState({ loading_end: true })
+        }
+
+        if (p_offset == 0) {
+          this.setState({
+            searchIngredient_result_data: responseJson.result_data
+          });
+          this.setState({ searchResultModalVisible: true, searchModalVisible: false })
+          return;
+        }
+        const ingredient_list = this.state.searchIngredient_result_data.ingredient_list
+        result = { ingredient_list: [...ingredient_list, ...responseJson.result_data.ingredient_list] };
+        this.setState({ searchIngredient_result_data: result })
+        this.setState({ searchResultModalVisible: true, searchModalVisible: false })
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          isLoading: false,
+        });
+        showTop.showBottom(error);
+      })
+      .done();
+  }
+
+  requestAddUserIngredient(p_ingredient_id, p_type) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.ingredient.addUserIngredient, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        ingredient_id: p_ingredient_id.toString(),
+        type: p_type.toString(),
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.setState({ searchResultModalVisible: false })
+        this.setState({ saveToModalVisible: false });
+
+        this.requestMyList();
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+  
+  requestProductLike(p_product_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.like, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.requestMyList();
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestProductUnlike(p_product_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.unlike, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.requestMyList();
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+    }
 };
