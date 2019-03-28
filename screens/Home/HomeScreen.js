@@ -67,7 +67,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View key={index}>
         <TouchableHighlight onPressIn={() => {
-          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" })
+          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View>
             <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
@@ -85,7 +85,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View key={index}>
         <TouchableHighlight onPressIn={() => {
-          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" })
+          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <Image source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
@@ -99,7 +99,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View key={index}>
         <TouchableHighlight onPressIn={() => {
-          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" })
+          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <Image source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
@@ -113,7 +113,7 @@ export default class HomeScreen extends React.Component {
   renderNewProductBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1 }}>
             <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
             {
@@ -140,7 +140,7 @@ export default class HomeScreen extends React.Component {
   renderBestProductBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1 }}>
             <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
             {
@@ -168,7 +168,7 @@ export default class HomeScreen extends React.Component {
   renderTodayArticleBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 166, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
             <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
             {
@@ -201,7 +201,7 @@ export default class HomeScreen extends React.Component {
         >
           {this.state.result_data.trend_article_list.map(item => (
             <View key={item.id} style={{ width: 150, height: 75, flex: 1, marginRight: 10 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
                   <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
                   {
@@ -237,7 +237,7 @@ export default class HomeScreen extends React.Component {
         >
           {this.state.result_data.recommend_product_list.map(item => (
             <View key={item.id} style={{ flex: 1, marginRight: 10, width: 85 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { alert("go product detail") }}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                 <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image_list) }} />
               </TouchableOpacity>
               <Text style={{ fontSize: 12, color: "#949393", marginTop: 5, textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
@@ -445,7 +445,7 @@ export default class HomeScreen extends React.Component {
                   <View style={{ flex: 1, justifyContent: "center" }}>
                     <Carousel
                       autoplay={false}
-                      onPageChanged={(index) => {                       
+                      onPageChanged={(index) => {
                       }}
                       showsPageIndicator={false}
                       loop
@@ -593,11 +593,11 @@ export default class HomeScreen extends React.Component {
         } catch (error) {
 
         }
-        // this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
+        // this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1}) 
         // this.props.navigation.navigate("Article");
         // this.props.navigation.navigate("ProductContainer") 
-        // this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
-        // this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) 
+        // this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1}) 
+        // this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1}) 
       })
       .catch((error) => {
         this.setState({

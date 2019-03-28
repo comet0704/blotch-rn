@@ -21,14 +21,11 @@ import { FragmentProductDetailReviews } from './FragmentProductDetailReviews';
 export default class ProductDetailScreen extends React.Component {
 
   item_id = "";
-  back_page = "";
 
   constructor(props) {
     super(props)
     item_id = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_id)
-    back_page = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.back_page)
     this.state = {
-      saveToModalVisible: false,
       product_detail_result_data: {
         detail: {
           "id": 1,
@@ -102,30 +99,6 @@ export default class ProductDetailScreen extends React.Component {
       </View>
     );
   }
-  onMatchProduct = () => {
-    this.setState({
-      matched: true, blotched: false
-    })
-  }
-
-  onBlotchProduct = () => {
-    this.setState({ matched: false, blotched: true });
-  }
-
-  onSaveToAllergicIngredients = () => {
-    alert("alergicIng");
-    this.setState({ saveToModalVisible: false })
-  }
-
-  onSaveToPotentilAllergens = () => {
-    alert("potential allergens");
-    this.setState({ saveToModalVisible: false })
-  }
-
-  onSaveToPreferredIngredients = () => {
-    alert("preferred ingredients");
-    this.setState({ saveToModalVisible: false })
-  }
 
   render() {
     return (
@@ -139,7 +112,7 @@ export default class ProductDetailScreen extends React.Component {
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
-        <TopbarWithBlackBack rightBtn="true" title="Product" onPress={() => { back_page ? this.props.navigation.goBack(null) : this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack rightBtn="true" title="Product" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
 
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
           <View style={[{ flex: 1 }]}>
@@ -156,9 +129,18 @@ export default class ProductDetailScreen extends React.Component {
               >
                 {this.state.product_detail_result_data.detail.image_list.split("###").map((image, index) => this.renderImages(image, index))}
               </Carousel>
-              <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]}>
-                <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
-              </TouchableHighlight>
+              {
+                this.state.product_detail_result_data.detail.is_liked > 0
+                  ?
+                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(this.state.product_detail_result_data.detail.id) }}>
+                    <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
+                  </TouchableOpacity>
+                  :
+                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductLike(this.state.product_detail_result_data.detail.id) }}>
+                    <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
+                  </TouchableOpacity>
+              }
+              
             </View>
 
             {/* Description */}
@@ -175,20 +157,25 @@ export default class ProductDetailScreen extends React.Component {
                 <Image style={{ flex: 1 }} />
                 <Image source={require("../../assets/images/ic_heart_gray.png")} style={MyStyles.ic_heart_gray} />
                 <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.product_detail_result_data.detail.like_count}</Text>
-                <StarRating
-                  disabled={false}
-                  maxStars={5}
-                  containerStyle={{ width: 273 / 3, marginLeft: 15 }}
-                  starSize={50 / 3}
-                  emptyStarColor={Colors.color_star_empty}
-                  rating={this.state.starCount}
-                  selectedStar={(rating) => {
-                    this.setState({
-                      starCount: rating
-                    });
-                  }}
-                  fullStarColor={Colors.color_star_full}
-                />
+                <TouchableOpacity onPress={() => {
+                  this.setState({
+                    gradeVisible: true
+                  });
+                }}>
+                  <StarRating
+                    disabled={true}
+                    maxStars={5}
+                    containerStyle={{ width: 273 / 3, marginLeft: 15 }}
+                    starSize={50 / 3}
+                    emptyStarColor={Colors.color_star_empty}
+                    rating={this.state.product_detail_result_data.detail.grade}
+
+                    fullStarColor={Colors.color_star_full}
+                  />
+                </TouchableOpacity>
+                {this.state.gradeVisible ?
+                  <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.product_detail_result_data.detail.grade}</Text>
+                  : null}
               </View>
             </View>
             <View style={MyStyles.seperate_line_e5e5e5}></View>
@@ -209,7 +196,11 @@ export default class ProductDetailScreen extends React.Component {
               </View>
 
               <View>
-                {this.state.tabbar.Ingredients ? <FragmentProductDetailIngredients item_id={item_id}></FragmentProductDetailIngredients> : <FragmentProductDetailReviews item_id={item_id} comment_count = {this.state.product_detail_result_data.detail.comment_count}></FragmentProductDetailReviews>}
+                {this.state.tabbar.Ingredients ?
+                  <FragmentProductDetailIngredients toast={this.refs.toast} item_id={item_id}></FragmentProductDetailIngredients>
+                  :
+                  <FragmentProductDetailReviews toast={this.refs.toast} item_id={item_id} comment_count={this.state.product_detail_result_data.detail.comment_count}></FragmentProductDetailReviews>
+                }
               </View>
             </View>
           </View>
@@ -219,13 +210,13 @@ export default class ProductDetailScreen extends React.Component {
         <LinearGradient colors={['#fefefe', '#f8f8f8']} style={{ height: 3 }} ></LinearGradient>
         <View style={{ height: 215 / 3, flexDirection: "row", alignItems: "center" }}>
           <View style={{ flex: 1 }}>
-            <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={this.onMatchProduct}>
+            <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.requestAddMatch(this.state.product_detail_result_data.detail.id, 0) }}>
               {this.state.matched ? <Image source={require('../../assets/images/ic_match_on.png')} style={[MyStyles.ic_match]} /> : <Image source={require('../../assets/images/ic_match_off.png')} style={[MyStyles.ic_match]} />}
               {this.state.matched ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_6bd5be }}>Match'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Match'd</Text>}
             </TouchableOpacity>
           </View>
           <View style={{ flex: 1 }}>
-            <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={this.onBlotchProduct}>
+            <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.requestAddMatch(this.state.product_detail_result_data.detail.id, 1) }}>
               {this.state.blotched ? <Image source={require('../../assets/images/ic_blotch_on.png')} style={[MyStyles.ic_blotch]} /> : <Image source={require('../../assets/images/ic_blotch_off.png')} style={[MyStyles.ic_blotch]} />}
               {this.state.blotched ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_f691a1 }}>Blotch'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Blotch'd</Text>}
             </TouchableOpacity>
@@ -233,67 +224,13 @@ export default class ProductDetailScreen extends React.Component {
 
           <View style={{ flex: 1 }}>
             <TouchableOpacity style={[{ height: 30, width: 250 / 3, justifyContent: "center", alignSelf: "center", alignItems: "center" }, MyStyles.purple_round_btn]} onPress={() => {
-              this.setState({ saveToModalVisible: true })
+              alert("2차 개발 준비중입니다.")
             }}>
               <Text style={{ fontSize: 13, color: "white" }}>Save as</Text>
               <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { position: "absolute", right: 10 }]} />
             </TouchableOpacity>
           </View>
         </View>
-
-        {/* Save to modal */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.saveToModalVisible}
-          onRequestClose={() => {
-          }}>
-          <View style={{ flex: 1 }}>
-            <View style={MyStyles.modal_bg}>
-              <View style={MyStyles.modalContainer}>
-                {/* modal header */}
-                <View style={{ flexDirection: "row", alignItems: "center", width: "100%", height: 50 }}>
-                  <View style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute" }]}>
-                    <Text style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</Text>
-                  </View>
-                  <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
-                    this.setState({ saveToModalVisible: false });
-                  }}>
-                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
-                  </TouchableOpacity>
-                </View>
-
-                <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-
-                <View style={[MyStyles.padding_h_main, { height: 130 }]}>
-                  {/* Allergic Ingredients(Dislike) */}
-                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }} onPress={this.onSaveToAllergicIngredients}>
-                    <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")}></Image>
-                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
-                    <Image style={{ flex: 1 }}></Image>
-                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}></Image>
-                  </TouchableOpacity>
-                  {/* Potential Allergens */}
-                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }} onPress={this.onSaveToPotentilAllergens}>
-                    <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")}></Image>
-                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
-                    <Image style={{ flex: 1 }}></Image>
-                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}></Image>
-                  </TouchableOpacity>
-                  {/* Preferred Ingredients */}
-                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }} onPress={this.onSaveToAllergicIngredients}>
-                    <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")}></Image>
-                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
-                    <Image style={{ flex: 1 }}></Image>
-                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}></Image>
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-            </View>
-          </View>
-        </Modal>
-
       </KeyboardAvoidingView >
     );
   }
@@ -335,4 +272,132 @@ export default class ProductDetailScreen extends React.Component {
       .done();
 
   }
+
+  // p_type : 0: Match'd, 1:Blotch'd
+  requestAddMatch(p_product_id, p_type) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.detail, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id,
+        type: p_type.toString(),
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(error);
+          return;
+        }
+
+        if (p_type == 0) {
+          this.setState({
+            matched: true, blotched: false
+          })
+        } else {
+          this.setState({
+            matched: false, blotched: true
+          })
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+
+  }
+  
+  requestProductLike(p_product_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.like, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.state.product_detail_result_data.detail.is_liked = 100
+        this.state.product_detail_result_data.detail.like_count++
+        this.setState(product_detail_result_data)
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestProductUnlike(p_product_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.unlike, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.state.product_detail_result_data.detail.is_liked = -1
+        this.state.product_detail_result_data.detail.like_count--
+        this.setState(product_detail_result_data)
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
 }

@@ -138,7 +138,7 @@ export class FragmentBestProduct extends React.Component {
     return (
       <View key={index}>
         <TouchableHighlight onPressIn={() => {
-          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "ProductContainer" })
+          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View>
             <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />

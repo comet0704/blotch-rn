@@ -340,7 +340,7 @@ export default class IngredientScreen extends React.Component {
           showsHorizontalScrollIndicator={false}
         >
           {this.state.mylist_result_data.potential_allergen_product_list.map(item => (
-            <TouchableOpacity style={{ marginRight: 10 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "ProductContainer" }) }}>
+            <TouchableOpacity style={{ marginRight: 10 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
               <View style={[MyStyles.productItemContainer, { width: 378 / 3 }]}>
                 <Image source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
                 {item.is_liked > 0
@@ -934,7 +934,7 @@ ingredients that can cause allergies.</Text>
       })
       .done();
   }
-  
+
   requestProductLike(p_product_id) {
     this.setState({
       isLoading: true,
@@ -1008,5 +1008,5 @@ ingredients that can cause allergies.</Text>
         this.refs.toast.showBottom(error);
       })
       .done();
-    }
+  }
 };

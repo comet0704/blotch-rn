@@ -34,7 +34,7 @@ export default class ArticlesScreen extends React.Component {
 
   renderArticle(item, index) {
     return (
-      <TouchableOpacity key={item.id} style={[MyStyles.container, { flex: 1 }]} onPress = {() => {this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "Home"}) }}>
+      <TouchableOpacity key={item.id} style={[MyStyles.container, { flex: 1 }]} onPress = {() => {this.props.navigation.navigate("ArticleDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id}) }}>
         <View style={[{ marginTop: 15, flex: 1, flexDirection: "row" }]}>
           <View style={{ flex: 1 }}>
             <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>

@@ -31,9 +31,10 @@ export class FragmentProductDetailIngredients extends React.Component {
   item_id = 0;
   constructor(props) {
     super(props)
-    this.item_id = this.props.item_id    
+    this.item_id = this.props.item_id
     this.state = {
-      isLoading:false,
+      saveToModalVisible: false,
+      isLoading: false,
       tabbar: {
         Good: true,
         Normal: false,
@@ -46,12 +47,12 @@ export class FragmentProductDetailIngredients extends React.Component {
       },
       user_ingredient_list_result_data: {
         user_ingredient_list: [
-  
+
         ]
       }
     };
   }
-  
+
   componentDidMount() {
     this.requestIngredientList(this.item_id)
     this.requestUserIngredientList()
@@ -88,7 +89,9 @@ export class FragmentProductDetailIngredients extends React.Component {
           <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
             <Image style={{ flex: 1 }} />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+              this.setState({ saveToModalVisible: true, selectedIngredient_id: item.id })
+            }}>
               <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</Text>
             </TouchableOpacity>
           </TouchableOpacity>
@@ -114,7 +117,7 @@ export class FragmentProductDetailIngredients extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -139,7 +142,7 @@ export class FragmentProductDetailIngredients extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -166,7 +169,6 @@ export class FragmentProductDetailIngredients extends React.Component {
           //Text style of the Spinner Text
           textStyle={MyStyles.spinnerTextStyle}
         />
-        <Toast ref='toast' />
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <View style={[MyStyles.padding_h_main, MyStyles.padding_v_25]}>
           <View style={MyStyles.tabbar_button_container1}>
@@ -198,7 +200,7 @@ export class FragmentProductDetailIngredients extends React.Component {
         {/* Allergic and Potential Ingredients  */}
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <View style={MyStyles.padding_main}>
-          <TouchableOpacity style={[{ height: 30, width: 250 / 3, alignSelf: "flex-end" }, MyStyles.purple_round_btn]}>
+          <TouchableOpacity style={[{ height: 30, width: 250 / 3, alignSelf: "flex-end" }, MyStyles.purple_round_btn]} onPress={() => { alert("2차개발 준비중입니다.") }}>
             <Text style={{ fontSize: 13, color: "white" }}>Me</Text>
             <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { position: "absolute", right: 10 }]} />
           </TouchableOpacity>
@@ -211,6 +213,68 @@ export class FragmentProductDetailIngredients extends React.Component {
             {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderPotentialAllergenIngredients(item, index))}
           </View>
         </View>
+
+        {/* Save to modal */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.saveToModalVisible}
+          onRequestClose={() => {
+          }}>
+          <View style={{ flex: 1 }}>
+            <View style={MyStyles.modal_bg}>
+              <View style={MyStyles.modalContainer}>
+                {/* modal header */}
+                <View style={{ flexDirection: "row", alignItems: "center", width: "100%", height: 50 }}>
+                  <View style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute" }]}>
+                    <Text style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</Text>
+                  </View>
+                  <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                    this.setState({ saveToModalVisible: false })
+                  }}>
+                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
+                  </TouchableOpacity>
+                </View>
+
+                <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+
+                <View style={[MyStyles.padding_h_main, { height: 130 }]}>
+                  {/* Allergic Ingredients(Dislike) */}
+                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                    onPress={() => {
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 0)
+                    }}>
+                    <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")}></Image>
+                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
+                    <Image style={{ flex: 1 }}></Image>
+                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}></Image>
+                  </TouchableOpacity>
+                  {/* Potential Allergens */}
+                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                    onPress={() => {
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 1)
+                    }}>
+                    <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")}></Image>
+                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
+                    <Image style={{ flex: 1 }}></Image>
+                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}></Image>
+                  </TouchableOpacity>
+                  {/* Preferred Ingredients */}
+                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                    onPress={() => {
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 2)
+                    }}>
+                    <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")}></Image>
+                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
+                    <Image style={{ flex: 1 }}></Image>
+                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}></Image>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -238,7 +302,7 @@ export class FragmentProductDetailIngredients extends React.Component {
         });
 
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
+          this.props.toast.showBottom(responseJson.result_msg);
           return;
         }
         this.setState({
@@ -250,7 +314,7 @@ export class FragmentProductDetailIngredients extends React.Component {
         this.setState({
           isLoading: false,
         });
-        this.refs.toast.showBottom(error);
+        this.props.toast.showBottom(error);
       })
       .done();
   }
@@ -275,7 +339,7 @@ export class FragmentProductDetailIngredients extends React.Component {
         });
 
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
+          this.props.toast.showBottom(responseJson.result_msg);
           return;
         }
 
@@ -283,6 +347,85 @@ export class FragmentProductDetailIngredients extends React.Component {
           user_ingredient_list_result_data: responseJson.result_data
         });
 
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.props.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestDeleteUserIngredient(p_ingredient_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.ingredient.deleteUserIngredient, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        ingredient_id: p_ingredient_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.requestUserIngredientList();
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestAddUserIngredient(p_ingredient_id, p_type) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.ingredient.addUserIngredient, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        ingredient_id: p_ingredient_id.toString(),
+        type: p_type.toString(),
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.setState({ saveToModalVisible: false });
+
+        this.requestUserIngredientList();
       })
       .catch((error) => {
         this.setState({

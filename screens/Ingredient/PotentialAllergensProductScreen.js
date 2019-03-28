@@ -171,7 +171,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
                 // fixed
                 // spacing={20}
                 renderItem={({ item, index }) => (
-                  <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "ProductContainer" }) }}>
+                  <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                     <View style={[MyStyles.productItemContainer, { width: 418 / 3, aspectRatio: 1.2 }]}>
                       <Image source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
                       {item.is_liked > 0

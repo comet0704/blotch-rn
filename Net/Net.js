@@ -44,6 +44,7 @@ export default {
         ingredientList: MyConstants.SERVER_URL + "/product/ingredientList",        
         commentList: MyConstants.SERVER_URL + "/product/commentList",
         postComment: MyConstants.SERVER_URL + "/product/postComment",        
+        addMatch: MyConstants.SERVER_URL + "/product/addMatch",        
     },
     ingredient : {
         userIngredientList: MyConstants.SERVER_URL + "/ingredient/userIngredientList",               

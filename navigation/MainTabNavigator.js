@@ -26,6 +26,7 @@ const HomeStack = createStackNavigator({
   ArticleDetail: ArticleDetailScreen,
   Faq: FaqScreen,
   BannerDetail: BannerDetailScreen,
+  ProductDetail: ProductDetailScreen,
   AboutUs: {
     screen: AboutUsScreen,
     navigationOptions: () => ({
@@ -63,6 +64,7 @@ HomeStack.navigationOptions = {
 const ProductStack = createStackNavigator({
   ProductContainer: ProductContainerScreen,
   ProductDetail: ProductDetailScreen,
+  BannerDetail: BannerDetailScreen,
 },
 {
   headerMode: 'screen ',

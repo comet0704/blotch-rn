@@ -324,7 +324,7 @@ export class FragmentProductDetailReviews extends React.Component {
         });
         
         if(responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
+          this.props.toast.showBottom(responseJson.result_msg);
           return;
         }        
         this.offset += responseJson.result_data.comment_list.length        
@@ -346,7 +346,7 @@ export class FragmentProductDetailReviews extends React.Component {
         this.setState({
           isLoading: false,
         });
-        this.refs.toast.showBottom(error);
+        this.props.toast.showBottom(error);
       })
       .done();
   }
@@ -379,7 +379,7 @@ export class FragmentProductDetailReviews extends React.Component {
           isLoading: false,
         });
         if(responseJson.result_code < 0) {          
-          this.refs.toast.showBottom(responseJson.result_msg);
+          this.props.toast.showBottom(responseJson.result_msg);
           return;
         }
         // 댓글 추가해주자.
@@ -389,7 +389,7 @@ export class FragmentProductDetailReviews extends React.Component {
         this.setState({
           isLoading: false,
         });
-        this.refs.toast.showBottom(error);
+        this.props.toast.showBottom(error);
       })
       .done();
   }

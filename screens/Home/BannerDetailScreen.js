@@ -16,7 +16,6 @@ import { LinearGradient } from 'expo';
 export default class BannerDetailScreen extends React.Component {
 
   item_id = "";
-  back_page = "";
   offset = 0;
   constructor(props) {
     super(props);
@@ -43,7 +42,6 @@ export default class BannerDetailScreen extends React.Component {
 
   componentDidMount() {
     item_id = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_id)
-    back_page = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.back_page)
     this.requestBannerDetail(item_id);
     this.setState({ loading_end: false })
     this.requestBannerCommentList(item_id, 0);
@@ -173,7 +171,7 @@ export default class BannerDetailScreen extends React.Component {
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
-        <TopbarWithBlackBack rightBtn="true" title="Banner" onPress={() => { back_page ? this.props.navigation.goBack(null) : this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack rightBtn="true" title="Banner" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({ nativeEvent }) => {

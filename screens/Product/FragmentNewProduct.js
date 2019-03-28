@@ -54,7 +54,7 @@ export class FragmentNewProduct extends React.Component {
     return (
       <View key={index}>
         <TouchableHighlight onPressIn={() => {
-          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "ProductContainer" })
+          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View>
             <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
@@ -75,11 +75,11 @@ export class FragmentNewProduct extends React.Component {
     categoryItems[index].is_selected = true
     this.state.beforeCatIdx = index
     this.setState({ categoryItems })
-    
-    this.setState({loading_end : false})
+
+    this.setState({ loading_end: false })
     if (this.state.categoryItems[index].sub_category.length > 0) {
       this.selectedSubCatName = this.state.categoryItems[index].sub_category[0].name;
-    } else {            
+    } else {
       this.selectedSubCatName = "";
     }
     this.requestNewList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
@@ -111,28 +111,28 @@ export class FragmentNewProduct extends React.Component {
   renderSubCategory(p_categoryIndex) {
     return (
       this.state.categoryItems[p_categoryIndex].sub_category.length > 0 ?
-      <View style={{}}>
-        <View>
-          <View style={MyStyles.tabbar_button_container}>
-            {
-              this.state.categoryItems[p_categoryIndex].sub_category.map((item, index) => (
-                <TouchableOpacity key={item.name} style={item.is_selected ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
-                  this.selectedSubCatName = item.name
-                  categoryItems = this.state.categoryItems;
-                  categoryItems[p_categoryIndex].sub_category.map((item) => (item.is_selected = false))
-                  categoryItems[p_categoryIndex].sub_category[index].is_selected = true
-                  this.setState({categoryItems : categoryItems})
-                  this.setState({loading_end : false})
-                  this.requestNewList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
-                }}>
-                  <Text style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</Text>
-                </TouchableOpacity>
-              ))}
+        <View style={{}}>
+          <View>
+            <View style={MyStyles.tabbar_button_container}>
+              {
+                this.state.categoryItems[p_categoryIndex].sub_category.map((item, index) => (
+                  <TouchableOpacity key={item.name} style={item.is_selected ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
+                    this.selectedSubCatName = item.name
+                    categoryItems = this.state.categoryItems;
+                    categoryItems[p_categoryIndex].sub_category.map((item) => (item.is_selected = false))
+                    categoryItems[p_categoryIndex].sub_category[index].is_selected = true
+                    this.setState({ categoryItems: categoryItems })
+                    this.setState({ loading_end: false })
+                    this.requestNewList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+                  }}>
+                    <Text style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</Text>
+                  </TouchableOpacity>
+                ))}
+            </View>
           </View>
+          <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         </View>
-        <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-      </View>
-      : null
+        : null
     );
   }
 
@@ -200,7 +200,7 @@ export class FragmentNewProduct extends React.Component {
                 // fixed
                 // spacing={20}
                 renderItem={({ item, index }) => (
-                  <TouchableOpacity onPress = {() => {this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page] : "ProductContainer"}) }}>
+                  <TouchableOpacity onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                     <View style={[MyStyles.productItemContainer]}>
                       <Image source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
                       {item.is_liked > 0
@@ -283,8 +283,8 @@ export class FragmentNewProduct extends React.Component {
           this.offset = 0;
         }
         this.offset += responseJson.result_data.new_list.length
-        if(responseJson.result_data.new_list.length < MyConstants.ITEMS_PER_PAGE) {
-          this.setState({loading_end : true})
+        if (responseJson.result_data.new_list.length < MyConstants.ITEMS_PER_PAGE) {
+          this.setState({ loading_end: true })
         }
         if (p_offset == 0) {
           this.setState({
@@ -420,5 +420,5 @@ export class FragmentNewProduct extends React.Component {
         this.refs.toast.showBottom(error);
       })
       .done();
-    }
+  }
 };
