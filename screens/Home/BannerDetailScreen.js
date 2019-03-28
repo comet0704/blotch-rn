@@ -22,7 +22,7 @@ export default class BannerDetailScreen extends React.Component {
     super(props);
     this.state = {
       loading_end: false,
-      modalVisible: false,
+      reportModalVisible: false,
       banner_detail_result_data: {
         detail: {
           "id": 1,
@@ -32,7 +32,7 @@ export default class BannerDetailScreen extends React.Component {
           "like_count": 1,
           "visit_count": 1,
           "comment_count": 7,
-          "content" : "배너 내용입니다."
+          "content": "배너 내용입니다."
         }
       },
       banner_comment_list_result_data: {
@@ -45,33 +45,33 @@ export default class BannerDetailScreen extends React.Component {
     item_id = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_id)
     back_page = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.back_page)
     this.requestBannerDetail(item_id);
-    this.setState({loading_end : false})
+    this.setState({ loading_end: false })
     this.requestBannerCommentList(item_id, 0);
   }
-  
+
   beforeCommentIdx = -1;
   onAddCommentSelected = (index) => {
     const comment_list = this.state.banner_comment_list_result_data.comment_list
     try {
-      comment_list[this.beforeCommentIdx].want_comment = false 
+      comment_list[this.beforeCommentIdx].want_comment = false
     } catch (error) {
-      
+
     }
     comment_list[index].want_comment = true
-    const result = {comment_list : comment_list};
+    const result = { comment_list: comment_list };
     this.beforeCommentIdx = index;
-    this.setState({ banner_comment_list_result_data : result})
+    this.setState({ banner_comment_list_result_data: result })
   }
   onCommentPosted = (p_comment, parent) => {
     const comment_list = this.state.banner_comment_list_result_data.comment_list
     this.setState({ post_comment: "" })
-    if(parent == 0) { //부모댓글인 경우 마지막에 추가만 해주면 됨.
-      const result = {comment_list : [p_comment, ...comment_list]};
+    if (parent == 0) { //부모댓글인 경우 마지막에 추가만 해주면 됨.
+      const result = { comment_list: [p_comment, ...comment_list] };
       const banner_detail_result_data = this.state.banner_detail_result_data;
       banner_detail_result_data.detail.comment_count += 1;
-      this.setState({ banner_comment_list_result_data : result, banner_detail_result_data : banner_detail_result_data})
+      this.setState({ banner_comment_list_result_data: result, banner_detail_result_data: banner_detail_result_data })
     } else { // 자식댓글의 경우 보무댓글의 밑에 추가. 현재는 구현이 말째서 api 다시 호출해주겠음.
-      this.setState({loading_end : false})
+      this.setState({ loading_end: false })
       this.requestBannerCommentList(item_id, 0);
       return
     }
@@ -80,29 +80,29 @@ export default class BannerDetailScreen extends React.Component {
     return (
       <View key={index}>
         <View style={MyStyles.comment_item}>
-          {item.parent == 0 ? null : <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 13, marginTop: 5, marginRight: 10 }]}/> }
-          <Image source={item.profile_image ? {uri : Common.getImageUrl(item.profile_image)} : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
-          <View style={{ flex: 1, marginLeft: 10 }}>          
+          {item.parent == 0 ? null : <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 13, marginTop: 5, marginRight: 10 }]} />}
+          <Image source={item.profile_image ? { uri: Common.getImageUrl(item.profile_image) } : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
+          <View style={{ flex: 1, marginLeft: 10 }}>
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-                      <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
-                      {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 50 / 3 }]}>Me</Text> : null}
+              <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
+              {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 50 / 3 }]}>Me</Text> : null}
             </View>
             <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{item.comment}</Text>
             <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
               <Text style={MyStyles.text_date}>{item.create_date}</Text>
-              {item.parent == 0 ? 
-                <TouchableOpacity style={{ padding: 5 }} onPress={() => {this.onAddCommentSelected(index)}}>
-                {/* <TouchableOpacity style={{ padding: 5 }}> */}
+              {item.parent == 0 ?
+                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.onAddCommentSelected(index) }}>
+                  {/* <TouchableOpacity style={{ padding: 5 }}> */}
                   <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]}></Image>
                 </TouchableOpacity>
-              : null}
-              {item.id == item_id ? 
-                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.setState({ modalVisible: true }) }}>
-                  <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}></Image>
+                : null}
+              {item.user_id == global.login_info.user_id ?
+                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.requestDeleteComment(item.id, index) }}>
+                  <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]}></Image>
                 </TouchableOpacity>
                 :
-                <TouchableOpacity style={{ padding: 5 }}>
-                  <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]}></Image>
+                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.setState({ reportModalVisible: true, selected_comment_id: item.id }) }}>
+                  <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}></Image>
                 </TouchableOpacity>
               }
             </View>
@@ -112,19 +112,19 @@ export default class BannerDetailScreen extends React.Component {
         {/* 대댓글 부분 */}
         {item.want_comment ?
           <View style={[{ margin: 15, flexDirection: "row", padding: 5, }, MyStyles.bg_white]}>
-            <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginTop:5, marginRight: 5 }]}></Image>
-            <TextInput  
-                    returnKeyType="go"
-                    multiline={true}
-                    onChangeText={(text) => { this.setState({ post_comment: text }) }}
-                    placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
+            <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginTop: 5, marginRight: 5 }]}></Image>
+            <TextInput
+              returnKeyType="go"
+              multiline={true}
+              onChangeText={(text) => { this.setState({ post_comment: text }) }}
+              placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
             </TextInput>
-            <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress = {() => {this.requestPostBannerComment(item_id, this.state.post_comment, item.id)}}>
+            <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostBannerComment(item_id, this.state.post_comment, item.id) }}>
               <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
             </TouchableOpacity>
           </View> : null
         }
-        
+
         <View style={MyStyles.seperate_line_e5e5e5}></View>
       </View>
 
@@ -175,7 +175,7 @@ export default class BannerDetailScreen extends React.Component {
         <TopbarWithBlackBack rightBtn="true" title="Banner" onPress={() => { back_page ? this.props.navigation.goBack(null) : this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
-          onScroll={({nativeEvent}) => {
+          onScroll={({ nativeEvent }) => {
             if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
               this.requestBannerCommentList(item_id, this.offset);
             }
@@ -197,9 +197,17 @@ export default class BannerDetailScreen extends React.Component {
             {/* Description */}
             <View style={{ height: 780 / 3, flex: 1, marginTop: 5 }}>
               <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(this.state.banner_detail_result_data.detail.image) }} />
-              <TouchableOpacity style={{ position: "absolute", top: 15, right: 15 }} onPress={() => { alert("onHeartClick") }}>
-                <Image source={require("../../assets/images/ic_heart_button.png")} style={[MyStyles.ic_heart_button, { marginLeft: 10 }]} />
-              </TouchableOpacity>
+              {
+                this.state.banner_detail_result_data.detail.is_liked > 0
+                  ?
+                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestBannerUnlike(this.state.banner_detail_result_data.detail.id) }}>
+                    <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
+                  </TouchableOpacity>
+                  :
+                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestBannerLike(this.state.banner_detail_result_data.detail.id) }}>
+                    <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
+                  </TouchableOpacity>
+              }
             </View>
 
             <View style={[{ marginTop: 5 }, MyStyles.padding_main]}>
@@ -224,7 +232,7 @@ export default class BannerDetailScreen extends React.Component {
                     onChangeText={(text) => { this.setState({ post_comment: text }) }}
                     multiline={true}
                     style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
-                  <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress = {() => {this.requestPostBannerComment(item_id, this.state.post_comment, 0)}}>
+                  <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostBannerComment(item_id, this.state.post_comment, 0) }}>
                     <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
                   </TouchableOpacity>
                 </View>
@@ -232,93 +240,6 @@ export default class BannerDetailScreen extends React.Component {
               </View>
 
               {this.state.banner_comment_list_result_data.comment_list.map((item, index) => this.renderComment(item, index))}
-              {/* <View>
-                <View style={MyStyles.comment_item}>
-                  <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
-                  <View style={{ flex: 1, marginLeft: 10 }}>
-                    <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>Username</Text>
-                    <Text style={{ fontSize: 13, color: Colors.color_515151 }}>app-header is container element for app-toolbars a
-t the top of the screen that can have scroll effects.
-B default, an app-header moves aways from the vie
-wport when scrolling down and if using reveals, the
-header slides back when scrolling back up. For exam
-ple</Text>
-                    <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
-                      <Text style={MyStyles.text_date}>19.01.02  22:11:12</Text>
-                      <TouchableOpacity style={{ padding: 5 }}>
-                        <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]}></Image>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.setState({ modalVisible: true }) }}>
-                        <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}></Image>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-
-                
-                <View style={[{ margin: 15, flexDirection: "row", padding: 5, alignItems: "center" }, MyStyles.bg_white]}>
-                  <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginRight: 5 }]}></Image>
-                  <TextInput placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
-                  <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]}>
-                    <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View style={MyStyles.seperate_line_e5e5e5}></View>
-              </View>
-
-              <View>
-                <View style={MyStyles.comment_item}>
-                  <Image source={{ uri: "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg" }} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
-                  <View style={{ flex: 1, marginLeft: 10 }}>
-                    <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>Username</Text>
-                    <Text style={{ fontSize: 13, color: Colors.color_515151 }}>app-header is container element for app-toolbars a
-t the top of the screen that can have scroll effects.
-B default, an app-header moves aways from the vie
-wport when scrolling down and if using reveals, the
-header slides back when scrolling back up. For exam
-ple</Text>
-                    <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
-                      <Text style={MyStyles.text_date}>19.01.02  22:11:12</Text>
-                      <TouchableOpacity style={{ padding: 5 }}>
-                        <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]}></Image>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={{ padding: 5 }}>
-                        <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}></Image>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-                <View style={MyStyles.seperate_line_e5e5e5}></View>
-              </View>
-
-              <View>
-                <View style={MyStyles.comment_item}>
-                  <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 13, marginTop: 5, marginRight: 10 }]}></Image>
-                  <Image source={{ uri: "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg" }} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
-                  <View style={{ flex: 1, marginLeft: 10 }}>
-                    <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-                      <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>Username</Text>
-                      <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 50 / 3 }]}>Me</Text>
-                    </View>
-                    <Text style={{ fontSize: 13, color: Colors.color_515151 }}>app-header is container element for app-toolbars a
-t the top of the screen that can have scroll effects.
-B default, an app-header moves aways from the vie
-wport when scrolling down and if using reveals, the
-header slides back when scrolling back up. For exam
-ple</Text>
-                    <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
-                      <Text style={MyStyles.text_date}>19.01.02  22:11:12</Text>
-                      <TouchableOpacity style={{ padding: 5 }}>
-                        <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]}></Image>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-                <View style={MyStyles.seperate_line_e5e5e5}></View>
-              </View> */}
-
-
             </View>
           </View>
         </ScrollView>
@@ -327,14 +248,14 @@ ple</Text>
         <Modal
           animationType="slide"
           transparent={true}
-          visible={this.state.modalVisible}
+          visible={this.state.reportModalVisible}
           onRequestClose={() => {
           }}>
           <View style={{ flex: 1 }}>
             <View style={MyStyles.modal_bg}>
               <View style={MyStyles.modalContainer}>
                 <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
-                  this.setState({ modalVisible: false });
+                  this.setState({ reportModalVisible: false });
                 }}>
                   <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
                 </TouchableOpacity>
@@ -344,14 +265,14 @@ ple</Text>
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight
-                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => { this.requestReportComment(this.state.selected_comment_id) }}>
                     <Text style={MyStyles.btn_primary}>Yes</Text>
                   </TouchableHighlight>
 
                   <TouchableHighlight
                     style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
                     onPress={() => {
-                      this.setState({ modalVisible: false });
+                      this.setState({ reportModalVisible: false });
                     }}>
                     <Text style={MyStyles.btn_primary_white}>Not now</Text>
                   </TouchableHighlight>
@@ -387,11 +308,11 @@ ple</Text>
           isLoading: false,
           banner_detail_result_data: responseJson.result_data
         });
-        if(responseJson.result_code < 0) {          
+        if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(error);
           return;
         }
-        
+
       })
       .catch((error) => {
         this.setState({
@@ -425,25 +346,28 @@ ple</Text>
         this.setState({
           isLoading: false,
         });
-        
-        if(responseJson.result_code < 0) {
+
+        if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
-        }        
-        this.offset += responseJson.result_data.comment_list.length        
-        if(responseJson.result_data.comment_list.length < MyConstants.ITEMS_PER_PAGE) {
-          this.setState({loading_end : true})
         }
-        
-        if(p_offset == 0) {          
+        if (p_offset == 0) {
+          this.offset = 0;
+        }
+        this.offset += responseJson.result_data.comment_list.length
+        if (responseJson.result_data.comment_list.length < MyConstants.ITEMS_PER_PAGE) {
+          this.setState({ loading_end: true })
+        }
+
+        if (p_offset == 0) {
           this.setState({
             banner_comment_list_result_data: responseJson.result_data
           });
           return;
         }
         const comment_list = this.state.banner_comment_list_result_data.comment_list
-        result = {comment_list : [ ...comment_list, ...responseJson.result_data.comment_list]};
-        this.setState({ banner_comment_list_result_data : result})
+        result = { comment_list: [...comment_list, ...responseJson.result_data.comment_list] };
+        this.setState({ banner_comment_list_result_data: result })
       })
       .catch((error) => {
         this.setState({
@@ -477,12 +401,170 @@ ple</Text>
         this.setState({
           isLoading: false,
         });
-        if(responseJson.result_code < 0) {          
+        if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
         // 댓글 추가해주자.
         this.onCommentPosted(responseJson.result_data.comment, p_parent)
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+
+  requestBannerLike(p_banner_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.banner.like, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        banner_id: p_banner_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.state.banner_detail_result_data.detail.is_liked = 100
+        this.state.banner_detail_result_data.detail.like_count++
+        this.setState(banner_detail_result_data)
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestBannerUnlike(p_banner_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.banner.unlike, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        banner_id: p_banner_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.state.banner_detail_result_data.detail.is_liked = -1
+        this.state.banner_detail_result_data.detail.like_count--
+        this.setState(banner_detail_result_data)
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestReportComment(p_comment_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.banner.reportComment, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        comment_id: p_comment_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.refs.toast.showBottom("The report has been received.");
+        this.setState({ reportModalVisible: false });
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestDeleteComment(p_comment_id, p_index) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.banner.deleteComment, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        comment_id: p_comment_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.state.banner_comment_list_result_data.comment_list.splice(p_index,1);
+        this.setState({banner_comment_list_result_data : this.state.banner_comment_list_result_data});
       })
       .catch((error) => {
         this.setState({

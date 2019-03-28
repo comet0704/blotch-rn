@@ -70,6 +70,10 @@ export default class LoginScreen extends React.Component {
     </Text>
   );
 
+  onLoginWithFacebook = () => {
+
+  }
+
   render() {
     const { loginPressed, email, password } = this.state;
     return (
@@ -86,7 +90,7 @@ export default class LoginScreen extends React.Component {
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled keyboardDismissMode="on-press"  /*keyboardVerticalOffset={100}*/>
 
           <TouchableWithoutFeedback style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" onPress={() => { Keyboard.dismiss() }} >
-            <View style={{flex:1}}>
+            <View style={{ flex: 1 }}>
               <Image source={require('../../assets/images/Login/login_bg.png')} style={MyStyles.background_image} />
               <TopbarWithWhiteBack onPress={() => { this.props.navigation.navigate("Home") }}></TopbarWithWhiteBack>
               <Image style={{ flex: 100 }}></Image>
@@ -124,7 +128,7 @@ export default class LoginScreen extends React.Component {
 
                 <Text style={{ marginTop: 10, marginLeft: "auto", fontSize: 12 }} onPress={() => this.onPressForgetPassword()}>
                   Forget Password
-            </Text>
+                </Text>
 
                 <TouchableOpacity style={{ marginTop: 30 }}>
                   <Button onPress={() => this.onPressLogin(this.state.email, this.state.password)} color="#a695fe" style={{ margin: 60, borderRadius: 5, color: "white", fontSize: 15 }} title="LOGIN" />
@@ -157,7 +161,7 @@ export default class LoginScreen extends React.Component {
                 </View>
 
                 <View style={{ flex: 1, flexDirection: "row", marginTop: 20, marginBottom: 40 }}>
-                  <TouchableOpacity style={MyStyles.FacebookStyle} activeOpacity={0.5}>
+                  <TouchableOpacity style={MyStyles.FacebookStyle} activeOpacity={0.5} onPress={() => {this.onLoginWithFacebook()}}>
                     {/*We can use any component which is used to shows something inside 
                   TouchableOpacity. It shows the item inside in horizontal orientation */}
                     <Image

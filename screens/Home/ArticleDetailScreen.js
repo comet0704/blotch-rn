@@ -46,33 +46,33 @@ export default class ArticleDetailScreen extends React.Component {
     item_id = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_id)
     back_page = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.back_page)
     this.requestArticleDetail(item_id);
-    this.setState({loading_end : false})
+    this.setState({ loading_end: false })
     this.requestArticleCommentList(item_id, 0);
   }
-  
+
   beforeCommentIdx = -1;
   onAddCommentSelected = (index) => {
     const comment_list = this.state.article_comment_list_result_data.comment_list
     try {
-      comment_list[this.beforeCommentIdx].want_comment = false 
+      comment_list[this.beforeCommentIdx].want_comment = false
     } catch (error) {
-      
+
     }
     comment_list[index].want_comment = true
-    const result = {comment_list : comment_list};
+    const result = { comment_list: comment_list };
     this.beforeCommentIdx = index;
-    this.setState({ article_comment_list_result_data : result})
+    this.setState({ article_comment_list_result_data: result })
   }
   onCommentPosted = (p_comment, parent) => {
     const comment_list = this.state.article_comment_list_result_data.comment_list
     this.setState({ post_comment: "" })
-    if(parent == 0) { //부모댓글인 경우 마지막에 추가만 해주면 됨.
-      const result = {comment_list : [p_comment, ...comment_list]};
+    if (parent == 0) { //부모댓글인 경우 마지막에 추가만 해주면 됨.
+      const result = { comment_list: [p_comment, ...comment_list] };
       const article_detail_result_data = this.state.article_detail_result_data;
       article_detail_result_data.detail.comment_count += 1;
-      this.setState({ article_comment_list_result_data : result, article_detail_result_data : article_detail_result_data})
+      this.setState({ article_comment_list_result_data: result, article_detail_result_data: article_detail_result_data })
     } else { // 자식댓글의 경우 보무댓글의 밑에 추가. 현재는 구현이 말째서 api 다시 호출해주겠음.
-      this.setState({loading_end : false})
+      this.setState({ loading_end: false })
       this.requestArticleCommentList(item_id, 0);
       return
     }
@@ -81,23 +81,23 @@ export default class ArticleDetailScreen extends React.Component {
     return (
       <View key={index}>
         <View style={MyStyles.comment_item}>
-          {item.parent == 0 ? null : <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 13, marginTop: 5, marginRight: 10 }]}/> }
-          <Image source={item.profile_image ? {uri : Common.getImageUrl(item.profile_image)} : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
-          <View style={{ flex: 1, marginLeft: 10 }}>          
+          {item.parent == 0 ? null : <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 13, marginTop: 5, marginRight: 10 }]} />}
+          <Image source={item.profile_image ? { uri: Common.getImageUrl(item.profile_image) } : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
+          <View style={{ flex: 1, marginLeft: 10 }}>
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-                      <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
-                      {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 50 / 3 }]}>Me</Text> : null}
+              <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
+              {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 50 / 3 }]}>Me</Text> : null}
             </View>
             <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{item.comment}</Text>
             <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
               <Text style={MyStyles.text_date}>{item.create_date}</Text>
-              {item.parent == 0 ? 
-                <TouchableOpacity style={{ padding: 5 }} onPress={() => {this.onAddCommentSelected(index)}}>
-                {/* <TouchableOpacity style={{ padding: 5 }}> */}
+              {item.parent == 0 ?
+                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.onAddCommentSelected(index) }}>
+                  {/* <TouchableOpacity style={{ padding: 5 }}> */}
                   <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]}></Image>
                 </TouchableOpacity>
-              : null}
-              {item.id == item_id ? 
+                : null}
+              {item.id == item_id ?
                 <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.setState({ modalVisible: true }) }}>
                   <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}></Image>
                 </TouchableOpacity>
@@ -113,19 +113,19 @@ export default class ArticleDetailScreen extends React.Component {
         {/* 대댓글 부분 */}
         {item.want_comment ?
           <View style={[{ margin: 15, flexDirection: "row", padding: 5, }, MyStyles.bg_white]}>
-            <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginTop:5, marginRight: 5 }]}></Image>
-            <TextInput  
-                    returnKeyType="go"
-                    multiline={true}
-                    onChangeText={(text) => { this.setState({ post_comment: text }) }}
-                    placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
+            <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginTop: 5, marginRight: 5 }]}></Image>
+            <TextInput
+              returnKeyType="go"
+              multiline={true}
+              onChangeText={(text) => { this.setState({ post_comment: text }) }}
+              placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
             </TextInput>
-            <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress = {() => {this.requestPostArticleComment(item_id, this.state.post_comment, item.id)}}>
+            <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostArticleComment(item_id, this.state.post_comment, item.id) }}>
               <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
             </TouchableOpacity>
           </View> : null
         }
-        
+
         <View style={MyStyles.seperate_line_e5e5e5}></View>
       </View>
 
@@ -176,7 +176,7 @@ export default class ArticleDetailScreen extends React.Component {
         <TopbarWithBlackBack rightBtn="true" title="Article" onPress={() => { back_page ? this.props.navigation.goBack(null) : this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
-          onScroll={({nativeEvent}) => {
+          onScroll={({ nativeEvent }) => {
             if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
               this.requestArticleCommentList(item_id, this.offset);
             }
@@ -198,9 +198,17 @@ export default class ArticleDetailScreen extends React.Component {
             {/* Description */}
             <View style={{ height: 780 / 3, flex: 1, marginTop: 5 }}>
               <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(this.state.article_detail_result_data.detail.image) }} />
-              <TouchableOpacity style={{ position: "absolute", top: 15, right: 15 }} onPress={() => { alert("onHeartClick") }}>
-                <Image source={require("../../assets/images/ic_heart_button.png")} style={[MyStyles.ic_heart_button, { marginLeft: 10 }]} />
-              </TouchableOpacity>
+              {
+                this.state.article_detail_result_data.detail.is_liked > 0
+                  ?
+                  <TouchableOpacity style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                    <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
+                  </TouchableOpacity>
+                  :
+                  <TouchableOpacity style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]} onPress={() => { this.requestProductLike(item.id) }}>
+                    <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
+                  </TouchableOpacity>
+              }
             </View>
 
             <View style={[{ marginTop: 5 }, MyStyles.padding_main]}>
@@ -225,7 +233,7 @@ export default class ArticleDetailScreen extends React.Component {
                     onChangeText={(text) => { this.setState({ post_comment: text }) }}
                     multiline={true}
                     style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
-                  <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress = {() => {this.requestPostArticleComment(item_id, this.state.post_comment, 0)}}>
+                  <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostArticleComment(item_id, this.state.post_comment, 0) }}>
                     <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
                   </TouchableOpacity>
                 </View>
@@ -302,11 +310,11 @@ export default class ArticleDetailScreen extends React.Component {
           isLoading: false,
           article_detail_result_data: responseJson.result_data
         });
-        if(responseJson.result_code < 0) {          
+        if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(error);
           return;
         }
-        
+
       })
       .catch((error) => {
         this.setState({
@@ -340,25 +348,28 @@ export default class ArticleDetailScreen extends React.Component {
         this.setState({
           isLoading: false,
         });
-        
-        if(responseJson.result_code < 0) {
+
+        if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
-        }        
-        this.offset += responseJson.result_data.comment_list.length        
-        if(responseJson.result_data.comment_list.length < MyConstants.ITEMS_PER_PAGE) {
-          this.setState({loading_end : true})
         }
-        
-        if(p_offset == 0) {          
+        if (p_offset == 0) {
+          this.offset = 0;
+        }
+        this.offset += responseJson.result_data.comment_list.length
+        if (responseJson.result_data.comment_list.length < MyConstants.ITEMS_PER_PAGE) {
+          this.setState({ loading_end: true })
+        }
+
+        if (p_offset == 0) {
           this.setState({
             article_comment_list_result_data: responseJson.result_data
           });
           return;
         }
         const comment_list = this.state.article_comment_list_result_data.comment_list
-        result = {comment_list : [ ...comment_list, ...responseJson.result_data.comment_list]};
-        this.setState({ article_comment_list_result_data : result})
+        result = { comment_list: [...comment_list, ...responseJson.result_data.comment_list] };
+        this.setState({ article_comment_list_result_data: result })
       })
       .catch((error) => {
         this.setState({
@@ -392,7 +403,7 @@ export default class ArticleDetailScreen extends React.Component {
         this.setState({
           isLoading: false,
         });
-        if(responseJson.result_code < 0) {          
+        if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }

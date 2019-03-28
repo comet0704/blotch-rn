@@ -29,6 +29,10 @@ export default {
         commentList: MyConstants.SERVER_URL + "/banner/commentList",
         postComment: MyConstants.SERVER_URL + "/banner/postComment",
         list2: MyConstants.SERVER_URL + "/banner/list2",
+        like: MyConstants.SERVER_URL + "/banner/like",
+        unlike: MyConstants.SERVER_URL + "/banner/unlike",
+        reportComment: MyConstants.SERVER_URL + "/banner/reportComment",
+        deleteComment: MyConstants.SERVER_URL + "/banner/deleteComment",
     },
     product : {
         newList: MyConstants.SERVER_URL + "/product/newList",        

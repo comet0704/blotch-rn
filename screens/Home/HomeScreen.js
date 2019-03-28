@@ -81,7 +81,21 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  renderBanner2and3(item, index) {
+  renderBanner2(item, index) {
+    return (
+      <View key={index}>
+        <TouchableHighlight onPressIn={() => {
+          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" })
+        }}>
+          <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
+            <Image source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
+            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
+          </View>
+        </TouchableHighlight>
+      </View>
+    );
+  }
+  renderBanner3(item, index) {
     return (
       <View key={index}>
         <TouchableHighlight onPressIn={() => {
@@ -380,17 +394,8 @@ export default class HomeScreen extends React.Component {
 
                   <View style={{ borderBottomRightRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
                     <Carousel
-                      autoplay={false}
+                      autoplay={true}
                       onPageChanged={(index) => {
-                        try {
-                          this.setState({
-                            'bestProductBanner': {
-                              'image_list': this.state.result_data.best_product_list[index].image_list,
-                              'title': this.state.result_data.best_product_list[index].title,
-                            }
-                          })
-                        } catch (error) {
-                        }
                       }}
                       showsPageIndicator={true}
                       loop
@@ -398,7 +403,7 @@ export default class HomeScreen extends React.Component {
                       pageSize={this.BannerWidth / 2}
                       ref={(carousel) => { this.bestCarouselIndicator = carousel }}
                     >
-                      {this.state.result_data.banner_list2.map((item, index) => this.renderBanner2and3(item, index))}
+                      {this.state.result_data.banner_list2.map((item, index) => this.renderBanner2(item, index))}
                     </Carousel>
                     {/* <Image source={{ uri: Common.getImageUrl(this.state.bestProductBanner.image_list) }} style={[MyStyles.background_image]} />
                     <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>{this.state.bestProductBanner.title}</Text> */}
@@ -407,14 +412,7 @@ export default class HomeScreen extends React.Component {
                   <View style={{ flex: 1, justifyContent: "center" }}>
                     <Carousel
                       autoplay={false}
-                      onPageChanged={(index) => {
-                        this.setState({
-                          'newProductBanner': {
-                            'image_list': this.state.result_data.new_product_list[index].image_list,
-                            'title': this.state.result_data.new_product_list[index].title,
-                          }
-                        })
-                      }}
+                      autoplayTimeout={3500}
                       showsPageIndicator={false}
                       loop
                       index={0}
@@ -447,16 +445,7 @@ export default class HomeScreen extends React.Component {
                   <View style={{ flex: 1, justifyContent: "center" }}>
                     <Carousel
                       autoplay={false}
-                      onPageChanged={(index) => {
-                        try {
-                          this.setState({
-                            'bestProductBanner': {
-                              'image_list': this.state.result_data.best_product_list[index].image_list,
-                              'title': this.state.result_data.best_product_list[index].title,
-                            }
-                          })
-                        } catch (error) {
-                        }
+                      onPageChanged={(index) => {                       
                       }}
                       showsPageIndicator={false}
                       loop
@@ -479,25 +468,15 @@ export default class HomeScreen extends React.Component {
 
                   <View style={{ borderBottomLeftRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
                     <Carousel
-                      autoplay={false}
-                      onPageChanged={(index) => {
-                        try {
-                          this.setState({
-                            'bestProductBanner': {
-                              'image_list': this.state.result_data.best_product_list[index].image_list,
-                              'title': this.state.result_data.best_product_list[index].title,
-                            }
-                          })
-                        } catch (error) {
-                        }
-                      }}
+                      autoplay={true}
+                      autoplayTimeout={2500}
                       showsPageIndicator={true}
                       loop
                       index={0}
                       pageSize={this.BannerWidth / 2}
                       ref={(carousel) => { this.bestCarouselIndicator = carousel }}
                     >
-                      {this.state.result_data.banner_list3.map((item, index) => this.renderBanner2and3(item, index))}
+                      {this.state.result_data.banner_list3.map((item, index) => this.renderBanner3(item, index))}
                     </Carousel>
                     {/* <Image source={{ uri: Common.getImageUrl(this.state.bestProductBanner.image_list) }} style={[MyStyles.background_image]} />
                     <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>{this.state.bestProductBanner.title}</Text> */}
