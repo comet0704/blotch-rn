@@ -34,6 +34,7 @@ export default {
     shampoo: "Shampoo",
     treatment: "Treatment",
     essense: "Essense",
+    colors: "Colors",
     nail_care: "Nail care",
     toothpaste: "Toothpaste",
   },  
