@@ -65,6 +65,7 @@ export default class BannerDetailScreen extends React.Component {
   onCommentPosted = (p_comment, parent) => {
     const comment_list = this.state.banner_comment_list_result_data.comment_list
     this.setState({ post_comment: "" })
+    this.setState({ post_sub_comment: ""})
     if (parent == 0) { //부모댓글인 경우 마지막에 추가만 해주면 됨.
       const result = { comment_list: [p_comment, ...comment_list] };
       const banner_detail_result_data = this.state.banner_detail_result_data;
@@ -116,10 +117,10 @@ export default class BannerDetailScreen extends React.Component {
             <TextInput
               returnKeyType="go"
               multiline={true}
-              onChangeText={(text) => { this.setState({ post_comment: text }) }}
+              onChangeText={(text) => { this.setState({ post_sub_comment: text }) }}
               placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
             </TextInput>
-            <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostBannerComment(item_id, this.state.post_comment, item.id) }}>
+            <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostBannerComment(item_id, this.state.post_sub_comment, item.id) }}>
               <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
             </TouchableOpacity>
           </View> : null

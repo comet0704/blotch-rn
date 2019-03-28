@@ -22,7 +22,7 @@ export default class ArticleDetailScreen extends React.Component {
     super(props);
     this.state = {
       loading_end: false,
-      modalVisible: false,
+      reportModalVisible: false,
       article_detail_result_data: {
         detail: {
           "id": 1,
@@ -66,6 +66,7 @@ export default class ArticleDetailScreen extends React.Component {
   onCommentPosted = (p_comment, parent) => {
     const comment_list = this.state.article_comment_list_result_data.comment_list
     this.setState({ post_comment: "" })
+    this.setState({ post_sub_comment: ""})
     if (parent == 0) { //부모댓글인 경우 마지막에 추가만 해주면 됨.
       const result = { comment_list: [p_comment, ...comment_list] };
       const article_detail_result_data = this.state.article_detail_result_data;
@@ -97,13 +98,13 @@ export default class ArticleDetailScreen extends React.Component {
                   <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]}></Image>
                 </TouchableOpacity>
                 : null}
-              {item.id == item_id ?
-                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.setState({ modalVisible: true }) }}>
-                  <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}></Image>
+              {item.user_id == global.login_info.user_id ?
+                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.requestDeleteComment(item.id, index) }}>
+                  <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]}></Image>
                 </TouchableOpacity>
                 :
-                <TouchableOpacity style={{ padding: 5 }}>
-                  <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]}></Image>
+                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.setState({ reportModalVisible: true, selected_comment_id: item.id }) }}>
+                  <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}></Image>
                 </TouchableOpacity>
               }
             </View>
@@ -117,10 +118,10 @@ export default class ArticleDetailScreen extends React.Component {
             <TextInput
               returnKeyType="go"
               multiline={true}
-              onChangeText={(text) => { this.setState({ post_comment: text }) }}
+              onChangeText={(text) => { this.setState({ post_sub_comment: text }) }}
               placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
             </TextInput>
-            <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostArticleComment(item_id, this.state.post_comment, item.id) }}>
+            <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostArticleComment(item_id, this.state.post_sub_comment, item.id) }}>
               <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
             </TouchableOpacity>
           </View> : null
@@ -201,11 +202,11 @@ export default class ArticleDetailScreen extends React.Component {
               {
                 this.state.article_detail_result_data.detail.is_liked > 0
                   ?
-                  <TouchableOpacity style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                  <TouchableOpacity style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]} onPress={() => { this.requestArticleUnlike(this.state.article_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                   :
-                  <TouchableOpacity style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]} onPress={() => { this.requestProductLike(item.id) }}>
+                  <TouchableOpacity style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]} onPress={() => { this.requestArticleLike(this.state.article_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
               }
@@ -250,14 +251,14 @@ export default class ArticleDetailScreen extends React.Component {
         <Modal
           animationType="slide"
           transparent={true}
-          visible={this.state.modalVisible}
+          visible={this.state.reportModalVisible}
           onRequestClose={() => {
           }}>
           <View style={{ flex: 1 }}>
             <View style={MyStyles.modal_bg}>
               <View style={MyStyles.modalContainer}>
                 <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
-                  this.setState({ modalVisible: false });
+                  this.setState({ reportModalVisible: false });
                 }}>
                   <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
                 </TouchableOpacity>
@@ -267,14 +268,14 @@ export default class ArticleDetailScreen extends React.Component {
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight
-                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => { this.requestReportComment(this.state.selected_comment_id) }}>
                     <Text style={MyStyles.btn_primary}>Yes</Text>
                   </TouchableHighlight>
 
                   <TouchableHighlight
                     style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
                     onPress={() => {
-                      this.setState({ modalVisible: false });
+                      this.setState({ reportModalVisible: false });
                     }}>
                     <Text style={MyStyles.btn_primary_white}>Not now</Text>
                   </TouchableHighlight>
@@ -409,6 +410,163 @@ export default class ArticleDetailScreen extends React.Component {
         }
         // 댓글 추가해주자.
         this.onCommentPosted(responseJson.result_data.comment, p_parent)
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestArticleLike(p_article_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.article.like, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        article_id: p_article_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.state.article_detail_result_data.detail.is_liked = 100
+        this.state.article_detail_result_data.detail.like_count++
+        this.setState(article_detail_result_data)
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestArticleUnlike(p_article_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.article.unlike, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        article_id: p_article_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.state.article_detail_result_data.detail.is_liked = -1
+        this.state.article_detail_result_data.detail.like_count--
+        this.setState(article_detail_result_data)
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestReportComment(p_comment_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.article.reportComment, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        comment_id: p_comment_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.refs.toast.showBottom("The report has been received.");
+        this.setState({ reportModalVisible: false });
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestDeleteComment(p_comment_id, p_index) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.article.deleteComment, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        comment_id: p_comment_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.state.article_comment_list_result_data.comment_list.splice(p_index, 1);
+        this.setState({ article_comment_list_result_data: this.state.article_comment_list_result_data });
       })
       .catch((error) => {
         this.setState({
