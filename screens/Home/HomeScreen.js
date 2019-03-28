@@ -29,12 +29,15 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLogined: false,
       isLoading: false,
       weatherType: "dry",
       weatherInfo: "Seoul. -6˚C",
       result_data: {
         recommend_product_list: [],
         banner_list: [],
+        banner_list2: [],
+        banner_list3: [],
         new_product_list: [],
         best_product_list: [],
         latest_article_list: [],
@@ -78,15 +81,38 @@ export default class HomeScreen extends React.Component {
     );
   }
 
+  renderBanner2and3(item, index) {
+    return (
+      <View key={index}>
+        <TouchableHighlight onPressIn={() => {
+          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" })
+        }}>
+          <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
+            <Image source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
+            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
+          </View>
+        </TouchableHighlight>
+      </View>
+    );
+  }
+
   renderNewProductBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
           <View style={{ flex: 1 }}>
             <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
-            <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
-              <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-            </TouchableHighlight>
+            {
+              item.is_liked > 0
+                ?
+                <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                  <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
+                </TouchableOpacity>
+                :
+                <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductLike(item.id) }}>
+                  <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
+                </TouchableOpacity>
+            }
             <View style={{ position: "absolute", bottom: 0, maxWidth: 130, paddingBottom: 30, alignSelf: "center" }}>
               <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }}>{item.brand_title}</Text>
               <Text style={{ fontSize: 14, color: "black", marginTop: 5, textAlign: "center" }}>{item.title}</Text>
@@ -103,9 +129,17 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
           <View style={{ flex: 1 }}>
             <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
-            <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
-              <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-            </TouchableHighlight>
+            {
+              item.is_liked > 0
+                ?
+                <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                  <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
+                </TouchableOpacity>
+                :
+                <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductLike(item.id) }}>
+                  <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
+                </TouchableOpacity>
+            }
             <View style={{ position: "absolute", bottom: 0, maxWidth: 130, paddingBottom: 30, alignSelf: "center" }}>
               <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }}>{item.brand_title}</Text>
               <Text style={{ fontSize: 14, color: "black", marginTop: 5, textAlign: "center" }}>{item.title}</Text>
@@ -123,9 +157,16 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
             <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
-            <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
-              <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-            </TouchableHighlight>
+            {
+              item.is_liked > 0
+                ?
+                <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleUnlike(item.id) }}>
+                  <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
+                </TouchableHighlight>
+                : <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleLike(item.id) }}>
+                  <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
+                </TouchableHighlight>
+            }
             <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
               <Text style={{ fontSize: 13, color: "white" }}>{item.title}</Text>
               <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{item.content}</Text>
@@ -149,9 +190,16 @@ export default class HomeScreen extends React.Component {
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.back_page]: "Home" }) }}>
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
                   <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
-                  <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
-                    <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-                  </TouchableHighlight>
+                  {
+                    item.is_liked > 0
+                      ?
+                      <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleUnlike(item.id) }}>
+                        <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
+                      </TouchableHighlight>
+                      : <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleLike(item.id) }}>
+                        <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
+                      </TouchableHighlight>
+                  }
                   <View style={{ position: "absolute", bottom: 5, left: 5, maxWidth: 120 }}>
                     <Text style={{ fontSize: 12, color: "white" }}>{item.title}</Text>
                     <Text style={{ fontSize: 14, color: "white", fontWeight: "bold" }} numberOfLines={1}>{item.content}</Text>
@@ -202,6 +250,9 @@ export default class HomeScreen extends React.Component {
                 global.login_info = {
                   token: ""
                 }
+                this.setState({ isLogined: false })
+              } else {
+                this.setState({ isLogined: true })
               }
               this.requestHomeList()
             });
@@ -223,10 +274,12 @@ export default class HomeScreen extends React.Component {
               {/* Search bar */}
               <View style={[{ flex: 1, marginTop: 27, height: 40, paddingTop: 2, paddingBottom: 2, justifyContent: "center", flexDirection: "row", }, MyStyles.container, MyStyles.bg_white]}>
                 <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />
-                <View style={[{ flex: 1, marginLeft: 12, borderRadius: 20, borderWidth: 0.5, borderBottomWidth: 2, flexDirection: "row", width: "100%", borderColor: "#f8f8f8", paddingLeft: 13, paddingRight: 13 }]}>
+                <View style={[{ flex: 1, marginLeft: 12, borderRadius: 20, borderWidth: 0.5, borderBottomWidth: 2, flexDirection: "row", width: "100%", borderColor: "#f8f8f8", paddingLeft: 13, paddingRight: 5 }]}>
                   <Image source={require('../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
                   <TextInput style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
-                  <Image source={require('../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
+                  <TouchableOpacity style={{ padding: 8 }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
+                    <Image source={require('../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
+                  </TouchableOpacity>
                 </View>
               </View>
 
@@ -245,14 +298,18 @@ export default class HomeScreen extends React.Component {
                         <Image source={require('../../assets/images/Home/ic_weather_type.png')} style={{ width: 13, height: 7, alignSelf: "center" }} />
                         <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {weatherType}</Text> today</Text>
                       </View>
-                      <View style={[{ flexDirection: "row", color: "white" }]}>
-                        <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
-                        <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {weatherType}</Text> today</Text>
-                      </View>
-                      <View style={[{ flexDirection: "row", color: "white" }]}>
-                        <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
-                        <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {weatherType}</Text> today</Text>
-                      </View>
+                      {this.state.isLogined ?
+                        <View>
+                          <View style={[{ flexDirection: "row", color: "white" }]}>
+                            <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
+                            <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs}</Text>It's today</Text>
+                          </View>
+                          <View style={[{ flexDirection: "row", color: "white" }]}>
+                            <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
+                            <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern}</Text></Text>
+                          </View>
+                        </View>
+                        : null}
                     </View>
                     <View style={{ alignSelf: "center", marginLeft: 10, justifyContent: "center" }}>
                       <Image source={require('../../assets/images/Home/ic_cloud.png')} style={{ width: 51, height: 41, alignSelf: "center" }} />
@@ -263,7 +320,7 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* We can search it */}
-              <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress={() => { alert("2차 개발 준비중입니다.") }}>
+              {this.state.isLogined == false ? <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress={() => { alert("2차 개발 준비중입니다.") }}>
                 <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                   <View style={{ flex: 1 }}>
                     <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
@@ -273,27 +330,31 @@ export default class HomeScreen extends React.Component {
                   <Image source={require('../../assets/images/Home/ic_avatar_woman.png')} style={{ width: 30, height: 42, alignSelf: "center" }} />
                 </View>
               </TouchableOpacity>
+                : null
+              }
 
               {/* We recommend It! 로그인 했을때 나타나는 정보 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
-                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                  <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                    this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+              {this.state.isLogined ?
+                <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+                  <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
+                    <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
+                    <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
+                      this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                  </View>
+                  <View style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingLeft: 15,
+                    paddingRight: 15,
+                    paddingBottom: 30
+                  }}>
+                    {
+                      this.renderRecommendingScroll()
+                    }
+                  </View>
                 </View>
-                <View style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingLeft: 15,
-                  paddingRight: 15,
-                  paddingBottom: 30
-                }}>
-                  {
-                    this.renderRecommendingScroll()
-                  }
-                </View>
-              </View>
+                : null}
 
               {/* 배너 부분 */}
               <View style={{ borderTopRightRadius: 20, overflow: "hidden", marginTop: 10 }}>
@@ -316,9 +377,31 @@ export default class HomeScreen extends React.Component {
                     onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 0 }) }}>more ></Text>
                 </View>
                 <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, }}>
+
                   <View style={{ borderBottomRightRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
-                    <Image source={{ uri: Common.getImageUrl(this.state.newProductBanner.image_list) }} style={[MyStyles.background_image]} />
-                    <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>{this.state.newProductBanner.title}</Text>
+                    <Carousel
+                      autoplay={false}
+                      onPageChanged={(index) => {
+                        try {
+                          this.setState({
+                            'bestProductBanner': {
+                              'image_list': this.state.result_data.best_product_list[index].image_list,
+                              'title': this.state.result_data.best_product_list[index].title,
+                            }
+                          })
+                        } catch (error) {
+                        }
+                      }}
+                      showsPageIndicator={true}
+                      loop
+                      index={0}
+                      pageSize={this.BannerWidth / 2}
+                      ref={(carousel) => { this.bestCarouselIndicator = carousel }}
+                    >
+                      {this.state.result_data.banner_list2.map((item, index) => this.renderBanner2and3(item, index))}
+                    </Carousel>
+                    {/* <Image source={{ uri: Common.getImageUrl(this.state.bestProductBanner.image_list) }} style={[MyStyles.background_image]} />
+                    <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>{this.state.bestProductBanner.title}</Text> */}
                   </View>
 
                   <View style={{ flex: 1, justifyContent: "center" }}>
@@ -395,8 +478,29 @@ export default class HomeScreen extends React.Component {
                   </View>
 
                   <View style={{ borderBottomLeftRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
-                    <Image source={{ uri: Common.getImageUrl(this.state.bestProductBanner.image_list) }} style={[MyStyles.background_image]} />
-                    <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>{this.state.bestProductBanner.title}</Text>
+                    <Carousel
+                      autoplay={false}
+                      onPageChanged={(index) => {
+                        try {
+                          this.setState({
+                            'bestProductBanner': {
+                              'image_list': this.state.result_data.best_product_list[index].image_list,
+                              'title': this.state.result_data.best_product_list[index].title,
+                            }
+                          })
+                        } catch (error) {
+                        }
+                      }}
+                      showsPageIndicator={true}
+                      loop
+                      index={0}
+                      pageSize={this.BannerWidth / 2}
+                      ref={(carousel) => { this.bestCarouselIndicator = carousel }}
+                    >
+                      {this.state.result_data.banner_list3.map((item, index) => this.renderBanner2and3(item, index))}
+                    </Carousel>
+                    {/* <Image source={{ uri: Common.getImageUrl(this.state.bestProductBanner.image_list) }} style={[MyStyles.background_image]} />
+                    <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>{this.state.bestProductBanner.title}</Text> */}
                   </View>
 
                 </View>
@@ -524,5 +628,155 @@ export default class HomeScreen extends React.Component {
       })
       .done();
 
+  }
+
+  requestProductLike(p_product_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.like, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.requestHomeList();
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestProductUnlike(p_product_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.unlike, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.requestHomeList();
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestArticleLike(p_article_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.article.like, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        article_id: p_article_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.requestHomeList();
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestArticleUnlike(p_article_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.article.unlike, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        article_id: p_article_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.requestHomeList();
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
   }
 }

@@ -50,7 +50,7 @@ export class FragmentRecommendProduct extends React.Component {
       { name: 'PUMPKIN', code: '#d35400' }, { name: 'POMEGRANATE', code: '#c0392b' },
       { name: 'SILVER', code: '#bdc3c7' }, { name: 'ASBESTOS', code: '#7f8c8d' },
     ],
-    mainCategoryItems: Common.getCategoryItems().splice(1, Common.categoryItems.length - 1),
+    mainCategoryItems: Common.categoryItems.splice(1, Common.categoryItems.length - 1),
   };
 
   BannerHeight = 560 / 3;

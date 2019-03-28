@@ -156,7 +156,7 @@ export default class ProductDetailScreen extends React.Component {
               >
                 {this.state.product_detail_result_data.detail.image_list.split("###").map((image, index) => this.renderImages(image, index))}
               </Carousel>
-              <TouchableHighlight style={[{ position: "absolute", right: 15, top: 15 }, MyStyles.heart]}>
+              <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]}>
                 <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
               </TouchableHighlight>
             </View>

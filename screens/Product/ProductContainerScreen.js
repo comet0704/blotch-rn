@@ -21,14 +21,13 @@ import MyConstants from '../../constants/MyConstants';
 import { FragmentNewProduct } from './FragmentNewProduct';
 import { FragmentBestProduct } from './FragmentBestProduct';
 import { FragmentRecommendProduct } from './FragmentRecommendProduct';
+import { NavigationEvents } from 'react-navigation';
 
 export default class ProductContainerScreen extends React.Component {
   constructor(props) {
     super(props)
-    initialPage = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.product_container_initial_page)
-    // this.setState({initialPage: 2})
     this.state = {
-      initialPage: initialPage
+      initialPage: 0
     }
   }
   componentDidMount() {
@@ -36,25 +35,31 @@ export default class ProductContainerScreen extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
-
+        <NavigationEvents
+          onWillFocus={payload => {
+            const initialPage = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.product_container_initial_page)
+            this.setState({initialPage, initialPage});
+          }}
+        />
         <TopbarWithBlackBack title="Product" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
         <ScrollableTabView
           style={{ height: 20, borderBottomWidth: 0, marginTop: 10 }}
           initialPage={this.state.initialPage}
           tabBarInactiveTextColor={Colors.color_dcdedd}
+          page={this.state.initialPage}
           tabBarActiveTextColor={Colors.primary_dark}
           tabBarTextStyle={{ fontWeight: "400", fontSize: 14 }}
           tabBarUnderlineStyle={{ backgroundColor: Colors.primary_purple }}
           renderTabBar={() => <DefaultTabBar />}
         >
-          <View tabLabel="New"style={{ flex: 1 }}>
-            <FragmentNewProduct  navigation = {this.props.navigation} ></FragmentNewProduct>
+          <View tabLabel="New" style={{ flex: 1 }}>
+            <FragmentNewProduct navigation={this.props.navigation} ></FragmentNewProduct>
           </View>
           <View tabLabel="Best" style={{ flex: 1 }}>
-            <FragmentBestProduct navigation = {this.props.navigation} ></FragmentBestProduct>
+            <FragmentBestProduct navigation={this.props.navigation} ></FragmentBestProduct>
           </View>
           <View tabLabel="Recommendation" style={{ flex: 1 }}>
-            <FragmentRecommendProduct navigation = {this.props.navigation} ></FragmentRecommendProduct>
+            <FragmentRecommendProduct navigation={this.props.navigation} ></FragmentRecommendProduct>
           </View>
         </ScrollableTabView>
 
