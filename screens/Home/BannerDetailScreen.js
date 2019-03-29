@@ -63,7 +63,7 @@ export default class BannerDetailScreen extends React.Component {
   onCommentPosted = (p_comment, parent) => {
     const comment_list = this.state.banner_comment_list_result_data.comment_list
     this.setState({ post_comment: "" })
-    this.setState({ post_sub_comment: ""})
+    this.setState({ post_sub_comment: "" })
     if (parent == 0) { //부모댓글인 경우 마지막에 추가만 해주면 됨.
       const result = { comment_list: [p_comment, ...comment_list] };
       const banner_detail_result_data = this.state.banner_detail_result_data;
@@ -244,6 +244,7 @@ export default class BannerDetailScreen extends React.Component {
         </ScrollView>
 
 
+        {/* 신고팝업 */}
         <Modal
           animationType="slide"
           transparent={true}
@@ -562,8 +563,8 @@ export default class BannerDetailScreen extends React.Component {
           return
         }
 
-        this.state.banner_comment_list_result_data.comment_list.splice(p_index,1);
-        this.setState({banner_comment_list_result_data : this.state.banner_comment_list_result_data});
+        this.state.banner_comment_list_result_data.comment_list.splice(p_index, 1);
+        this.setState({ banner_comment_list_result_data: this.state.banner_comment_list_result_data });
       })
       .catch((error) => {
         this.setState({

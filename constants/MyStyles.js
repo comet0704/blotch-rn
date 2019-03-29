@@ -889,4 +889,7 @@ export default StyleSheet.create({
     width: 162 / 3,
     height: 165 / 3,
   },
+  review_photo: {
+    flex: 1, backgroundColor: "transparent", borderWidth: 1, aspectRatio: 1.2, margin: 5,
+  },
 });

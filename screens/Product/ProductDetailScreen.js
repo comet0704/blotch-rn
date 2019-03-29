@@ -140,7 +140,7 @@ export default class ProductDetailScreen extends React.Component {
                     <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
               }
-              
+
             </View>
 
             {/* Description */}
@@ -210,15 +210,15 @@ export default class ProductDetailScreen extends React.Component {
         <LinearGradient colors={['#fefefe', '#f8f8f8']} style={{ height: 3 }} ></LinearGradient>
         <View style={{ height: 215 / 3, flexDirection: "row", alignItems: "center" }}>
           <View style={{ flex: 1 }}>
-            <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.requestAddMatch(this.state.product_detail_result_data.detail.id, 0) }}>
-              {this.state.matched ? <Image source={require('../../assets/images/ic_match_on.png')} style={[MyStyles.ic_match]} /> : <Image source={require('../../assets/images/ic_match_off.png')} style={[MyStyles.ic_match]} />}
-              {this.state.matched ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_6bd5be }}>Match'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Match'd</Text>}
+            <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "M" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 0) }}>
+              {this.state.product_detail_result_data.detail.user_match == "M" ? <Image source={require('../../assets/images/ic_match_on.png')} style={[MyStyles.ic_match]} /> : <Image source={require('../../assets/images/ic_match_off.png')} style={[MyStyles.ic_match]} />}
+              {this.state.product_detail_result_data.detail.user_match == "M" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_6bd5be }}>Match'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Match'd</Text>}
             </TouchableOpacity>
           </View>
           <View style={{ flex: 1 }}>
-            <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.requestAddMatch(this.state.product_detail_result_data.detail.id, 1) }}>
-              {this.state.blotched ? <Image source={require('../../assets/images/ic_blotch_on.png')} style={[MyStyles.ic_blotch]} /> : <Image source={require('../../assets/images/ic_blotch_off.png')} style={[MyStyles.ic_blotch]} />}
-              {this.state.blotched ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_f691a1 }}>Blotch'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Blotch'd</Text>}
+            <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "B" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 1) }}>
+              {this.state.product_detail_result_data.detail.user_match == "B" ? <Image source={require('../../assets/images/ic_blotch_on.png')} style={[MyStyles.ic_blotch]} /> : <Image source={require('../../assets/images/ic_blotch_off.png')} style={[MyStyles.ic_blotch]} />}
+              {this.state.product_detail_result_data.detail.user_match == "B" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_f691a1 }}>Blotch'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Blotch'd</Text>}
             </TouchableOpacity>
           </View>
 
@@ -278,7 +278,7 @@ export default class ProductDetailScreen extends React.Component {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.product.detail, {
+    return fetch(Net.product.addMatch, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -286,7 +286,7 @@ export default class ProductDetailScreen extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        product_id: p_product_id,
+        product_id: p_product_id.toString(),
         type: p_type.toString(),
       }),
     })
@@ -302,14 +302,11 @@ export default class ProductDetailScreen extends React.Component {
         }
 
         if (p_type == 0) {
-          this.setState({
-            matched: true, blotched: false
-          })
+          this.state.product_detail_result_data.detail.user_match = "M"
         } else {
-          this.setState({
-            matched: false, blotched: true
-          })
+          this.state.product_detail_result_data.detail.user_match = "B"
         }
+        this.setState(product_detail_result_data)
       })
       .catch((error) => {
         this.setState({
@@ -320,7 +317,48 @@ export default class ProductDetailScreen extends React.Component {
       .done();
 
   }
-  
+
+
+  // p_type : 0: Match'd, 1:Blotch'd
+  requestDeleteMatch(p_product_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.deleteMatch, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString(),
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(error);
+          return;
+        }
+
+        this.state.product_detail_result_data.detail.user_match = ""
+        this.setState(product_detail_result_data)
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+
+  }
+
   requestProductLike(p_product_id) {
     this.setState({
       isLoading: true,

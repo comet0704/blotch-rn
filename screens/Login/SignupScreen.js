@@ -223,12 +223,12 @@ export default class SignupScreen extends React.Component {
 
     if (!result.cancelled) {
       this.setState({ selectedImage: result.uri });
-      this.requestUploadImage(result)
+      this.requestUploadUserImage(result)
     }
   };
 
   // Net
-  requestUploadImage(image) {
+  requestUploadUserImage(image) {
     this.setState({
       isLoading: true,
     });
@@ -251,11 +251,8 @@ export default class SignupScreen extends React.Component {
         "Content-Type": "multipart/form-data"
       },
       body: data
-    }).then((response) => {
-      console.log(response);
-      response.json()})
+    }).then((response) => response.json())
       .then((responseJson) => {
-        console.log("1111111111111")
         console.log(responseJson)
         result_code = responseJson.result_code;
         if (result_code < 0) {

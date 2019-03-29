@@ -296,7 +296,7 @@ export class FragmentProductDetailIngredients extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log("1111111111111" + responseJson);
+        console.log(responseJson);
         this.setState({
           isLoading: false,
         });

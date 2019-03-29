@@ -4,6 +4,7 @@ export default {
     upload : {
         image: {
             user: MyConstants.UPLOAD_SERVER_URL + "/upload/image/user",
+            product: MyConstants.UPLOAD_SERVER_URL + "/upload/image/product",
         }
     },
     auth : {
@@ -47,6 +48,9 @@ export default {
         commentList: MyConstants.SERVER_URL + "/product/commentList",
         postComment: MyConstants.SERVER_URL + "/product/postComment",        
         addMatch: MyConstants.SERVER_URL + "/product/addMatch",        
+        deleteMatch: MyConstants.SERVER_URL + "/product/deleteMatch",        
+        deleteComment: MyConstants.SERVER_URL + "/product/deleteComment",        
+        reportComment: MyConstants.SERVER_URL + "/product/reportComment",        
     },
     ingredient : {
         userIngredientList: MyConstants.SERVER_URL + "/ingredient/userIngredientList",               
