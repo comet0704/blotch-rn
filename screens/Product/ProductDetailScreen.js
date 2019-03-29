@@ -92,7 +92,7 @@ export default class ProductDetailScreen extends React.Component {
           <View>
             <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(image) }} />
             <View style={{ position: "absolute", bottom: 10, justifyContent: "center", width: "100%", flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ backgroundColor: Colors.color_636364, paddingLeft: 10, paddingRight: 10, borderRadius: 10, color: "white", textAlign: "center" }}>{(index + 1) + "/" + this.state.product_detail_result_data.detail.image_list.split("###").length}</Text>
+              <Text style={{ backgroundColor: Colors.color_636364, paddingLeft: 10, paddingRight: 10, borderRadius: 10, color: "white", textAlign: "center" }}>{(index + 1) + "/" + this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).length}</Text>
             </View>
           </View>
         </TouchableHighlight>
@@ -127,7 +127,7 @@ export default class ProductDetailScreen extends React.Component {
                 showsPageIndicator={false}
                 pageSize={this.BannerWidth}
               >
-                {this.state.product_detail_result_data.detail.image_list.split("###").map((image, index) => this.renderImages(image, index))}
+                {this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).map((image, index) => this.renderImages(image, index))}
               </Carousel>
               {
                 this.state.product_detail_result_data.detail.is_liked > 0

@@ -881,4 +881,12 @@ export default StyleSheet.create({
     width: 68 / 3,
     height: 36 / 3,
   },
+  ic_camera_big: {
+    width: 160 / 3,
+    height: 164 / 3,
+  },
+  ic_gallery_big: {
+    width: 162 / 3,
+    height: 165 / 3,
+  },
 });
