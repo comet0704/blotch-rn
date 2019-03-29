@@ -1,51 +1,92 @@
-/*Example of Recat Native Loading Spinner Overlay*/
-import * as React from 'react';
-import { Text,AsyncStorage, View, StyleSheet, Button } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
- 
-export default class App extends React.Component {
-  state = {
-    //default loading false
-    loading: false,
-  };
-  componentDidMount() {
-    //Setting a timer to show the spinner demo in every 3 second
-    setInterval(() => {
-      this.setState({
-        //change the state of the laoding in every 3 second
-        loading: !this.state.loading,
+import React from "react"
+import { StyleSheet, Text, View, Image, Button } from "react-native"
+import { WebBrowser, Facebook, Google } from "expo";
+
+export default class SettingScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      signedIn: false,
+      name: "",
+      photoUrl: ""
+    }
+  }
+  signIn = async () => {
+    try {
+      console.log(Facebook)
+      console.log(Google)
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync('377170089537556', {
+        permissions: ['public_profile'],
       });
-    }, 3000);
+
+      if (type === "success") {
+        console.log(token)
+        alert("A");
+        this.setState({
+          signedIn: true,
+          name: result.user.name,
+          photoUrl: result.user.photoUrl
+        })
+      } else {
+        console.log("cancelled")
+      }
+    } catch (e) {
+      console.log("error", e)
+    }
   }
   render() {
     return (
       <View style={styles.container}>
-        <Spinner
-          //visibility of Overlay Loading Spinner
-          visible={false}
-          //Text with the Spinner 
-          textContent={'Loading...'}
-          //Text style of the Spinner Text
-          textStyle={styles.spinnerTextStyle}
-        />
-        <Text style={{ textAlign: 'center', fontSize: 20 }}>
-          Spinner Overlay Example
-        </Text>
+        {this.state.signedIn ? (
+          <LoggedInPage name={this.state.name} photoUrl={this.state.photoUrl} />
+        ) : (
+            <LoginPage signIn={this.signIn} />
+          )}
       </View>
-    );
+    )
   }
 }
- 
+
+const LoginPage = props => {
+  return (
+    <View>
+      <Text style={styles.header}>Sign In With Google</Text>
+      <Button title="Sign in with Google" onPress={() => props.signIn()} />
+    </View>
+  )
+}
+
+const LoggedInPage = props => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Welcome:{props.name}</Text>
+      <Image style={styles.image} source={{ uri: props.photoUrl }} />
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    textAlign: 'center',
-    paddingTop: 30,
-    backgroundColor: 'red',
-    padding: 8,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
-  spinnerTextStyle: {
-    color: '#FFF',
+  header: {
+    fontSize: 25
   },
-});
+  image: {
+    marginTop: 15,
+    width: 150,
+    height: 150,
+    borderColor: "rgba(0,0,0,0.2)",
+    borderWidth: 3,
+    borderRadius: 150
+  }
+})

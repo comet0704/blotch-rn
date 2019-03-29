@@ -1,43 +1,87 @@
-import React from 'react';
-import { Button, Image, View } from 'react-native';
-import { ImagePicker, Permissions } from 'expo';
+import React from "react"
+import { StyleSheet, Text, View, Image, Button } from "react-native"
+import { WebBrowser, Facebook, Google } from "expo";
 
-export default class ImagePickerExample extends React.Component {
-  state = {
-    image: null,
-  };
-
-  render() {
-    let { image } = this.state;
-
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          title="Pick an image from camera roll"
-          onPress={this._pickImage}
-        />
-        {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-      </View>
-    );
-  }
-
-  _pickImage = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
-    if (status === 'granted') {
-      let result = await ImagePicker.launchCameraAsync({
-        allowsEditing: true,
-        aspect: [4, 3],
-      });
-
-      console.log(result);
-
-      if (!result.cancelled) {
-        this.setState({ image: result.uri });
-      }
-    } else {
-      throw new Error('Location permission not granted');
+export default class LinkScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      signedIn: false,
+      name: "",
+      photoUrl: ""
     }
+  }
+  signIn = async () => {
+    try {
+      console.log(Facebook)
+      console.log(Google)
+      const result = await Google.logInAsync({
+        androidClientId:
+          "925139916251-o8646r93rhvt53j7sf5ggmf28khgqvrn.apps.googleusercontent.com",
+        //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
+        scopes: ["profile", "email"]
+      })
 
-  };
+      if (result.type === "success") {
+        this.setState({
+          signedIn: true,
+          name: result.user.name,
+          photoUrl: result.user.photoUrl
+        })
+      } else {
+        console.log("cancelled")
+      }
+    } catch (e) {
+      console.log("error", e)
+    }
+  }
+  render() {
+    return (
+      <View style={styles.container}>
+        {this.state.signedIn ? (
+          <LoggedInPage name={this.state.name} photoUrl={this.state.photoUrl} />
+        ) : (
+            <LoginPage signIn={this.signIn} />
+          )}
+      </View>
+    )
+  }
 }
+
+const LoginPage = props => {
+  return (
+    <View>
+      <Text style={styles.header}>Sign In With Google</Text>
+      <Button title="Sign in with Google" onPress={() => props.signIn()} />
+    </View>
+  )
+}
+
+const LoggedInPage = props => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Welcome:{props.name}</Text>
+      <Image style={styles.image} source={{ uri: props.photoUrl }} />
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  header: {
+    fontSize: 25
+  },
+  image: {
+    marginTop: 15,
+    width: 150,
+    height: 150,
+    borderColor: "rgba(0,0,0,0.2)",
+    borderWidth: 3,
+    borderRadius: 150
+  }
+})

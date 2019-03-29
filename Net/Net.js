@@ -10,6 +10,8 @@ export default {
         login: MyConstants.SERVER_URL + "/auth/login",
         register: MyConstants.SERVER_URL + "/auth/register",
         forgotPassword: MyConstants.SERVER_URL + "/auth/forgotPassword",
+        loginGoogle: MyConstants.SERVER_URL + "/auth/loginGoogle",
+        loginFacebook: MyConstants.SERVER_URL + "/auth/loginFacebook",
     },
     home : {
         homeList: MyConstants.SERVER_URL + "/home/homeList",

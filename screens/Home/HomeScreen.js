@@ -316,7 +316,7 @@ export default class HomeScreen extends React.Component {
                         <View>
                           <View style={[{ flexDirection: "row", color: "white" }]}>
                             <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
-                            <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs}</Text>It's today</Text>
+                            <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs} </Text>your face</Text>
                           </View>
                           <View style={[{ flexDirection: "row", color: "white" }]}>
                             <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />

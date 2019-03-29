@@ -26,6 +26,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.blotch.chemi",
       "permissions": [
         "CAMERA",
         "CAMERA_ROLL",
@@ -33,6 +34,7 @@
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
       ]
-    }
+    },
+    "description": ""
   }
 }

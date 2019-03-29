@@ -7,6 +7,7 @@ import MyStyles from '../../constants/MyStyles';
 import Models from '../../Net/Models';
 import Net from '../../Net/Net';
 import MyConstants from '../../constants/MyConstants';
+import { Facebook, Google } from "expo";
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -70,8 +71,46 @@ export default class LoginScreen extends React.Component {
     </Text>
   );
 
-  onLoginWithFacebook = () => {
+  onLoginWithFacebook = async () => {
+    try {
+      const result = await Facebook.logInWithReadPermissionsAsync(MyConstants.FACEBOOK_APP_ID, {
+        permissions: ['public_profile', 'email'],
+      });
+      if (result.type === 'success') {
+        console.log(result)
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${result.token}`);
+        const result_info = await response.json();
+        console.log(result_info)
 
+        this.requestLoginFacebook(result_info.name, result_info.id, "");
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  }
+
+  onLoginWithGoogle = async () => {
+    try {
+      const result = await Google.logInAsync({
+        androidClientId:
+          MyConstants.ANDROID_CLIENT_ID,
+        //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
+        scopes: ["profile", "email"]
+      })
+
+      if (result.type === "success") {
+        console.log(result);
+        this.requestLoginGoogle(result.user.email, result.user.id, result.user.photoUrl)
+        
+      } else {
+        console.log("cancelled")
+      }
+    } catch (e) {
+      console.log("error", e)
+    }
   }
 
   render() {
@@ -174,7 +213,7 @@ export default class LoginScreen extends React.Component {
                     />
                     <Text style={MyStyles.TextStyle}>Facebook</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={MyStyles.GooglePlusStyle} activeOpacity={0.5}>
+                  <TouchableOpacity style={MyStyles.GooglePlusStyle} activeOpacity={0.5} onPress={() => {this.onLoginWithGoogle()}}>
                     {/*We can use any component which is used to shows something inside 
                   TouchableOpacity. It shows the item inside in horizontal orientation */}
                     <Image
@@ -224,8 +263,7 @@ export default class LoginScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         } else {
-          Models.login_user = responseJson.login_user;
-          global.login_user = Models.login_user;
+          global.login_user = responseJson.login_user;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           this.props.navigation.navigate("Home")
         }
@@ -239,5 +277,88 @@ export default class LoginScreen extends React.Component {
       })
       .done();
 
+  }
+
+  requestLoginGoogle(p_email, p_id, p_profile_image) {
+    console.log(p_email + "_" + p_id + "_ " + p_profile_image)
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.auth.loginGoogle, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        email: p_email,
+        id: p_id,
+        profile_image: p_profile_image,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        this.setState({
+          isLoading: false
+        });
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return;
+        } else {
+          global.login_user = responseJson.login_user;
+          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
+          this.props.navigation.navigate("Home")
+        }
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestLoginFacebook(p_email, p_id, p_profile_image) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.auth.loginFacebook, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        email: p_email,
+        id: p_id,
+        profile_image: p_profile_image,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        this.setState({
+          isLoading: false
+        });
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return;
+        } else {
+          global.login_user = responseJson.login_user;
+          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
+          this.props.navigation.navigate("Home")
+        }
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
   }
 }

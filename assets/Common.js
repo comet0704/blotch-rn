@@ -3,7 +3,7 @@ import MyStyles from "../constants/MyStyles";
 
 export default {
   getImageUrl(image_list) {
-    return MyConstants.UPLOAD_SERVER_URL + image_list.split(this.IMAGE_SPLITTER)[0]
+    return MyConstants.UPLOAD_SERVER_URL + "/" + image_list.split(this.IMAGE_SPLITTER)[0]
   },
   scrollIsCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
     const paddingToBottom = 20;
