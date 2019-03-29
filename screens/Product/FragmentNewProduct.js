@@ -35,7 +35,7 @@ export class FragmentNewProduct extends React.Component {
     this.requestBannerList2();
   }
   state = {
-    categoryItems: Common.categoryItems,
+    categoryItems: Common.categoryItems_new,
     product_list_result_data: {
       new_list: []
     },
@@ -213,12 +213,12 @@ export class FragmentNewProduct extends React.Component {
                           <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                         </TouchableOpacity>
                       }
-                      {index < 3 ?
+                      {/* {index < 3 ?
                         <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
                           <Image source={require('../../assets/images/ic_best_ranking.png')} style={[MyStyles.background_image]} />
                           <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>{index + 1}</Text>
                         </View>
-                        : null}
+                        : null} */}
                     </View>
                     <Text style={[MyStyles.productBrand]}>{item.brand_title}</Text>
                     <Text style={[MyStyles.productName]}>{item.title}</Text>
