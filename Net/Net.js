@@ -43,6 +43,7 @@ export default {
     product : {
         newList: MyConstants.SERVER_URL + "/product/newList",        
         bestList: MyConstants.SERVER_URL + "/product/bestList",        
+        recommendList: MyConstants.SERVER_URL + "/product/recommendList",        
         like: MyConstants.SERVER_URL + "/product/like",        
         unlike: MyConstants.SERVER_URL + "/product/unlike",        
         detail: MyConstants.SERVER_URL + "/product/detail",        

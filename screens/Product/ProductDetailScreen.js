@@ -258,7 +258,7 @@ export default class ProductDetailScreen extends React.Component {
           product_detail_result_data: responseJson.result_data
         });
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(error);
+          this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
 
@@ -297,7 +297,7 @@ export default class ProductDetailScreen extends React.Component {
           isLoading: false,
         });
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(error);
+          this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
 
@@ -342,7 +342,7 @@ export default class ProductDetailScreen extends React.Component {
           isLoading: false,
         });
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(error);
+          this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
 

@@ -518,6 +518,12 @@ export default StyleSheet.create({
     fontWeight: "400",
     textAlign: "center",
   },
+  category_text2: {
+    fontSize: 13,
+    color: Colors.primary_purple,
+    fontWeight: "400",
+    textAlign: "center",
+  },
   ic_best_ranking: {
     width: 70 / 3,
     height: 102 / 3,
@@ -891,5 +897,77 @@ export default StyleSheet.create({
   },
   review_photo: {
     flex: 1, backgroundColor: "transparent", borderWidth: 1, aspectRatio: 1.2, margin: 5,
+  },
+  ic_toner: {
+    width:19/3,
+    height:52/3,
+  },
+  ic_lotion: {
+    width:39/3,
+    height:52/3,
+  },
+  ic_cream: {
+    width:51/3,
+    height:52/3,
+  },
+  ic_sun_block: {
+    width:49/3,
+    height:52/3,
+  },
+  ic_after_care: {
+    width:20/3,
+    height:52/3,
+  },
+  ic_base: {
+    width:38/3,
+    height:52/3,
+  },
+  ic_eye: {
+    width:28/3,
+    height:52/3,
+  },
+  ic_lip: {
+    width:33/3,
+    height:52/3,
+  },
+  ic_remover: {
+    width:52/3,
+    height:52/3,
+  },
+  ic_cleanser: {
+    width:39/3,
+    height:52/3,
+  },
+  ic_peeling: {
+    width:30/3,
+    height:52/3,
+  },
+  ic_body_cleanser: {
+    width:34/3,
+    height:52/3,
+  },
+  ic_shampoo: {
+    width:34/3,
+    height:52/3,
+  },
+  ic_treatment: {
+    width:46/3,
+    height:52/3,
+  },
+  ic_essense: {
+    width:16/3,
+    height:52/3,
+  },
+  ic_colors: {
+    width:16/3,
+    height:52/3,
+  },
+  ic_nail_care: {
+    width:45/3,
+    height:52/3,
+  },
+  ic_toothpaste: {
+    width:39/3,
+    height:52/3,
   },
 });

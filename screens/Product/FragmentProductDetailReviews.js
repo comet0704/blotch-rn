@@ -238,7 +238,7 @@ export class FragmentProductDetailReviews extends React.Component {
     }
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      aspect: [1, 1],
+      aspect: [4, 3],
     });
 
     console.log(result);
@@ -564,6 +564,16 @@ export class FragmentProductDetailReviews extends React.Component {
           const result = responseJson.result_data
           if (result.user_comment == null) {
             result.user_comment = { comment: "", image_list: "", grade: 0 }
+          }
+          if (result.product_user_sta == null) {
+            result.product_user_sta =  [
+              {
+                "match_count": 0,
+                "blotch_count": 0,
+                "like_count": 0,
+                "album_product_count": 0
+              }
+            ]
           }
           this.setState({
             product_comment_list_result_data: result

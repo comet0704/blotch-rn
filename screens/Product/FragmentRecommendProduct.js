@@ -1,8 +1,15 @@
+// common
 import React from 'react';
-import Carousel from 'react-native-banner-carousel';
-import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import { AsyncStorage } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-whc-toast';
+import MyStyles from '../../constants/MyStyles'
+import MyConstants from '../../constants/MyConstants'
+import Common from '../../assets/Common';
+import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+
+import Carousel from 'react-native-banner-carousel';
 import {
   KeyboardAvoidingView,
   View,
@@ -16,71 +23,129 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import { LinearGradient } from 'expo';
-import MyStyles from '../../constants/MyStyles';
 import { FlatGrid } from 'react-native-super-grid';
-import MyConstants from '../../constants/MyConstants';
-import Common from '../../assets/Common';
 
 export class FragmentRecommendProduct extends React.Component {
-  state = {
-    no_search_result: false,
-    filterModalVisible: false,
-    weatherType: "dry",
-    bannerImages: [
-      "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
-      "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
-      "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
-    ],
-    bannerLinkes: [
-      "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
-      "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
-      "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
-    ],
-    weatherInfo: "Seoul. -6˚C",
 
-    productList: [
-      { name: 'TURQUOISE', code: '#1abc9c' }, { name: 'EMERALD', code: '#2ecc71' },
-      { name: 'PETER RIVER', code: '#3498db' }, { name: 'AMETHYST', code: '#9b59b6' },
-      { name: 'WET ASPHALT', code: '#34495e' }, { name: 'GREEN SEA', code: '#16a085' },
-      { name: 'NEPHRITIS', code: '#27ae60' }, { name: 'BELIZE HOLE', code: '#2980b9' },
-      { name: 'WISTERIA', code: '#8e44ad' }, { name: 'MIDNIGHT BLUE', code: '#2c3e50' },
-      { name: 'SUN FLOWER', code: '#f1c40f' }, { name: 'CARROT', code: '#e67e22' },
-      { name: 'ALIZARIN', code: '#e74c3c' }, { name: 'CLOUDS', code: '#ecf0f1' },
-      { name: 'CONCRETE', code: '#95a5a6' }, { name: 'ORANGE', code: '#f39c12' },
-      { name: 'PUMPKIN', code: '#d35400' }, { name: 'POMEGRANATE', code: '#c0392b' },
-      { name: 'SILVER', code: '#bdc3c7' }, { name: 'ASBESTOS', code: '#7f8c8d' },
-    ],
-    mainCategoryItems: Common.categoryItems_recom,
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      main_all_selected: false,
+      no_search_result: false,
+      filterModalVisible: false,
+      weatherType: "dry",
+      bannerImages: [
+        "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
+        "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
+        "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
+      ],
+      bannerLinkes: [
+        "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
+        "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
+        "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
+      ],
+      weatherInfo: "Seoul. -6˚C",
+
+      product_list_result_data: {
+        recomment_list: [
+          {
+            "id": 7,
+            "title": "Product-7",
+            "image_list": "uploads/product/jakub-dziubak-618225-unsplash.jpg",
+            "visit_count": 581,
+            "like_count": 16,
+            "comment_count": 0,
+            "grade": 0,
+            "is_liked": 34,
+            "brand_title": "ROSITA"
+          },
+          {
+            "id": 30,
+            "title": "Product-30",
+            "image_list": "uploads/product/john-soo-689351-unsplash.jpg###uploads/product/maxim-lozyanko-1203735-unsplash.jpg###uploads/product/neonbrand-398872-unsplash.jpg",
+            "visit_count": 581,
+            "like_count": 15,
+            "comment_count": 1,
+            "grade": 5,
+            "is_liked": 53,
+            "brand_title": "ASTRAEA"
+          },
+          {
+            "id": 8,
+            "title": "Product-8",
+            "image_list": "uploads/product/jazmin-quaynor-470729-unsplash.jpg",
+            "visit_count": 581,
+            "like_count": 14,
+            "comment_count": 0,
+            "grade": 0,
+            "is_liked": null,
+            "brand_title": "CM"
+          },
+          {
+            "id": 9,
+            "title": "Product-9",
+            "image_list": "uploads/product/j-kelly-brito-383355-unsplash.jpg",
+            "visit_count": 581,
+            "like_count": 14,
+            "comment_count": 0,
+            "grade": 0,
+            "is_liked": null,
+            "brand_title": "MIA"
+          }
+        ]
+      },
+      mainCategoryItems: Common.categoryItems_recom,
+    };
+  }
 
   BannerHeight = 560 / 3;
   BannerWidth = Dimensions.get('window').width;
   ScreenWidth = Dimensions.get('window').width;
 
-  renderBanner(image, index) {
-    return (
-      <View key={index}>
-        <TouchableHighlight onPressIn={() => { this.props.navigation.navigate("BannerDetail") }}>
-          <View>
-            <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: image }} />
-            <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
-              <Text style={{ fontSize: 13, color: "white" }}>ESTEE LAUDER</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 24 }}>Advanced Night Repair</Text>
-            </View>
-          </View>
-        </TouchableHighlight>
-      </View>
-    );
+  componentDidMount() {
+    this.getRecommendList(0);
   }
 
-  beforeCatIdx = 0;
+  getRecommendList = (p_offset) => {
+    // 전체선택인 경우 All 올려보냄
+    if (this.state.main_all_selected) {
+      this.requestRecommendList(JSON.stringify(category_array), p_offset)
+    }
+    // 먼저 p_category 값을 this.state.mainCategoryItems 를 조회하면서 얻어내야함.
+    category_array = [];
+    this.state.mainCategoryItems.forEach(element => {
+      if (element.is_selected > 0) { // 메인카테고리 선택되었으면
+        if (element.sub_category.length > 0) { // 서브카테고리가 있는가
+          temp_array = [];
+          element.sub_category.forEach(sub_element => {
+            if (sub_element.is_selected) {
+              temp_array.push(sub_element.name)
+            }
+          })
+          category_array.push({ [element.categoryName]: temp_array })
+        } else { // 서브카테고리가 없으면
+          category_array.push({ [element.categoryName]: [] })
+        }
+      }
+    })
+    console.log(category_array);
+    console.log(JSON.stringify(category_array));
+    this.requestRecommendList(JSON.stringify(category_array), p_offset)
+  }
+
   onCategorySelect = (p_catName) => {
     const categoryItems = [...this.state.mainCategoryItems]
     const index = categoryItems.findIndex(item => item.categoryName === p_catName)
-    categoryItems[this.beforeCatIdx].is_selected = false
-    categoryItems[index].is_selected = true
-    this.beforeCatIdx = index
+    if (categoryItems[index].is_selected > 0) {
+      categoryItems[index].is_selected = 0
+    } else if (categoryItems[index].sub_category.length > 0) {
+      categoryItems[index].is_selected = 1
+    } else {
+      categoryItems[index].is_selected = 2
+    }
+
     this.setState({ categoryItems })
+    this.setState({ main_all_selected: false })
   }
 
 
@@ -91,7 +156,7 @@ export class FragmentRecommendProduct extends React.Component {
         <View style={{ flexDirection: "row", justifyContent: "center", width: "100%" }}>
           <Text style={{ fontSize: 14, color: Colors.primary_dark, fontWeight: "bold" }}>My Skin Info</Text>
           <View style={{ flex: 1 }}></View>
-          <TouchableOpacity style={[{ height:20 }, MyStyles.purple_round_btn]}>
+          <TouchableOpacity style={[{ height: 20 }, MyStyles.purple_round_btn]}>
             <Text style={{ fontSize: 13, color: "white" }}>Me</Text>
             <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { marginLeft: 5 }]} />
           </TouchableOpacity>
@@ -122,38 +187,57 @@ export class FragmentRecommendProduct extends React.Component {
             <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>30's</Text>
           </View>
         </View>
-        {/* {this.state.categoryItems.map(item => (
-            <View key={item.categoryName} style={{ marginRight: 10 }}>
-              <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={[MyStyles.category_image_container]}>
-                {item.is_selected ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
-                {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
-              </TouchableOpacity>
-              <Text style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</Text>
-            </View>
-          ))} */}
       </View>
     );
   }
 
-  render() {
-    const items = [
-      { name: 'TURQUOISE', code: '#1abc9c' }, { name: 'EMERALD', code: '#2ecc71' },
-      { name: 'PETER RIVER', code: '#3498db' }, { name: 'AMETHYST', code: '#9b59b6' },
-      { name: 'WET ASPHALT', code: '#34495e' }, { name: 'GREEN SEA', code: '#16a085' },
-      { name: 'NEPHRITIS', code: '#27ae60' }, { name: 'BELIZE HOLE', code: '#2980b9' },
-      { name: 'WISTERIA', code: '#8e44ad' }, { name: 'MIDNIGHT BLUE', code: '#2c3e50' },
-      { name: 'SUN FLOWER', code: '#f1c40f' }, { name: 'CARROT', code: '#e67e22' },
-      { name: 'ALIZARIN', code: '#e74c3c' }, { name: 'CLOUDS', code: '#ecf0f1' },
-      { name: 'CONCRETE', code: '#95a5a6' }, { name: 'ORANGE', code: '#f39c12' },
-      { name: 'PUMPKIN', code: '#d35400' }, { name: 'POMEGRANATE', code: '#c0392b' },
-      { name: 'SILVER', code: '#bdc3c7' }, { name: 'ASBESTOS', code: '#7f8c8d' },
-    ];
+  onProductLiked = (p_product_id) => {
+    const product_list = this.state.product_list_result_data.recomment_list
+    const index = product_list.findIndex(item => item.id === p_product_id)
+    product_list[index].is_liked = 100
+    const result = { recomment_list: product_list };
+    this.setState({ product_list_result_data: result })
+  }
 
-    let { productList } = this.state;
+  onProductUnliked = (p_product_id) => {
+    const product_list = this.state.product_list_result_data.recomment_list
+    const index = product_list.findIndex(item => item.id === p_product_id)
+    product_list[index].is_liked = null
+    const result = { recomment_list: product_list };
+    this.setState({ product_list_result_data: result })
+  }
+
+  resetFilterStatus = () => {
+    this.setState({ main_all_selected: true })
+    for (i = 0; i < this.state.mainCategoryItems.length; i++) {
+      this.state.mainCategoryItems[i].is_selected = 0
+      for (j = 0; j < this.state.mainCategoryItems[i].sub_category.length; j++) {
+        this.state.mainCategoryItems[i].sub_category[j].is_selected = false
+      }
+    }
+
+    this.setState({ mainCategoryItems: this.state.mainCategoryItems })
+  }
+
+  render() {
     return (
       <View style={{ flex: 1 }}>
+        <Spinner
+          //visibility of Overlay Loading Spinner
+          visible={this.state.isLoading}
+          //Text with the Spinner 
+          textContent={MyConstants.Loading_text}
+          //Text style of the Spinner Text
+          textStyle={MyStyles.spinnerTextStyle}
+        />
+        <Toast ref='toast' />
         {this.state.no_search_result == false ?
-          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
+          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
+            onScroll={({ nativeEvent }) => {
+              if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+                this.getRecommendList(this.offset)
+              }
+            }}>
 
             <View>
               <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
@@ -181,27 +265,36 @@ export class FragmentRecommendProduct extends React.Component {
                 </View>
                 <FlatGrid
                   itemDimension={this.ScreenWidth / 2 - 30}
-                  items={productList}
+                  items={this.state.product_list_result_data.recomment_list}
                   style={MyStyles.gridView}
                   spacing={10}
                   // staticDimension={300}
                   // fixed
                   // spacing={20}
                   renderItem={({ item, index }) => (
-                    <View>
-                      <View style={[MyStyles.productItemContainer, { backgroundColor: item.code }]}>
-                        <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} />
-                        <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]}>
-                          <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-                        </TouchableHighlight>
+                    <TouchableOpacity onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+                      <View style={[MyStyles.productItemContainer]}>
+                        <Image source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
+                        {item.is_liked > 0
+                          ?
+                          <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                            <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
+                          </TouchableOpacity>
+                          :
+                          <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductLike(item.id) }}>
+                            <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
+                          </TouchableOpacity>
+                        }
+                        {/* {index < 3 ?
                         <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
                           <Image source={require('../../assets/images/ic_best_ranking.png')} style={[MyStyles.background_image]} />
-                          <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>{index}</Text>
+                          <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>{index + 1}</Text>
                         </View>
+                        : null} */}
                       </View>
-                      <Text style={[MyStyles.productBrand]}>{item.name}</Text>
-                      <Text style={[MyStyles.productName]}>{item.code}</Text>
-                    </View>
+                      <Text style={[MyStyles.productBrand]}>{item.brand_title}</Text>
+                      <Text style={[MyStyles.productName]}>{item.title}</Text>
+                    </TouchableOpacity>
                   )}
                 />
               </View>
@@ -212,20 +305,19 @@ export class FragmentRecommendProduct extends React.Component {
               animationType="slide"
               transparent={true}
               visible={this.state.filterModalVisible}
-              style={{ height: 500 }}
               onRequestClose={() => {
               }}>
               <View style={{ flex: 1 }}>
                 <View style={MyStyles.modal_bg1}>
-                  <View style={MyStyles.modalContainer}>
+                  <View style={[MyStyles.modalContainer, { height: 500 }]}>
                     {/* modal header */}
                     <View style={MyStyles.modal_header}>
+                      <Text style={MyStyles.modal_title}>Filter</Text>
                       <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", width: 70 }]} onPress={() => {
-                        this.setState({ filterModalVisible: false });
+                        this.resetFilterStatus();
                       }}>
                         <Text style={{ color: Colors.color_dfdfdf, fontSize: 13, fontWeight: "500", }}>reset</Text>
                       </TouchableOpacity>
-                      <Text style={MyStyles.modal_title}>Filter</Text>
                       <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ filterModalVisible: false });
                       }}>
@@ -234,45 +326,137 @@ export class FragmentRecommendProduct extends React.Component {
                     </View>
 
                     <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-                    <View style={{}}>
-                      {/* Main Category */}
-                      <View>
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                          <Text style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500" }, MyStyles.modal_close_btn]}>Main Category</Text>
-                          <Text style={{ flex: 1, textAlign: "center" }}></Text>
-                          <TouchableOpacity style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
-                            alert("All");
-                          }}>
-                            <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_check_small_off.png")}></Image>
-                            <Text style={{ marginLeft: 5 }}>All</Text>
-                          </TouchableOpacity>
-
-                        </View>
-
-                        <View style={{ height: 200 }}>
-                          <FlatGrid
-                            itemDimension={this.ScreenWidth / 3 - 40}
-                            items={this.state.mainCategoryItems}
-                            style={MyStyles.gridView}
-                            spacing={10}
-                            // staticDimension={300}
-                            // fixed
-                            // spacing={20}
-                            renderItem={({ item, index }) => (
-                              <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
-                                <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
-                                  {item.is_selected ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
-                                  <View style={{ flexDirection: "row", alignItems:"center", justifyContent:"center" }}>
-                                    {item.is_selected ? <Image style={item.image_style_small} source={item.image_on} /> : <Image style={item.image_style_small} source={item.image_off} />}
-                                    {item.is_selected ? <Text style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.categoryName}</Text> : <Text style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</Text>}
-                                  </View>
-                                </View>
+                    <View style={{ flex: 1 }}>
+                      <ScrollView style={{ flex: 1 }}>
+                        <View style={{ flex: 1 }}>
+                          {/* Main Category */}
+                          <View style={{ flex: 1 }}>
+                            <View style={{ flexDirection: "row", alignItems: "center" }}>
+                              <Text style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500" }, MyStyles.modal_close_btn]}>Main Category</Text>
+                              <Text style={{ flex: 1, textAlign: "center" }}></Text>
+                              <TouchableOpacity style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
+                                this.setState({ main_all_selected: !this.state.main_all_selected })
+                                if (this.state.main_all_selected == true) { // 전체선택인 경우 state 초기값으로 변환
+                                  this.resetFilterStatus();
+                                }
+                              }}>
+                                <Image style={{ width: 14, height: 14 }} source={this.state.main_all_selected ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Text style={{ marginLeft: 5 }}>All</Text>
                               </TouchableOpacity>
-                            )}
-                          />
+
+                            </View>
+
+                            <FlatGrid
+                              itemDimension={this.ScreenWidth / 3 - 40}
+                              items={this.state.mainCategoryItems}
+                              style={MyStyles.gridView}
+                              spacing={10}
+                              // staticDimension={300}
+                              // fixed
+                              // spacing={20}
+                              renderItem={({ item, index }) => (
+                                <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={{ borderColor: item.is_selected == 1 ? "#d9b1db" : Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
+                                  <View style={[{ height: 100 / 3, justifyContent: "center", alignItems: "center" }]}>
+                                    {item.is_selected == 2 ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
+
+                                    {item.is_selected == 2 ?
+                                      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                        <Image style={item.image_style_small} source={item.image_on} />
+                                        <Text style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.categoryName}</Text>
+                                      </View>
+                                      : item.is_selected == 1 ?
+                                        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                          <Image style={item.image_style_small} source={item.image_half} />
+                                          <Text style={[MyStyles.category_text2, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</Text>
+                                        </View>
+                                        : <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                          <Image style={item.image_style_small} source={item.image_off} />
+                                          <Text style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</Text>
+                                        </View>}
+
+                                  </View>
+                                </TouchableOpacity>
+                              )}
+                            />
+                          </View>
+
+                          {/* Sub Categories */}
+                          {this.state.main_all_selected ? null :
+                            <Text style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500", marginLeft: 15 }]}>Sub Category</Text>
+                          }
+
+
+                          {this.state.mainCategoryItems.map((item, index) => (
+                            item.is_selected > 0 && item.sub_category.length > 0 ?
+                              <View key={index}>
+                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                  <Text style={[{ color: Colors.primary_purple, fontSize: 12, fontWeight: "400", marginLeft: 15 }]}>{item.categoryName}</Text>
+                                  <Text style={{ flex: 1, textAlign: "center" }}></Text>
+                                  <TouchableOpacity style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
+                                    this.state.mainCategoryItems[index].sub_all_selected = !this.state.mainCategoryItems[index].sub_all_selected
+                                    this.state.mainCategoryItems[index].sub_category.forEach(element => {
+                                      element.is_selected = !this.state.mainCategoryItems[index].is_selected
+                                    })
+
+                                    if (this.state.mainCategoryItems[index].sub_all_selected == false) {
+                                      this.state.mainCategoryItems[index].is_selected = 1
+                                    }
+                                    this.setState({ mainCategoryItems: this.state.mainCategoryItems })
+                                  }}>
+                                    <Image style={{ width: 14, height: 14 }} source={this.state.mainCategoryItems[index].sub_all_selected ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                    <Text style={{ marginLeft: 5 }}>All</Text>
+                                  </TouchableOpacity>
+                                </View>
+
+                                <FlatGrid
+                                  itemDimension={this.ScreenWidth / item.sub_category.length - 40}
+                                  items={item.sub_category}
+                                  style={[MyStyles.gridView, { marginTop: -20 }]}
+                                  spacing={10}
+                                  // staticDimension={300}
+                                  // fixed
+                                  // spacing={20}
+                                  renderItem={({ item: sub_item, index: sub_index }) => (
+                                    <TouchableOpacity onPress={() => {
+                                      this.state.mainCategoryItems[index].sub_category[sub_index].is_selected = !this.state.mainCategoryItems[index].sub_category[sub_index].is_selected
+                                      moreThanOneSelected = false;
+                                      for (i = 0; i < this.state.mainCategoryItems[index].sub_category.length; i++) {
+                                        if (this.state.mainCategoryItems[index].sub_category[i].is_selected == true) {
+                                          moreThanOneSelected = true
+                                        }
+                                      }
+                                      if (moreThanOneSelected) {
+                                        this.state.mainCategoryItems[index].is_selected = 2
+                                      }
+
+                                      this.setState({ mainCategoryItems: this.state.mainCategoryItems })
+                                    }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
+                                      <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
+                                        {sub_item.is_selected ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
+                                        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                          {sub_item.is_selected ? <Image style={sub_item.image_style} source={sub_item.image_on} /> : <Image style={sub_item.image_style} source={sub_item.image_off} />}
+                                          {sub_item.is_selected ? <Text style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{sub_item.name}</Text> : <Text style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{sub_item.name}</Text>}
+                                        </View>
+                                      </View>
+                                    </TouchableOpacity>
+                                  )}
+                                />
+
+                              </View>
+                              : null))}
+
 
                         </View>
-                      </View>
+                      </ScrollView>
+                    </View>
+                    <View style={{ flexDirection: "row" }}>
+                      <TouchableHighlight
+                        style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                          this.setState({ filterModalVisible: false })
+                          this.getRecommendList(0)
+                        }}>
+                        <Text style={MyStyles.btn_primary}>Refine Search</Text>
+                      </TouchableHighlight>
                     </View>
                   </View>
 
@@ -297,5 +481,136 @@ export class FragmentRecommendProduct extends React.Component {
         }
       </View>
     );
+  }
+
+  requestRecommendList(p_category, p_offset) {
+    console.log("category= " + p_category);
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.recommendList, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        category: p_category == null ? "All" : p_category,
+        offset: p_offset.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return;
+        }
+        if (p_offset == 0) { // 카테고리 선택했을대 offset값을 0에서부터 검색해야 함.
+          this.offset = 0;
+        }
+        this.offset += responseJson.result_data.recomment_list.length
+        if (responseJson.result_data.recomment_list.length < MyConstants.ITEMS_PER_PAGE) {
+          this.setState({ loading_end: true })
+        }
+        if (p_offset == 0) {
+          this.setState({
+            product_list_result_data: responseJson.result_data
+          });
+          return;
+        }
+        const recomment_list = this.state.product_list_result_data.recomment_list
+        result = { recomment_list: [...recomment_list, ...responseJson.result_data.recomment_list] };
+        this.setState({ product_list_result_data: result })
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+
+  requestProductLike(p_product_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.like, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.onProductLiked(p_product_id)
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestProductUnlike(p_product_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.unlike, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.onProductUnliked(p_product_id)
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
   }
 };

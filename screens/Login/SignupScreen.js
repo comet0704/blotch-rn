@@ -1,13 +1,14 @@
-import { ImagePicker } from 'expo';
+import { ImagePicker , Permissions} from 'expo';
 import React from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
-import { Image, AsyncStorage, KeyboardAvoidingView, Modal, ScrollView, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import {TouchableWithoutFeedback, Image, AsyncStorage, KeyboardAvoidingView, Modal, ScrollView, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import MyStyles from '../../constants/MyStyles';
 import Net from '../../Net/Net';
 import MyConstants from '../../constants/MyConstants';
 import Models from '../../Net/Models';
+import Colors from '../../constants/Colors';
 
 export default class SignupScreen extends React.Component {
 
@@ -16,7 +17,9 @@ export default class SignupScreen extends React.Component {
     this.state = {
       isLoading: false,
       savePressed: false,
+      photoModalVisible: false,
       selectedImage: null,
+      selectedFile: null,
       uploadedImagePath: null,
       email: null,
       id: null,
@@ -67,8 +70,8 @@ export default class SignupScreen extends React.Component {
     // 유효한 값들이 입력되었는지 검사
     if (this.state.email && this.state.id && this.state.password && this.state.password_confirm &&
       this.state.email.length > 0 && this.state.id.length >= 4 && this.state.password.length >= 8 &&
-      this.state.password == this.state.password_confirm) {
-      this.requestRegister(this.state.email, this.state.id, this.state.password, this.state.password_confirm, this.state.uploadedImagePath)
+      this.state.password == this.state.password_confirm) {        
+      this.requestUploadUserImage(this.state.selectedFile)
     } else {
       this.setState({ savePressed: true });
     }
@@ -98,7 +101,7 @@ export default class SignupScreen extends React.Component {
             <Text style={MyStyles.text_desc}>Tell us about you !</Text>
 
             <View style={[MyStyles.profile_box]}>
-              <TouchableOpacity onPress={this._pickImage} style={MyStyles.camera_box}>
+              <TouchableOpacity onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
                 <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={{ width: 12, height: 11, alignSelf: "center" }}></Image>
               </TouchableOpacity>
               <Image source={image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: image }} style={image == null ? { width: 30, height: 43, alignSelf: "center" } : { width: 75, height: 75, borderRadius: 37 }}></Image>
@@ -209,11 +212,37 @@ export default class SignupScreen extends React.Component {
           </View>
         </Modal>
 
+        {/* 갤러리 picker  팝업 */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.photoModalVisible}
+          onRequestClose={() => {
+          }}>
+          <TouchableWithoutFeedback onPress={() => { this.setState({ photoModalVisible: false }) }}>
+            <View style={[{ flex: 1, backgroundColor: "#0000009d", }]}>
+              <Image style={{ flex: 1 }} />
+              <View style={[{ height: 800 / 3, width: "100%", justifyContent: "center", alignItems: "center", backgroundColor: Colors.color_f8f8f8 }, MyStyles.shadow_2]}>
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity style={{ justifyContent: "center" }} onPress={() => { this._pickImageFromCamera() }}>
+                    <Image source={require("../../assets/images/ic_camera_big.png")} style={MyStyles.ic_camera_big}></Image>
+                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ marginLeft: 50, justifyContent: "center" }} onPress={() => { this._pickImageFromGallery() }}>
+                    <Image source={require("../../assets/images/ic_gallery_big.png")} style={MyStyles.ic_gallery_big}></Image>
+                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
       </KeyboardAvoidingView>
     );
   }
 
-  _pickImage = async () => {
+  _pickImageFromGallery = async () => {
+    this.setState({ photoModalVisible: false })
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [1, 1],
@@ -223,7 +252,27 @@ export default class SignupScreen extends React.Component {
 
     if (!result.cancelled) {
       this.setState({ selectedImage: result.uri });
-      this.requestUploadUserImage(result)
+      this.setState({ selectedFile: result });
+    }
+  };
+
+  _pickImageFromCamera = async () => {
+    this.setState({ photoModalVisible: false })
+    const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      let result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+      });
+
+      console.log(result);
+
+      if (!result.cancelled) {
+        this.setState({ selectedImage: result.uri });
+        this.setState({ selectedFile: result });
+      }
+    } else {
+      throw new Error('Location permission not granted');
     }
   };
 
@@ -262,6 +311,7 @@ export default class SignupScreen extends React.Component {
             isLoading: false,
             uploadedImagePath: responseJson.result_data.upload_path
           });
+          this.requestRegister(this.state.email, this.state.id, this.state.password, this.state.password_confirm, this.state.uploadedImagePath)
         }
       })
       .catch((error) => {

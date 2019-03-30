@@ -55,7 +55,9 @@ export class FragmentProductDetailIngredients extends React.Component {
 
   componentDidMount() {
     this.requestIngredientList(this.item_id)
-    this.requestUserIngredientList()
+    if (global.login_info.token.length > 0) { // 로그인 한 회원일때만 회원성분정보 불러옴.
+      this.requestUserIngredientList()
+    }
   }
 
   renderGoodNormalBadIngredientList(item, index) {
@@ -199,7 +201,7 @@ export class FragmentProductDetailIngredients extends React.Component {
 
         {/* Allergic and Potential Ingredients  */}
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-        <View style={MyStyles.padding_main}>
+        {global.login_info.token.length > 0 ? <View style={MyStyles.padding_main}>
           <TouchableOpacity style={[{ height: 30, width: 250 / 3, alignSelf: "flex-end" }, MyStyles.purple_round_btn]} onPress={() => { alert("2차개발 준비중입니다.") }}>
             <Text style={{ fontSize: 13, color: "white" }}>Me</Text>
             <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { position: "absolute", right: 10 }]} />
@@ -212,7 +214,7 @@ export class FragmentProductDetailIngredients extends React.Component {
           <View style={{ flex: 1, marginTop: 10 }}>
             {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderPotentialAllergenIngredients(item, index))}
           </View>
-        </View>
+        </View> : null}
 
         {/* Save to modal */}
         <Modal
