@@ -1,3 +1,7 @@
-**android/ios 빌드방법 (아래 링크 참고)**
+**android/ios 빌드방법**
 
-https://docs.expo.io/versions/latest/distribution/building-standalone-apps/ 
+1. 준비
+    npm i -g create-react-native-app
+    npm install
+2. - expo build:android
+   - expo build:ios
