@@ -133,7 +133,7 @@ export class FragmentRecommendProduct extends React.Component {
     this.requestRecommendList(JSON.stringify(category_array), p_offset)
   }
 
-  onCategorySelect = (p_catName) => {
+  onCategorySelect = async (p_catName) => {
     const categoryItems = [...this.state.mainCategoryItems]
     const index = categoryItems.findIndex(item => item.categoryName === p_catName)
     if (categoryItems[index].is_selected > 0) {
@@ -144,8 +144,11 @@ export class FragmentRecommendProduct extends React.Component {
       categoryItems[index].is_selected = 2
     }
 
-    this.setState({ categoryItems })
+    this.setState({ mainCategoryItems: categoryItems })
+    console.log(this.state.mainCategoryItems);
     this.setState({ main_all_selected: false })
+    await this.setState({ showSubCategory: false })
+    this.setState({ showSubCategory: true })
   }
 
 
@@ -156,7 +159,7 @@ export class FragmentRecommendProduct extends React.Component {
         <View style={{ flexDirection: "row", justifyContent: "center", width: "100%" }}>
           <Text style={{ fontSize: 14, color: Colors.primary_dark, fontWeight: "bold" }}>My Skin Info</Text>
           <View style={{ flex: 1 }}></View>
-          <TouchableOpacity style={[{ height: 20 }, MyStyles.purple_round_btn]}>
+          <TouchableOpacity style={[{ height: 20 }, MyStyles.purple_round_btn]} onPress={() => { alert("2차개발 준비중입니다.") }}>
             <Text style={{ fontSize: 13, color: "white" }}>Me</Text>
             <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { marginLeft: 5 }]} />
           </TouchableOpacity>
@@ -335,10 +338,8 @@ export class FragmentRecommendProduct extends React.Component {
                               <Text style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500" }, MyStyles.modal_close_btn]}>Main Category</Text>
                               <Text style={{ flex: 1, textAlign: "center" }}></Text>
                               <TouchableOpacity style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
-                                this.setState({ main_all_selected: !this.state.main_all_selected })
-                                if (this.state.main_all_selected == true) { // 전체선택인 경우 state 초기값으로 변환
-                                  this.resetFilterStatus();
-                                }
+                                this.setState({ main_all_selected: true })
+                                this.resetFilterStatus();
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.main_all_selected ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={{ marginLeft: 5 }}>All</Text>
@@ -380,72 +381,90 @@ export class FragmentRecommendProduct extends React.Component {
                             />
                           </View>
 
-                          {/* Sub Categories */}
-                          {this.state.main_all_selected ? null :
-                            <Text style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500", marginLeft: 15 }]}>Sub Category</Text>
-                          }
+                          {this.state.showSubCategory ?
+                            <View>
+                              {/* Sub Categories */}
+                              {this.state.main_all_selected ? null :
+                                <Text style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500", marginLeft: 15, marginBottom: 20 }]}>Sub Category</Text>
+                              }
 
 
-                          {this.state.mainCategoryItems.map((item, index) => (
-                            item.is_selected > 0 && item.sub_category.length > 0 ?
-                              <View key={index}>
-                                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                  <Text style={[{ color: Colors.primary_purple, fontSize: 12, fontWeight: "400", marginLeft: 15 }]}>{item.categoryName}</Text>
-                                  <Text style={{ flex: 1, textAlign: "center" }}></Text>
-                                  <TouchableOpacity style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
-                                    this.state.mainCategoryItems[index].sub_all_selected = !this.state.mainCategoryItems[index].sub_all_selected
-                                    this.state.mainCategoryItems[index].sub_category.forEach(element => {
-                                      element.is_selected = !this.state.mainCategoryItems[index].is_selected
-                                    })
-
-                                    if (this.state.mainCategoryItems[index].sub_all_selected == false) {
-                                      this.state.mainCategoryItems[index].is_selected = 1
-                                    }
-                                    this.setState({ mainCategoryItems: this.state.mainCategoryItems })
-                                  }}>
-                                    <Image style={{ width: 14, height: 14 }} source={this.state.mainCategoryItems[index].sub_all_selected ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                    <Text style={{ marginLeft: 5 }}>All</Text>
-                                  </TouchableOpacity>
-                                </View>
-
-                                <FlatGrid
-                                  itemDimension={this.ScreenWidth / item.sub_category.length - 40}
-                                  items={item.sub_category}
-                                  style={[MyStyles.gridView, { marginTop: -20 }]}
-                                  spacing={10}
-                                  // staticDimension={300}
-                                  // fixed
-                                  // spacing={20}
-                                  renderItem={({ item: sub_item, index: sub_index }) => (
-                                    <TouchableOpacity onPress={() => {
-                                      this.state.mainCategoryItems[index].sub_category[sub_index].is_selected = !this.state.mainCategoryItems[index].sub_category[sub_index].is_selected
-                                      moreThanOneSelected = false;
-                                      for (i = 0; i < this.state.mainCategoryItems[index].sub_category.length; i++) {
-                                        if (this.state.mainCategoryItems[index].sub_category[i].is_selected == true) {
-                                          moreThanOneSelected = true
+                              {this.state.mainCategoryItems.map((item, index) => (
+                                item.is_selected > 0 && item.sub_category.length > 0 ?
+                                  <View key={index} style={{ marginTop: -30 }}>
+                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                      <Text style={[{ color: Colors.primary_purple, fontSize: 12, fontWeight: "400", marginLeft: 15 }]}>{item.categoryName}</Text>
+                                      <Text style={{ flex: 1, textAlign: "center" }}></Text>
+                                      <TouchableOpacity style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
+                                        this.state.mainCategoryItems[index].sub_all_selected = !this.state.mainCategoryItems[index].sub_all_selected
+                                        if (this.state.mainCategoryItems[index].sub_all_selected) {
+                                          this.state.mainCategoryItems[index].sub_category.forEach(element => {
+                                            element.is_selected = true
+                                          })
+                                        } else {
+                                          this.state.mainCategoryItems[index].sub_category.forEach(element => {
+                                            element.is_selected = false
+                                          })
                                         }
-                                      }
-                                      if (moreThanOneSelected) {
-                                        this.state.mainCategoryItems[index].is_selected = 2
-                                      }
 
-                                      this.setState({ mainCategoryItems: this.state.mainCategoryItems })
-                                    }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
-                                      <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
-                                        {sub_item.is_selected ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
-                                        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                                          {sub_item.is_selected ? <Image style={sub_item.image_style} source={sub_item.image_on} /> : <Image style={sub_item.image_style} source={sub_item.image_off} />}
-                                          {sub_item.is_selected ? <Text style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{sub_item.name}</Text> : <Text style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{sub_item.name}</Text>}
-                                        </View>
-                                      </View>
-                                    </TouchableOpacity>
-                                  )}
-                                />
+                                        if (this.state.mainCategoryItems[index].sub_all_selected == false) {
+                                          this.state.mainCategoryItems[index].is_selected = 1
+                                        } else {
+                                          this.state.mainCategoryItems[index].is_selected = 2
+                                        }
+                                        this.setState({ mainCategoryItems: this.state.mainCategoryItems })
+                                      }}>
+                                        <Image style={{ width: 14, height: 14 }} source={this.state.mainCategoryItems[index].sub_all_selected ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                        <Text style={{ marginLeft: 5 }}>All</Text>
+                                      </TouchableOpacity>
+                                    </View>
 
-                              </View>
-                              : null))}
+                                    <FlatGrid
+                                      itemDimension={this.ScreenWidth / item.sub_category.length - 40}
+                                      items={item.sub_category}
+                                      style={[MyStyles.gridView, { marginTop: -20 }]}
+                                      spacing={10}
 
+                                      // staticDimension={300}
+                                      // fixed
+                                      // spacing={20}
+                                      renderItem={({ item: sub_item, index: sub_index }) => (
+                                        <TouchableOpacity onPress={() => {
+                                          this.state.mainCategoryItems[index].sub_category[sub_index].is_selected = !this.state.mainCategoryItems[index].sub_category[sub_index].is_selected
+                                          moreThanOneSelected = false;
+                                          sub_all_selected = true;
+                                          for (i = 0; i < this.state.mainCategoryItems[index].sub_category.length; i++) {
+                                            if (this.state.mainCategoryItems[index].sub_category[i].is_selected == true) {
+                                              moreThanOneSelected = true
+                                            } else {
+                                              sub_all_selected = false
+                                            }
+                                          }
+                                          if (moreThanOneSelected) {
+                                            this.state.mainCategoryItems[index].is_selected = 2
+                                          } else {
+                                            this.state.mainCategoryItems[index].is_selected = 1
+                                          }
 
+                                          this.state.mainCategoryItems[index].sub_all_selected = sub_all_selected
+
+                                          this.setState({ mainCategoryItems: this.state.mainCategoryItems })
+                                        }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
+                                          <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
+                                            {sub_item.is_selected ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
+                                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                              {sub_item.is_selected ? <Image style={sub_item.image_style} source={sub_item.image_on} /> : <Image style={sub_item.image_style} source={sub_item.image_off} />}
+                                              {sub_item.is_selected ? <Text style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{sub_item.name}</Text> : <Text style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{sub_item.name}</Text>}
+                                            </View>
+                                          </View>
+                                        </TouchableOpacity>
+                                      )}
+                                    />
+
+                                  </View>
+                                  : null))}
+
+                            </View> : null}
                         </View>
                       </ScrollView>
                     </View>

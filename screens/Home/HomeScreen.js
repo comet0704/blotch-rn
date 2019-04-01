@@ -54,6 +54,10 @@ export default class HomeScreen extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.requestHomeList()
+  }
+  
   static navigationOptions = {
     header: null,
   };
@@ -260,6 +264,7 @@ export default class HomeScreen extends React.Component {
           onWillFocus={payload => {
             AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.login_info, (err, result) => {
               global.login_info = JSON.parse(result);
+              const beforeLoginState = this.state.isLogined;
               if (global.login_info == null) {
                 global.login_info = {
                   token: ""
@@ -268,7 +273,9 @@ export default class HomeScreen extends React.Component {
               } else {
                 this.setState({ isLogined: true })
               }
-              this.requestHomeList()
+              if(beforeLoginState != this.state.isLogined) {
+                this.requestHomeList()
+              }
             });
           }}
         />

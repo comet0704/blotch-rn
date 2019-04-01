@@ -33,6 +33,7 @@ export default class IngredientScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      alreadyLoaded:false,
       showLoginModal: false,
       searchKeyword: null,
       ingredient_add_type: -1,
@@ -377,10 +378,12 @@ export default class IngredientScreen extends React.Component {
               this.setState({ showLoginModal: true });
               return;
             }
-            this.requestMyList();
+            if(this.state.alreadyLoaded == false) {
+              this.requestMyList();
+            }
           }}
         />
-        <TopbarWithBlackBack title="My Ingredients" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack title="My Ingredients" onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -469,7 +472,7 @@ export default class IngredientScreen extends React.Component {
                     {this.state.mylist_result_data.my_list.map((item, index) => this.renderPotentialAllergenIngredients(item, index))}
 
                     {/* Ingredients that can cause Allergies */}
-                    {this.state.mylist_result_data.potential_allergen_ingredient_list.length > 0 ?
+                    {this.state.mylist_result_data.potential_allergen_ingredient_list != null && this.state.mylist_result_data.potential_allergen_ingredient_list.length > 0 ?
                       <View style={[{ marginTop: 10 }, MyStyles.bg_white]}>
                         <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }]}>
                           <Text style={[{ fontSize: 14, flex: 1, alignSelf: "center", fontWeight: "bold" }]}>Ingredients that can cause Allergies</Text>
@@ -762,6 +765,7 @@ ingredients that can cause allergies.</Text>
   requestMyList() {
     this.setState({
       isLoading: true,
+      alreadyLoaded : true,
     });
     return fetch(Net.ingredient.myList, {
       method: 'POST',

@@ -25,13 +25,13 @@ export default class BannerDetailScreen extends React.Component {
       banner_detail_result_data: {
         detail: {
           "id": 1,
-          "title": "배너1",
-          "image": "uploads/product/ana-francisconi-1382802-unsplash.jpg",
+          "title": "",
+          "image": "",
           "url": null,
-          "like_count": 1,
-          "visit_count": 1,
-          "comment_count": 7,
-          "content": "배너 내용입니다."
+          "like_count": 0,
+          "visit_count": 0,
+          "comment_count": 0,
+          "content": ""
         }
       },
       banner_comment_list_result_data: {
@@ -188,7 +188,7 @@ export default class BannerDetailScreen extends React.Component {
                 <Image style={{ flex: 1 }} />
                 <Image source={require("../../assets/images/ic_heart_gray.png")} style={MyStyles.ic_heart_gray} />
                 <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.banner_detail_result_data.detail.like_count}</Text>
-                <Image source={require("../../assets/images/ic_eye.png")} style={[MyStyles.ic_eye, { marginLeft: 10 }]} />
+                <Image source={require("../../assets/images/ic_eye.png")} style={[MyStyles.ic_eye_big, { marginLeft: 10 }]} />
                 <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.banner_detail_result_data.detail.visit_count}</Text>
               </View>
             </View>
@@ -212,7 +212,7 @@ export default class BannerDetailScreen extends React.Component {
             <View style={[{ marginTop: 5 }, MyStyles.padding_main]}>
               <View style={[{ marginTop: 5, flexDirection: "row", flex: 1 }]}>
                 <Text style={{ color: Colors.color_949191, paddingLeft: 5, paddingRight: 5, borderWidth: 0.5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }}>Link</Text>
-                <Text onPress={() => { Linking.openURL([this.state.banner_detail_result_data.detail.url]) }} style={[MyStyles.link, { marginLeft: 5 }]}>{this.state.banner_detail_result_data.detail.url}</Text>
+                <Text onPress={() => { Linking.openURL(this.state.banner_detail_result_data.detail.url) }} style={[MyStyles.link, { marginLeft: 5 }]}>{this.state.banner_detail_result_data.detail.url}</Text>
               </View>
               <Text style={{ fontSize: 13, color: Colors.primary_dark, marginTop: 10, marginBottom: 5 }}>{this.state.banner_detail_result_data.detail.content}</Text>
             </View>

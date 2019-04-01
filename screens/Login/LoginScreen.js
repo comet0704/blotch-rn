@@ -131,7 +131,7 @@ export default class LoginScreen extends React.Component {
           <TouchableWithoutFeedback style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" onPress={() => { Keyboard.dismiss() }} >
             <View style={{ flex: 1 }}>
               <Image source={require('../../assets/images/Login/login_bg.png')} style={MyStyles.background_image} />
-              <TopbarWithWhiteBack onPress={() => { this.props.navigation.navigate("Home") }}></TopbarWithWhiteBack>
+              <TopbarWithWhiteBack onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithWhiteBack>
               <Image style={{ flex: 100 }}></Image>
               <Image source={require('../../assets/images/Login/logo.png')} style={[MyStyles.h_auto, { width: "30%", }]} resizeMode="contain"></Image>
               <Text style={{ marginLeft: "auto", marginRight: "auto", color: "white", marginTop: -20, fontSize: 12, fontWeight: "100" }} >Your Beauty Counselor</Text>

@@ -151,7 +151,7 @@ export default StyleSheet.create({
     width: 52 / 3,
     height: 43 / 3,
   },
-  ic_eye: {
+  ic_eye_big: {
     width: 55 / 3,
     height: 43 / 3,
   },

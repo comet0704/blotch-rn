@@ -29,14 +29,14 @@ export default class ProductDetailScreen extends React.Component {
       product_detail_result_data: {
         detail: {
           "id": 1,
-          "title": "Product-1",
-          "image_list": "uploads/product/ana-francisconi-1382802-unsplash.jpg",
-          "visit_count": 125,
-          "like_count": 14,
+          "title": "",
+          "image_list": "",
+          "visit_count": 0,
+          "like_count": 0,
           "comment_count": 0,
           "grade": 0,
           "is_liked": null,
-          "brand_title": "LUSH"
+          "brand_title": ""
         }
       },
       matched: false,
