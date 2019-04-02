@@ -23,7 +23,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.blotch.chemi"
     },
     "android": {
       "package": "com.blotch.chemi",

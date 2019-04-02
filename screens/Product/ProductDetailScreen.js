@@ -112,7 +112,7 @@ export default class ProductDetailScreen extends React.Component {
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
-        <TopbarWithBlackBack rightBtn="true" title="Product" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack rightBtn="true" title="Product" onPress={() => { this.props.navigation.goBack(null) }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
 
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
           <View style={[{ flex: 1 }]}>

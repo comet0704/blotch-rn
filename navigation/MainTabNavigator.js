@@ -19,6 +19,7 @@ import ProductDetailScreen from '../screens/Product/ProductDetailScreen';
 import ArticleDetailScreen from '../screens/Home/ArticleDetailScreen';
 import IngredientScreen from '../screens/Ingredient/IngredientScreen';
 import PotentialAllergensProductScreen from '../screens/Ingredient/PotentialAllergensProductScreen';
+import SearchMainScreen from '../screens/Home/Search/SearchMainScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -27,6 +28,7 @@ const HomeStack = createStackNavigator({
   Faq: FaqScreen,
   BannerDetail: BannerDetailScreen,
   ProductDetail: ProductDetailScreen,
+  SearchMain: SearchMainScreen,
   AboutUs: {
     screen: AboutUsScreen,
     navigationOptions: () => ({
@@ -145,7 +147,7 @@ export default createBottomTabNavigator({
   ProductStack,
   IngredientStack,
   LoginStack,
-  // LinksStack,
+  LinksStack,
   // SettingsStack,
 }, {
   backBehavior: "history",

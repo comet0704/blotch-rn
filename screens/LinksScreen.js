@@ -1,87 +1,126 @@
-import React from "react"
-import { StyleSheet, Text, View, Image, Button } from "react-native"
-import { WebBrowser, Facebook, Google } from "expo";
+import Autocomplete from 'react-native-autocomplete-input';
+import React, { Component } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default class LinkScreen extends React.Component {
+const API = 'https://swapi.co/api';
+const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+
+class AutocompleteExample extends Component {
+  static renderFilm(film) {
+    const { title, director, opening_crawl, episode_id } = film;
+    const roman = episode_id < ROMAN.length ? ROMAN[episode_id] : episode_id;
+
+    return (
+      <View>
+        <Text style={styles.titleText}>{roman}. {title}</Text>
+        <Text style={styles.directorText}>({director})</Text>
+        <Text style={styles.openingText}>{opening_crawl}</Text>
+      </View>
+    );
+  }
+
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      signedIn: false,
-      name: "",
-      photoUrl: ""
-    }
+      films: [],
+      query: ''
+    };
   }
-  signIn = async () => {
-    try {
-      console.log(Facebook)
-      console.log(Google)
-      const result = await Google.logInAsync({
-        androidClientId:
-          "925139916251-o8646r93rhvt53j7sf5ggmf28khgqvrn.apps.googleusercontent.com",
-        //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
-        scopes: ["profile", "email"]
-      })
 
-      if (result.type === "success") {
-        this.setState({
-          signedIn: true,
-          name: result.user.name,
-          photoUrl: result.user.photoUrl
-        })
-      } else {
-        console.log("cancelled")
-      }
-    } catch (e) {
-      console.log("error", e)
-    }
+  componentDidMount() {
+    fetch(`${API}/films/`).then(res => res.json()).then((json) => {
+      const { results: films } = json;
+      this.setState({ films });
+    });
   }
+
+  findFilm(query) {
+    if (query === '') {
+      return [];
+    }
+
+    const { films } = this.state;
+    const regex = new RegExp(`${query.trim()}`, 'i');
+    return films.filter(film => film.title.search(regex) >= 0);
+  }
+
   render() {
+    const { query } = this.state;
+    const films = this.findFilm(query);
+    const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
+
     return (
       <View style={styles.container}>
-        {this.state.signedIn ? (
-          <LoggedInPage name={this.state.name} photoUrl={this.state.photoUrl} />
-        ) : (
-            <LoginPage signIn={this.signIn} />
+        <Autocomplete
+          autoCapitalize="none"
+          autoCorrect={false}
+          containerStyle={styles.autocompleteContainer}
+          listContainerStyle={{width:"100%", marginLeft:-20}}
+          data={films.length === 1 && comp(query, films[0].title) ? [] : films}
+          defaultValue={query}
+          onChangeText={text => this.setState({ query: text })}
+          placeholder="Enter Star Wars film title"
+          renderItem={({ title, release_date }) => (
+            <TouchableOpacity onPress={() => this.setState({ query: title })}>
+              <Text style={styles.itemText}>
+                {title} ({release_date.split('-')[0]})
+              </Text>
+            </TouchableOpacity>
           )}
+        />
+        <View style={styles.descriptionContainer}>
+          {films.length > 0 ? (
+            AutocompleteExample.renderFilm(films[0])
+          ) : (
+            <Text style={styles.infoText}>
+              Enter Title of a Star Wars movie
+            </Text>
+          )}
+        </View>
       </View>
-    )
+    );
   }
-}
-
-const LoginPage = props => {
-  return (
-    <View>
-      <Text style={styles.header}>Sign In With Google</Text>
-      <Button title="Sign in with Google" onPress={() => props.signIn()} />
-    </View>
-  )
-}
-
-const LoggedInPage = props => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Welcome:{props.name}</Text>
-      <Image style={styles.image} source={{ uri: props.photoUrl }} />
-    </View>
-  )
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#F5FCFF',
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    paddingTop: 25
   },
-  header: {
-    fontSize: 25
+  autocompleteContainer: {
+    marginLeft: 30,
+    marginRight: 30
   },
-  image: {
-    marginTop: 15,
-    width: 150,
-    height: 150,
-    borderColor: "rgba(0,0,0,0.2)",
-    borderWidth: 3,
-    borderRadius: 150
+  itemText: {
+    fontSize: 15,
+    margin: 2
+  },
+  descriptionContainer: {
+    // `backgroundColor` needs to be set otherwise the
+    // autocomplete input will disappear on text input.
+    backgroundColor: '#F5FCFF',
+    marginTop: 8
+  },
+  infoText: {
+    textAlign: 'center'
+  },
+  titleText: {
+    fontSize: 18,
+    fontWeight: '500',
+    marginBottom: 10,
+    marginTop: 10,
+    textAlign: 'center'
+  },
+  directorText: {
+    color: 'grey',
+    fontSize: 12,
+    marginBottom: 10,
+    textAlign: 'center'
+  },
+  openingText: {
+    textAlign: 'center'
   }
-})
+});
+
+export default AutocompleteExample;

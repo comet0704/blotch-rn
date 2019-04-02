@@ -23,6 +23,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
+import { ProductBestItem } from '../../components/Products/ProductBestItem';
 
 export class FragmentBestProduct extends React.Component {
   offset = 0;
@@ -35,7 +36,7 @@ export class FragmentBestProduct extends React.Component {
     this.requestBannerList3();
   }
   state = {
-    categoryItems: Common.categoryItems_best,
+    categoryItems: Common.getCategoryItems(),
     product_list_result_data: {
       best_list: []
     },
@@ -200,29 +201,7 @@ export class FragmentBestProduct extends React.Component {
                 // fixed
                 // spacing={20}
                 renderItem={({ item, index }) => (
-                  <TouchableOpacity onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-                    <View style={[MyStyles.productItemContainer]}>
-                      <Image source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
-                      {item.is_liked > 0
-                        ?
-                        <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(item.id) }}>
-                          <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductLike(item.id) }}>
-                          <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-                        </TouchableOpacity>
-                      }
-                      {index < 3 ?
-                        <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
-                          <Image source={require('../../assets/images/ic_best_ranking.png')} style={[MyStyles.background_image]} />
-                          <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>{index + 1}</Text>
-                        </View>
-                        : null}
-                    </View>
-                    <Text style={[MyStyles.productBrand]}>{item.brand_title}</Text>
-                    <Text style={[MyStyles.productName]}>{item.title}</Text>
-                  </TouchableOpacity>
+                  <ProductBestItem item={item} index={index} this={this}></ProductBestItem>
                 )}
               />
             </View>

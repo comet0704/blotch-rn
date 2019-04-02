@@ -3,11 +3,11 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles'
-import MyConstants from '../../constants/MyConstants'
-import Common from '../../assets/Common';
-import Net from '../../Net/Net';
-import Colors from '../../constants/Colors';
+import MyStyles from '../../../constants/MyStyles'
+import MyConstants from '../../../constants/MyConstants'
+import Common from '../../../assets/Common';
+import Net from '../../../Net/Net';
+import Colors from '../../../constants/Colors';
 
 import Carousel from 'react-native-banner-carousel';
 import {
@@ -16,6 +16,7 @@ import {
   Image,
   Dimensions,
   WebBrowser,
+  TextInput,
   Text,
   ScrollView,
   TouchableOpacity,
@@ -23,22 +24,22 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
-import { ProductItem } from '../../components/Products/ProductItem';
+import { ProductBestItem } from '../../../components/Products/ProductBestItem';
 
-export class FragmentNewProduct extends React.Component {
+export default class SearchMainScreen extends React.Component {
   offset = 0;
   selectedSubCatName = "";
   constructor(props) {
     super(props);
   }
   componentDidMount() {
-    this.requestNewList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
-    this.requestBannerList2();
+    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+    this.requestBannerList3();
   }
   state = {
     categoryItems: Common.getCategoryItems(),
     product_list_result_data: {
-      new_list: []
+      best_list: []
     },
     banner_list2_result_data: {
       list: []
@@ -83,7 +84,7 @@ export class FragmentNewProduct extends React.Component {
     } else {
       this.selectedSubCatName = "";
     }
-    this.requestNewList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
   }
 
 
@@ -98,7 +99,7 @@ export class FragmentNewProduct extends React.Component {
           {this.state.categoryItems.map(item => (
             <View key={item.categoryName} style={{ marginRight: 10 }}>
               <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={[MyStyles.category_image_container]}>
-                {item.is_selected ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
+                {item.is_selected ? <Image source={require("../../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
               </TouchableOpacity>
               <Text style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</Text>
@@ -124,7 +125,7 @@ export class FragmentNewProduct extends React.Component {
                     categoryItems[p_categoryIndex].sub_category[index].is_selected = true
                     this.setState({ categoryItems: categoryItems })
                     this.setState({ loading_end: false })
-                    this.requestNewList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+                    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
                   }}>
                     <Text style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</Text>
                   </TouchableOpacity>
@@ -149,92 +150,91 @@ export class FragmentNewProduct extends React.Component {
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
-        <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
-          onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-              this.requestNewList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
-            }
+        {/* Search bar */}
+        <View style={[{ marginTop: 27, height: 40, paddingTop: 2, paddingBottom: 2, justifyContent: "center", flexDirection: "row", }, MyStyles.container, MyStyles.bg_white]}>
+          <Image source={require("../../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />
+          <View style={[{ flex: 1, marginLeft: 12, borderRadius: 20, borderWidth: 0.5, borderBottomWidth: 2, flexDirection: "row", width: "100%", borderColor: "#f8f8f8", paddingLeft: 13, paddingRight: 5 }]}>
+            <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
+            <TextInput style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
+            <TouchableOpacity style={{ padding: 8 }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
+              <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+
+        <View style={{flex:1}}>
+          <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+
+          {/* 카테고리 나열 부분 */}
+          <View style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: Colors.color_f8f8f8,
+            padding: 15,
+            height: 110
           }}>
-
-          <View>
-            <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-
-            {/* 배너 부분 */}
-            <View style={{ overflow: "hidden" }}>
-              <Carousel
-                autoplay
-                autoplayTimeout={3000}
-                loop
-                index={0}
-                pageSize={this.BannerWidth}
-              >
-                {this.state.banner_list2_result_data.list.map((item, index) => this.renderBanner(item, index))}
-              </Carousel>
-            </View>
-
-            {/* 카테고리 나열 부분 */}
-            <View style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: Colors.color_f8f8f8,
-              padding: 15,
-              height: 110
-            }}>
-              {
-                this.renderCategoryScroll()
-              }
-            </View>
-
             {
-              this.renderSubCategory(this.state.beforeCatIdx)
+              this.renderCategoryScroll()
             }
+          </View>
 
-            {/* product 나열 */}
+          {
+            this.renderSubCategory(this.state.beforeCatIdx)
+          }
+
+          {/* product 나열 */}
+          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
+            onScroll={({ nativeEvent }) => {
+              if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+                this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+              }
+            }}>
             <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>New Product</Text>
+              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Best Product</Text>
               <FlatGrid
                 itemDimension={this.ScreenWidth / 2 - 30}
-                items={this.state.product_list_result_data.new_list}
+                items={this.state.product_list_result_data.best_list}
                 style={MyStyles.gridView}
                 spacing={10}
                 // staticDimension={300}
                 // fixed
                 // spacing={20}
                 renderItem={({ item, index }) => (
-                  <ProductItem item={item} index={index} this={this}></ProductItem>
+                  <ProductBestItem item={item} index={index} this={this}></ProductBestItem>
                 )}
               />
             </View>
+          </ScrollView>
 
-          </View>
-        </ScrollView>
+        </View>
       </View>
     );
   }
 
   onProductLiked = (p_product_id) => {
-    const product_list = this.state.product_list_result_data.new_list
+    const product_list = this.state.product_list_result_data.best_list
     const index = product_list.findIndex(item => item.id === p_product_id)
     product_list[index].is_liked = 100
-    const result = { new_list: product_list };
+    const result = { best_list: product_list };
     this.setState({ product_list_result_data: result })
   }
 
   onProductUnliked = (p_product_id) => {
-    const product_list = this.state.product_list_result_data.new_list
+    const product_list = this.state.product_list_result_data.best_list
     const index = product_list.findIndex(item => item.id === p_product_id)
     product_list[index].is_liked = null
-    const result = { new_list: product_list };
+    const result = { best_list: product_list };
     this.setState({ product_list_result_data: result })
   }
 
-  requestNewList(p_category, p_sub_category, p_offset) {
+  requestBestList(p_category, p_sub_category, p_offset) {
     console.log("category= " + p_category);
     console.log("p_sub_category = " + p_sub_category)
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.product.newList, {
+    return fetch(Net.product.bestList, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -261,8 +261,8 @@ export class FragmentNewProduct extends React.Component {
         if (p_offset == 0) { // 카테고리 선택했을대 offset값을 0에서부터 검색해야 함.
           this.offset = 0;
         }
-        this.offset += responseJson.result_data.new_list.length
-        if (responseJson.result_data.new_list.length < MyConstants.ITEMS_PER_PAGE) {
+        this.offset += responseJson.result_data.best_list.length
+        if (responseJson.result_data.best_list.length < MyConstants.ITEMS_PER_PAGE) {
           this.setState({ loading_end: true })
         }
         if (p_offset == 0) {
@@ -271,8 +271,8 @@ export class FragmentNewProduct extends React.Component {
           });
           return;
         }
-        const new_list = this.state.product_list_result_data.new_list
-        result = { new_list: [...new_list, ...responseJson.result_data.new_list] };
+        const best_list = this.state.product_list_result_data.best_list
+        result = { best_list: [...best_list, ...responseJson.result_data.best_list] };
         this.setState({ product_list_result_data: result })
       })
       .catch((error) => {
@@ -285,11 +285,11 @@ export class FragmentNewProduct extends React.Component {
   }
 
 
-  requestBannerList2() {
+  requestBannerList3() {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.banner.list2, {
+    return fetch(Net.banner.list3, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
