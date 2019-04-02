@@ -970,4 +970,14 @@ export default StyleSheet.create({
     width:39/3,
     height:52/3,
   },
+  backButton: {
+    width: 11,
+    height: 18,
+    marginTop: 20,
+  },
+  shareBtn: {
+    width: 46 / 3,
+    height: 53 / 3,
+    marginTop: 20,
+  }
 });

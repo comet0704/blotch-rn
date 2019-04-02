@@ -225,6 +225,8 @@ export default {
     ];  
   },
   IMAGE_SPLITTER:"###",
+  SEARCH_KEYWORD_SPLITTER:"###",
+
   // 메인카테고리의 is_selected 마당)  0 : 선택안함, 1 : 최초 선택시 서브카테고리 선택안됨., 2 : 서브카테고리 1개이상 선택됨.
   categoryItems_recom: [
     {

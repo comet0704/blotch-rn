@@ -46,7 +46,8 @@ export default {
   },  
   Loading_text:"Loading...",
   ASYNC_PARAMS : {
-    login_info : "LoginInfo"
+    login_info : "LoginInfo",
+    recent_search_words: "recent_search_words",
   },
   NAVIGATION_PARAMS : {
     item_id: "item_id",

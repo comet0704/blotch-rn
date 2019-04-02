@@ -28,7 +28,7 @@ export class ProductBestItem extends React.Component {
     const index = this.props.index;
     const _this = this.props.this;
     return (
-      <TouchableOpacity onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+      <TouchableOpacity onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
         <View style={[MyStyles.productItemContainer]}>
           <Image source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
           {item.is_liked > 0

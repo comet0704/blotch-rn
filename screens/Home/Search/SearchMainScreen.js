@@ -11,6 +11,7 @@ import Colors from '../../../constants/Colors';
 
 import Carousel from 'react-native-banner-carousel';
 import {
+  StyleSheet,
   KeyboardAvoidingView,
   View,
   Image,
@@ -25,28 +26,60 @@ import {
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
 import { ProductBestItem } from '../../../components/Products/ProductBestItem';
+import Autocomplete from 'react-native-autocomplete-input';
 
+const API = 'https://swapi.co/api';
 export default class SearchMainScreen extends React.Component {
   offset = 0;
   selectedSubCatName = "";
   constructor(props) {
     super(props);
+    this.state = {
+      searchBoxFocused:false,
+      recentSearchWords: [],
+      query: '',
+      categoryItems: Common.getCategoryItems(),
+      product_list_result_data: {
+        best_list: []
+      },
+      banner_list2_result_data: {
+        list: []
+      },
+      beforeCatIdx: 0,
+      loading_end: false,
+    };
   }
   componentDidMount() {
     this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
     this.requestBannerList3();
+    this.getRecentSearchWords();
   }
-  state = {
-    categoryItems: Common.getCategoryItems(),
-    product_list_result_data: {
-      best_list: []
-    },
-    banner_list2_result_data: {
-      list: []
-    },
-    beforeCatIdx: 0,
-    loading_end: false,
-  };
+
+  getRecentSearchWords() {
+    AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.recent_search_words, (err, result) => {
+      if (result != null) {
+        console.log("result = " + result);
+        searchWords = result.split(Common.SEARCH_KEYWORD_SPLITTER)
+        this.setState({ recentSearchWords: searchWords })
+        console.log("!!!!!!!!!!!!! = " + this.state.recentSearchWords);
+      }
+    });
+  }
+
+  addRecentSearchWords(p_keyword) {
+    if(p_keyword == "" || this.state.recentSearchWords.indexOf(p_keyword) > 0) {
+      return;
+    }
+    console.log("addingWord = " + p_keyword);
+    AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.recent_search_words, (err, result) => {
+      const settingvalue = result + (result != null ? Common.SEARCH_KEYWORD_SPLITTER : "") + p_keyword
+      console.log("settingvalue = " + settingvalue);
+      AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.recent_search_words, settingvalue);
+
+      // 설정후 새 값을 얻어야 함.
+      this.getRecentSearchWords()
+    });
+  }
 
   BannerHeight = 560 / 3;
   BannerWidth = Dimensions.get('window').width;
@@ -138,7 +171,20 @@ export default class SearchMainScreen extends React.Component {
     );
   }
 
+  findKeyword(query) {
+    if(this.state.searchBoxFocused == false) {
+      return []
+    }
+
+    return this.state.recentSearchWords.filter(item => item.toLowerCase().indexOf(query==null ? "" : query.toLowerCase()) >= 0);
+  }
+
   render() {
+
+    const { query } = this.state;
+    const recentSearchWords = this.findKeyword(query);
+    const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
+
     return (
       <View style={{ flex: 1 }}>
         <Spinner
@@ -150,20 +196,49 @@ export default class SearchMainScreen extends React.Component {
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
+
         {/* Search bar */}
         <View style={[{ marginTop: 27, height: 40, paddingTop: 2, paddingBottom: 2, justifyContent: "center", flexDirection: "row", }, MyStyles.container, MyStyles.bg_white]}>
-          <Image source={require("../../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />
-          <View style={[{ flex: 1, marginLeft: 12, borderRadius: 20, borderWidth: 0.5, borderBottomWidth: 2, flexDirection: "row", width: "100%", borderColor: "#f8f8f8", paddingLeft: 13, paddingRight: 5 }]}>
-            <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
-            <TextInput style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
-            <TouchableOpacity style={{ padding: 8 }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
-              <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
-            </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => { this.props.goBack(null) }} activeOpacity={0.5} style={{ alignSelf: "center" }} >
+            <Image style={[MyStyles.backButton, { marginTop: 0 }]}
+              source={require("../../../assets/images/ic_back_black.png")}
+            />
+          </TouchableOpacity>
+          <View style={{ flex: 1 }}>
+
           </View>
+
+          <TouchableOpacity style={{ padding: 8 }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
+            <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
+          </TouchableOpacity>
         </View>
 
-
-        <View style={{flex:1}}>
+        <Autocomplete
+          returnKeyType="search"
+          onSubmitEditing={() => { this.addRecentSearchWords(this.state.query); this.setState({searchBoxFocused:false}) }}
+          autoCapitalize="none"
+          autoCorrect={false}
+          onFocus={() => this.setState({searchBoxFocused:true})}
+          onBlur={() => {this.setState({searchBoxFocused:false, query:""})}}
+          containerStyle={{ position: "absolute", top: 25, zIndex: 100, left: 40, right: 80, backgroundColor: "transparent" }}
+          data={recentSearchWords.length === 1 && comp(query, recentSearchWords[0]) ? [] : recentSearchWords}
+          defaultValue={query}
+          onChangeText={text => this.setState({ query: text, searchBoxFocused:true })}
+          listContainerStyle={{ left: -40, width: this.ScreenWidth, top: 5, }}
+          inputContainerStyle={{ borderColor: "transparent" }}
+          placeholder="Enter keywords"
+          renderItem={(keyword) => (
+            <TouchableOpacity onPress={() => this.setState({ query: keyword, searchBoxFocused:false })}>
+              <Text style={{ padding: 10 }}>
+                {keyword}
+              </Text>
+              <View style={MyStyles.seperate_line_e5e5e5}></View>
+            </TouchableOpacity>
+          )}
+        />
+        
+        <View style={{ flex: 1 }}>
           <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
           {/* 카테고리 나열 부분 */}
@@ -208,6 +283,7 @@ export default class SearchMainScreen extends React.Component {
           </ScrollView>
 
         </View>
+
       </View>
     );
   }
@@ -229,8 +305,8 @@ export default class SearchMainScreen extends React.Component {
   }
 
   requestBestList(p_category, p_sub_category, p_offset) {
-    console.log("category= " + p_category);
-    console.log("p_sub_category = " + p_sub_category)
+    // console.log("category= " + p_category);
+    // console.log("p_sub_category = " + p_sub_category)
     this.setState({
       isLoading: true,
     });
@@ -249,7 +325,7 @@ export default class SearchMainScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -301,7 +377,7 @@ export default class SearchMainScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -342,7 +418,7 @@ export default class SearchMainScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -380,7 +456,7 @@ export default class SearchMainScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -400,4 +476,5 @@ export default class SearchMainScreen extends React.Component {
       })
       .done();
   }
+
 };

@@ -30,14 +30,16 @@ class AutocompleteExample extends Component {
   componentDidMount() {
     fetch(`${API}/films/`).then(res => res.json()).then((json) => {
       const { results: films } = json;
+      console.log({json});
       this.setState({ films });
     });
+    
   }
 
   findFilm(query) {
-    if (query === '') {
-      return [];
-    }
+    // if (query === '') {
+    //   return [];
+    // }
 
     const { films } = this.state;
     const regex = new RegExp(`${query.trim()}`, 'i');
@@ -55,7 +57,6 @@ class AutocompleteExample extends Component {
           autoCapitalize="none"
           autoCorrect={false}
           containerStyle={styles.autocompleteContainer}
-          listContainerStyle={{width:"100%", marginLeft:-20}}
           data={films.length === 1 && comp(query, films[0].title) ? [] : films}
           defaultValue={query}
           onChangeText={text => this.setState({ query: text })}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Colors from '../../constants/Colors';
+import MyStyles from '../../constants/MyStyles';
 
 export class TopbarWithBlackBack extends React.Component {
   render() {
@@ -9,7 +10,7 @@ export class TopbarWithBlackBack extends React.Component {
         <Text style={{ flex: 1, textAlign: "center", left: 0, right: 0, height: 48, top: 35, fontSize: 16, fontWeight: "500", position: "absolute" }}>{this.props.title}</Text>
         <TouchableOpacity
           onPress={this.props.onPress} activeOpacity={0.5} style={{ padding: 15, width: 45 }}>
-          <Image style={[styles.backButton]}
+          <Image style={[MyStyles.backButton]}
             source={require("../../assets/images/ic_back_black.png")}
           />
         </TouchableOpacity>
@@ -17,7 +18,7 @@ export class TopbarWithBlackBack extends React.Component {
         {this.props.rightBtn == "true" ?
           <TouchableOpacity
           onPress={this.props.onRightBtnPress} activeOpacity={0.5} style={{ padding: 15, width: 45 }}>
-            <Image style={[styles.shareBtn]}
+            <Image style={[MyStyles.shareBtn]}
               source={require("../../assets/images/ic_share.png")}
             />
           </TouchableOpacity> : null}
@@ -25,16 +26,3 @@ export class TopbarWithBlackBack extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  backButton: {
-    width: 11,
-    height: 18,
-    marginTop: 20,
-  },
-  shareBtn: {
-    width: 46 / 3,
-    height: 53 / 3,
-    marginTop: 20,
-  }
-})
