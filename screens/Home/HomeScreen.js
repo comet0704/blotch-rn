@@ -604,7 +604,7 @@ export default class HomeScreen extends React.Component {
         // this.props.navigation.navigate("Article");
         // this.props.navigation.navigate("ProductContainer") 
         // this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1}) 
-        this.props.navigation.navigate("SearchMain") 
+        // this.props.navigation.navigate("SearchMain") 
       })
       .catch((error) => {
         this.setState({

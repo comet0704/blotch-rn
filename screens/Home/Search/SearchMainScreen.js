@@ -220,7 +220,7 @@ export default class SearchMainScreen extends React.Component {
           autoCapitalize="none"
           autoCorrect={false}
           onFocus={() => this.setState({searchBoxFocused:true})}
-          onBlur={() => {this.setState({searchBoxFocused:false, query:""})}}
+          onBlur={() => this.setState({searchBoxFocused:false, query:""})}
           containerStyle={{ position: "absolute", top: 25, zIndex: 100, left: 40, right: 80, backgroundColor: "transparent" }}
           data={recentSearchWords.length === 1 && comp(query, recentSearchWords[0]) ? [] : recentSearchWords}
           defaultValue={query}
