@@ -22,6 +22,7 @@ import PotentialAllergensProductScreen from '../screens/Ingredient/PotentialAlle
 import SearchMainScreen from '../screens/Home/Search/SearchMainScreen';
 import SearchResultScreen from '../screens/Home/Search/SearchResultScreen';
 import SearchBrandDetailScreen from '../screens/Home/Search/SearchBrandDetailScreen';
+import SearchResultProductMoreScreen from '../screens/Home/Search/SearchResultProductMoreScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -33,6 +34,7 @@ const HomeStack = createStackNavigator({
   SearchMain: SearchMainScreen,
   SearchResult: SearchResultScreen,
   SearchBrandDetail: SearchBrandDetailScreen,
+  SearchResultProductMore: SearchResultProductMoreScreen,
   AboutUs: AboutUsScreen,
 },
   {

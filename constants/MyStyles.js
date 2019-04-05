@@ -173,6 +173,10 @@ export default StyleSheet.create({
     width: 96 / 3,
     height: 96 / 3,
   },
+  ic_back3: {
+    width: 96 / 3,
+    height: 96 / 3,
+  },
   ic_eye_big: {
     width: 55 / 3,
     height: 43 / 3,
