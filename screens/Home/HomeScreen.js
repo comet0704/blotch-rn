@@ -20,6 +20,7 @@ import {
   KeyboardAvoidingView,
   Dimensions,
   TouchableHighlight,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import { WebBrowser } from 'expo';
@@ -57,7 +58,7 @@ export default class HomeScreen extends React.Component {
   componentDidMount() {
     this.requestHomeList()
   }
-  
+
   static navigationOptions = {
     header: null,
   };
@@ -273,7 +274,7 @@ export default class HomeScreen extends React.Component {
               } else {
                 this.setState({ isLogined: true })
               }
-              if(beforeLoginState != this.state.isLogined) {
+              if (beforeLoginState != this.state.isLogined) {
                 this.requestHomeList()
               }
             });
@@ -295,13 +296,16 @@ export default class HomeScreen extends React.Component {
               {/* Search bar */}
               <View style={[{ flex: 1, marginTop: 27, height: 40, paddingTop: 2, paddingBottom: 2, justifyContent: "center", flexDirection: "row", }, MyStyles.container, MyStyles.bg_white]}>
                 <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />
-                <View style={[{ flex: 1, marginLeft: 12, borderRadius: 20, borderWidth: 0.5, borderBottomWidth: 2, flexDirection: "row", width: "100%", borderColor: "#f8f8f8", paddingLeft: 13, paddingRight: 5 }]}>
-                  <Image source={require('../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
-                  <TextInput style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
-                  <TouchableOpacity style={{ padding: 8 }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
-                    <Image source={require('../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
-                  </TouchableOpacity>
-                </View>
+
+                <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
+                  <View style={[{ marginLeft: 12,  }, MyStyles.searchBoxCover, MyStyles.shadow_2]}>
+                    <Image source={require('../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
+                    <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
+                    <TouchableOpacity style={{ padding: 8, alignSelf:"center" }}>
+                      <Image source={require('../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
+                    </TouchableOpacity>
+                  </View>
+                </TouchableWithoutFeedback>
               </View>
 
               {/* Today's Beauty Information */}
@@ -548,7 +552,7 @@ export default class HomeScreen extends React.Component {
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
-      </View>
+      </View >
     );
   }
 
@@ -569,7 +573,7 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
+        console.log(responseJson);
         this.setState({
           isLoading: false,
           result_data: responseJson.result_data

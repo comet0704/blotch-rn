@@ -93,7 +93,7 @@ export default StyleSheet.create({
     resizeMode: "contain",
   },
   shadow_2: {
-    shadowColor: 'black',
+    shadowColor: '#3a3a3a',
     shadowOffset: {
       width: 1,
       height: 3,
@@ -104,7 +104,7 @@ export default StyleSheet.create({
     backgroundColor: "white" // invisible color,
   },
   shadow_1: {
-    shadowColor: 'black',
+    shadowColor: '#3a3a3a',
     shadowOffset: {
       width: 1,
       height: 3,
@@ -979,5 +979,8 @@ export default StyleSheet.create({
     width: 46 / 3,
     height: 53 / 3,
     marginTop: 20,
-  }
+  },
+  searchBoxCover : {
+    flex: 1, borderRadius: 20, flexDirection: "row", width: "100%", paddingLeft: 13, paddingRight: 5 
+  },
 });

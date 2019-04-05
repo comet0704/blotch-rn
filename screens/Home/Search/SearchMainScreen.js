@@ -35,7 +35,7 @@ export default class SearchMainScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchBoxFocused:false,
+      searchBoxFocused: false,
       recentSearchWords: [],
       query: '',
       categoryItems: Common.getCategoryItems(),
@@ -67,7 +67,7 @@ export default class SearchMainScreen extends React.Component {
   }
 
   addRecentSearchWords(p_keyword) {
-    if(p_keyword == "" || this.state.recentSearchWords.indexOf(p_keyword) > 0) {
+    if (p_keyword == "" || this.state.recentSearchWords.indexOf(p_keyword) > 0) {
       return;
     }
     console.log("addingWord = " + p_keyword);
@@ -172,11 +172,11 @@ export default class SearchMainScreen extends React.Component {
   }
 
   findKeyword(query) {
-    if(this.state.searchBoxFocused == false) {
+    if (this.state.searchBoxFocused == false) {
       return []
     }
 
-    return this.state.recentSearchWords.filter(item => item.toLowerCase().indexOf(query==null ? "" : query.toLowerCase()) >= 0);
+    return this.state.recentSearchWords.filter(item => item.toLowerCase().indexOf(query == null ? "" : query.toLowerCase()) >= 0);
   }
 
   render() {
@@ -186,7 +186,7 @@ export default class SearchMainScreen extends React.Component {
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: Colors.color_f2f2f2 }}>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -198,93 +198,116 @@ export default class SearchMainScreen extends React.Component {
         <Toast ref='toast' />
 
         {/* Search bar */}
-        <View style={[{ marginTop: 27, height: 40, paddingTop: 2, paddingBottom: 2, justifyContent: "center", flexDirection: "row", }, MyStyles.container, MyStyles.bg_white]}>
+        <View style={[{ marginTop: 25, height: 46, paddingTop: 4, paddingBottom: 6, justifyContent: "center", flexDirection: "row", paddingRight: 15, }, MyStyles.bg_white]}>
           <TouchableOpacity
-            onPress={() => { this.props.goBack(null) }} activeOpacity={0.5} style={{ alignSelf: "center" }} >
-            <Image style={[MyStyles.backButton, { marginTop: 0 }]}
+            onPress={() => {
+              if (this.state.searchBoxFocused) {
+                this.setState({ searchBoxFocused: false })
+                this.refs.searchBox.blur()
+                return
+              }
+              this.props.navigation.goBack(null)
+            }} activeOpacity={0.5} style={{ alignSelf: "center", alignItems: "center", padding: 15 }} >
+            <Image style={[MyStyles.backButton, { marginTop: 0, alignSelf: "center" }]}
               source={require("../../../assets/images/ic_back_black.png")}
             />
           </TouchableOpacity>
-          <View style={{ flex: 1 }}>
 
-          </View>
-
-          <TouchableOpacity style={{ padding: 8 }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
-            <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
-          </TouchableOpacity>
+          {this.state.searchBoxFocused ?
+            <View style={[MyStyles.shadow_2, MyStyles.searchBoxCover]}>
+              <Image style={{ flex: 1 }}></Image>
+              <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
+                <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
+              </TouchableOpacity>
+            </View>
+            :
+            <View style={[ MyStyles.searchBoxCover]}>
+              <Image style={{ flex: 1 }}></Image>
+              <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
+                <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
+              </TouchableOpacity>
+            </View>}
         </View>
 
         <Autocomplete
+          ref='searchBox'
           returnKeyType="search"
-          onSubmitEditing={() => { this.addRecentSearchWords(this.state.query); this.setState({searchBoxFocused:false}) }}
+          onSubmitEditing={() => { this.addRecentSearchWords(this.state.query); this.setState({ searchBoxFocused: false }) }}
+          style={{ height: 36 }}
           autoCapitalize="none"
           autoCorrect={false}
-          onFocus={() => this.setState({searchBoxFocused:true})}
-          onBlur={() => this.setState({searchBoxFocused:false, query:""})}
-          containerStyle={{ position: "absolute", top: 25, zIndex: 100, left: 40, right: 80, backgroundColor: "transparent" }}
+          onFocus={() => this.setState({ searchBoxFocused: true })}
+          onBlur={() => this.setState({ searchBoxFocused: false, query: "" })}
+          containerStyle={[{ position: "absolute", top: 27, zIndex: 100, right: 80, backgroundColor: "transparent" }, this.state.searchBoxFocused ? { left: 55 } : { left: 40 }]}
           data={recentSearchWords.length === 1 && comp(query, recentSearchWords[0]) ? [] : recentSearchWords}
           defaultValue={query}
-          onChangeText={text => this.setState({ query: text, searchBoxFocused:true })}
-          listContainerStyle={{ left: -40, width: this.ScreenWidth, top: 5, }}
+          onChangeText={async (text) => {
+            await this.setState({ query: "!!!!!!!!!!!!!!!!", searchBoxFocused: true }) //최근 검색어들을 감추기 위한 조작.
+            await this.setState({ query: text, searchBoxFocused: true })
+          }
+          }
+          listContainerStyle={[{ top: 7, }, this.state.searchBoxFocused ? { left: -65, width: this.ScreenWidth + 50 } : { left: -50, width: this.ScreenWidth + 20}]}
           inputContainerStyle={{ borderColor: "transparent" }}
           placeholder="Enter keywords"
           renderItem={(keyword) => (
-            <TouchableOpacity onPress={() => this.setState({ query: keyword, searchBoxFocused:false })}>
-              <Text style={{ padding: 10 }}>
-                {keyword}
+            <TouchableOpacity onPress={() => this.setState({ query: keyword, searchBoxFocused: false })}>
+              <Text style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15 }}>
+                {keyword.substring(0, keyword.indexOf(query))}<Text style={{ color: Colors.primary_purple }}>{query}</Text>{keyword.substring(keyword.indexOf(query) + query.length)}
               </Text>
-              <View style={MyStyles.seperate_line_e5e5e5}></View>
+              <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginRight: 15 }]}></View>
             </TouchableOpacity>
           )}
         />
-        
-        <View style={{ flex: 1 }}>
-          <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
-          {/* 카테고리 나열 부분 */}
-          <View style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: Colors.color_f8f8f8,
-            padding: 15,
-            height: 110
-          }}>
-            {
-              this.renderCategoryScroll()
-            }
-          </View>
+        {
+          this.state.searchBoxFocused ? null :
+            <View style={{ flex: 1 }}>
+              <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
-          {
-            this.renderSubCategory(this.state.beforeCatIdx)
-          }
+              {/* 카테고리 나열 부분 */}
+              <View style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: Colors.color_f8f8f8,
+                padding: 15,
+                height: 110
+              }}>
+                {
+                  this.renderCategoryScroll()
+                }
+              </View>
 
-          {/* product 나열 */}
-          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
-            onScroll={({ nativeEvent }) => {
-              if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-                this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+              {
+                this.renderSubCategory(this.state.beforeCatIdx)
               }
-            }}>
-            <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Best Product</Text>
-              <FlatGrid
-                itemDimension={this.ScreenWidth / 2 - 30}
-                items={this.state.product_list_result_data.best_list}
-                style={MyStyles.gridView}
-                spacing={10}
-                // staticDimension={300}
-                // fixed
-                // spacing={20}
-                renderItem={({ item, index }) => (
-                  <ProductBestItem item={item} index={index} this={this}></ProductBestItem>
-                )}
-              />
+
+              {/* product 나열 */}
+              <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
+                onScroll={({ nativeEvent }) => {
+                  if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+                    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+                  }
+                }}>
+                <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
+                  <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Best Product</Text>
+                  <FlatGrid
+                    itemDimension={this.ScreenWidth / 2 - 30}
+                    items={this.state.product_list_result_data.best_list}
+                    style={MyStyles.gridView}
+                    spacing={10}
+                    // staticDimension={300}
+                    // fixed
+                    // spacing={20}
+                    renderItem={({ item, index }) => (
+                      <ProductBestItem item={item} index={index} this={this}></ProductBestItem>
+                    )}
+                  />
+                </View>
+              </ScrollView>
+
             </View>
-          </ScrollView>
-
-        </View>
-
-      </View>
+        }
+      </View >
     );
   }
 

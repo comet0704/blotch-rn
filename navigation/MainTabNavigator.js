@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, Icon , Image} from 'react-native';
+import { Platform, Icon, Image } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
@@ -29,71 +29,89 @@ const HomeStack = createStackNavigator({
   BannerDetail: BannerDetailScreen,
   ProductDetail: ProductDetailScreen,
   SearchMain: SearchMainScreen,
-  AboutUs: {
-    screen: AboutUsScreen,
-    navigationOptions: () => ({
-      tabBarVisible:false,
-    })
-  },
+  AboutUs: AboutUsScreen,
 },
-{
-  headerMode: 'screen ',
-});
+  {
+    headerMode: 'screen ',
+  });
 
-// HomeStack.navigationOptions = ({navigation}) => {
-//   tabBarLabel = "HOME";
+HomeStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = false;
 
-//   let tabBarVisible = true;
+  let routeName = navigation.state.routes[navigation.state.index].routeName;
 
-//   let routeName = navigation.state.routes[navigation.state.index].routeName;
+  if (routeName == 'Home') {
+    tabBarVisible = true
+  }
 
-//   if(routeName == 'AboutUs') {
-//     tabBarVisible = false
-//   }
+  return {
+    tabBarLabel: "Home",
+    tabBarIcon: ({ focused }) => (
+      focused ? <Image style={{ width: 57 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_home_on.png")} /> : <Image style={{ width: 57 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_home_off.png")} />
+    ),
+    tabBarVisible: tabBarVisible
+  }
+}
 
-//   return {
-//     tabBarVisible
-//   }
-// }
-
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
-  tabBarIcon: ({focused}) => (
-    focused ? <Image style={{width:57/3, height:53/3}} source={require("../assets/images/ic_menu_home_on.png")}/> : <Image style={{width:57/3, height:53/3}} source={require("../assets/images/ic_menu_home_off.png")}/>
-  ),
-};
+// HomeStack.navigationOptions = {
+//   tabBarLabel: 'Home',
+//   tabBarIcon: ({focused}) => (
+//     focused ? <Image style={{width:57/3, height:53/3}} source={require("../assets/images/ic_menu_home_on.png")}/> : <Image style={{width:57/3, height:53/3}} source={require("../assets/images/ic_menu_home_off.png")}/>
+//   ),
+// };
 
 const ProductStack = createStackNavigator({
   ProductContainer: ProductContainerScreen,
   ProductDetail: ProductDetailScreen,
   BannerDetail: BannerDetailScreen,
 },
-{
-  headerMode: 'screen ',
-});
+  {
+    headerMode: 'screen ',
+  });
 
-ProductStack.navigationOptions = {
-  tabBarLabel: 'Product',
-  tabBarIcon: ({focused}) => (
-    focused ? <Image style={{width:49/3, height:53/3}} source={require("../assets/images/ic_menu_product_on.png")}/> : <Image style={{width:49/3, height:53/3}} source={require("../assets/images/ic_menu_product_off.png")}/>
-  ),
-};
+ProductStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = false;
 
+  let routeName = navigation.state.routes[navigation.state.index].routeName;
+
+  if (routeName == 'ProductContainer') {
+    tabBarVisible = true
+  }
+
+  return {
+    tabBarLabel: 'Product',
+    tabBarIcon: ({ focused }) => (
+      focused ? <Image style={{ width: 49 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_product_on.png")} /> : <Image style={{ width: 49 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_product_off.png")} />
+    ),
+    tabBarVisible: tabBarVisible
+  }
+}
 
 const IngredientStack = createStackNavigator({
   Ingredient: IngredientScreen,
-  PotentialAllergenProduct : PotentialAllergensProductScreen,
+  PotentialAllergenProduct: PotentialAllergensProductScreen,
 },
-{
-  headerMode: 'screen ',
-});
+  {
+    headerMode: 'screen ',
+  });
 
-IngredientStack.navigationOptions = {
-  tabBarLabel: 'Ingredient',
-  tabBarIcon: ({focused}) => (
-    focused ? <Image style={{width:42/3, height:53/3}} source={require("../assets/images/ic_menu_ingredient_on.png")}/> : <Image style={{width:42/3, height:53/3}} source={require("../assets/images/ic_menu_ingredient_off.png")}/>
-  ),
-};
+IngredientStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = false;
+
+  let routeName = navigation.state.routes[navigation.state.index].routeName;
+
+  if (routeName == 'Ingredient') {
+    tabBarVisible = true
+  }
+
+  return {
+    tabBarLabel: 'Ingredient',
+    tabBarIcon: ({ focused }) => (
+      focused ? <Image style={{ width: 42 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_ingredient_on.png")} /> : <Image style={{ width: 42 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_ingredient_off.png")} />
+    ),
+    tabBarVisible: tabBarVisible
+  }
+}
 
 const LinksStack = createStackNavigator({
   Links: LinksScreen,
@@ -125,21 +143,21 @@ SettingsStack.navigationOptions = {
 
 const LoginStack = createStackNavigator({
   Login: LoginScreen,
-  Signup:  SignupScreen,
-  FindPwd:  FindPwdScreen,
+  Signup: SignupScreen,
+  FindPwd: FindPwdScreen,
 },
-{
-  headerMode: 'screen ',
-});
+  {
+    headerMode: 'screen ',
+  });
 
 LoginStack.navigationOptions = {
   tabBarLabel: 'Login',
-  tabBarIcon: ({focused}) => (
-    focused ? <Image style={{width:16.7, height:17.7}} source={require("../assets/images/ic_menu_login_off.png")}/> : <Image style={{width:16.7, height:17.7}} source={require("../assets/images/ic_menu_login_off.png")}/>
+  tabBarIcon: ({ focused }) => (
+    focused ? <Image style={{ width: 16.7, height: 17.7 }} source={require("../assets/images/ic_menu_login_off.png")} /> : <Image style={{ width: 16.7, height: 17.7 }} source={require("../assets/images/ic_menu_login_off.png")} />
   ),
 
-  tabBarVisible:false,
-  
+  tabBarVisible: false,
+
 };
 global.login_info = {};
 export default createBottomTabNavigator({
@@ -150,8 +168,8 @@ export default createBottomTabNavigator({
   LinksStack,
   // SettingsStack,
 }, {
-  backBehavior: "history",
-  tabBarOptions : {
-    activeTintColor:"#a695fe"
-  }
-});
+    backBehavior: "history",
+    tabBarOptions: {
+      activeTintColor: "#a695fe"
+    }
+  });

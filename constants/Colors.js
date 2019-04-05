@@ -27,6 +27,7 @@ export default {
   ingredient_preferred_light: "#f7fdfc",
   color_dcdedd: '#dcdedd',
   color_f691a1: '#f691a1',
+  color_f2f2f2: '#f2f2f2',
   color_6bd5be: '#6bd5be',
   color_656565: '#656565',
   color_949292: "#949292",
