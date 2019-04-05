@@ -92,13 +92,24 @@ export default StyleSheet.create({
     width: 25,
     resizeMode: "contain",
   },
+  shadow_5: {
+    shadowColor: '#3a3a3a',
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
+    shadowOpacity: 0.8,
+    elevation: 15,
+    // background color must be set
+    backgroundColor: "white" // invisible color,
+  },
   shadow_2: {
     shadowColor: '#3a3a3a',
     shadowOffset: {
       width: 1,
       height: 3,
     },
-    shadowOpacity: 1,
+    shadowOpacity: 0.8,
     elevation: 2,
     // background color must be set
     backgroundColor: "white" // invisible color,
@@ -109,7 +120,7 @@ export default StyleSheet.create({
       width: 1,
       height: 3,
     },
-    shadowOpacity: 1,
+    shadowOpacity: 0.8,
     elevation: 1,
     // background color must be set
     backgroundColor: "white" // invisible color,
@@ -157,6 +168,10 @@ export default StyleSheet.create({
   ic_heart_gray: {
     width: 52 / 3,
     height: 43 / 3,
+  },
+  ic_back2: {
+    width: 96 / 3,
+    height: 96 / 3,
   },
   ic_eye_big: {
     width: 55 / 3,
@@ -305,6 +320,10 @@ export default StyleSheet.create({
     fontSize: 13,
     marginTop: 10,
     color: "#949292",
+  },
+  text_13_656565: {
+    fontSize: 13,
+    color: "#656565",
   },
 
   profile_box: {

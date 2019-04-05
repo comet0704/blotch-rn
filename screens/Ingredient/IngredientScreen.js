@@ -161,7 +161,7 @@ export default class IngredientScreen extends React.Component {
           {this.state.babyItems.map(item => (
             <View key={item.name} style={{ marginRight: 10, flex: 1, alignItems: "center", justifyContent: "center" }}>
               <TouchableOpacity onPress={() => { this.onBabySelected(item.name) }} style={[item.is_selected ? MyStyles.baby_container_selected : MyStyles.baby_container]}>
-                {item.is_selected ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
+                {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <Text style={MyStyles.baby_text_selected} numberOfLines={1}>{item.name}</Text> : <Text style={MyStyles.baby_text} numberOfLines={1}>{item.name}</Text>}
               </TouchableOpacity>
             </View>

@@ -83,7 +83,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
           {this.state.categoryItems.map(item => (
             <View key={item.categoryName} style={{ marginRight: 10 }}>
               <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={[MyStyles.category_image_container]}>
-                {item.is_selected ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
+                {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
               </TouchableOpacity>
               <Text style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</Text>

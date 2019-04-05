@@ -17,6 +17,7 @@ import {
   Image,
   Dimensions,
   WebBrowser,
+  Modal,
   TextInput,
   Text,
   ScrollView,
@@ -29,12 +30,13 @@ import { ProductBestItem } from '../../../components/Products/ProductBestItem';
 import Autocomplete from 'react-native-autocomplete-input';
 
 const API = 'https://swapi.co/api';
-export default class SearchMainScreen extends React.Component {
+export default class SearchBrandDetailScreen extends React.Component {
   offset = 0;
   selectedSubCatName = "";
   constructor(props) {
     super(props);
     this.state = {
+      detailModalVisible: false,
       searchBoxFocused: false,
       recentSearchWords: [],
       query: '',
@@ -51,18 +53,6 @@ export default class SearchMainScreen extends React.Component {
   }
   componentDidMount() {
     this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
-    this.getRecentSearchWords();
-  }
-
-  getRecentSearchWords() {
-    AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.recent_search_words, (err, result) => {
-      if (result != null) {
-        console.log("result = " + result);
-        searchWords = result.split(Common.SEARCH_KEYWORD_SPLITTER)
-        this.setState({ recentSearchWords: searchWords })
-        console.log("!!!!!!!!!!!!! = " + this.state.recentSearchWords);
-      }
-    });
   }
 
   addRecentSearchWords(p_keyword) {
@@ -163,7 +153,6 @@ export default class SearchMainScreen extends React.Component {
   render() {
 
     const { query } = this.state;
-    const recentSearchWords = this.findKeyword(query);
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
 
     return (
@@ -178,8 +167,9 @@ export default class SearchMainScreen extends React.Component {
         />
         <Toast ref='toast' />
 
+
         {/* Search bar */}
-        <View style={[MyStyles.searchBoxCommon, MyStyles.bg_white]}>
+        <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white]}>
           <TouchableOpacity
             onPress={() => {
               if (this.state.searchBoxFocused) {
@@ -194,100 +184,163 @@ export default class SearchMainScreen extends React.Component {
             />
           </TouchableOpacity>
 
-          {this.state.searchBoxFocused ?
-            <View style={[MyStyles.shadow_2, MyStyles.searchBoxCover]}>
-              <Image style={{ flex: 1 }}></Image>
-              <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
-                <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
-              </TouchableOpacity>
-            </View>
-            :
-            <View style={[MyStyles.searchBoxCover]}>
-              <Image style={{ flex: 1 }}></Image>
-              <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
-                <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
-              </TouchableOpacity>
-            </View>}
+          <View style={[MyStyles.searchBoxCover, MyStyles.shadow_2]}>
+            <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
+            <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
+            <TouchableOpacity style={{ padding: 8, alignSelf: "center" }}>
+              <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
+            </TouchableOpacity>
+          </View>
         </View>
 
-        <Autocomplete
-          ref='searchBox'
-          returnKeyType="search"
-          onSubmitEditing={() => { this.addRecentSearchWords(this.state.query); this.setState({ searchBoxFocused: false }) }}
-          style={{ height: 36 }}
-          autoCapitalize="none"
-          autoCorrect={false}
-          onFocus={() => this.setState({ searchBoxFocused: true })}
-          onBlur={() => this.setState({ searchBoxFocused: false, query: "" })}
-          containerStyle={[{ position: "absolute", top: 27, zIndex: 100, right: 80, backgroundColor: "transparent" }, this.state.searchBoxFocused ? { left: 55 } : { left: 40 }]}
-          data={recentSearchWords.length === 1 && comp(query, recentSearchWords[0]) ? [] : recentSearchWords}
-          defaultValue={query}
-          onChangeText={async (text) => {
-            await this.setState({ query: "!!!!!!!!!!!!!!!!", searchBoxFocused: true }) //최근 검색어들을 감추기 위한 조작.
-            await this.setState({ query: text, searchBoxFocused: true })
-          }
-          }
-          listContainerStyle={[{ top: 7, }, this.state.searchBoxFocused ? { left: -65, width: this.ScreenWidth + 50 } : { left: -50, width: this.ScreenWidth + 20 }]}
-          inputContainerStyle={{ borderColor: "transparent" }}
-          placeholder="Enter keywords"
-          renderItem={(keyword) => (
-            <TouchableOpacity onPress={() => this.setState({ query: keyword, searchBoxFocused: false })}>
-              <Text style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15 }}>
-                {keyword.substring(0, keyword.indexOf(query))}<Text style={{ color: Colors.primary_purple }}>{query}</Text>{keyword.substring(keyword.indexOf(query) + query.length)}
-              </Text>
-              <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginRight: 15 }]}></View>
-            </TouchableOpacity>
-          )}
-        />
+        <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 10 }} ></LinearGradient>
 
-        {
-          this.state.searchBoxFocused ? null :
-            <View style={{ flex: 1 }}>
-              <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-
-              {/* 카테고리 나열 부분 */}
-              <View style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: Colors.color_f8f8f8,
-                padding: 15,
-                height: 110
-              }}>
-                {
-                  this.renderCategoryScroll()
-                }
-              </View>
-
-              {
-                this.renderSubCategory(this.state.beforeCatIdx)
-              }
-
-              {/* product 나열 */}
-              <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag"
-                onScroll={({ nativeEvent }) => {
-                  if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-                    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
-                  }
-                }}>
-                <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-                  <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Best Product</Text>
-                  <FlatGrid
-                    itemDimension={this.ScreenWidth / 2 - 30}
-                    items={this.state.product_list_result_data.best_list}
-                    style={MyStyles.gridView}
-                    spacing={10}
-                    // staticDimension={300}
-                    // fixed
-                    // spacing={20}
-                    renderItem={({ item, index }) => (
-                      <ProductBestItem item={item} index={index} this={this}></ProductBestItem>
-                    )}
-                  />
-                </View>
-              </ScrollView>
-
+        {/* 브랜디 아이템 */}
+        <View style={[MyStyles.padding_h_main, MyStyles.padding_v_25, { alignItems: "center" }]}>
+          <Image source={require("../../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} />
+          <TouchableOpacity style={{ position: "absolute", top: 10, left: 0, padding: 15 }}>
+            <Image source={require("../../../assets/images/ic_back2.png")} style={[MyStyles.ic_back2,]} />
+          </TouchableOpacity>
+          <View>
+            <View style={{ width: 85, height: 107 }}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({detailModalVisible:true})}}>
+                <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl("") }} />
+              </TouchableOpacity>
+              <Text style={{ fontSize: 16, color: "white", marginTop: 5, textAlign: "center" }} numberOfLines={1}>HERA ></Text>
+              {/* {
+                item.is_liked > 0
+                  ? */}
+              <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestProductUnlike(3) }}>
+                <Image source={require('../../../assets/images/ic_heart2_on.png')} style={[MyStyles.background_image]} />
+              </TouchableOpacity>
+              {/* :
+                  <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestProductLike(item.id) }}>
+                    <Image source={require('../../../assets/images/ic_heart2_off.png')} style={[MyStyles.background_image]} />
+                  </TouchableOpacity>
+              } */}
             </View>
-        }
+          </View>
+        </View>
+
+        {/* 브랜드 설명 */}
+        <Text style={[{ fontSize: 13, color: Colors.color_656565, backgroundColor: "white", minHeight: 215 / 3 }, MyStyles.container, MyStyles.padding_v_main]} numberOfLines={3}>
+          we offer innovative beauty solutions powered by the finest nat
+            ural ingredients responsibly sourced from Korea's pristine Jeju
+            ural ingredients responsibly sourced from Korea's pristine Jeju
+        </Text>
+
+        <View style={{ flex: 1 }}>
+          <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+
+          {/* 카테고리 나열 부분 */}
+          <View style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: Colors.color_f8f8f8,
+            padding: 15,
+            height: 110
+          }}>
+            {
+              this.renderCategoryScroll()
+            }
+          </View>
+
+          {
+            this.renderSubCategory(this.state.beforeCatIdx)
+          }
+
+          {/* product 나열 */}
+          <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag"
+            onScroll={({ nativeEvent }) => {
+              if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+                this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+              }
+            }}>
+            <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
+              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Products({152})</Text>
+              <FlatGrid
+                itemDimension={this.ScreenWidth / 2 - 30}
+                items={this.state.product_list_result_data.best_list}
+                style={MyStyles.gridView}
+                spacing={10}
+                // staticDimension={300}
+                // fixed
+                // spacing={20}
+                renderItem={({ item, index }) => (
+                  <ProductBestItem item={item} index={index} this={this}></ProductBestItem>
+                )}
+              />
+            </View>
+          </ScrollView>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.detailModalVisible}
+            onRequestClose={() => {
+            }}>
+            <View style={{ flex: 1 }}>
+              <View style={MyStyles.modal_bg}>
+                <View style={MyStyles.modalContainer}>
+                  {/* 배경 및 브랜디 이미지 */}
+                  <View style={{ height: 275 / 3, alignItems: "center" }}>
+                    <Image style={[MyStyles.background_image]} source={require("../../../assets/images/ic_gradient_bg.png")}></Image>
+
+                    <View style={{ position: "absolute", bottom: -85 / 2 }}>
+                      <View style={{ width: 85, height: 85 }}>
+                        <TouchableOpacity style={[{ flex: 1, borderRadius: 50, }]} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: 3 }) }}>
+                          <View style={[MyStyles.shadow_5, { borderRadius: 50 }]}>
+                            <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={require('../../../assets/images/ic_gradient_bg.png')} />
+                          </View>
+                        </TouchableOpacity>
+                        {/* {
+                item.is_liked > 0
+                  ? */}
+                        <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0, zIndex: 100 }, MyStyles.heart2]} onPress={() => { this.requestProductUnlike(3) }}>
+                          <Image source={require('../../../assets/images/ic_heart2_on.png')} style={[MyStyles.background_image]} />
+                        </TouchableOpacity>
+                        {/* :
+                  <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestProductLike(item.id) }}>
+                    <Image source={require('../../../assets/images/ic_heart2_off.png')} style={[MyStyles.background_image]} />
+                  </TouchableOpacity>
+              } */}
+                      </View>
+                    </View>
+                  </View>
+
+                  {/* close 버튼 */}
+                  <TouchableOpacity style={[MyStyles.modal_close_btn, { position: "absolute", top: 0, right: 0 }]} onPress={() => {
+                    this.setState({ detailModalVisible: false });
+                  }}>
+                    <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close2.png")}></Image>
+                  </TouchableOpacity>
+
+                  <View style={{ marginTop: 200 / 3, }}>
+                    <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
+                      <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Brands({6})</Text>
+                      <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
+                        this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>Products(387)</Text>
+                    </View>
+                    <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginTop: 20 }]}></View>
+
+                    <ScrollView style={{ maxHeight: 650 / 3 }}>
+                      <Text style={[MyStyles.container, { paddingTop: 20, paddingBottom: 40, overflow: "scroll" }, MyStyles.text_13_656565]}>
+                        we offer innovative beauty solutions powered by the
+    finest natural ingredients responsibly sourced from K
+    orea's pristine Jeju Island.
+    Thanks to its volcanic origins, this fertile oasis has a u
+    nique cosystem with Our proprietary extraction.
+
+                    </Text>
+                    </ScrollView>
+                  </View>
+
+                </View>
+
+              </View>
+            </View>
+          </Modal>
+        </View>
       </View >
     );
   }

@@ -358,7 +358,7 @@ export class FragmentRecommendProduct extends React.Component {
                               renderItem={({ item, index }) => (
                                 <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={{ borderColor: item.is_selected == 1 ? "#d9b1db" : Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
                                   <View style={[{ height: 100 / 3, justifyContent: "center", alignItems: "center" }]}>
-                                    {item.is_selected == 2 ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
+                                    {item.is_selected == 2 ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
 
                                     {item.is_selected == 2 ?
                                       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
@@ -451,7 +451,7 @@ export class FragmentRecommendProduct extends React.Component {
                                           this.setState({ mainCategoryItems: this.state.mainCategoryItems })
                                         }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
                                           <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
-                                            {sub_item.is_selected ? <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} /> : null}
+                                            {sub_item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                                               {sub_item.is_selected ? <Image style={sub_item.image_style} source={sub_item.image_on} /> : <Image style={sub_item.image_style} source={sub_item.image_off} />}
                                               {sub_item.is_selected ? <Text style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{sub_item.name}</Text> : <Text style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{sub_item.name}</Text>}
