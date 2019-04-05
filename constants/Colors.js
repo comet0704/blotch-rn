@@ -31,6 +31,7 @@ export default {
   color_6bd5be: '#6bd5be',
   color_656565: '#656565',
   color_949292: "#949292",
+  color_212122: "#212122",
   color_949191: "#949191",
   color_f8f8f8: "#f8f8f8",
   color_e5e6e5: "#e5e6e5",

@@ -12,8 +12,10 @@ import { Icon } from 'expo';
 import Carousel from 'react-native-banner-carousel';
 import {
   Image,
+  Keyboard,
   ScrollView,
   Text,
+  Modal,
   TouchableOpacity,
   View,
   TextInput,
@@ -31,7 +33,9 @@ export default class SearchResultScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      no_search_result: true,
       isLogined: false,
+      requestProductModalVisible: false,
       result_data: {
         "product_count": 30,
         "product_list": [
@@ -56,6 +60,28 @@ export default class SearchResultScreen extends React.Component {
             "grade": 0,
             "is_liked": null,
             "brand_title": "BEAUTY"
+          },
+          {
+            "id": 3,
+            "title": "Product-3",
+            "image_list": "uploads/product/charisse-kenion-746077-unsplash.jpg",
+            "visit_count": 268,
+            "like_count": 14,
+            "comment_count": 0,
+            "grade": 0,
+            "is_liked": 3,
+            "brand_title": "BOBBI BROWN"
+          },
+          {
+            "id": 4,
+            "title": "Product-4",
+            "image_list": "uploads/product/dose-juice-1184453-unsplash.jpg",
+            "visit_count": 268,
+            "like_count": 14,
+            "comment_count": 0,
+            "grade": 0,
+            "is_liked": null,
+            "brand_title": "THE BODY SHOP"
           },
         ],
         "ingredient_count": 2,
@@ -192,98 +218,157 @@ export default class SearchResultScreen extends React.Component {
         />
         <Toast ref='toast' />
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
+          {/* Search bar */}
+          <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white]}>
+            <TouchableOpacity
+              onPress={() => {
+                if (this.state.searchBoxFocused) {
+                  this.setState({ searchBoxFocused: false })
+                  this.refs.searchBox.blur()
+                  return
+                }
+                this.props.navigation.goBack(null)
+              }} activeOpacity={0.5} style={{ alignSelf: "center", alignItems: "center", padding: 15 }} >
+              <Image style={[MyStyles.backButton, { marginTop: 0, alignSelf: "center" }]}
+                source={require("../../../assets/images/ic_back_black.png")}
+              />
+            </TouchableOpacity>
 
-          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
-            <View style={{ backgroundColor: "white" }}>
-              {/* Search bar */}
-              <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white]}>
-                <TouchableOpacity
-                  onPress={() => {
-                    if (this.state.searchBoxFocused) {
-                      this.setState({ searchBoxFocused: false })
-                      this.refs.searchBox.blur()
-                      return
-                    }
-                    this.props.navigation.goBack(null)
-                  }} activeOpacity={0.5} style={{ alignSelf: "center", alignItems: "center", padding: 15 }} >
-                  <Image style={[MyStyles.backButton, { marginTop: 0, alignSelf: "center" }]}
-                    source={require("../../../assets/images/ic_back_black.png")}
-                  />
+            <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
+              <View style={[MyStyles.searchBoxCover, MyStyles.shadow_2]}>
+                <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
+                <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
+                <TouchableOpacity style={{ padding: 8, alignSelf: "center" }}>
+                  <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                 </TouchableOpacity>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
 
-                <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
-                  <View style={[MyStyles.searchBoxCover, MyStyles.shadow_2]}>
-                    <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
-                    <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
-                    <TouchableOpacity style={{ padding: 8, alignSelf: "center" }}>
-                      <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
-                    </TouchableOpacity>
+          <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 10 }} ></LinearGradient>
+
+          {this.state.no_search_result == false ?
+            <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
+              <View style={{ backgroundColor: "white" }}>
+                {/* brand 검색결과 나열 */}
+                <View style={[MyStyles.bg_white]}>
+                  <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
+                    <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Brands({this.state.result_data.brand_count})</Text>
+                    <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
+                      this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
                   </View>
-                </TouchableWithoutFeedback>
+                  <View style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingLeft: 15,
+                    paddingRight: 15,
+                    paddingBottom: 30
+                  }}>
+                    {
+                      this.renderBrandsScroll()
+                    }
+                  </View>
+                </View>
+
+                <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}></View>
+
+                {/* product 검색결과 나열 */}
+                <View style={[{ flex: 1, backgroundColor: "white" }]}>
+                  <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
+                    <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Product({this.state.result_data.product_count})</Text>
+                    <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
+                      this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                  </View>
+                  <FlatGrid
+                    itemDimension={this.ScreenWidth}
+                    items={this.state.result_data.product_list}
+                    style={[MyStyles.gridView, MyStyles.padding_h_5]}
+                    spacing={10}
+                    // staticDimension={300}
+                    // fixed
+                    // spacing={20}
+                    renderItem={({ item, index }) => (
+                      <ProductItem2 item={item} index={index} this={this}></ProductItem2>
+                    )}
+                  />
+                </View>
+                <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}></View>
+
+
+                {/* Ingredients 검색결과 나열 */}
+                <View style={[{ flex: 1, backgroundColor: "white" }]}>
+                  <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
+                    <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Ingredients({this.state.result_data.ingredient_count})</Text>
+                    <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
+                      this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                  </View>
+                  <View style={[MyStyles.container]}>
+                    {this.state.result_data.ingredient_list.map((item, index) => this.renderGoodNormalBadIngredientList(item, index))}
+                  </View>
+                </View>
+                <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginTop: 30 }]}></View>
               </View>
-
-              <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 10 }} ></LinearGradient>
-
-              {/* brand 검색결과 나열 */}
-              <View style={[MyStyles.bg_white]}>
-                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                  <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Brands({this.state.result_data.brand_count})</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                    this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
-                </View>
-                <View style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingLeft: 15,
-                  paddingRight: 15,
-                  paddingBottom: 30
-                }}>
-                  {
-                    this.renderBrandsScroll()
-                  }
+            </ScrollView>
+            :
+            <View style={{ flex: 1 }}>
+              <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <View style={{ alignItems: "center" }}>
+                  <Image source={require("../../../assets/images/ic_search_big.png")} style={[MyStyles.ic_search_big,]} />
+                  <Text style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</Text>
+                  <Text style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Not finding what you are looking for?{"\n"}Let us know and we'll do the search for you.</Text>
+                  <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]} onPress={() => { this.setState({ requestProductModalVisible: true }) }}>
+                    <Text style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Report us</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
-
-              <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}></View>
-
-              {/* product 검색결과 나열 */}
-              <View style={[{ flex: 1, backgroundColor: "white" }]}>
-                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                  <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Product({this.state.result_data.product_count})</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                    this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
-                </View>
-                <FlatGrid
-                  itemDimension={this.ScreenWidth}
-                  items={this.state.result_data.product_list}
-                  style={[MyStyles.gridView, MyStyles.padding_h_5]}
-                  spacing={10}
-                  // staticDimension={300}
-                  // fixed
-                  // spacing={20}
-                  renderItem={({ item, index }) => (
-                    <ProductItem2 item={item} index={index} this={this}></ProductItem2>
-                  )}
-                />
-              </View>
-              <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}></View>
-
-
-              {/* Ingredients 검색결과 나열 */}
-              <View style={[{ flex: 1, backgroundColor: "white"}]}>
-                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                  <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Ingredients({this.state.result_data.ingredient_count})</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                    this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
-                </View>
-                <View style={[MyStyles.container]}>
-                  {this.state.result_data.ingredient_list.map((item, index) => this.renderGoodNormalBadIngredientList(item, index))}
-                </View>
-              </View>
-              <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginTop:30 }]}></View>
             </View>
-          </ScrollView>
+          }
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.requestProductModalVisible}
+            onRequestClose={() => {
+            }}>
+            <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+              <View style={{ flex: 1 }}>
+                <View style={MyStyles.modal_bg}>
+                  <View style={MyStyles.modalContainer}>
+                    {/* modal header */}
+                    <View style={MyStyles.modal_header}>
+                      <Text style={MyStyles.modal_title}>Product Registeration Request</Text>
+                      <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                        this.setState({ requestProductModalVisible: false });
+                      }}>
+                        <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close.png")}></Image>
+                      </TouchableOpacity>
+                    </View>
+                    <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+
+                    <View style={[MyStyles.container, { paddingTop: 20, paddingBottom: 120 / 3 }]}>
+                      <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Brand Name</Text>
+                      <TextInput style={MyStyles.text_input_with_border}>
+                      </TextInput>
+                      <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginTop: 20, marginBottom: 10 }}>Product Name</Text>
+                      <TextInput style={MyStyles.text_input_with_border}>
+                      </TextInput>
+                    </View>
+
+                    <View style={{ flexDirection: "row" }}>
+                      <TouchableHighlight
+                        style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                          this.setState({ requestProductModalVisible: false });
+                          this.requestReportComment(this.state.selected_comment_id)
+                        }}>
+                        <Text style={MyStyles.btn_primary}>Submit</Text>
+                      </TouchableHighlight>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </Modal>
         </KeyboardAvoidingView>
       </View >
     );
