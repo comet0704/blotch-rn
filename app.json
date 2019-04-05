@@ -24,7 +24,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.blotch.chemi"
+      "bundleIdentifier": "com.blotch.chemi",
+      "buildNumber": "2"
     },
     "android": {
       "package": "com.blotch.chemi",
