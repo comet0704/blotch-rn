@@ -23,6 +23,7 @@ import SearchMainScreen from '../screens/Home/Search/SearchMainScreen';
 import SearchResultScreen from '../screens/Home/Search/SearchResultScreen';
 import SearchBrandDetailScreen from '../screens/Home/Search/SearchBrandDetailScreen';
 import SearchResultProductMoreScreen from '../screens/Home/Search/SearchResultProductMoreScreen';
+import SearchResultIngredientMoreScreen from '../screens/Home/Search/SearchResultIngredientMoreScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -35,6 +36,7 @@ const HomeStack = createStackNavigator({
   SearchResult: SearchResultScreen,
   SearchBrandDetail: SearchBrandDetailScreen,
   SearchResultProductMore: SearchResultProductMoreScreen,
+  SearchResultIngredientMore: SearchResultIngredientMoreScreen,
   AboutUs: AboutUsScreen,
 },
   {

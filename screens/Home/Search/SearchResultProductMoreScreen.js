@@ -149,38 +149,6 @@ export default class SearchResultProductMoreScreen extends React.Component {
 
   ScreenWidth = Dimensions.get('window').width;
 
-  renderBrandsScroll() {
-    return (
-      <View
-      >
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        >
-          {this.state.result_data.brand_list.map(item => (
-            <View key={item.id} style={{ flex: 1, marginRight: 20, width: 85 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-                <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
-              </TouchableOpacity>
-              <Text style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + item.title}</Text>
-              {
-                item.is_liked > 0
-                  ?
-                  <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestProductUnlike(item.id) }}>
-                    <Image source={require('../../../assets/images/ic_heart2_on.png')} style={[MyStyles.background_image]} />
-                  </TouchableOpacity>
-                  :
-                  <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestProductLike(item.id) }}>
-                    <Image source={require('../../../assets/images/ic_heart2_off.png')} style={[MyStyles.background_image]} />
-                  </TouchableOpacity>
-              }
-            </View>
-          ))}
-        </ScrollView>
-      </View>
-    );
-  }
-
   render() {
     const { weatherType, weatherInfo } = this.state;
 
