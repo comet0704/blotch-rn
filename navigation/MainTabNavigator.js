@@ -20,6 +20,7 @@ import ArticleDetailScreen from '../screens/Home/ArticleDetailScreen';
 import IngredientScreen from '../screens/Ingredient/IngredientScreen';
 import PotentialAllergensProductScreen from '../screens/Ingredient/PotentialAllergensProductScreen';
 import SearchMainScreen from '../screens/Home/Search/SearchMainScreen';
+import SearchResultScreen from '../screens/Home/Search/SearchResultScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -29,6 +30,7 @@ const HomeStack = createStackNavigator({
   BannerDetail: BannerDetailScreen,
   ProductDetail: ProductDetailScreen,
   SearchMain: SearchMainScreen,
+  SearchResult: SearchResultScreen,
   AboutUs: AboutUsScreen,
 },
   {
@@ -90,6 +92,7 @@ ProductStack.navigationOptions = ({ navigation }) => {
 const IngredientStack = createStackNavigator({
   Ingredient: IngredientScreen,
   PotentialAllergenProduct: PotentialAllergensProductScreen,
+  ProductDetail: ProductDetailScreen,
 },
   {
     headerMode: 'screen ',

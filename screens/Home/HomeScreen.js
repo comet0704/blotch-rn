@@ -31,7 +31,6 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       isLogined: false,
-      isLoading: false,
       weatherType: "dry",
       weatherInfo: "Seoul. -6˚C",
       result_data: {
@@ -294,7 +293,7 @@ export default class HomeScreen extends React.Component {
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
             <View style={{ backgroundColor: "#f8f8f8" }}>
               {/* Search bar */}
-              <View style={[{ flex: 1, marginTop: 27, height: 40, paddingTop: 2, paddingBottom: 2, justifyContent: "center", flexDirection: "row", }, MyStyles.container, MyStyles.bg_white]}>
+              <View style={[MyStyles.searchBoxCommon, MyStyles.container, MyStyles.bg_white]}>
                 <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />
 
                 <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
@@ -573,7 +572,7 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
           result_data: responseJson.result_data
@@ -609,6 +608,7 @@ export default class HomeScreen extends React.Component {
         // this.props.navigation.navigate("ProductContainer") 
         // this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1}) 
         // this.props.navigation.navigate("SearchMain") 
+        this.props.navigation.navigate("SearchResult", { [MyConstants.NAVIGATION_PARAMS.search_word]: "pro" }) 
       })
       .catch((error) => {
         this.setState({

@@ -4,8 +4,8 @@ export default {
   ANDROID_CLIENT_ID : "925139916251-o8646r93rhvt53j7sf5ggmf28khgqvrn.apps.googleusercontent.com",
   
   ITEMS_PER_PAGE : 30,
-  SERVER_URL :"http://localhost:3000",
-  UPLOAD_SERVER_URL : "http://localhost:3001",
+  SERVER_URL :"http://192.168.0.74:3000",
+  UPLOAD_SERVER_URL : "http://192.168.0.74:3001",
   // SERVER_URL : "http://chemi.rsad.kr",
   // UPLOAD_SERVER_URL : "http://upload.rsad.kr",
   CategoryName : {
@@ -53,5 +53,6 @@ export default {
     item_id: "item_id",
     back_page: "back_page",
     product_container_initial_page: "product_container_initial_page",
+    search_word: "search_word",
   },
 };

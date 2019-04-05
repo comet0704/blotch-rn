@@ -85,24 +85,6 @@ export default class SearchMainScreen extends React.Component {
   BannerWidth = Dimensions.get('window').width;
   ScreenWidth = Dimensions.get('window').width;
 
-  renderBanner(item, index) {
-    return (
-      <View key={index}>
-        <TouchableHighlight onPressIn={() => {
-          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
-        }}>
-          <View>
-            <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
-            <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
-              <Text style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{item.title}</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
-            </View>
-          </View>
-        </TouchableHighlight>
-      </View>
-    );
-  }
-
   onCategorySelect = (p_catName) => {
     const categoryItems = [...this.state.categoryItems]
     const index = categoryItems.findIndex(item => item.categoryName === p_catName)
@@ -198,7 +180,7 @@ export default class SearchMainScreen extends React.Component {
         <Toast ref='toast' />
 
         {/* Search bar */}
-        <View style={[{ marginTop: 25, height: 46, paddingTop: 4, paddingBottom: 6, justifyContent: "center", flexDirection: "row", paddingRight: 15, }, MyStyles.bg_white]}>
+        <View style={[MyStyles.searchBoxCommon, MyStyles.bg_white]}>
           <TouchableOpacity
             onPress={() => {
               if (this.state.searchBoxFocused) {

@@ -133,6 +133,9 @@ export default StyleSheet.create({
     height: 0.5,
     backgroundColor: "#e5e5e5"
   },
+  text_14: {
+    color: "black", fontSize: 14, fontWeight: "500"
+  },
   text_20: {
     color: "black", fontSize: 20, fontWeight: "500"
   },
@@ -142,6 +145,10 @@ export default StyleSheet.create({
   heart: {
     width: 17.7,
     height: 15
+  },
+  heart2: {
+    width: 87/3,
+    height: 87/3
   },
   banner_control: {
     width: 7.7,
@@ -982,5 +989,8 @@ export default StyleSheet.create({
   },
   searchBoxCover : {
     flex: 1, borderRadius: 20, flexDirection: "row", width: "100%", paddingLeft: 13, paddingRight: 5 
+  },
+  searchBoxCommon : {
+    marginTop: 25, height: 46, paddingTop: 4, paddingBottom: 6, justifyContent: "center", flexDirection: "row",
   },
 });
