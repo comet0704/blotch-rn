@@ -46,7 +46,9 @@ export class ProductBestItem extends React.Component {
               <Image source={require('../../assets/images/ic_best_ranking.png')} style={[MyStyles.background_image]} />
               <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>{index + 1}</Text>
             </View>
-            : null}
+            : <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
+              <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "black" }}>{index + 1}</Text>
+            </View>}
         </View>
         <Text style={[MyStyles.productBrand]}>{item.brand_title}</Text>
         <Text style={[MyStyles.productName]}>{item.title}</Text>

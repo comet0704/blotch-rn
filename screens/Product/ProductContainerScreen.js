@@ -41,7 +41,8 @@ export default class ProductContainerScreen extends React.Component {
             this.setState({initialPage, initialPage});
           }}
         />
-        <TopbarWithBlackBack title="Product" onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack title="Product" onPress={() => {
+           this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
         <ScrollableTabView
           style={{ height: 20, borderBottomWidth: 0, marginTop: 10 }}
           initialPage={this.state.initialPage}

@@ -33,87 +33,28 @@ export default class SearchResultScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      no_search_result: true,
+      searchWord: "",
+      no_search_result: false,
       isLogined: false,
       requestProductModalVisible: false,
       result_data: {
-        "product_count": 30,
+        "product_count": 0,
         "product_list": [
-          {
-            "id": 1,
-            "title": "Product-1",
-            "image_list": "uploads/product/ana-francisconi-1382802-unsplash.jpg",
-            "visit_count": 275,
-            "like_count": 14,
-            "comment_count": 2,
-            "grade": 3,
-            "is_liked": null,
-            "brand_title": "LUSH"
-          },
-          {
-            "id": 2,
-            "title": "Product-2",
-            "image_list": "uploads/product/caleb-simpson-1394514-unsplash.jpg",
-            "visit_count": 275,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "BEAUTY"
-          },
-          {
-            "id": 3,
-            "title": "Product-3",
-            "image_list": "uploads/product/charisse-kenion-746077-unsplash.jpg",
-            "visit_count": 268,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": 3,
-            "brand_title": "BOBBI BROWN"
-          },
-          {
-            "id": 4,
-            "title": "Product-4",
-            "image_list": "uploads/product/dose-juice-1184453-unsplash.jpg",
-            "visit_count": 268,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "THE BODY SHOP"
-          },
         ],
-        "ingredient_count": 2,
+        "ingredient_count": 0,
         "ingredient_list": [
-          {
-            "id": 1,
-            "title": "ingredient-1",
-            "content": "ingredient-1",
-            "type": 0
-          },
-          {
-            "id": 2,
-            "title": "ingredient-2",
-            "content": "ingredient-2",
-            "type": 0
-          },
         ],
-        "brand_count": 1,
-        "brand_list": [
-          {
-            "id": 3,
-            "title": "BOBBI BROWN",
-            "information": "",
-            "image": "uploads/brand/logo_03.jpg",
-            "is_liked": 4
-          }]
+        "brand_count": 0,
+        "brand_list": []
       },
     };
   }
 
   componentDidMount() {
-    // this.requestHomeList()
+    w_searchWord = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.search_word)
+    console.log("11111111=" + w_searchWord);
+    this.setState({ searchWord: w_searchWord })
+    this.requestSearchAll(w_searchWord)
   }
 
   static navigationOptions = {
@@ -237,7 +178,7 @@ export default class SearchResultScreen extends React.Component {
             <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
               <View style={[MyStyles.searchBoxCover, MyStyles.shadow_2]}>
                 <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
-                <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
+                <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} value={this.state.searchWord}></TextInput>
                 <TouchableOpacity style={{ padding: 8, alignSelf: "center" }}>
                   <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                 </TouchableOpacity>
@@ -250,64 +191,75 @@ export default class SearchResultScreen extends React.Component {
           {this.state.no_search_result == false ?
             <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
               <View style={{ backgroundColor: "white" }}>
-                {/* brand 검색결과 나열 */}
-                <View style={[MyStyles.bg_white]}>
-                  <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                    <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Brands({this.state.result_data.brand_count})</Text>
-                    <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                      this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
-                  </View>
-                  <View style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    paddingLeft: 15,
-                    paddingRight: 15,
-                    paddingBottom: 30
-                  }}>
-                    {
-                      this.renderBrandsScroll()
-                    }
-                  </View>
-                </View>
+                {this.state.result_data.brand_count > 0 ?
+                  <View>
+                    {/* brand 검색결과 나열 */}
+                    <View style={[MyStyles.bg_white]}>
+                      <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
+                        <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Brands({this.state.result_data.brand_count})</Text>
+                        <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
+                          this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                      </View>
+                      <View style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        paddingLeft: 15,
+                        paddingRight: 15,
+                        paddingBottom: 30
+                      }}>
+                        {
+                          this.renderBrandsScroll()
+                        }
+                      </View>
+                    </View>
 
-                <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}></View>
-
-                {/* product 검색결과 나열 */}
-                <View style={[{ flex: 1, backgroundColor: "white" }]}>
-                  <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                    <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Product({this.state.result_data.product_count})</Text>
-                    <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                      this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                    <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}></View>
                   </View>
-                  <FlatGrid
-                    itemDimension={this.ScreenWidth}
-                    items={this.state.result_data.product_list}
-                    style={[MyStyles.gridView, MyStyles.padding_h_5]}
-                    spacing={10}
-                    // staticDimension={300}
-                    // fixed
-                    // spacing={20}
-                    renderItem={({ item, index }) => (
-                      <ProductItem2 item={item} index={index} this={this}></ProductItem2>
-                    )}
-                  />
-                </View>
-                <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}></View>
+                  : null}
 
+                {this.state.result_data.product_count > 0 ?
+                  <View>
+                    {/* product 검색결과 나열 */}
+                    <View style={[{ flex: 1, backgroundColor: "white" }]}>
+                      <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
+                        <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Product({this.state.result_data.product_count})</Text>
+                        <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
+                          this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                      </View>
+                      <FlatGrid
+                        itemDimension={this.ScreenWidth}
+                        items={this.state.result_data.product_list}
+                        style={[MyStyles.gridView, MyStyles.padding_h_5]}
+                        spacing={10}
+                        // staticDimension={300}
+                        // fixed
+                        // spacing={20}
+                        renderItem={({ item, index }) => (
+                          <ProductItem2 item={item} index={index} this={this}></ProductItem2>
+                        )}
+                      />
+                    </View>
+                    <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}></View>
+                  </View>
+                  : null}
 
-                {/* Ingredients 검색결과 나열 */}
-                <View style={[{ flex: 1, backgroundColor: "white" }]}>
-                  <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                    <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Ingredients({this.state.result_data.ingredient_count})</Text>
-                    <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                      this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                {this.state.result_data.ingredient_count > 0 ?
+                  <View>
+                    {/* Ingredients 검색결과 나열 */}
+                    <View style={[{ flex: 1, backgroundColor: "white" }]}>
+                      <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
+                        <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Ingredients({this.state.result_data.ingredient_count})</Text>
+                        <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
+                          this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                      </View>
+                      <View style={[MyStyles.container]}>
+                        {this.state.result_data.ingredient_list.map((item, index) => this.renderGoodNormalBadIngredientList(item, index))}
+                      </View>
+                    </View>
+                    <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginTop: 30 }]}></View>
                   </View>
-                  <View style={[MyStyles.container]}>
-                    {this.state.result_data.ingredient_list.map((item, index) => this.renderGoodNormalBadIngredientList(item, index))}
-                  </View>
-                </View>
-                <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginTop: 30 }]}></View>
+                  : null}
               </View>
             </ScrollView>
             :
@@ -374,11 +326,11 @@ export default class SearchResultScreen extends React.Component {
     );
   }
 
-  requestHomeList() {
+  requestSearchAll(p_keyword) {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.home.homeList, {
+    return fetch(Net.home.searchAll, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -387,6 +339,7 @@ export default class SearchResultScreen extends React.Component {
 
       },
       body: JSON.stringify({
+        keyword: p_keyword
       }),
     })
       .then((response) => response.json())
@@ -394,34 +347,20 @@ export default class SearchResultScreen extends React.Component {
         // console.log(responseJson);
         this.setState({
           isLoading: false,
-          result_data: responseJson.result_data
         });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
+        this.setState({
+          result_data: responseJson.result_data
+        });
 
-        try {
-          this.setState({
-            'newProductBanner': {
-              'image_list': this.state.result_data.new_product_list[0].image_list,
-              'title': this.state.result_data.new_product_list[0].title,
-            }
-          })
-        } catch (error) {
-
+        if (responseJson.result_data.product_count + responseJson.result_data.brand_count + responseJson.result_data.ingredient_count == 0) {
+          this.setState({ no_search_result: true })
         }
-        try {
-          this.setState({
-            'bestProductBanner': {
-              'image_list': this.state.result_data.best_product_list[0].image_list,
-              'title': this.state.result_data.best_product_list[0].title,
-            }
-          })
-        } catch (error) {
 
-        }
       })
       .catch((error) => {
         this.setState({
@@ -459,8 +398,7 @@ export default class SearchResultScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-        // this.requestHomeList();
-
+        this.requestSearchAll(this.state.searchWord);
       })
       .catch((error) => {
         this.setState({
@@ -497,7 +435,7 @@ export default class SearchResultScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-        this.requestHomeList();
+        this.requestSearchAll(this.state.searchWord);
       })
       .catch((error) => {
         this.setState({

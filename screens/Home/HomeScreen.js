@@ -18,17 +18,22 @@ import {
   View,
   TextInput,
   KeyboardAvoidingView,
+  Alert,
   Dimensions,
   TouchableHighlight,
   TouchableWithoutFeedback,
+  BackHandler
 } from 'react-native';
 
 import { WebBrowser } from 'expo';
 import { NavigationEvents } from 'react-navigation';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
+import { exitAlert } from '../../components/androidBackButton/exitAlert';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.currentRouteName = 'Main';
     this.state = {
       isLogined: false,
       weatherType: "dry",
@@ -56,8 +61,13 @@ export default class HomeScreen extends React.Component {
 
   componentDidMount() {
     this.requestHomeList()
+    handleAndroidBackButton(this, exitAlert);
   }
 
+  componentWillMount() {
+    removeAndroidBackButtonHandler()
+  }
+  
   static navigationOptions = {
     header: null,
   };
@@ -297,10 +307,10 @@ export default class HomeScreen extends React.Component {
                 <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />
 
                 <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
-                  <View style={[{ marginLeft: 12,  }, MyStyles.searchBoxCover, MyStyles.shadow_2]}>
+                  <View style={[{ marginLeft: 12, }, MyStyles.searchBoxCover, MyStyles.shadow_2]}>
                     <Image source={require('../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
                     <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
-                    <TouchableOpacity style={{ padding: 8, alignSelf:"center" }}>
+                    <TouchableOpacity style={{ padding: 8, alignSelf: "center" }}>
                       <Image source={require('../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                     </TouchableOpacity>
                   </View>
@@ -608,7 +618,7 @@ export default class HomeScreen extends React.Component {
         // this.props.navigation.navigate("ProductContainer") 
         // this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1}) 
         // this.props.navigation.navigate("SearchMain") 
-        this.props.navigation.navigate("SearchResult", { [MyConstants.NAVIGATION_PARAMS.search_word]: "pro" }) 
+        // this.props.navigation.navigate("SearchResult", { [MyConstants.NAVIGATION_PARAMS.search_word]: "pro" }) 
       })
       .catch((error) => {
         this.setState({
