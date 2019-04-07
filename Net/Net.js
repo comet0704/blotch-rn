@@ -64,4 +64,8 @@ export default {
         searchIngredient: MyConstants.SERVER_URL + "/ingredient/search",               
         addUserIngredient: MyConstants.SERVER_URL + "/ingredient/addUserIngredient",               
     },
+    brand : {
+        detail: MyConstants.SERVER_URL + "/brand/detail",
+        productList: MyConstants.SERVER_URL + "/brand/productList",
+    }
 };

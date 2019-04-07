@@ -52,7 +52,6 @@ export default class SearchResultScreen extends React.Component {
 
   componentDidMount() {
     w_searchWord = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.search_word)
-    console.log("11111111=" + w_searchWord);
     this.setState({ searchWord: w_searchWord })
     this.requestSearchAll(w_searchWord)
   }
@@ -73,10 +72,10 @@ export default class SearchResultScreen extends React.Component {
         >
           {this.state.result_data.brand_list.map(item => (
             <View key={item.id} style={{ flex: 1, marginRight: 20, width: 85 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                 <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
               </TouchableOpacity>
-              <Text style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + item.title}</Text>
+              <Text style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + item.product_count}</Text>
               {
                 item.is_liked > 0
                   ?

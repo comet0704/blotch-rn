@@ -24,7 +24,7 @@ export default class BannerDetailScreen extends React.Component {
       reportModalVisible: false,
       banner_detail_result_data: {
         detail: {
-          "id": 1,
+          "id": 0,
           "title": "",
           "image": "",
           "url": null,
@@ -306,12 +306,14 @@ export default class BannerDetailScreen extends React.Component {
         console.log(responseJson);
         this.setState({
           isLoading: false,
-          banner_detail_result_data: responseJson.result_data
         });
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(error);
           return;
         }
+        this.setState({
+          banner_detail_result_data: responseJson.result_data
+        });
 
       })
       .catch((error) => {

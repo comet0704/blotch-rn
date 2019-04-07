@@ -30,7 +30,6 @@ import { ProductBestItem } from '../../../components/Products/ProductBestItem';
 import Autocomplete from 'react-native-autocomplete-input';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../../components/androidBackButton/handleAndroidBackButton';
 
-const API = 'https://swapi.co/api';
 export default class SearchMainScreen extends React.Component {
   offset = 0;
   selectedSubCatName = "";
@@ -188,7 +187,6 @@ export default class SearchMainScreen extends React.Component {
       this.refs.toast.showBottom("Please input search keyword.");
       return;
     }
-    console.log("2222222222=" + this.state.searchWord);
     this.props.navigation.navigate("SearchResult", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })
   }
 
