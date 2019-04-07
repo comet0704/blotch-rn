@@ -4,10 +4,10 @@ export default {
   ANDROID_CLIENT_ID : "925139916251-o8646r93rhvt53j7sf5ggmf28khgqvrn.apps.googleusercontent.com",
   
   ITEMS_PER_PAGE : 30,
-  SERVER_URL :"http://192.168.0.74:3000",
-  UPLOAD_SERVER_URL : "http://192.168.0.74:3001",
-  // SERVER_URL : "http://chemi.rsad.kr",
-  // UPLOAD_SERVER_URL : "http://upload.rsad.kr",
+  // SERVER_URL :"http://192.168.0.74:3000",
+  // UPLOAD_SERVER_URL : "http://192.168.0.74:3001",
+  SERVER_URL : "http://chemi.rsad.kr",
+  UPLOAD_SERVER_URL : "http://upload.rsad.kr",
   CategoryName : {
     all : "",
     skin_care : "Skin care",

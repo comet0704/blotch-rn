@@ -144,6 +144,10 @@ export default StyleSheet.create({
     height: 0.5,
     backgroundColor: "#e5e5e5"
   },
+  seperate_v_line_e5e5e5: {
+    width: 0.5,
+    backgroundColor: "#e5e5e5"
+  },
   text_14: {
     color: "black", fontSize: 14, fontWeight: "500"
   },
@@ -1008,6 +1012,11 @@ export default StyleSheet.create({
   shareBtn: {
     width: 46 / 3,
     height: 53 / 3,
+    marginTop: 20,
+  },
+  flashBtn: {
+    width: 38 / 3,
+    height: 54 / 3,
     marginTop: 20,
   },
   searchBoxCover : {

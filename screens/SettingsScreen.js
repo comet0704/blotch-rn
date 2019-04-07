@@ -1,92 +1,138 @@
-import React from "react"
-import { StyleSheet, Text, View, Image, Button } from "react-native"
-import { WebBrowser, Facebook, Google } from "expo";
+import React, { Component } from 'react';
+import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity } from 'react-native';
+import { BarCodeScanner, Permissions } from 'expo';
+import { TopbarWithBlackBack } from '../components/Topbars/TopbarWithBlackBack';
 
-export default class SettingScreen extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      signedIn: false,
-      name: "",
-      photoUrl: ""
-    }
-  }
-  signIn = async () => {
-    try {
-      console.log(Facebook)
-      console.log(Google)
-      const {
-        type,
-        token,
-        expires,
-        permissions,
-        declinedPermissions,
-      } = await Facebook.logInWithReadPermissionsAsync('377170089537556', {
-        permissions: ['public_profile'],
-      });
+export default class App extends Component {
+  state = {
+    hasCameraPermission: null,
+    lastScannedUrl: null,
+  };
 
-      if (type === "success") {
-        console.log(token)
-        alert("A");
-        this.setState({
-          signedIn: true,
-          name: result.user.name,
-          photoUrl: result.user.photoUrl
-        })
-      } else {
-        console.log("cancelled")
-      }
-    } catch (e) {
-      console.log("error", e)
-    }
+  componentDidMount() {
+    this._requestCameraPermission();
   }
+
+  _requestCameraPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({
+      hasCameraPermission: status === 'granted',
+    });
+  };
+
+  _handleBarCodeRead = result => {
+    if (result.data !== this.state.lastScannedUrl) {
+      LayoutAnimation.spring();
+      this.setState({ lastScannedUrl: result.data });
+    }
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        {this.state.signedIn ? (
-          <LoggedInPage name={this.state.name} photoUrl={this.state.photoUrl} />
-        ) : (
-            <LoginPage signIn={this.signIn} />
-          )}
+
+<TopbarWithBlackBack title="Product" isRootDepth={true} onPress={() => {
+                this.props.navigation.goBack(null)
+              }}></TopbarWithBlackBack>
+        {this.state.hasCameraPermission === null
+          ? <Text>Requesting for camera permission</Text>
+          :
+          this.state.hasCameraPermission === false
+            ? <Text style={{ color: '#fff' }}>
+              Camera permission is not granted
+                </Text>
+            :
+            <View>
+              <BarCodeScanner
+                onBarCodeRead={this._handleBarCodeRead}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                }}
+              />
+            </View>
+        }
+
+        {this._maybeRenderUrl()}
+
+        <StatusBar hidden />
       </View>
-    )
+    );
   }
-}
 
-const LoginPage = props => {
-  return (
-    <View>
-      <Text style={styles.header}>Sign In With Google</Text>
-      <Button title="Sign in with Google" onPress={() => props.signIn()} />
-    </View>
-  )
-}
+  _handlePressUrl = () => {
+    Alert.alert(
+      'Open this URL?',
+      this.state.lastScannedUrl,
+      [
+        {
+          text: 'Yes',
+          onPress: () => Linking.openURL(this.state.lastScannedUrl),
+        },
+        { text: 'No', onPress: () => { } },
+      ],
+      { cancellable: false }
+    );
+  };
 
-const LoggedInPage = props => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Welcome:{props.name}</Text>
-      <Image style={styles.image} source={{ uri: props.photoUrl }} />
-    </View>
-  )
+  _handlePressCancel = () => {
+    this.setState({ lastScannedUrl: null });
+  };
+
+  _maybeRenderUrl = () => {
+    if (!this.state.lastScannedUrl) {
+      return;
+    }
+
+    return (
+      <View style={styles.bottomBar}>
+        <TouchableOpacity style={styles.url} onPress={this._handlePressUrl}>
+          <Text numberOfLines={1} style={styles.urlText}>
+            {this.state.lastScannedUrl}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.cancelButton}
+          onPress={this._handlePressCancel}>
+          <Text style={styles.cancelButtonText}>
+            Cancel
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
   },
-  header: {
-    fontSize: 25
+  bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 15,
+    flexDirection: 'row',
   },
-  image: {
-    marginTop: 15,
-    width: 150,
-    height: 150,
-    borderColor: "rgba(0,0,0,0.2)",
-    borderWidth: 3,
-    borderRadius: 150
-  }
-})
+  url: {
+    flex: 1,
+  },
+  urlText: {
+    color: '#fff',
+    fontSize: 20,
+  },
+  cancelButton: {
+    marginLeft: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cancelButtonText: {
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 18,
+  },
+});

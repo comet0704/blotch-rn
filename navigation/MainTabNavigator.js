@@ -26,6 +26,7 @@ import SearchBrandDetailScreen from '../screens/Home/Search/SearchBrandDetailScr
 import SearchResultProductMoreScreen from '../screens/Home/Search/SearchResultProductMoreScreen';
 import SearchResultIngredientMoreScreen from '../screens/Home/Search/SearchResultIngredientMoreScreen';
 import MyListScreen from '../screens/Mylist/MyListScreen';
+import SearchCameraScreen from '../screens/Home/Search/SearchCameraScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -39,6 +40,7 @@ const HomeStack = createStackNavigator({
   SearchBrandDetail: SearchBrandDetailScreen,
   SearchResultProductMore: SearchResultProductMoreScreen,
   SearchResultIngredientMore: SearchResultIngredientMoreScreen,
+  SearchCamera:SearchCameraScreen,
   AboutUs: AboutUsScreen,
 },
   {
@@ -228,9 +230,9 @@ export default createBottomTabNavigator({
   ProductStack,
   IngredientStack,
   LoginStack,
-  MyListStack,
-  MyPageStack,
-  // LinksStack,
+  // MyListStack,
+  // MyPageStack,
+  // LinksStack,  
   // SettingsStack,
 }, {
     backBehavior: "history",

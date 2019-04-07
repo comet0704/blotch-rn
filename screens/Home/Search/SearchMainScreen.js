@@ -223,14 +223,14 @@ export default class SearchMainScreen extends React.Component {
           {this.state.searchBoxFocused ?
             <View style={[MyStyles.shadow_2, MyStyles.searchBoxCover, { marginRight: 15 }]}>
               <Image style={{ flex: 1 }}/>
-              <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
+              <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                 <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
               </TouchableOpacity>
             </View>
             :
             <View style={[MyStyles.searchBoxCover]}>
               <Image style={{ flex: 1 }}/>
-              <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { alert("2차 개발 준비중입니다.") }}>
+              <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                 <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
               </TouchableOpacity>
             </View>}

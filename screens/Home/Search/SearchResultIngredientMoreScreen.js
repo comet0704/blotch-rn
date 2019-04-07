@@ -131,7 +131,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                 <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
                   <View style={[MyStyles.searchBoxCover, { paddingLeft: 0 }]}>
                     <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingRight: 5 }} value={this.state.searchWord}></TextInput>
-                    <TouchableOpacity style={{ padding: 8, alignSelf: "center" }}>
+                    <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                       <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                     </TouchableOpacity>
                   </View>

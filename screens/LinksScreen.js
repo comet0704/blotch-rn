@@ -1,127 +1,118 @@
-import Autocomplete from 'react-native-autocomplete-input';
-import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+// common
+import { LinearGradient } from 'expo';
+import React from 'react';
+import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-whc-toast';
+import { TopbarWithBlackBack } from '../components/Topbars/TopbarWithBlackBack';
+import MyConstants from '../constants/MyConstants';
+import MyStyles from '../constants/MyStyles';
+import { BarCodeScanner, Permissions } from 'expo';
 
-const API = 'https://swapi.co/api';
-const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
 
-class AutocompleteExample extends Component {
-  static renderFilm(film) {
-    const { title, director, opening_crawl, episode_id } = film;
-    const roman = episode_id < ROMAN.length ? ROMAN[episode_id] : episode_id;
+export default class ArticleDetailScreen extends React.Component {
 
-    return (
-      <View>
-        <Text style={styles.titleText}>{roman}. {title}</Text>
-        <Text style={styles.directorText}>({director})</Text>
-        <Text style={styles.openingText}>{opening_crawl}</Text>
-      </View>
-    );
-  }
-
+  item_id = "";
+  offset = 0;
   constructor(props) {
     super(props);
     this.state = {
-      films: [],
-      query: ''
+      loading_end: false,
     };
   }
 
   componentDidMount() {
-    fetch(`${API}/films/`).then(res => res.json()).then((json) => {
-      const { results: films } = json;
-      console.log({json});
-      this.setState({ films });
+    this._requestCameraPermission();
+  }
+
+  _requestCameraPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({
+      hasCameraPermission: status === 'granted',
     });
-    
-  }
+  };
 
-  findFilm(query) {
-    // if (query === '') {
-    //   return [];
-    // }
 
-    const { films } = this.state;
-    const regex = new RegExp(`${query.trim()}`, 'i');
-    return films.filter(film => film.title.search(regex) >= 0);
-  }
+  _handleBarCodeRead = result => {
+    this.setState({ lastScannedUrl: result.data });
+  };
 
   render() {
-    const { query } = this.state;
-    const films = this.findFilm(query);
-    const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
-
     return (
-      <View style={styles.container}>
-        <Autocomplete
-          autoCapitalize="none"
-          autoCorrect={false}
-          containerStyle={styles.autocompleteContainer}
-          data={films.length === 1 && comp(query, films[0].title) ? [] : films}
-          defaultValue={query}
-          onChangeText={text => this.setState({ query: text })}
-          placeholder="Enter Star Wars film title"
-          renderItem={({ title, release_date }) => (
-            <TouchableOpacity onPress={() => this.setState({ query: title })}>
-              <Text style={styles.itemText}>
-                {title} ({release_date.split('-')[0]})
-              </Text>
-            </TouchableOpacity>
-          )}
+      <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
+
+        <Spinner
+          //visibility of Overlay Loading Spinner
+          visible={this.state.isLoading}
+          //Text with the Spinner 
+          textContent={MyConstants.Loading_text}
+          //Text style of the Spinner Text
+          textStyle={MyStyles.spinnerTextStyle}
         />
-        <View style={styles.descriptionContainer}>
-          {films.length > 0 ? (
-            AutocompleteExample.renderFilm(films[0])
-          ) : (
-            <Text style={styles.infoText}>
-              Enter Title of a Star Wars movie
-            </Text>
-          )}
+        <Toast ref='toast' />
+        <TopbarWithBlackBack rightBtn="true" title="Article" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
+        <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          {this.state.hasCameraPermission === null ?
+            <Text>Requesting for camera permission</Text>
+            :
+            this.state.hasCameraPermission === false ?
+              <Text style={{}}>
+                Camera permission is not granted
+              </Text>
+              :
+                <BarCodeScanner
+                  onBarCodeRead={this._handleBarCodeRead}
+                  style={{
+                    height: Dimensions.get('window').height - 150,
+                    width: "100%",
+                  }}
+                />
+          }
         </View>
-      </View>
+      </KeyboardAvoidingView >
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#F5FCFF',
-    flex: 1,
-    paddingTop: 25
-  },
-  autocompleteContainer: {
-    marginLeft: 30,
-    marginRight: 30
-  },
-  itemText: {
-    fontSize: 15,
-    margin: 2
-  },
-  descriptionContainer: {
-    // `backgroundColor` needs to be set otherwise the
-    // autocomplete input will disappear on text input.
-    backgroundColor: '#F5FCFF',
-    marginTop: 8
-  },
-  infoText: {
-    textAlign: 'center'
-  },
-  titleText: {
-    fontSize: 18,
-    fontWeight: '500',
-    marginBottom: 10,
-    marginTop: 10,
-    textAlign: 'center'
-  },
-  directorText: {
-    color: 'grey',
-    fontSize: 12,
-    marginBottom: 10,
-    textAlign: 'center'
-  },
-  openingText: {
-    textAlign: 'center'
+  requestArticleDetail(p_article_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.article.detail, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        article_id: p_article_id
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+          article_detail_result_data: responseJson.result_data
+        });
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(error);
+          return;
+        }
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+
   }
-});
-
-export default AutocompleteExample;
+}
