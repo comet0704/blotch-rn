@@ -1,5 +1,6 @@
 // common
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import { AsyncStorage } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
@@ -80,7 +81,7 @@ export default class HomeScreen extends React.Component {
   renderBanner(item, index) {
     return (
       <View key={index}>
-        <TouchableHighlight onPressIn={() => {
+        <TouchableOpacity onPress={() => {
           this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View>
@@ -90,7 +91,7 @@ export default class HomeScreen extends React.Component {
               <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
             </View>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -98,28 +99,28 @@ export default class HomeScreen extends React.Component {
   renderBanner2(item, index) {
     return (
       <View key={index}>
-        <TouchableHighlight onPressIn={() => {
+        <TouchableOpacity onPress={() => {
           this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <Image source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
   renderBanner3(item, index) {
     return (
       <View key={index}>
-        <TouchableHighlight onPressIn={() => {
+        <TouchableOpacity onPress={() => {
           this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <Image source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -185,7 +186,7 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
             <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
-            {
+            {/* {
               item.is_liked > 0
                 ?
                 <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleUnlike(item.id) }}>
@@ -194,7 +195,7 @@ export default class HomeScreen extends React.Component {
                 : <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleLike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                 </TouchableHighlight>
-            }
+            } */}
             <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
               <Text style={{ fontSize: 13, color: "white" }}>{item.title}</Text>
               <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{item.content}</Text>
@@ -218,7 +219,7 @@ export default class HomeScreen extends React.Component {
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
                   <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
-                  {
+                  {/* {
                     item.is_liked > 0
                       ?
                       <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleUnlike(item.id) }}>
@@ -227,7 +228,7 @@ export default class HomeScreen extends React.Component {
                       : <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleLike(item.id) }}>
                         <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                       </TouchableHighlight>
-                  }
+                  } */}
                   <View style={{ position: "absolute", bottom: 5, left: 5, maxWidth: 120 }}>
                     <Text style={{ fontSize: 12, color: "white" }}>{item.title}</Text>
                     <Text style={{ fontSize: 14, color: "white", fontWeight: "bold" }} numberOfLines={1}>{item.content}</Text>
@@ -305,7 +306,6 @@ export default class HomeScreen extends React.Component {
               {/* Search bar */}
               <View style={[MyStyles.searchBoxCommon, MyStyles.container, MyStyles.bg_white]}>
                 <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />
-
                 <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
                   <View style={[{ marginLeft: 12, }, MyStyles.searchBoxCover, MyStyles.shadow_2]}>
                     <Image source={require('../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
@@ -393,7 +393,7 @@ export default class HomeScreen extends React.Component {
               {/* 배너 부분 */}
               <View style={{ borderTopRightRadius: 20, overflow: "hidden", marginTop: 10 }}>
                 <Carousel
-                  autoplay
+                  autoplay={true}
                   autoplayTimeout={3000}
                   loop
                   index={0}
@@ -494,7 +494,6 @@ export default class HomeScreen extends React.Component {
                       loop
                       index={0}
                       pageSize={this.BannerWidth / 2}
-                      ref={(carousel) => { this.bestCarouselIndicator = carousel }}
                     >
                       {this.state.result_data.banner_list3.map((item, index) => this.renderBanner3(item, index))}
                     </Carousel>

@@ -1,4 +1,5 @@
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import { Text } from 'react-native';
 
 export class MonoText extends React.Component {

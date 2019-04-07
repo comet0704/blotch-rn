@@ -1,4 +1,5 @@
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import { Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 export class TopbarWithWhiteBack extends React.Component {

@@ -1,5 +1,6 @@
 // common
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import { AsyncStorage } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';

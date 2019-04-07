@@ -1,4 +1,5 @@
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Colors from '../../constants/Colors';
 import MyStyles from '../../constants/MyStyles';

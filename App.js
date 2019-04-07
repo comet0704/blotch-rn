@@ -1,4 +1,5 @@
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';

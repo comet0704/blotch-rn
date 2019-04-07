@@ -5,6 +5,12 @@ export default {
   getImageUrl(image_list) {
     return MyConstants.UPLOAD_SERVER_URL + "/" + image_list.split(this.IMAGE_SPLITTER)[0]
   },
+  getLinkUrl(p_linkUrl) {
+    if(p_linkUrl.indexOf("http://") > -1 || p_linkUrl.indexOf("https://") > -1) {
+      return p_linkUrl
+    }
+    return "http://" + p_linkUrl
+  },
   scrollIsCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
     const paddingToBottom = 20;
     return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;

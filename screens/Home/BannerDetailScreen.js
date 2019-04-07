@@ -1,5 +1,6 @@
 // common
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import { AsyncStorage } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
@@ -212,7 +213,7 @@ export default class BannerDetailScreen extends React.Component {
             <View style={[{ marginTop: 5 }, MyStyles.padding_main]}>
               <View style={[{ marginTop: 5, flexDirection: "row", flex: 1 }]}>
                 <Text style={{ color: Colors.color_949191, paddingLeft: 5, paddingRight: 5, borderWidth: 0.5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }}>Link</Text>
-                <Text onPress={() => { Linking.openURL(this.state.banner_detail_result_data.detail.url) }} style={[MyStyles.link, { marginLeft: 5 }]}>{this.state.banner_detail_result_data.detail.url}</Text>
+                <Text onPress={() => { Linking.openURL(Common.getLinkUrl(this.state.banner_detail_result_data.detail.url)) }} style={[MyStyles.link, { marginLeft: 5 }]}>{this.state.banner_detail_result_data.detail.url}</Text>
               </View>
               <Text style={{ fontSize: 13, color: Colors.primary_dark, marginTop: 10, marginBottom: 5 }}>{this.state.banner_detail_result_data.detail.content}</Text>
             </View>

@@ -1,4 +1,5 @@
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';

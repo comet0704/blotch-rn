@@ -1,4 +1,5 @@
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import { Icon } from 'expo';
 
 import Colors from '../constants/Colors';

@@ -1,4 +1,5 @@
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import {
   Image,
   Platform,
@@ -22,7 +23,7 @@ export default class HomeScreen_back extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
-            <Image
+            <ImageLoad
               source={
                 __DEV__
                   ? require('../assets/images/robot-dev.png')

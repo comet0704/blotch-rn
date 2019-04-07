@@ -1,5 +1,6 @@
 import 'react-native';
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import { MonoText } from '../StyledText';
 import renderer from 'react-test-renderer';
 

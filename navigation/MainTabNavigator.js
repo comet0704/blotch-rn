@@ -1,4 +1,5 @@
 import React from 'react';
+import ImageLoad from 'react-native-image-placeholder';
 import { Platform, Icon, Image } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
@@ -24,6 +25,7 @@ import SearchResultScreen from '../screens/Home/Search/SearchResultScreen';
 import SearchBrandDetailScreen from '../screens/Home/Search/SearchBrandDetailScreen';
 import SearchResultProductMoreScreen from '../screens/Home/Search/SearchResultProductMoreScreen';
 import SearchResultIngredientMoreScreen from '../screens/Home/Search/SearchResultIngredientMoreScreen';
+import MyListScreen from '../screens/Mylist/MyListScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -122,6 +124,76 @@ IngredientStack.navigationOptions = ({ navigation }) => {
   }
 }
 
+const LoginStack = createStackNavigator({
+  Login: LoginScreen,
+  Signup: SignupScreen,
+  FindPwd: FindPwdScreen,
+},
+  {
+    headerMode: 'screen ',
+  });
+
+LoginStack.navigationOptions = {
+  tabBarLabel: 'Login',
+  tabBarIcon: ({ focused }) => (
+    focused ? <Image style={{ width: 16.7, height: 17.7 }} source={require("../assets/images/ic_menu_login_off.png")} /> : <Image style={{ width: 16.7, height: 17.7 }} source={require("../assets/images/ic_menu_login_off.png")} />
+  ),
+
+  tabBarVisible: false,
+
+};
+
+const MyListStack = createStackNavigator({
+  MyList: MyListScreen,
+},
+  {
+    headerMode: 'screen ',
+  });
+
+MyListStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = false;
+
+  let routeName = navigation.state.routes[navigation.state.index].routeName;
+
+  if (routeName == 'MyList') {
+    tabBarVisible = true
+  }
+
+  return {
+    tabBarLabel: 'My List',
+    tabBarIcon: ({ focused }) => (
+      focused ? <Image style={{ width: 60 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_mylist_on.png")} /> : <Image style={{ width: 60 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_mylist_off.png")} />
+    ),
+    tabBarVisible: tabBarVisible
+  }
+}
+
+
+const MyPageStack = createStackNavigator({
+  MyPage: MyListScreen,
+},
+  {
+    headerMode: 'screen ',
+  });
+
+MyPageStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = false;
+
+  let routeName = navigation.state.routes[navigation.state.index].routeName;
+
+  if (routeName == 'MyPage') {
+    tabBarVisible = true
+  }
+
+  return {
+    tabBarLabel: 'My Page',
+    tabBarIcon: ({ focused }) => (
+      focused ? <Image style={{ width: 39 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_mypage_on.png")} /> : <Image style={{ width: 39 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_mypage_off.png")} />
+    ),
+    tabBarVisible: tabBarVisible
+  }
+}
+
 const LinksStack = createStackNavigator({
   Links: LinksScreen,
 });
@@ -150,31 +222,15 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-const LoginStack = createStackNavigator({
-  Login: LoginScreen,
-  Signup: SignupScreen,
-  FindPwd: FindPwdScreen,
-},
-  {
-    headerMode: 'screen ',
-  });
-
-LoginStack.navigationOptions = {
-  tabBarLabel: 'Login',
-  tabBarIcon: ({ focused }) => (
-    focused ? <Image style={{ width: 16.7, height: 17.7 }} source={require("../assets/images/ic_menu_login_off.png")} /> : <Image style={{ width: 16.7, height: 17.7 }} source={require("../assets/images/ic_menu_login_off.png")} />
-  ),
-
-  tabBarVisible: false,
-
-};
 global.login_info = {};
 export default createBottomTabNavigator({
   HomeStack,
   ProductStack,
   IngredientStack,
   LoginStack,
-  LinksStack,
+  MyListStack,
+  MyPageStack,
+  // LinksStack,
   // SettingsStack,
 }, {
     backBehavior: "history",
