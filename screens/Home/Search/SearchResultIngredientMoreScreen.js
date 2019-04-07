@@ -32,47 +32,20 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchWord: "",
       saveToModalVisible: false,
       result_data: {
-        "ingredient_count": 30,
-        "ingredient_list": [
-          {
-            "id": 1,
-            "title": "ingredient-1",
-            "content": "ingredient-1",
-            "type": 0
-          },
-          {
-            "id": 2,
-            "title": "ingredient-2",
-            "content": "ingredient-2",
-            "type": 0
-          },
-          {
-            "id": 3,
-            "title": "ingredient-3",
-            "content": "ingredient-3",
-            "type": 0
-          },
-          {
-            "id": 4,
-            "title": "ingredient-4",
-            "content": "ingredient-4",
-            "type": 0
-          },
-          {
-            "id": 5,
-            "title": "ingredient-5",
-            "content": "ingredient-5",
-            "type": 0
-          },
+        ingredient_count: 30,
+        ingredient_list: [
         ],
       },
     };
   }
 
   componentDidMount() {
-    // this.requestHomeList()
+    w_searchWord = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.search_word)
+    this.setState({ searchWord: w_searchWord })
+    this.requestSearchIngredient(w_searchWord);
   }
 
   static navigationOptions = {
@@ -147,7 +120,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
               <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white]}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.navigation.goBack(null)
+                    this.props.navigation.pop(2)
                   }} activeOpacity={0.5} style={{ alignSelf: "center", alignItems: "center", padding: 15 }} >
                   <Image style={[MyStyles.backButton, { marginTop: 0, alignSelf: "center" }]}
                     source={require("../../../assets/images/ic_back_black.png")}
@@ -156,7 +129,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
 
                 <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
                   <View style={[MyStyles.searchBoxCover, { paddingLeft: 0 }]}>
-                    <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingRight: 5 }} value="Ubbusffree"></TextInput>
+                    <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingRight: 5 }} value={this.state.searchWord}></TextInput>
                     <TouchableOpacity style={{ padding: 8, alignSelf: "center" }}>
                       <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                     </TouchableOpacity>
@@ -249,11 +222,11 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
     );
   }
 
-  requestHomeList() {
+  requestSearchIngredient(p_keyword) {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.home.homeList, {
+    return fetch(Net.home.searchIngredient, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -262,6 +235,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
 
       },
       body: JSON.stringify({
+        keyword: p_keyword
       }),
     })
       .then((response) => response.json())
@@ -269,34 +243,15 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
         // console.log(responseJson);
         this.setState({
           isLoading: false,
-          result_data: responseJson.result_data
         });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
-
-        try {
-          this.setState({
-            'newProductBanner': {
-              'image_list': this.state.result_data.new_product_list[0].image_list,
-              'title': this.state.result_data.new_product_list[0].title,
-            }
-          })
-        } catch (error) {
-
-        }
-        try {
-          this.setState({
-            'bestProductBanner': {
-              'image_list': this.state.result_data.best_product_list[0].image_list,
-              'title': this.state.result_data.best_product_list[0].title,
-            }
-          })
-        } catch (error) {
-
-        }
+        this.setState({
+          result_data: responseJson.result_data,
+        });
       })
       .catch((error) => {
         this.setState({
@@ -305,14 +260,13 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
         this.refs.toast.showBottom(error);
       })
       .done();
-
   }
-
-  requestProductLike(p_product_id) {
+  
+  requestAddUserIngredient(p_ingredient_id, p_type) {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.product.like, {
+    return fetch(Net.ingredient.addUserIngredient, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -320,7 +274,8 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        product_id: p_product_id.toString()
+        ingredient_id: p_ingredient_id.toString(),
+        type: p_type.toString(),
       }),
     })
       .then((response) => response.json())
@@ -334,45 +289,10 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-        // this.requestHomeList();
 
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-  }
+        this.setState({ saveToModalVisible: false });
 
-  requestProductUnlike(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.product.unlike, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-access-token': global.login_info.token
-      },
-      body: JSON.stringify({
-        product_id: p_product_id.toString()
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
-
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return
-        }
-        this.requestHomeList();
+        this.requestSearchIngredient(this.state.searchWord);
       })
       .catch((error) => {
         this.setState({

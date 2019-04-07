@@ -33,114 +33,17 @@ export default class SearchResultProductMoreScreen extends React.Component {
     this.state = {
       isLogined: false,
       result_data: {
-        "product_count": 30,
-        "product_list": [
-          {
-            "id": 1,
-            "title": "Product-1",
-            "image_list": "uploads/product/ana-francisconi-1382802-unsplash.jpg",
-            "visit_count": 275,
-            "like_count": 14,
-            "comment_count": 2,
-            "grade": 3,
-            "is_liked": null,
-            "brand_title": "LUSH"
-          },
-          {
-            "id": 2,
-            "title": "Product-2",
-            "image_list": "uploads/product/caleb-simpson-1394514-unsplash.jpg",
-            "visit_count": 275,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "BEAUTY"
-          },
-          {
-            "id": 3,
-            "title": "Product-3",
-            "image_list": "uploads/product/charisse-kenion-746077-unsplash.jpg",
-            "visit_count": 268,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": 3,
-            "brand_title": "BOBBI BROWN"
-          },
-          {
-            "id": 4,
-            "title": "Product-4",
-            "image_list": "uploads/product/dose-juice-1184453-unsplash.jpg",
-            "visit_count": 268,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "THE BODY SHOP"
-          },
-          {
-            "id": 5,
-            "title": "Product-5",
-            "image_list": "uploads/product/hyunwon-jang-724426-unsplash.jpg",
-            "visit_count": 268,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 4,
-            "is_liked": null,
-            "brand_title": "GENESIS"
-          },
-          {
-            "id": 6,
-            "title": "Product-6",
-            "image_list": "uploads/product/jake-peterson-463095-unsplash.jpg",
-            "visit_count": 268,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "GATHER"
-          },
-          {
-            "id": 7,
-            "title": "Product-7",
-            "image_list": "uploads/product/jakub-dziubak-618225-unsplash.jpg",
-            "visit_count": 268,
-            "like_count": 15,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "ROSITA"
-          },
-          {
-            "id": 8,
-            "title": "Product-8",
-            "image_list": "uploads/product/jazmin-quaynor-470729-unsplash.jpg",
-            "visit_count": 268,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "CM"
-          },
-          {
-            "id": 9,
-            "title": "Product-9",
-            "image_list": "uploads/product/j-kelly-brito-383355-unsplash.jpg",
-            "visit_count": 268,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "MIA"
-          },
+        product_count: 30,
+        product_list: [
         ],
       },
     };
   }
 
-  componentDidMount() {
-    // this.requestHomeList()
+  componentDidMount() {    
+    w_searchWord = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.search_word)
+    this.setState({ searchWord: w_searchWord })
+    this.requestSearchProduct(w_searchWord);
   }
 
   static navigationOptions = {
@@ -171,8 +74,9 @@ export default class SearchResultProductMoreScreen extends React.Component {
               <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white]}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.navigation.goBack(null)
-                  }} activeOpacity={0.5} style={{ alignSelf: "center", alignItems: "center", padding: 15 }} >
+                    this.props.navigation.pop(2)
+                  }} 
+                  activeOpacity={0.5} style={{ alignSelf: "center", alignItems: "center", padding: 15 }} >
                   <Image style={[MyStyles.backButton, { marginTop: 0, alignSelf: "center" }]}
                     source={require("../../../assets/images/ic_back_black.png")}
                   />
@@ -180,7 +84,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
 
                 <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
                   <View style={[MyStyles.searchBoxCover, {paddingLeft:0}]}>
-                    <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingRight: 5 }} value="Ubbusffree"></TextInput>
+                    <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingRight: 5 }} value={this.state.searchWord}></TextInput>
                     <TouchableOpacity style={{ padding: 8, alignSelf: "center" }}>
                       <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                     </TouchableOpacity>
@@ -221,11 +125,11 @@ export default class SearchResultProductMoreScreen extends React.Component {
     );
   }
 
-  requestHomeList() {
+  requestSearchProduct(p_keyword) {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.home.homeList, {
+    return fetch(Net.home.searchProduct, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -234,6 +138,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
 
       },
       body: JSON.stringify({
+        keyword: p_keyword
       }),
     })
       .then((response) => response.json())
@@ -241,34 +146,15 @@ export default class SearchResultProductMoreScreen extends React.Component {
         // console.log(responseJson);
         this.setState({
           isLoading: false,
-          result_data: responseJson.result_data
         });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
-
-        try {
-          this.setState({
-            'newProductBanner': {
-              'image_list': this.state.result_data.new_product_list[0].image_list,
-              'title': this.state.result_data.new_product_list[0].title,
-            }
-          })
-        } catch (error) {
-
-        }
-        try {
-          this.setState({
-            'bestProductBanner': {
-              'image_list': this.state.result_data.best_product_list[0].image_list,
-              'title': this.state.result_data.best_product_list[0].title,
-            }
-          })
-        } catch (error) {
-
-        }
+        this.setState({
+          result_data: responseJson.result_data,
+        });
       })
       .catch((error) => {
         this.setState({
@@ -306,7 +192,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-        // this.requestHomeList();
+        this.requestSearchProduct(this.state.searchWord);
 
       })
       .catch((error) => {
@@ -344,7 +230,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-        this.requestHomeList();
+        this.requestSearchProduct(this.state.searchWord);
       })
       .catch((error) => {
         this.setState({

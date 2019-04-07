@@ -34,6 +34,8 @@ export default class SearchResultScreen extends React.Component {
     super(props);
     this.state = {
       searchWord: "",
+      request_brand_name: "",
+      request_product_name: "",
       no_search_result: false,
       isLogined: false,
       requestProductModalVisible: false,
@@ -143,6 +145,15 @@ export default class SearchResultScreen extends React.Component {
     )
   }
 
+  submitReport() {
+    if (this.state.request_brand_name == "" || this.state.request_product_name == "") {
+      this.refs.toast.showTop("Please input Brand name and Product name");
+      return;
+    }
+    this.setState({ requestProductModalVisible: false });
+    this.requestProductRequest(this.state.request_brand_name, this.state.product_name)
+  }
+  
   render() {
     const { weatherType, weatherInfo } = this.state;
 
@@ -196,8 +207,8 @@ export default class SearchResultScreen extends React.Component {
                     <View style={[MyStyles.bg_white]}>
                       <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                         <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Brands({this.state.result_data.brand_count})</Text>
-                        <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                          this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                        {/* <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
+                          this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text> */}
                       </View>
                       <View style={{
                         flex: 1,
@@ -224,7 +235,7 @@ export default class SearchResultScreen extends React.Component {
                       <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                         <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Product({this.state.result_data.product_count})</Text>
                         <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                          this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                          this.props.navigation.navigate("SearchResultProductMore", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })}>more ></Text>
                       </View>
                       <FlatGrid
                         itemDimension={this.ScreenWidth}
@@ -250,7 +261,7 @@ export default class SearchResultScreen extends React.Component {
                       <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                         <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Ingredients({this.state.result_data.ingredient_count})</Text>
                         <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                          this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                          this.props.navigation.navigate("SearchResultIngredientMore", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })}>more ></Text>
                       </View>
                       <View style={[MyStyles.container]}>
                         {this.state.result_data.ingredient_list.map((item, index) => this.renderGoodNormalBadIngredientList(item, index))}
@@ -299,18 +310,27 @@ export default class SearchResultScreen extends React.Component {
 
                     <View style={[MyStyles.container, { paddingTop: 20, paddingBottom: 120 / 3 }]}>
                       <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Brand Name</Text>
-                      <TextInput style={MyStyles.text_input_with_border}>
+                      <TextInput
+                        returnKeyType="next"
+                        onSubmitEditing={() => { this.product_name_input.focus(); }}
+                        onChangeText={(text) => { console.log(text); this.setState({ request_brand_name: text }) }}
+                        style={MyStyles.text_input_with_border}>
                       </TextInput>
                       <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginTop: 20, marginBottom: 10 }}>Product Name</Text>
-                      <TextInput style={MyStyles.text_input_with_border}>
+                      <TextInput
+                        onSubmitEditing={() => {
+                          this.submitReport()
+                        }}
+                        ref={(input) => { this.product_name_input = input; }}
+                        onChangeText={(text) => { console.log(text); this.setState({ request_product_name: text }) }}
+                        style={MyStyles.text_input_with_border}>
                       </TextInput>
                     </View>
 
                     <View style={{ flexDirection: "row" }}>
                       <TouchableHighlight
                         style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
-                          this.setState({ requestProductModalVisible: false });
-                          this.requestReportComment(this.state.selected_comment_id)
+                          this.submitReport()
                         }}>
                         <Text style={MyStyles.btn_primary}>Submit</Text>
                       </TouchableHighlight>
@@ -435,6 +455,44 @@ export default class SearchResultScreen extends React.Component {
           return
         }
         this.requestSearchAll(this.state.searchWord);
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestProductRequest(p_brand_name, p_product_name) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.product.request, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        brand_name: p_brand_name,
+        product_name: p_product_name
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.refs.toast.showBottom("We have received your report");
       })
       .catch((error) => {
         this.setState({

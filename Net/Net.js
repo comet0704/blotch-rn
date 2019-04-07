@@ -19,6 +19,8 @@ export default {
         faqCategory: MyConstants.SERVER_URL + "/home/faqCategory",
         faqList: MyConstants.SERVER_URL + "/home/faqList",
         searchAll: MyConstants.SERVER_URL + "/home/searchAll",
+        searchProduct: MyConstants.SERVER_URL + "/home/searchProduct",
+        searchIngredient: MyConstants.SERVER_URL + "/home/searchIngredient",
     },
     article : {
         list: MyConstants.SERVER_URL + "/article/list",
@@ -55,6 +57,7 @@ export default {
         deleteMatch: MyConstants.SERVER_URL + "/product/deleteMatch",        
         deleteComment: MyConstants.SERVER_URL + "/product/deleteComment",        
         reportComment: MyConstants.SERVER_URL + "/product/reportComment",        
+        request: MyConstants.SERVER_URL + "/product/request",        
     },
     ingredient : {
         userIngredientList: MyConstants.SERVER_URL + "/ingredient/userIngredientList",               
