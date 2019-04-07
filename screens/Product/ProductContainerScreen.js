@@ -23,6 +23,8 @@ import { FragmentNewProduct } from './FragmentNewProduct';
 import { FragmentBestProduct } from './FragmentBestProduct';
 import { FragmentRecommendProduct } from './FragmentRecommendProduct';
 import { NavigationEvents } from 'react-navigation';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
+import { exitAlert } from '../../components/androidBackButton/exitAlert';
 
 export default class ProductContainerScreen extends React.Component {
   constructor(props) {
@@ -32,7 +34,13 @@ export default class ProductContainerScreen extends React.Component {
     }
   }
   componentDidMount() {
+    handleAndroidBackButton(this, exitAlert);
   }
+
+  componentWillMount() {
+    removeAndroidBackButtonHandler()
+  }
+  
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
@@ -42,7 +50,7 @@ export default class ProductContainerScreen extends React.Component {
             this.setState({initialPage, initialPage});
           }}
         />
-        <TopbarWithBlackBack title="Product" onPress={() => {
+        <TopbarWithBlackBack title="Product" isRootDepth={true} onPress={() => {
            this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
         <ScrollableTabView
           style={{ height: 20, borderBottomWidth: 0, marginTop: 10 }}

@@ -28,6 +28,8 @@ import {
 import { WebBrowser } from 'expo';
 import { NavigationEvents } from 'react-navigation';
 import { LinearGradient } from 'expo';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
+import { exitAlert } from '../../components/androidBackButton/exitAlert';
 
 export default class IngredientScreen extends React.Component {
   offset = 0;
@@ -134,9 +136,13 @@ export default class IngredientScreen extends React.Component {
     }
   }
   componentDidMount() {
-
+    handleAndroidBackButton(this, exitAlert);
   }
 
+  componentWillMount() {
+    removeAndroidBackButtonHandler()
+  }
+  
 
   onBabySelected = (p_babyName) => {
     const babyItems = [...this.state.babyItems]
@@ -384,7 +390,7 @@ export default class IngredientScreen extends React.Component {
             }
           }}
         />
-        <TopbarWithBlackBack title="My Ingredients" onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack isRootDepth={true} title="My Ingredients" onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
