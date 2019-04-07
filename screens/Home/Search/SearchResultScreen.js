@@ -76,7 +76,7 @@ export default class SearchResultScreen extends React.Component {
           {this.state.result_data.brand_list.map(item => (
             <View key={item.id} style={{ flex: 1, marginRight: 20, width: 85 }}>
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-                <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
+                <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
               </TouchableOpacity>
               <Text style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + item.product_count}</Text>
               {
@@ -304,7 +304,7 @@ export default class SearchResultScreen extends React.Component {
                       <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ requestProductModalVisible: false });
                       }}>
-                        <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close.png")}></Image>
+                        <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close.png")}/>
                       </TouchableOpacity>
                     </View>
                     <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>

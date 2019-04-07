@@ -46,7 +46,7 @@ export default class ArticlesScreen extends React.Component {
           </View>
 
           <View style={{ width: 316 / 3, height: 230 / 3, borderRadius: 2, overflow: "hidden", marginLeft: 10 }}>
-            <Image source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image}></Image>
+            <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image}/>
             <TouchableHighlight style={[{ position: "absolute", right: 5, top: 5 }, MyStyles.heart]}>
               <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
             </TouchableHighlight>

@@ -29,7 +29,7 @@ import { WebBrowser } from 'expo';
 import { NavigationEvents } from 'react-navigation';
 import { LinearGradient } from 'expo';
 
-export default class IngredientScreen extends React.Component {
+export default class MyListScreen extends React.Component {
   offset = 0;
   constructor(props) {
     super(props)

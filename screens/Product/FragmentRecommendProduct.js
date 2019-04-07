@@ -278,7 +278,7 @@ export class FragmentRecommendProduct extends React.Component {
                   renderItem={({ item, index }) => (
                     <TouchableOpacity onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                       <View style={[MyStyles.productItemContainer]}>
-                        <Image source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
+                        <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
                         {item.is_liked > 0
                           ?
                           <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(item.id) }}>
@@ -325,7 +325,7 @@ export class FragmentRecommendProduct extends React.Component {
                       <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ filterModalVisible: false });
                       }}>
-                        <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
+                        <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}/>
                       </TouchableOpacity>
                     </View>
 

@@ -175,7 +175,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                     <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                       this.setState({ saveToModalVisible: false })
                     }}>
-                      <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close.png")}></Image>
+                      <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close.png")}/>
                     </TouchableOpacity>
                   </View>
 
@@ -187,30 +187,30 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                       onPress={() => {
                         this.requestAddUserIngredient(this.state.selectedIngredient_id, 0)
                       }}>
-                      <Image style={MyStyles.ic_allergic_ingredient} source={require("../../../assets/images/ic_allergic_ingredient.png")}></Image>
+                      <Image style={MyStyles.ic_allergic_ingredient} source={require("../../../assets/images/ic_allergic_ingredient.png")}/>
                       <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
-                      <Image style={{ flex: 1 }}></Image>
-                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")}></Image>
+                      <Image style={{ flex: 1 }}/>
+                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")}/>
                     </TouchableOpacity>
                     {/* Potential Allergens */}
                     <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                       onPress={() => {
                         this.requestAddUserIngredient(this.state.selectedIngredient_id, 1)
                       }}>
-                      <Image style={MyStyles.ic_potential_allergins} source={require("../../../assets/images/ic_potential_allergins.png")}></Image>
+                      <Image style={MyStyles.ic_potential_allergins} source={require("../../../assets/images/ic_potential_allergins.png")}/>
                       <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
-                      <Image style={{ flex: 1 }}></Image>
-                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")}></Image>
+                      <Image style={{ flex: 1 }}/>
+                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")}/>
                     </TouchableOpacity>
                     {/* Preferred Ingredients */}
                     <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                       onPress={() => {
                         this.requestAddUserIngredient(this.state.selectedIngredient_id, 2)
                       }}>
-                      <Image style={MyStyles.ic_preferred_ingredient} source={require("../../../assets/images/ic_preferred_ingredient.png")}></Image>
+                      <Image style={MyStyles.ic_preferred_ingredient} source={require("../../../assets/images/ic_preferred_ingredient.png")}/>
                       <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
-                      <Image style={{ flex: 1 }}></Image>
-                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")}></Image>
+                      <Image style={{ flex: 1 }}/>
+                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")}/>
                     </TouchableOpacity>
                   </View>
                 </View>

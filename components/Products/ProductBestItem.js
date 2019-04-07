@@ -31,7 +31,7 @@ export class ProductBestItem extends React.Component {
     return (
       <TouchableOpacity onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
         <View style={[MyStyles.productItemContainer]}>
-          <Image source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
+          <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
           {item.is_liked > 0
             ?
             <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { _this.requestProductUnlike(item.id) }}>

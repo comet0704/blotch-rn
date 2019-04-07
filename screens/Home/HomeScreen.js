@@ -85,7 +85,7 @@ export default class HomeScreen extends React.Component {
           this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View>
-            <Image style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
+            <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
               <Text style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{item.title}</Text>
               <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
@@ -103,7 +103,7 @@ export default class HomeScreen extends React.Component {
           this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
-            <Image source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
+            <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
           </View>
         </TouchableOpacity>
@@ -117,7 +117,7 @@ export default class HomeScreen extends React.Component {
           this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
-            <Image source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
+            <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
             <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
           </View>
         </TouchableOpacity>
@@ -130,7 +130,7 @@ export default class HomeScreen extends React.Component {
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1 }}>
-            <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
+            <ImageLoad style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
             {
               item.is_liked > 0
                 ?
@@ -157,7 +157,7 @@ export default class HomeScreen extends React.Component {
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1 }}>
-            <Image style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
+            <ImageLoad style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
             {
               item.is_liked > 0
                 ?
@@ -185,7 +185,7 @@ export default class HomeScreen extends React.Component {
       <View key={index} style={{ width: "100%", height: 166, flex: 1 }}>
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
-            <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
+            <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
             {/* {
               item.is_liked > 0
                 ?
@@ -218,7 +218,7 @@ export default class HomeScreen extends React.Component {
             <View key={item.id} style={{ width: 150, height: 75, flex: 1, marginRight: 10 }}>
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
-                  <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
+                  <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
                   {/* {
                     item.is_liked > 0
                       ?
@@ -253,7 +253,7 @@ export default class HomeScreen extends React.Component {
           {this.state.result_data.recommend_product_list.map(item => (
             <View key={item.id} style={{ flex: 1, marginRight: 10, width: 85 }}>
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-                <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image_list) }} />
+                <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image_list) }} />
               </TouchableOpacity>
               <Text style={{ fontSize: 12, color: "#949393", marginTop: 5, textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
               <Text style={{ fontSize: 13, color: "#212122", fontWeight: "bold", textAlign: "center" }} numberOfLines={1}>{item.title}</Text>

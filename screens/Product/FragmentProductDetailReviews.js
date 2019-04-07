@@ -136,7 +136,7 @@ export class FragmentProductDetailReviews extends React.Component {
       <View key={index}>
         <View style={MyStyles.comment_item}>
           {item.parent == 0 ? null : <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 13, marginTop: 5, marginRight: 10 }]} />}
-          <Image source={item.profile_image ? { uri: Common.getImageUrl(item.profile_image) } : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
+          <Image source={item.profile_image ? { uri: Common.getImageUrl(item.profile_image) } : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}/>
           <View style={{ flex: 1, marginLeft: 10 }}>
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
               <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
@@ -173,16 +173,16 @@ export class FragmentProductDetailReviews extends React.Component {
               {item.parent == 0 ?
                 <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.onAddCommentSelected(index) }}>
                   {/* <TouchableOpacity style={{ padding: 5 }}> */}
-                  <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]}></Image>
+                  <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]}/>
                 </TouchableOpacity>
                 : null}
               {item.user_id == global.login_info.user_id ?
                 <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.requestDeleteComment(item.id, index) }}>
-                  <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]}></Image>
+                  <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]}/>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.setState({ reportModalVisible: true, selected_comment_id: item.id }) }}>
-                  <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}></Image>
+                  <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}/>
                 </TouchableOpacity>
               }
             </View>
@@ -193,7 +193,7 @@ export class FragmentProductDetailReviews extends React.Component {
         {/* 대댓글 부분 */}
         {item.want_comment ?
           <View style={[{ margin: 15, flexDirection: "row", padding: 5, }, MyStyles.bg_white]}>
-            <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginTop: 5, marginRight: 5 }]}></Image>
+            <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginTop: 5, marginRight: 5 }]}/>
             <TextInput
               returnKeyType="go"
               multiline={true}
@@ -377,7 +377,7 @@ export class FragmentProductDetailReviews extends React.Component {
           <View style={[MyStyles.bg_white, MyStyles.container, { paddingTop: 5 }]}>
             <Text style={{ color: Colors.primary_dark, fontSize: 13, fontWeight: "bold" }}>Comments <Text style={{ fontSize: 13, color: Colors.color_949292 }}>{this.state.comment_count}</Text></Text>
             <View style={{ marginTop: 10, flexDirection: "row" }}>
-              <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1]}></Image>
+              <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1]}/>
               <TextInput placeholder="Add a Comment"
                 returnKeyType="go"
                 value={this.state.product_comment_list_result_data.user_comment == null ? "" : this.state.product_comment_list_result_data.user_comment.comment}
@@ -388,7 +388,7 @@ export class FragmentProductDetailReviews extends React.Component {
                 multiline={true}
                 style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
               <TouchableOpacity style={{ marginRight: 10, marginTop: 5 }} onPress={() => { this.setState({ photoModalVisible: true }) }}>
-                <Image source={require("../../assets/images/ic_gallery.png")} style={[MyStyles.ic_gallery]}></Image>
+                <Image source={require("../../assets/images/ic_gallery.png")} style={[MyStyles.ic_gallery]}/>
               </TouchableOpacity>
               <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.onPostSend() }}>
                 <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
@@ -409,7 +409,7 @@ export class FragmentProductDetailReviews extends React.Component {
                 }}
                 fullStarColor={Colors.color_star_full}
               />
-              <Image source={require("../../assets/images/ic_arrow_down_gray_small.png")} style={[MyStyles.ic_arrow_down_gray_small, { position: "absolute", right: 10 }]}></Image>
+              <Image source={require("../../assets/images/ic_arrow_down_gray_small.png")} style={[MyStyles.ic_arrow_down_gray_small, { position: "absolute", right: 10 }]}/>
             </View>
 
             {/* 회원이 올린 리뷰사진은 새로 올리는 사진이 없는 경우에만 현시 */}
@@ -462,10 +462,10 @@ export class FragmentProductDetailReviews extends React.Component {
                 <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
                   this.setState({ reportModalVisible: false });
                 }}>
-                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}/>
                 </TouchableOpacity>
 
-                <Image style={[{ alignSelf: "center" }, MyStyles.ic_report_big]} source={require("../../assets/images/ic_report_big.png")}></Image>
+                <Image style={[{ alignSelf: "center" }, MyStyles.ic_report_big]} source={require("../../assets/images/ic_report_big.png")}/>
                 <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Would you like to report it?</Text>
 
                 <View style={{ flexDirection: "row" }}>
@@ -501,11 +501,11 @@ export class FragmentProductDetailReviews extends React.Component {
               <View style={[{ height: 800 / 3, width: "100%", justifyContent: "center", alignItems: "center", backgroundColor: Colors.color_f8f8f8 }, MyStyles.shadow_2]}>
                 <View style={{ flexDirection: "row" }}>
                   <TouchableOpacity style={{ justifyContent: "center" }} onPress={() => { this._pickImageFromCamera() }}>
-                    <Image source={require("../../assets/images/ic_camera_big.png")} style={MyStyles.ic_camera_big}></Image>
+                    <Image source={require("../../assets/images/ic_camera_big.png")} style={MyStyles.ic_camera_big}/>
                     <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={{ marginLeft: 50, justifyContent: "center" }} onPress={() => { this._pickImageFromGallery() }}>
-                    <Image source={require("../../assets/images/ic_gallery_big.png")} style={MyStyles.ic_gallery_big}></Image>
+                    <Image source={require("../../assets/images/ic_gallery_big.png")} style={MyStyles.ic_gallery_big}/>
                     <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</Text>
                   </TouchableOpacity>
                 </View>
@@ -522,7 +522,7 @@ export class FragmentProductDetailReviews extends React.Component {
           <TouchableOpacity style={{ position: "absolute", top: 0, left: 0, padding: 15, marginTop: 30 }} onPress={() => {
             this.setState({ zoomViewerModalVisible: false });
           }}>
-            <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_back.png")}></Image>
+            <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_back.png")}/>
           </TouchableOpacity>
         </Modal>
 

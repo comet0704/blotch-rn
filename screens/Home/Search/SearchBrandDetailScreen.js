@@ -219,7 +219,7 @@ export default class SearchBrandDetailScreen extends React.Component {
           <View>
             <View style={{ height: 110, width: "100%", alignItems: "center" }}>
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ detailModalVisible: true }) }}>
-                <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
+                <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
               </TouchableOpacity>
               <Text style={{ fontSize: 16, color: "white", bottom: -5, textAlign: "center", position: "absolute", width: "100%", textAlign: "center" }} numberOfLines={1}>{this.state.brand_detail_result_data.detail.title} ></Text>
               {
@@ -297,13 +297,13 @@ export default class SearchBrandDetailScreen extends React.Component {
                 <View style={MyStyles.modalContainer}>
                   {/* 배경 및 브랜디 이미지 */}
                   <View style={{ height: 275 / 3, alignItems: "center" }}>
-                    <Image style={[MyStyles.background_image]} source={require("../../../assets/images/ic_gradient_bg.png")}></Image>
+                    <Image style={[MyStyles.background_image]} source={require("../../../assets/images/ic_gradient_bg.png")}/>
 
                     <View style={{ position: "absolute", bottom: -85 / 2 }}>
                       <View style={{ width: 85, height: 85 }}>
                         <TouchableOpacity style={[{ flex: 1, borderRadius: 50, }]}>
                           <View style={[MyStyles.shadow_5, { borderRadius: 50 }]}>
-                            <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
+                            <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
                           </View>
                         </TouchableOpacity>
                         {
@@ -325,7 +325,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                   <TouchableOpacity style={[MyStyles.modal_close_btn, { position: "absolute", top: 0, right: 0 }]} onPress={() => {
                     this.setState({ detailModalVisible: false });
                   }}>
-                    <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close2.png")}></Image>
+                    <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close2.png")}/>
                   </TouchableOpacity>
 
                   <View style={{ marginTop: 200 / 3, }}>

@@ -82,7 +82,7 @@ export default class ArticleDetailScreen extends React.Component {
       <View key={index}>
         <View style={MyStyles.comment_item}>
           {item.parent == 0 ? null : <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 13, marginTop: 5, marginRight: 10 }]} />}
-          <Image source={item.profile_image ? { uri: Common.getImageUrl(item.profile_image) } : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}></Image>
+          <Image source={item.profile_image ? { uri: Common.getImageUrl(item.profile_image) } : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]}/>
           <View style={{ flex: 1, marginLeft: 10 }}>
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
               <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
@@ -94,16 +94,16 @@ export default class ArticleDetailScreen extends React.Component {
               {item.parent == 0 ?
                 <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.onAddCommentSelected(index) }}>
                   {/* <TouchableOpacity style={{ padding: 5 }}> */}
-                  <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]}></Image>
+                  <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]}/>
                 </TouchableOpacity>
                 : null}
               {item.user_id == global.login_info.user_id ?
                 <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.requestDeleteComment(item.id, index) }}>
-                  <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]}></Image>
+                  <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]}/>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.setState({ reportModalVisible: true, selected_comment_id: item.id }) }}>
-                  <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}></Image>
+                  <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]}/>
                 </TouchableOpacity>
               }
             </View>
@@ -113,7 +113,7 @@ export default class ArticleDetailScreen extends React.Component {
         {/* 대댓글 부분 */}
         {item.want_comment ?
           <View style={[{ margin: 15, flexDirection: "row", padding: 5, }, MyStyles.bg_white]}>
-            <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginTop: 5, marginRight: 5 }]}></Image>
+            <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginTop: 5, marginRight: 5 }]}/>
             <TextInput
               returnKeyType="go"
               multiline={true}
@@ -226,7 +226,7 @@ export default class ArticleDetailScreen extends React.Component {
               <View style={[MyStyles.bg_white, MyStyles.container, { paddingTop: 5 }]}>
                 <Text style={{ color: Colors.primary_dark, fontSize: 13, fontWeight: "bold" }}>Comments <Text style={{ fontSize: 13, color: Colors.color_949292 }}>{this.state.article_detail_result_data.detail.comment_count}</Text></Text>
                 <View style={{ marginTop: 10, flexDirection: "row" }}>
-                  <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1]}></Image>
+                  <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1]}/>
                   <TextInput placeholder="Add a Comment"
                     returnKeyType="go"
                     value={this.state.post_comment}
@@ -259,10 +259,10 @@ export default class ArticleDetailScreen extends React.Component {
                 <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
                   this.setState({ reportModalVisible: false });
                 }}>
-                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}></Image>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}/>
                 </TouchableOpacity>
 
-                <Image style={[{ alignSelf: "center" }, MyStyles.ic_report_big]} source={require("../../assets/images/ic_report_big.png")}></Image>
+                <Image style={[{ alignSelf: "center" }, MyStyles.ic_report_big]} source={require("../../assets/images/ic_report_big.png")}/>
                 <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Would you like to report it?</Text>
 
                 <View style={{ flexDirection: "row" }}>

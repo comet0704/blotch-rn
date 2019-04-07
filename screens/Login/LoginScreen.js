@@ -133,10 +133,10 @@ export default class LoginScreen extends React.Component {
             <View style={{ flex: 1 }}>
               <Image source={require('../../assets/images/Login/login_bg.png')} style={MyStyles.background_image} />
               <TopbarWithWhiteBack onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithWhiteBack>
-              <Image style={{ flex: 100 }}></Image>
-              <Image source={require('../../assets/images/Login/logo.png')} style={[MyStyles.h_auto, { width: "30%", }]} resizeMode="contain"></Image>
+              <Image style={{ flex: 100 }}/>
+              <Image source={require('../../assets/images/Login/logo.png')} style={[MyStyles.h_auto, { width: "30%", }]} resizeMode="contain"/>
               <Text style={{ marginLeft: "auto", marginRight: "auto", color: "white", marginTop: -20, fontSize: 12, fontWeight: "100" }} >Your Beauty Counselor</Text>
-              <Image style={{ flex: 80 }}></Image>
+              <Image style={{ flex: 80 }}/>
               <View style={[MyStyles.h_auto, { width: "85%", borderRadius: 15, backgroundColor: "white", paddingVertical: 40, paddingHorizontal: 18 }]}>
                 <View style={[MyStyles.inputBox, (this.checkValidation(email, "email") == false && loginPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
                   {this.checkValidation(email, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Email {this.Necessarry}</Text> : null}
@@ -229,9 +229,9 @@ export default class LoginScreen extends React.Component {
                   </TouchableOpacity>
                 </View>
               </View>
-              <Image style={{ flex: 45 }}></Image>
+              <Image style={{ flex: 45 }}/>
               <Text style={{ color: "white", marginTop: 20, marginBottom: 10, textAlign: "center", fontSize: 12, fontWeight: "100" }}>copyright © 2019 by Chemi. all rights reserved</Text>
-              <Image style={{ flex: 30 }}></Image>
+              <Image style={{ flex: 30 }}/>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
