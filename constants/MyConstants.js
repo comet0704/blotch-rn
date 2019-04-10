@@ -1,7 +1,8 @@
 export default {
   // important
   FACEBOOK_APP_ID : "377170089537556",
-  ANDROID_CLIENT_ID : "925139916251-o8646r93rhvt53j7sf5ggmf28khgqvrn.apps.googleusercontent.com",
+  ANDROID_CLIENT_ID : "921753193053-0paacaalh9idjhu84p0ssmjmdkqs11m3.apps.googleusercontent.com",
+  IOS_CLIENT_ID : "921753193053-edfubitfhjom9qjul66c1k50pceukqr8.apps.googleusercontent.com",
   
   ITEMS_PER_PAGE : 30,
   // SERVER_URL :"http://192.168.0.74:3000",
@@ -48,6 +49,7 @@ export default {
   ASYNC_PARAMS : {
     login_info : "LoginInfo",
     recent_search_words: "recent_search_words",
+    like_list_order: "like_list_order",
   },
   NAVIGATION_PARAMS : {
     item_id: "item_id",

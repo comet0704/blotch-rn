@@ -1,118 +1,187 @@
-// common
-import { LinearGradient } from 'expo';
-import React from 'react';
-import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-whc-toast';
-import { TopbarWithBlackBack } from '../components/Topbars/TopbarWithBlackBack';
-import MyConstants from '../constants/MyConstants';
-import MyStyles from '../constants/MyStyles';
-import { BarCodeScanner, Permissions } from 'expo';
+import React, { Component } from 'react';
+import { TouchableOpacity, Animated, Easing, StyleSheet, Text, Image, View, Dimensions, Platform } from 'react-native';
+import SortableList from 'react-native-sortable-list';
+
+const window = Dimensions.get('window');
 
 
-export default class ArticleDetailScreen extends React.Component {
+const data = {
+  0: {
+    image: 'https://placekitten.com/200/240',
+    text: 'Chloe',
+  },
+  1: {
+    image: 'https://placekitten.com/200/201',
+    text: 'Jasper',
+  },
+  2: {
+    image: 'https://placekitten.com/200/202',
+    text: 'Pepper',
+  },
+};
 
-  item_id = "";
-  offset = 0;
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading_end: false,
-    };
-  }
-
-  componentDidMount() {
-    this._requestCameraPermission();
-  }
-
-  _requestCameraPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({
-      hasCameraPermission: status === 'granted',
-    });
-  };
-
-
-  _handleBarCodeRead = result => {
-    this.setState({ lastScannedUrl: result.data });
-  };
-
+export default class Basic extends Component {
   render() {
     return (
-      <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
-
-        <Spinner
-          //visibility of Overlay Loading Spinner
-          visible={this.state.isLoading}
-          //Text with the Spinner 
-          textContent={MyConstants.Loading_text}
-          //Text style of the Spinner Text
-          textStyle={MyStyles.spinnerTextStyle}
-        />
-        <Toast ref='toast' />
-        <TopbarWithBlackBack rightBtn="true" title="Article" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
-        <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-        <View style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          {this.state.hasCameraPermission === null ?
-            <Text>Requesting for camera permission</Text>
-            :
-            this.state.hasCameraPermission === false ?
-              <Text style={{}}>
-                Camera permission is not granted
-              </Text>
-              :
-                <BarCodeScanner
-                  onBarCodeRead={this._handleBarCodeRead}
-                  style={{
-                    height: Dimensions.get('window').height - 150,
-                    width: "100%",
-                  }}
-                />
-          }
-        </View>
-      </KeyboardAvoidingView >
+      <View style={styles.container}>
+        <Text style={styles.title}>React Native Sortable List</Text>
+        <SortableList
+          onChangeOrder={(nextOrder) => {alert(nextOrder)}}
+          style={styles.list}
+          contentContainerStyle={styles.contentContainer}
+          data={data}
+          renderRow={this._renderRow} />
+      </View>
     );
   }
 
-  requestArticleDetail(p_article_id) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.article.detail, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-access-token': global.login_info.token
-      },
-      body: JSON.stringify({
-        article_id: p_article_id
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-          article_detail_result_data: responseJson.result_data
-        });
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(error);
-          return;
-        }
-
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-
+  _renderRow = ({ data, active }) => {
+    return <Row data={data} active={active} />
   }
 }
+
+class Row extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this._active = new Animated.Value(0);
+
+    this._style = {
+      ...Platform.select({
+        ios: {
+          transform: [{
+            scale: this._active.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 1.1],
+            }),
+          }],
+          shadowRadius: this._active.interpolate({
+            inputRange: [0, 1],
+            outputRange: [2, 10],
+          }),
+        },
+
+        android: {
+          transform: [{
+            scale: this._active.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 1.07],
+            }),
+          }],
+          elevation: this._active.interpolate({
+            inputRange: [0, 1],
+            outputRange: [2, 6],
+          }),
+        },
+      })
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.active !== nextProps.active) {
+      Animated.timing(this._active, {
+        duration: 300,
+        easing: Easing.bounce,
+        toValue: Number(nextProps.active),
+      }).start();
+    }
+  }
+
+  render() {
+    const { data } = this.props;
+
+    return (
+      <Animated.View style={[
+        styles.row,
+        this._style,
+      ]}>
+        <Image style={{flex:1}}/> 
+        <TouchableOpacity style={{flexDirection:"row"}} onPress={() => {}}>
+          <Image source={{ uri: data.image }} style={styles.image} />
+          <Text style={styles.text}>{data.text}</Text>
+        </TouchableOpacity>
+      </Animated.View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#eee',
+
+    ...Platform.select({
+      ios: {
+        paddingTop: 20,
+      },
+    }),
+  },
+
+  title: {
+    fontSize: 20,
+    paddingVertical: 20,
+    color: '#999999',
+  },
+
+  list: {
+    flex: 1,
+  },
+
+  contentContainer: {
+    width: window.width,
+
+    ...Platform.select({
+      ios: {
+        paddingHorizontal: 30,
+      },
+
+      android: {
+        paddingHorizontal: 0,
+      }
+    })
+  },
+
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 16,
+    height: 80,
+    flex: 1,
+    marginTop: 7,
+    marginBottom: 12,
+    borderRadius: 4,
+
+
+    ...Platform.select({
+      ios: {
+        width: window.width - 30 * 2,
+        shadowColor: 'rgba(0,0,0,0.2)',
+        shadowOpacity: 1,
+        shadowOffset: { height: 2, width: 2 },
+        shadowRadius: 2,
+      },
+
+      android: {
+        width: window.width - 30 * 2,
+        elevation: 0,
+        marginHorizontal: 30,
+      },
+    })
+  },
+
+  image: {
+    width: 50,
+    height: 50,
+    marginRight: 30,
+    borderRadius: 25,
+  },
+
+  text: {
+    fontSize: 24,
+    color: '#222222',
+  },
+});

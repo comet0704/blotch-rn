@@ -49,11 +49,11 @@ export default class SearchCameraScreen extends React.Component {
       //   'Camera Permissions', // dialog title
       //   'We require camera permissions to use the torch on the back of your phone.' // dialog body
       // );
-      if (cameraAllowed) {
+      // if (cameraAllowed) {
         const { isTorchOn } = this.state;
         Torch.switchState(!isTorchOn);
         this.setState({ isTorchOn: !isTorchOn });
-      }
+      // }
     }
   }
 

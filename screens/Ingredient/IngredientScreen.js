@@ -77,60 +77,6 @@ export default class IngredientScreen extends React.Component {
       },
       searchIngredient_result_data: {
         "ingredient_list": [
-          {
-            "id": 1,
-            "title": "ingredient-1",
-            "content": "ingredient-1",
-            "type": 0
-          },
-          {
-            "id": 2,
-            "title": "ingredient-2",
-            "content": "ingredient-2",
-            "type": 2
-          },
-          {
-            "id": 3,
-            "title": "ingredient-3",
-            "content": "ingredient-3",
-            "type": 0
-          },
-          {
-            "id": 4,
-            "title": "ingredient-4",
-            "content": "ingredient-4",
-            "type": 1
-          },
-          {
-            "id": 5,
-            "title": "ingredient-5",
-            "content": "ingredient-5",
-            "type": 0
-          },
-          {
-            "id": 6,
-            "title": "ingredient-6",
-            "content": "ingredient-6",
-            "type": 2
-          },
-          {
-            "id": 7,
-            "title": "ingredient-7",
-            "content": "ingredient-7",
-            "type": 0
-          },
-          {
-            "id": 8,
-            "title": "ingredient-8",
-            "content": "ingredient-8",
-            "type": 1
-          },
-          {
-            "id": 9,
-            "title": "ingredient-9",
-            "content": "ingredient-9",
-            "type": 0
-          }
         ]
       },
     }

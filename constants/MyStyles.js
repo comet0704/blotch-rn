@@ -162,8 +162,8 @@ export default StyleSheet.create({
     height: 15
   },
   heart2: {
-    width: 87/3,
-    height: 87/3
+    width: 87 / 3,
+    height: 87 / 3
   },
   banner_control: {
     width: 7.7,
@@ -172,6 +172,10 @@ export default StyleSheet.create({
   ic_heart_gray: {
     width: 52 / 3,
     height: 43 / 3,
+  },
+  ic_pencil: {
+    width: 30 / 3,
+    height: 44 / 3,
   },
   ic_back2: {
     width: 96 / 3,
@@ -881,6 +885,10 @@ export default StyleSheet.create({
     width: 21 / 3,
     height: 14 / 3,
   },
+  ic_polygon_right: {
+    width: 18 / 3,
+    height: 27 / 3,
+  },
   ic_polygon_up: {
     width: 21 / 3,
     height: 14 / 3,
@@ -915,11 +923,50 @@ export default StyleSheet.create({
     color: Colors.primary_dark, fontSize: 14, fontWeight: "bold"
   },
   ingredient_section_header_text2: {
-    color: Colors.color_b28ffe, fontSize: 12, fontWeight: "400"
+    marginTop: 3,
+    color: Colors.color_b28ffe, fontSize: 12, fontWeight: "500"
+  },
+  mylist_section: {
+    borderLeftWidth: 15,
+    borderColor: Colors.primary_purple,
+    borderRadius: 5,
+    backgroundColor: Colors.color_white,
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
+    shadowOpacity: 1,
+    elevation: 1,
+    // background color must be set
+    backgroundColor: "white" // invisible color,
+  },
+  my_own_list_section: {
+    borderLeftWidth: 3,
+    borderColor: Colors.primary_purple,
+    borderRadius: 5,
+    backgroundColor: Colors.color_white,
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
+    shadowOpacity: 1,
+    elevation: 1,
+    // background color must be set
+    backgroundColor: "white" // invisible color,
   },
   ic_white_polygon: {
     width: 68 / 3,
     height: 36 / 3,
+  },
+  ic_plus_btn_big: {
+    width: 90 / 3,
+    height: 93 / 3,
+  },
+  ic_dice: {
+    width: 23 / 3,
+    height: 23 / 3,
   },
   ic_camera_big: {
     width: 160 / 3,
@@ -933,76 +980,92 @@ export default StyleSheet.create({
     flex: 1, backgroundColor: "transparent", borderWidth: 1, aspectRatio: 1.2, margin: 5,
   },
   ic_toner: {
-    width:19/3,
-    height:52/3,
+    width: 19 / 3,
+    height: 52 / 3,
   },
   ic_lotion: {
-    width:39/3,
-    height:52/3,
+    width: 39 / 3,
+    height: 52 / 3,
   },
   ic_cream: {
-    width:51/3,
-    height:52/3,
+    width: 51 / 3,
+    height: 52 / 3,
   },
   ic_sun_block: {
-    width:49/3,
-    height:52/3,
+    width: 49 / 3,
+    height: 52 / 3,
   },
   ic_after_care: {
-    width:20/3,
-    height:52/3,
+    width: 20 / 3,
+    height: 52 / 3,
+  },
+  ic_like_matchd: {
+    width: 90 / 3,
+    height: 99 / 3,
+  },
+  ic_like_blotchd: {
+    width: 89 / 3,
+    height: 113 / 3,
+  },
+  ic_like_heart: {
+    width: 90 / 3,
+    height: 126 / 3,
+  },
+  ic_like_favorite: {
+    width: 89 / 3,
+    height: 98 / 3,
   },
   ic_base: {
-    width:38/3,
-    height:52/3,
+    width: 38 / 3,
+    height: 52 / 3,
   },
   ic_eye: {
-    width:28/3,
-    height:52/3,
+    width: 28 / 3,
+    height: 52 / 3,
   },
   ic_lip: {
-    width:33/3,
-    height:52/3,
+    width: 33 / 3,
+    height: 52 / 3,
   },
   ic_remover: {
-    width:52/3,
-    height:52/3,
+    width: 52 / 3,
+    height: 52 / 3,
   },
   ic_cleanser: {
-    width:39/3,
-    height:52/3,
+    width: 39 / 3,
+    height: 52 / 3,
   },
   ic_peeling: {
-    width:30/3,
-    height:52/3,
+    width: 30 / 3,
+    height: 52 / 3,
   },
   ic_body_cleanser: {
-    width:34/3,
-    height:52/3,
+    width: 34 / 3,
+    height: 52 / 3,
   },
   ic_shampoo: {
-    width:34/3,
-    height:52/3,
+    width: 34 / 3,
+    height: 52 / 3,
   },
   ic_treatment: {
-    width:46/3,
-    height:52/3,
+    width: 46 / 3,
+    height: 52 / 3,
   },
   ic_essense: {
-    width:16/3,
-    height:52/3,
+    width: 16 / 3,
+    height: 52 / 3,
   },
   ic_colors: {
-    width:16/3,
-    height:52/3,
+    width: 16 / 3,
+    height: 52 / 3,
   },
   ic_nail_care: {
-    width:45/3,
-    height:52/3,
+    width: 45 / 3,
+    height: 52 / 3,
   },
   ic_toothpaste: {
-    width:39/3,
-    height:52/3,
+    width: 39 / 3,
+    height: 52 / 3,
   },
   backButton: {
     width: 11,
@@ -1019,13 +1082,13 @@ export default StyleSheet.create({
     height: 54 / 3,
     marginTop: 20,
   },
-  searchBoxCover : {
-    flex: 1, borderRadius: 20, flexDirection: "row", width: "100%", paddingLeft: 13, paddingRight: 5 
+  searchBoxCover: {
+    flex: 1, borderRadius: 20, flexDirection: "row", width: "100%", paddingLeft: 13, paddingRight: 5
   },
-  searchBoxCommon : {
+  searchBoxCommon: {
     marginTop: 25, height: 46, paddingTop: 4, paddingBottom: 6, justifyContent: "center", flexDirection: "row",
   },
-  text_input_with_border : {
-    padding:10, borderColor:Colors.color_e3e5e4, borderWidth:0.5, fontSize:13, color:Colors.color_656565
+  text_input_with_border: {
+    padding: 10, borderColor: Colors.color_e3e5e4, borderWidth: 0.5, fontSize: 13, color: Colors.color_656565
   }
 });

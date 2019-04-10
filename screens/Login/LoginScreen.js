@@ -98,14 +98,15 @@ export default class LoginScreen extends React.Component {
       const result = await Google.logInAsync({
         androidClientId:
           MyConstants.ANDROID_CLIENT_ID,
-        //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
+        iosClientId:
+          MyConstants.IOS_CLIENT_ID,
         scopes: ["profile", "email"]
       })
 
       if (result.type === "success") {
         console.log(result);
         this.requestLoginGoogle(result.user.email, result.user.id, result.user.photoUrl)
-        
+
       } else {
         console.log("cancelled")
       }
@@ -133,10 +134,10 @@ export default class LoginScreen extends React.Component {
             <View style={{ flex: 1 }}>
               <Image source={require('../../assets/images/Login/login_bg.png')} style={MyStyles.background_image} />
               <TopbarWithWhiteBack onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithWhiteBack>
-              <Image style={{ flex: 100 }}/>
-              <Image source={require('../../assets/images/Login/logo.png')} style={[MyStyles.h_auto, { width: "30%", }]} resizeMode="contain"/>
+              <Image style={{ flex: 100 }} />
+              <Image source={require('../../assets/images/Login/logo.png')} style={[MyStyles.h_auto, { width: "30%", }]} resizeMode="contain" />
               <Text style={{ marginLeft: "auto", marginRight: "auto", color: "white", marginTop: -20, fontSize: 12, fontWeight: "100" }} >Your Beauty Counselor</Text>
-              <Image style={{ flex: 80 }}/>
+              <Image style={{ flex: 80 }} />
               <View style={[MyStyles.h_auto, { width: "85%", borderRadius: 15, backgroundColor: "white", paddingVertical: 40, paddingHorizontal: 18 }]}>
                 <View style={[MyStyles.inputBox, (this.checkValidation(email, "email") == false && loginPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
                   {this.checkValidation(email, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Email {this.Necessarry}</Text> : null}
@@ -201,7 +202,7 @@ export default class LoginScreen extends React.Component {
                 </View>
 
                 <View style={{ flex: 1, flexDirection: "row", marginTop: 20, marginBottom: 40 }}>
-                  <TouchableOpacity style={MyStyles.FacebookStyle} activeOpacity={0.5} onPress={() => {this.onLoginWithFacebook()}}>
+                  <TouchableOpacity style={MyStyles.FacebookStyle} activeOpacity={0.5} onPress={() => { this.onLoginWithFacebook() }}>
                     {/*We can use any component which is used to shows something inside 
                   TouchableOpacity. It shows the item inside in horizontal orientation */}
                     <ImageLoad
@@ -214,7 +215,7 @@ export default class LoginScreen extends React.Component {
                     />
                     <Text style={MyStyles.TextStyle}>Facebook</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={MyStyles.GooglePlusStyle} activeOpacity={0.5} onPress={() => {this.onLoginWithGoogle()}}>
+                  <TouchableOpacity style={MyStyles.GooglePlusStyle} activeOpacity={0.5} onPress={() => { this.onLoginWithGoogle() }}>
                     {/*We can use any component which is used to shows something inside 
                   TouchableOpacity. It shows the item inside in horizontal orientation */}
                     <ImageLoad
@@ -229,9 +230,9 @@ export default class LoginScreen extends React.Component {
                   </TouchableOpacity>
                 </View>
               </View>
-              <Image style={{ flex: 45 }}/>
+              <Image style={{ flex: 45 }} />
               <Text style={{ color: "white", marginTop: 20, marginBottom: 10, textAlign: "center", fontSize: 12, fontWeight: "100" }}>copyright © 2019 by Chemi. all rights reserved</Text>
-              <Image style={{ flex: 30 }}/>
+              <Image style={{ flex: 30 }} />
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

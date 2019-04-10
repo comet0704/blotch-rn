@@ -230,10 +230,10 @@ export default createBottomTabNavigator({
   ProductStack,
   IngredientStack,
   LoginStack,
-  // MyListStack,
-  // MyPageStack,
+  MyListStack,
   // LinksStack,  
   // SettingsStack,
+  // MyPageStack,
 }, {
     backBehavior: "history",
     tabBarOptions: {
