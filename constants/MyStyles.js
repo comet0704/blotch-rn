@@ -161,6 +161,10 @@ export default StyleSheet.create({
     width: 17.7,
     height: 15
   },
+  ic_clock: {
+    width: 32/3,
+    height: 32/3
+  },
   heart2: {
     width: 87 / 3,
     height: 87 / 3
@@ -336,6 +340,10 @@ export default StyleSheet.create({
   text_13_656565: {
     fontSize: 13,
     color: "#656565",
+  },
+  text_12_949292: {
+    fontSize: 12,
+    color: "#949292",
   },
 
   profile_box: {
@@ -818,6 +826,14 @@ export default StyleSheet.create({
     width: 78 / 3,
     height: 78 / 3,
   },
+  ic_match_small: {
+    width: 39 / 3,
+    height: 38 / 3,
+  },
+  ic_blotch_small: {
+    width: 39 / 3,
+    height: 38 / 3,
+  },
   ic_blotch: {
     width: 78 / 3,
     height: 78 / 3,
@@ -975,6 +991,22 @@ export default StyleSheet.create({
   ic_gallery_big: {
     width: 162 / 3,
     height: 165 / 3,
+  },
+  ic_match_on1: {
+    width: 110 / 3,
+    height: 110 / 3,
+  },
+  ic_blotch_on1: {
+    width: 110 / 3,
+    height: 110 / 3,
+  },
+  ic_heart_big: {
+    width: 110 / 3,
+    height: 110 / 3,
+  },
+  ic_star_rate_bg: {
+    width: 141 / 3,
+    height: 69 / 3,
   },
   review_photo: {
     flex: 1, backgroundColor: "transparent", borderWidth: 1, aspectRatio: 1.2, margin: 5,

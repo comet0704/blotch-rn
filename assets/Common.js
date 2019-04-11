@@ -20,6 +20,30 @@ export default {
     var ColorCode = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
     return ColorCode
   },
+
+  // 입력 : p_time ( 2019-03-15 10:59:25 )
+  // 출력 : Today, Yesterday, 2019-03-15
+  getFormattedTime(p_time) {
+    curTime = new Date();
+    p_year = p_time.substring(0, 4)
+    p_month = p_time.substring(5, 7)
+    p_day = p_time.substring(8, 10)
+
+    curYear = curTime.getYear() + 1900
+    curMonth = curTime.getMonth() + 1
+    curDay = curTime.getDate()
+    
+    if(curYear == p_year && curMonth == p_month) {
+      if(curDay == p_day) {
+        return "Today"
+      }
+      if(curDay == (parseInt(p_day) + 1)) {
+        return "Yesterday"
+      }
+    }
+
+    return p_time.substring(0,10)
+  },
   getCategoryItems() {
     return [
       {

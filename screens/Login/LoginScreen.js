@@ -205,7 +205,7 @@ export default class LoginScreen extends React.Component {
                   <TouchableOpacity style={MyStyles.FacebookStyle} activeOpacity={0.5} onPress={() => { this.onLoginWithFacebook() }}>
                     {/*We can use any component which is used to shows something inside 
                   TouchableOpacity. It shows the item inside in horizontal orientation */}
-                    <ImageLoad
+                    <Image
                       //We are showing the Image from online
                       source={require("../../assets/images/Login/ic_facebook.png")}
                       //You can also show the image from you project directory like below
@@ -218,7 +218,7 @@ export default class LoginScreen extends React.Component {
                   <TouchableOpacity style={MyStyles.GooglePlusStyle} activeOpacity={0.5} onPress={() => { this.onLoginWithGoogle() }}>
                     {/*We can use any component which is used to shows something inside 
                   TouchableOpacity. It shows the item inside in horizontal orientation */}
-                    <ImageLoad
+                    <Image
                       //We are showing the Image from online
                       source={require("../../assets/images/Login/ic_google.png")}
                       //You can also show the image from you project directory like below

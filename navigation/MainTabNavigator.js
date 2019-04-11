@@ -27,10 +27,14 @@ import SearchResultProductMoreScreen from '../screens/Home/Search/SearchResultPr
 import SearchResultIngredientMoreScreen from '../screens/Home/Search/SearchResultIngredientMoreScreen';
 import MyListScreen from '../screens/Mylist/MyListScreen';
 import SearchCameraScreen from '../screens/Home/Search/SearchCameraScreen';
+import MatchdListScreen from '../screens/Mylist/MatchdListScreen';
+import BlotchdListScreen from '../screens/Mylist/BlotchdListScreen';
+import HeartListScreen from '../screens/Mylist/HeartListScreen';
+import FavoriteArticlesScreen from '../screens/Mylist/FavoriteArticlesScreen';
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
   Article: ArticlesScreen,
+  Home: HomeScreen,
   ArticleDetail: ArticleDetailScreen,
   Faq: FaqScreen,
   BannerDetail: BannerDetailScreen,
@@ -146,7 +150,13 @@ LoginStack.navigationOptions = {
 };
 
 const MyListStack = createStackNavigator({
+  FavoriteArticles: FavoriteArticlesScreen,
+  HeartList: HeartListScreen,
+  BlotchdList: BlotchdListScreen,
+  MatchdList: MatchdListScreen,
   MyList: MyListScreen,
+  SearchBrandDetail: SearchBrandDetailScreen,
+  SearchCamera:SearchCameraScreen,
 },
   {
     headerMode: 'screen ',
@@ -226,11 +236,11 @@ SettingsStack.navigationOptions = {
 
 global.login_info = {};
 export default createBottomTabNavigator({
+  MyListStack,
   HomeStack,
   ProductStack,
   IngredientStack,
   LoginStack,
-  MyListStack,
   // LinksStack,  
   // SettingsStack,
   // MyPageStack,

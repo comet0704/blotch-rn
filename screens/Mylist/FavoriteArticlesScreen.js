@@ -15,7 +15,7 @@ import { Image, Dimensions, TextInput, KeyboardAvoidingView, ScrollView, Text, V
 import { LinearGradient } from 'expo';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 
-export default class ArticlesScreen extends React.Component {
+export default class FavoriteArticlesScreen extends React.Component {
   offset = 0;
   constructor(props) {
     super(props);
@@ -25,12 +25,8 @@ export default class ArticlesScreen extends React.Component {
       result_data: {
         list: [],
       },
-      today_list: [],
     };
   }
-
-  beforeArticleTime = "";
-  BannerWidth = Dimensions.get('window').width;
 
   componentDidMount() {
     this.setState({ loading_end: false })
@@ -38,83 +34,32 @@ export default class ArticlesScreen extends React.Component {
   }
 
   renderArticle(item, index) {
-    const articleTime = Common.getFormattedTime(item.create_date) // 기사 올린 날짜 : 이전날짜와 비교하여 
-    showTime = false;
-    if (this.beforeArticleTime != articleTime) {
-      this.beforeArticleTime = articleTime
-      showTime = true
-    }
     return (
       <TouchableOpacity key={item.id} style={[MyStyles.container, { flex: 1 }]} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-        {showTime ?
-          <View style={[{ position: "absolute", width: 275 / 3, height: 60 / 3, top: -10, right: 15, borderRadius: 10, flexDirection: "row", justifyContent: "center", alignItems: "center" }, MyStyles.shadow_2]}>
-            <Image source={require('../../assets/images/ic_clock.png')} style={[MyStyles.ic_clock]} />
-            <Text style={[MyStyles.text_12_949292, { marginLeft: 3 }]}>{articleTime}</Text>
-          </View>
-          :
-          null}
-
-        <View style={[{ marginTop: 15, flex: 1, flexDirection: "row" }]}>
+        <View style={[{ marginTop: 15, flex: 1, flexDirection: "row", alignItems:"center" }]}>
           {item.image != "" ?
             <View style={{ width: 316 / 3, height: 230 / 3, borderRadius: 5, overflow: "hidden", marginRight: 10 }}>
               <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
-              {
-                item.is_liked > 0
-                  ?
-                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleUnlike(item.id) }}>
-                    <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
-                  </TouchableOpacity>
-                  :
-                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleLike(item.id) }}>
-                    <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-                  </TouchableOpacity>
-              }
-
             </View>
-            :
-            null}
+            : null}
 
           <View style={{ flex: 1 }}>
             <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>
               {item.title} </Text>
-            <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
+            <Text onPress={() => { Linking.openURL(Common.getLinkUrl(item.url)) }} style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
               {item.url}
             </Text>
           </View>
 
-
+          <TouchableOpacity>
+            <Image source={require("../../assets/images/ic_heart_big.png")} style={[MyStyles.ic_heart_big, { marginLeft: 10 }]} />
+          </TouchableOpacity>
         </View>
 
         <View style={[MyStyles.seperate_line_e5e5e5, { marginTop: 10 }]}></View>
       </TouchableOpacity>
     );
   }
-  renderTodayArticleBanner(item, index) {
-    return (
-      <View key={index} style={{ width: "100%", height: 550 / 3, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-          <View style={{ flex: 1, overflow: "hidden" }}>
-            <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
-            {
-              item.is_liked > 0
-                ?
-                <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleUnlike(item.id) }}>
-                  <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
-                </TouchableHighlight>
-                : <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleLike(item.id) }}>
-                  <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-                </TouchableHighlight>
-            }
-            <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
-              <Text style={{ fontSize: 13, color: "white" }}>{item.title}</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{item.content}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
@@ -128,7 +73,7 @@ export default class ArticlesScreen extends React.Component {
         />
         <Toast ref='toast' />
 
-        <TopbarWithBlackBack rightBtn="false" title="Articles" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack rightBtn="false" title="Favorite Article" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <ScrollView
           onScroll={({ nativeEvent }) => {
@@ -137,21 +82,6 @@ export default class ArticlesScreen extends React.Component {
             }
           }}
           style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
-          <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, justifyContent: "center" }}>
-            <View style={{ flex: 1, justifyContent: "center" }}>
-              <Carousel
-                autoplay={true}
-                autoplayTimeout={3000}
-                loop
-                index={0}
-                pageSize={this.BannerWidth}
-                style={{ alignSelf: "center", flex: 1 }}
-              >
-                {this.state.today_list.map((item, index) => this.renderTodayArticleBanner(item, index))}
-              </Carousel>
-            </View>
-          </View>
-          <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 20 }} ></LinearGradient>
           <View style={[{ flex: 1 }]}>
             {this.state.result_data.list.map((item, index) => this.renderArticle(item, index))}
           </View>
@@ -191,9 +121,6 @@ export default class ArticlesScreen extends React.Component {
         }
 
         const list = this.state.result_data.list
-        if (p_offset == 0) {
-          this.setState({ today_list: responseJson.result_data.today_list })
-        }
         result = { list: [...list, ...responseJson.result_data.list] };
         this.setState({ result_data: result })
       })

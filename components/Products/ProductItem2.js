@@ -47,23 +47,63 @@ export class ProductItem2 extends React.Component {
         <View style={{ marginLeft: 10, flex: 1 }}>
           <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]}>{item.brand_title}</Text>
           <Text style={[MyStyles.productName, { textAlign: "left", height: 120 / 3 }]} numberOfLines={2}>{item.title}</Text>
-          <StarRating
-            disabled={false}
-            maxStars={5}
-            containerStyle={{ width: 273 / 3 }}
-            starSize={40 / 3}
-            emptyStarColor={Colors.color_star_empty}
-            rating={item.grade}
-            selectedStar={(rating) => { }}
-            fullStarColor={Colors.color_star_full}
-          />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <StarRating
+              disabled={false}
+              maxStars={5}
+              containerStyle={{ width: 200 / 3 }}
+              starSize={40 / 3}
+              emptyStarColor={Colors.color_star_empty}
+              rating={item.grade}
+              onPress={() => {
+                _this.onStarPressed(item)
+              }}
+              selectedStar={(rating) => { }}
+              fullStarColor={Colors.color_star_full}
+            />
+
+            {item.isStarPressed ?
+              <View style={[{ justifyContent: "center", alignItems: "center", marginLeft: 5 }, MyStyles.ic_star_rate_bg]}>
+                <Image source={require("../../assets/images/ic_star_rate_bg.png")} style={[MyStyles.background_image]} />
+                <Text style={{ color: Colors.color_star_full, alignSelf: "center", marginTop: -2, fontSize: 12 }}>{parseFloat(item.grade).toFixed(1)}</Text>
+              </View>
+              : null}
+
+
+          </View>
           <View style={{ flexDirection: "row", alignItems: "center", marginTop: 15 }}>
             <Image source={require("../../assets/images/ic_comment.png")} style={MyStyles.ic_comment} />
             <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{item.comment_count}</Text>
-            <Image source={require("../../assets/images/ic_heart_gray.png")} style={[MyStyles.ic_heart_gray, { marginLeft: 10 }]} />
+            {this.props.is_match_list ?
+              <Image source={require("../../assets/images/ic_match_small.png")} style={[MyStyles.ic_match_small, { marginLeft: 10 }]} />
+              :
+              this.props.is_blotch_list ?
+                <Image source={require("../../assets/images/ic_blotch_small.png")} style={[MyStyles.ic_blotch_small, { marginLeft: 10 }]} />
+                :
+                this.props.is_heart_list ?
+                  <Image source={require("../../assets/images/ic_heart_gray.png")} style={[MyStyles.ic_heart_gray, { marginLeft: 10 }]} />
+                  :
+                  <Image source={require("../../assets/images/ic_heart_gray.png")} style={[MyStyles.ic_heart_gray, { marginLeft: 10 }]} />
+            }
             <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{item.like_count}</Text>
           </View>
         </View>
+
+        {this.props.is_match_list ?
+          <TouchableOpacity>
+            <Image source={require("../../assets/images/ic_match_on1.png")} style={[MyStyles.ic_match_on1, { marginLeft: 10 }]} />
+          </TouchableOpacity>
+          : null}
+        {this.props.is_blotch_list ?
+          <TouchableOpacity>
+            <Image source={require("../../assets/images/ic_blotch_on1.png")} style={[MyStyles.ic_blotch_on1, { marginLeft: 10 }]} />
+          </TouchableOpacity>
+          : null}
+        {this.props.is_heart_list ?
+          <TouchableOpacity>
+            <Image source={require("../../assets/images/ic_heart_big.png")} style={[MyStyles.ic_heart_big, { marginLeft: 10 }]} />
+          </TouchableOpacity>
+          : null}
       </TouchableOpacity>
     )
   }

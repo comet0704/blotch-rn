@@ -272,7 +272,7 @@ export default class MyListScreen extends React.Component {
               contentContainerStyle={{ padding: 15 }}
               order={this.state.like_list_order}
               renderRow={({ key, data, active }) => {
-                return <Row data={data} _this={this} active={active} />
+                return <Row data={data} this={this} active={active} />
               }
               }
               renderFooter={() => {
