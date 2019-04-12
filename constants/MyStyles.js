@@ -165,6 +165,10 @@ export default StyleSheet.create({
     width: 32/3,
     height: 32/3
   },
+  profile_back: {
+    width: "100%",
+    height: 841/3
+  },
   heart2: {
     width: 87 / 3,
     height: 87 / 3
@@ -356,6 +360,19 @@ export default StyleSheet.create({
     borderRadius: 37.5,
     alignSelf: "center",
     justifyContent: "center",
+  },
+
+
+  profile_box1: {
+    alignItems: "center",
+    borderColor: "#ededed",
+    borderWidth: 2,
+    width: 315/3,
+    height: 315/3,
+    borderRadius: 100,
+    alignSelf: "center",
+    justifyContent: "center",
+    backgroundColor:"white"
   },
 
   camera_box: {
@@ -1112,6 +1129,11 @@ export default StyleSheet.create({
   flashBtn: {
     width: 38 / 3,
     height: 54 / 3,
+    marginTop: 20,
+  },
+  ic_edit: {
+    width: 44 / 3,
+    height: 65 / 3,
     marginTop: 20,
   },
   searchBoxCover: {

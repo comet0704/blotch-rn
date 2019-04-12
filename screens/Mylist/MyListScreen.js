@@ -201,7 +201,7 @@ export default class MyListScreen extends React.Component {
   componentDidMount() {
     AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.like_list_order, (err, result) => {
       console.log(result);
-      if (result == "") {
+      if (result == null) {
         this.setState({ like_list_order: ["match", "blotch", "heart", "favorite"] })
       } else {
         this.setState({ like_list_order: result.split(",") })

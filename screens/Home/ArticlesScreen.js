@@ -77,7 +77,7 @@ export default class ArticlesScreen extends React.Component {
           <View style={{ flex: 1 }}>
             <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>
               {item.title} </Text>
-            <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
+            <Text onPress={() => { Linking.openURL(Common.getLinkUrl(item.url)) }}  style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
               {item.url}
             </Text>
           </View>

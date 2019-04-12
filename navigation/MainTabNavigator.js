@@ -31,6 +31,7 @@ import MatchdListScreen from '../screens/Mylist/MatchdListScreen';
 import BlotchdListScreen from '../screens/Mylist/BlotchdListScreen';
 import HeartListScreen from '../screens/Mylist/HeartListScreen';
 import FavoriteArticlesScreen from '../screens/Mylist/FavoriteArticlesScreen';
+import MyPageScreen from '../screens/Mypage/MyPageScreen';
 
 const HomeStack = createStackNavigator({
   Article: ArticlesScreen,
@@ -182,7 +183,7 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
-  MyPage: MyListScreen,
+  MyPage: MyPageScreen,
 },
   {
     headerMode: 'screen ',
@@ -236,6 +237,7 @@ SettingsStack.navigationOptions = {
 
 global.login_info = {};
 export default createBottomTabNavigator({
+  MyPageStack,
   MyListStack,
   HomeStack,
   ProductStack,
@@ -243,7 +245,6 @@ export default createBottomTabNavigator({
   LoginStack,
   // LinksStack,  
   // SettingsStack,
-  // MyPageStack,
 }, {
     backBehavior: "history",
     tabBarOptions: {
