@@ -3,6 +3,9 @@ import MyStyles from "../constants/MyStyles";
 
 export default {
   getImageUrl(image_list) {
+    if(image_list == null) {
+      return "";
+    }
     return MyConstants.UPLOAD_SERVER_URL + "/" + image_list.split(this.IMAGE_SPLITTER)[0]
   },
   getLinkUrl(p_linkUrl) {

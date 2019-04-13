@@ -417,7 +417,7 @@ export default StyleSheet.create({
     textAlign: "center",
   },
   productBrand: {
-    fontSize: 13,
+    fontSize: 12,
     marginTop: 5,
     textAlign: "center",
     color: '#c2c1c1',

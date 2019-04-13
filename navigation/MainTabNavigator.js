@@ -35,6 +35,7 @@ import MyPageScreen from '../screens/Mypage/MyPageScreen';
 import EditProfileScreen from '../screens/Mypage/EditProfileScreen';
 import ChangePwdScreen from '../screens/Mypage/ChangePwdScreen';
 import MyPointScreen from '../screens/Mypage/MyPointScreen';
+import MyReviewScreen from '../screens/Mypage/MyReviewScreen';
 
 const HomeStack = createStackNavigator({
   Article: ArticlesScreen,
@@ -186,6 +187,7 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
+  MyReview: MyReviewScreen,
   MyPoint: MyPointScreen,
   ChangePwd: ChangePwdScreen,
   EditProfile: EditProfileScreen,
