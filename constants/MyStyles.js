@@ -623,6 +623,10 @@ export default StyleSheet.create({
     width: 14 / 3,
     height: 22 / 3,
   },
+  ic_arrow_right_gray2: {
+    width: 22 / 3,
+    height: 37 / 3,
+  },
   tabbar_button_container: {
     height: 145 / 3,
     justifyContent: "center",

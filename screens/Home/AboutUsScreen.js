@@ -17,47 +17,6 @@ import MyStyles from '../../constants/MyStyles';
 
 export default class FaqScreen extends React.Component {
 
-  Necessarry = (
-    <Text style={{ color: "#efb5cc", fontSize: 13 }}>
-      *
-    </Text>
-  );
-
-  state = {
-    sendPressed: false,
-    image: null,
-    email: null,
-    id: null,
-    password: null,
-    password_confirm: null,
-  };
-
-  checkValidation = (value, check_type) => {
-    if (value == null || value.length == 0) {
-      return false
-    }
-
-    if (check_type == "id") {
-      if (value.length < 4) {
-        return false
-      }
-    }
-
-    if (check_type == "password") {
-      if (value.length < 8) {
-        return false
-      }
-    }
-
-    if (check_type == "password_confirm") {
-      if (value != this.state.password) {
-        return false
-      }
-    }
-
-    return true
-  }
-
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
