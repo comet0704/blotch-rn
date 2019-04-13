@@ -37,6 +37,8 @@ import ChangePwdScreen from '../screens/Mypage/ChangePwdScreen';
 import MyPointScreen from '../screens/Mypage/MyPointScreen';
 import MyReviewScreen from '../screens/Mypage/MyReviewScreen';
 import SettingScreen from '../screens/Mypage/SettingScreen';
+import PolicyScreen from '../screens/Product/PolicyScreen';
+import NotificationScreen from '../screens/Mypage/NotificationScreen';
 
 const HomeStack = createStackNavigator({
   Article: ArticlesScreen,
@@ -188,6 +190,8 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
+  Notification: NotificationScreen,
+  Policy: PolicyScreen,
   Setting: SettingScreen,
   MyReview: MyReviewScreen,
   MyPoint: MyPointScreen,

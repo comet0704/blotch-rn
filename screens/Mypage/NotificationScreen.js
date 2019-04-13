@@ -21,7 +21,7 @@ import { LinearGradient } from 'expo';
 import Colors from '../../constants/Colors';
 
 
-export default class SettingScreen extends React.Component {
+export default class NotificationScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -45,7 +45,7 @@ export default class SettingScreen extends React.Component {
 
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding">
 
-          <TopbarWithBlackBack  title="Setting" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+          <TopbarWithBlackBack title="Notification" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
           <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
           
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
