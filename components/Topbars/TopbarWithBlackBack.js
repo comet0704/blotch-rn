@@ -21,20 +21,28 @@ export class TopbarWithBlackBack extends React.Component {
         }
         <View style={{ flex: 1 }}></View>
         {this.props.rightBtn == "true" ?
-          this.props.isTorch == true ?
+          this.props.isTorch == true ? // 카메라 인식  페지이면
             <TouchableOpacity
               onPress={this.props.onRightBtnPress} activeOpacity={0.5} style={{ padding: 15, width: 45 }}>
               <Image style={[MyStyles.flashBtn]}
                 source={require("../../assets/images/ic_flash_off.png")}
               />
             </TouchableOpacity>
-            : 
-            <TouchableOpacity
-              onPress={this.props.onRightBtnPress} activeOpacity={0.5} style={{ padding: 15, width: 45 }}>
-              <Image style={[MyStyles.shareBtn]}
-                source={require("../../assets/images/ic_share.png")}
-              />
-            </TouchableOpacity>
+            :
+            this.props.isEditProfile == true ? // editprofile 페지이면
+              <TouchableOpacity
+                onPress={this.props.onRightBtnPress} activeOpacity={0.5} style={{marginTop:20, marginRight:15, width: 196/3 }}>
+                <Image style={[MyStyles.ic_edit_pwd]}
+                  source={require("../../assets/images/ic_edit_pwd.png")}
+                />
+              </TouchableOpacity>
+              :
+              <TouchableOpacity // 공유버튼일때
+                onPress={this.props.onRightBtnPress} activeOpacity={0.5} style={{ padding: 15, width: 45 }}>
+                <Image style={[MyStyles.shareBtn]}
+                  source={require("../../assets/images/ic_share.png")}
+                />
+              </TouchableOpacity>
           : null
         }
       </View>

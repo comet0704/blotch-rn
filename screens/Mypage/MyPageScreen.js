@@ -10,6 +10,7 @@ import Net from '../../Net/Net';
 import MyConstants from '../../constants/MyConstants';
 import { Facebook, Google } from "expo";
 import Colors from '../../constants/Colors';
+import Common from '../../assets/Common';
 
 export default class MyPageScreen extends React.Component {
   constructor(props) {
@@ -68,6 +69,7 @@ export default class MyPageScreen extends React.Component {
               {/* 사진, 텍스트 */}
               <View style={[MyStyles.profile_back, MyStyles.padding_h_main, { justifyContent: "center" }]}>
                 <Image source={require('../../assets/images/ic_profile_back.png')} style={MyStyles.background_image} />
+                <Image source={{ uri: Common.getImageUrl("uploads/product/siora18-1186283-unsplash.jpg") }} opacity={0.2} style={MyStyles.background_image} />
                 <TouchableOpacity style={{ position: "absolute", padding: 15, top: 5, right: 0 }}>
                   <Image source={require('../../assets/images/ic_edit.png')} style={MyStyles.ic_edit} />
                 </TouchableOpacity>
@@ -165,7 +167,7 @@ export default class MyPageScreen extends React.Component {
               </View>
 
               {/* My Review 부분 */}
-              <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
+              <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
                 <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
                   this.setState({ section_allergic_show: !this.state.section_allergic_show })
                 }}>
@@ -179,7 +181,7 @@ export default class MyPageScreen extends React.Component {
               </View>
 
               {/* My Beauty Box 부분 */}
-              <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
+              <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
                 <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
                   this.setState({ section_allergic_show: !this.state.section_allergic_show })
                 }}>
@@ -193,7 +195,7 @@ export default class MyPageScreen extends React.Component {
               </View>
 
               {/* Questionnaire 부분 */}
-              <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
+              <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
                 <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
                   this.setState({ section_allergic_show: !this.state.section_allergic_show })
                 }}>
@@ -201,7 +203,7 @@ export default class MyPageScreen extends React.Component {
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
                     <View style={{ flexDirection: "row" }}>
                       <Text style={[MyStyles.ingredient_section_header_text1]}>Questionnaire</Text>
-                      <Text style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft:10, paddingRight:10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>Me</Text>
+                      <Text style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>Me</Text>
                     </View>
 
                     <Text style={[MyStyles.ingredient_section_header_text2]}>Completed</Text>

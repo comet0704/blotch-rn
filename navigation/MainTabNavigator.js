@@ -32,6 +32,9 @@ import BlotchdListScreen from '../screens/Mylist/BlotchdListScreen';
 import HeartListScreen from '../screens/Mylist/HeartListScreen';
 import FavoriteArticlesScreen from '../screens/Mylist/FavoriteArticlesScreen';
 import MyPageScreen from '../screens/Mypage/MyPageScreen';
+import EditProfileScreen from '../screens/Mypage/EditProfileScreen';
+import ChangePwdScreen from '../screens/Mypage/ChangePwdScreen';
+import MyPointScreen from '../screens/Mypage/MyPointScreen';
 
 const HomeStack = createStackNavigator({
   Article: ArticlesScreen,
@@ -183,6 +186,9 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
+  MyPoint: MyPointScreen,
+  ChangePwd: ChangePwdScreen,
+  EditProfile: EditProfileScreen,
   MyPage: MyPageScreen,
 },
   {

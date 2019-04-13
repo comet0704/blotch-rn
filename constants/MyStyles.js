@@ -1142,6 +1142,11 @@ export default StyleSheet.create({
     height: 53 / 3,
     marginTop: 20,
   },
+  ic_edit_pwd: {
+    width: 196 / 3,
+    height: 37 / 3,
+    marginTop: 20,
+  },
   flashBtn: {
     width: 38 / 3,
     height: 54 / 3,
