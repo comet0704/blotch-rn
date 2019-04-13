@@ -162,12 +162,12 @@ export default StyleSheet.create({
     height: 15
   },
   ic_clock: {
-    width: 32/3,
-    height: 32/3
+    width: 32 / 3,
+    height: 32 / 3
   },
   profile_back: {
     width: "100%",
-    height: 841/3
+    height: 841 / 3
   },
   heart2: {
     width: 87 / 3,
@@ -367,12 +367,12 @@ export default StyleSheet.create({
     alignItems: "center",
     borderColor: "#ededed",
     borderWidth: 2,
-    width: 315/3,
-    height: 315/3,
+    width: 315 / 3,
+    height: 315 / 3,
     borderRadius: 100,
     alignSelf: "center",
     justifyContent: "center",
-    backgroundColor:"white"
+    backgroundColor: "white"
   },
 
   camera_box: {
@@ -918,6 +918,22 @@ export default StyleSheet.create({
     width: 21 / 3,
     height: 14 / 3,
   },
+  ic_point_big: {
+    width: 99 / 3,
+    height: 99 / 3,
+  },
+  ic_questionnare_big: {
+    width: 99 / 3,
+    height: 109 / 3,
+  },
+  ic_beauty_box_big: {
+    width: 99 / 3,
+    height: 78 / 3,
+  },
+  ic_review_big: {
+    width: 99 / 3,
+    height: 92 / 3,
+  },
   ic_polygon_right: {
     width: 18 / 3,
     height: 27 / 3,
@@ -1144,5 +1160,50 @@ export default StyleSheet.create({
   },
   text_input_with_border: {
     padding: 10, borderColor: Colors.color_e3e5e4, borderWidth: 0.5, fontSize: 13, color: Colors.color_656565
+  },
+  meta_info_box: {
+    width: 200 / 3,    
+    aspectRatio: 1,
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius: 5,
+    shadowColor: '#f2f2f2',
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
+    shadowOpacity: 0.8,
+    elevation: 2,
+    // background color must be set
+    backgroundColor: "white" // invisible color, 
+  },
+  weather_icon: {
+    width: 109 / 3,
+    height: 90 / 3,
+  },
+  meta_text: {
+    fontSize: 12,
+    marginTop:3,
+    color: Colors.color_515151,
+    fontWeight: "500",
+  },  
+  ic_weather_sync: {
+    width: 49 / 3,
+    height: 49 / 3,
+  },
+  ic_weather_type1: {
+    width: 49 / 3,
+    height: 49 / 3,
+  },
+  ic_face_type1: {
+    width: 49 / 3,
+    height: 49 / 3,
+  },
+  ic_snow1: {
+    width: 50 / 3,
+    height: 49 / 3,
+  },
+  ic_one_line_desc_box : {
+    flexDirection: "row", color: "white", marginTop:7
   }
 });
