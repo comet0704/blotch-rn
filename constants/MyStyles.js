@@ -400,6 +400,14 @@ export default StyleSheet.create({
     width: 37 / 3,
     height: 22 / 3,
   },
+  ic_announce_comment: {
+    width: 56 / 3,
+    height: 51 / 3,
+  },
+  ic_announce_notice: {
+    width: 56 / 3,
+    height: 51 / 3,
+  },
   gridView: {
     flex: 1,
   },

@@ -39,6 +39,7 @@ import MyReviewScreen from '../screens/Mypage/MyReviewScreen';
 import SettingScreen from '../screens/Mypage/SettingScreen';
 import PolicyScreen from '../screens/Product/PolicyScreen';
 import NotificationScreen from '../screens/Mypage/NotificationScreen';
+import AnnouncementsScreen from '../screens/Mypage/AnnouncementsScreen';
 
 const HomeStack = createStackNavigator({
   Article: ArticlesScreen,
@@ -190,6 +191,7 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
+  Announcements : AnnouncementsScreen,
   Notification: NotificationScreen,
   Policy: PolicyScreen,
   Setting: SettingScreen,
