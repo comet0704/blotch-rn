@@ -149,10 +149,10 @@ export default StyleSheet.create({
     backgroundColor: "#e5e5e5"
   },
   text_14: {
-    color: "black", fontSize: 14, fontWeight: "500"
+    color: Colors.primary_dark, fontSize: 14, fontWeight: "500"
   },
   text_20: {
-    color: "black", fontSize: 20, fontWeight: "500"
+    color: Colors.primary_dark, fontSize: 20, fontWeight: "500"
   },
   text_normal: {
     color: "#949191", fontSize: 13
@@ -1169,6 +1169,10 @@ export default StyleSheet.create({
     height: 65 / 3,
     marginTop: 20,
   },
+  ic_setting: {
+    width: 155 / 3,
+    height: 153 / 3,
+  },
   searchBoxCover: {
     flex: 1, borderRadius: 20, flexDirection: "row", width: "100%", paddingLeft: 13, paddingRight: 5
   },
@@ -1219,6 +1223,10 @@ export default StyleSheet.create({
   ic_snow1: {
     width: 50 / 3,
     height: 49 / 3,
+  },
+  ic_btn_right: {
+    width: 90 / 3,
+    height: 93 / 3,
   },
   ic_one_line_desc_box : {
     flexDirection: "row", color: "white", marginTop:7

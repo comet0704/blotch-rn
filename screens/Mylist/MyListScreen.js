@@ -86,7 +86,7 @@ class Row extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, _this } = this.props;
 
     return (
       <Animated.View style={[{ paddingTop: 10 }, this._style]}>
@@ -94,7 +94,9 @@ class Row extends React.Component {
           <View style={MyStyles.ingredient_section_header}>
             <Image source={require("../../assets/images/ic_dice.png")} style={[MyStyles.ic_dice, { position: "absolute", left: -11 }]} />
             <Image source={data.image} style={[data.img_style]} />
-            <TouchableOpacity style={[MyStyles.padding_h_main, { flex: 1 }]} onPress={() => { alert("A") }}>
+            <TouchableOpacity style={[MyStyles.padding_h_main, { flex: 1 }]} onPress={() => {
+              _this.props.navigation.navigate(data.screen);
+            }}>
               <Text style={[MyStyles.ingredient_section_header_text1]}>{data.desc}</Text>
               <Text style={[MyStyles.ingredient_section_header_text2]}>+{data.count}</Text>
             </TouchableOpacity>
@@ -129,24 +131,28 @@ export default class MyListScreen extends React.Component {
 
       like_list_data: {
         match: {
+          screen: "MatchdList",
           image: require("../../assets/images/ic_like_matchd.png"),
           img_style: MyStyles.ic_like_matchd,
           desc: "Match'd List",
           count: 0,
         },
         blotch: {
+          screen: "BlothdList",
           image: require("../../assets/images/ic_like_blotchd.png"),
           img_style: MyStyles.ic_like_blotchd,
           desc: "Blotch'd List",
           count: 0,
         },
         heart: {
+          screen: "HeartList",
           image: require("../../assets/images/ic_like_heart.png"),
           img_style: MyStyles.ic_like_heart,
           desc: "Heart List",
           count: 0,
         },
         favorite: {
+          screen: "FavoriteArticles",
           image: require("../../assets/images/ic_like_favorite.png"),
           img_style: MyStyles.ic_like_matchd,
           desc: "Favorite Article",
@@ -239,7 +245,7 @@ export default class MyListScreen extends React.Component {
             }
           }}
         /> */}
-        <TopbarWithBlackBack title="My Ingredients" onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack title="My List" onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -272,7 +278,7 @@ export default class MyListScreen extends React.Component {
               contentContainerStyle={{ padding: 15 }}
               order={this.state.like_list_order}
               renderRow={({ key, data, active }) => {
-                return <Row data={data} this={this} active={active} />
+                return <Row data={data} _this={this} active={active} />
               }
               }
               renderFooter={() => {
@@ -283,7 +289,7 @@ export default class MyListScreen extends React.Component {
             <SwipeListView
               contentContainerStyle={{ paddingLeft: 15, paddingRight: 15 }}
               dataSource={this.ds.cloneWithRows(this.state.album_list)}
-              onRowOpen={(rowId) => { alert(rowId) }}
+              onRowOpen={(rowId) => { }}
               renderRow={(data, secId, rowId, rowMap) => (
                 <SwipeRow
                   rowKey={3}
@@ -317,8 +323,8 @@ export default class MyListScreen extends React.Component {
                     <View style={MyStyles.ingredient_section_header}>
                       <TouchableOpacity style={[{ flex: 1 }]} onPress={() => { }}>
                         <View style={{ flexDirection: "row" }}>
-                          <Text style={[MyStyles.ingredient_section_header_text1, {alignSelf:"center"}]}>{data.title}</Text>
-                          <Image source={require("../../assets/images/ic_pencil.png")} style={[MyStyles.ic_pencil,, {alignSelf:"center"}, { marginLeft: 5 }]} />
+                          <Text style={[MyStyles.ingredient_section_header_text1, { alignSelf: "center" }]}>{data.title}</Text>
+                          <Image source={require("../../assets/images/ic_pencil.png")} style={[MyStyles.ic_pencil, , { alignSelf: "center" }, { marginLeft: 5 }]} />
                         </View>
                         <Text style={[MyStyles.ingredient_section_header_text2]}>+{data.count}</Text>
                       </TouchableOpacity>

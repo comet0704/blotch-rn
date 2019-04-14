@@ -37,9 +37,10 @@ import ChangePwdScreen from '../screens/Mypage/ChangePwdScreen';
 import MyPointScreen from '../screens/Mypage/MyPointScreen';
 import MyReviewScreen from '../screens/Mypage/MyReviewScreen';
 import SettingScreen from '../screens/Mypage/SettingScreen';
-import PolicyScreen from '../screens/Product/PolicyScreen';
+import PolicyScreen from '../screens/Mypage/PolicyScreen';
 import NotificationScreen from '../screens/Mypage/NotificationScreen';
 import AnnouncementsScreen from '../screens/Mypage/AnnouncementsScreen';
+import ContactUsScreen from '../screens/Mypage/ContactUsScreen';
 
 const HomeStack = createStackNavigator({
   Article: ArticlesScreen,
@@ -159,11 +160,11 @@ LoginStack.navigationOptions = {
 };
 
 const MyListStack = createStackNavigator({
+  MyList: MyListScreen,
   FavoriteArticles: FavoriteArticlesScreen,
   HeartList: HeartListScreen,
   BlotchdList: BlotchdListScreen,
   MatchdList: MatchdListScreen,
-  MyList: MyListScreen,
   SearchBrandDetail: SearchBrandDetailScreen,
   SearchCamera:SearchCameraScreen,
 },
@@ -191,6 +192,8 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
+  MyPage: MyPageScreen,
+  ContactUs: ContactUsScreen,
   Announcements : AnnouncementsScreen,
   Notification: NotificationScreen,
   Policy: PolicyScreen,
@@ -199,7 +202,6 @@ const MyPageStack = createStackNavigator({
   MyPoint: MyPointScreen,
   ChangePwd: ChangePwdScreen,
   EditProfile: EditProfileScreen,
-  MyPage: MyPageScreen,
 },
   {
     headerMode: 'screen ',

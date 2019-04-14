@@ -80,7 +80,7 @@ export default class EditProfileScreen extends React.Component {
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
-        <TopbarWithBlackBack rightBtn="true" isEditProfile = {true} onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack rightBtn="true" isEditProfile = {true} onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this.props.navigation.navigate('ChangePwd') }}></TopbarWithBlackBack>
 
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
 

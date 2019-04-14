@@ -21,6 +21,72 @@ export default class MyPageScreen extends React.Component {
       email: null,
       password: null,
       image: null,
+      result_data: {
+        "detail": null,
+        "recommend_list": [
+          {
+            "id": 10,
+            "title": "Product-10",
+            "image_list": "uploads/product/mahdiar-mahmoodi-655027-unsplash.jpg",
+            "visit_count": 270,
+            "like_count": 14,
+            "comment_count": 1,
+            "grade": 4.25,
+            "is_liked": 6,
+            "brand_title": "ASTRAEA"
+          },
+          {
+            "id": 24,
+            "title": "Product-24",
+            "image_list": "uploads/product/dose-juice-1184434-unsplash.jpg###uploads/product/siora18-1186301-unsplash.jpg",
+            "visit_count": 270,
+            "like_count": 14,
+            "comment_count": 0,
+            "grade": 0,
+            "is_liked": null,
+            "brand_title": "THE BODY SHOP"
+          },
+          {
+            "id": 25,
+            "title": "Product-25",
+            "image_list": "uploads/product/eco-warrior-princess-740692-unsplash.jpg",
+            "visit_count": 270,
+            "like_count": 14,
+            "comment_count": 0,
+            "grade": 0,
+            "is_liked": null,
+            "brand_title": "GENESIS"
+          },
+          {
+            "id": 9,
+            "title": "Product-9",
+            "image_list": "uploads/product/j-kelly-brito-383355-unsplash.jpg",
+            "visit_count": 270,
+            "like_count": 14,
+            "comment_count": 0,
+            "grade": 0,
+            "is_liked": null,
+            "brand_title": "MIA"
+          },
+          {
+            "id": 26,
+            "title": "Product-26",
+            "image_list": "uploads/product/element5-digital-611469-unsplash.jpg###uploads/product/rahul-chakraborty-556155-unsplash.jpg",
+            "visit_count": 270,
+            "like_count": 14,
+            "comment_count": 0,
+            "grade": 0,
+            "is_liked": null,
+            "brand_title": "GATHER"
+          }
+        ],
+        "mypage": {
+          "my_point": 120,
+          "my_last_review_date": "2019-04-03 15:21:00",
+          "my_beautybox_count": 6,
+          "my_questionnaire": "Me"
+        }
+      }
     };
   }
 
@@ -36,7 +102,7 @@ export default class MyPageScreen extends React.Component {
           horizontal
           showsHorizontalScrollIndicator={false}
         >
-          {this.state.result_data.recommend_product_list.map(item => (
+          {this.state.result_data.recommend_list.map(item => (
             <View key={item.id} style={{ flex: 1, marginRight: 10, width: 85 }}>
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                 <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image_list) }} />
@@ -70,7 +136,9 @@ export default class MyPageScreen extends React.Component {
               <View style={[MyStyles.profile_back, MyStyles.padding_h_main, { justifyContent: "center" }]}>
                 <Image source={require('../../assets/images/ic_profile_back.png')} style={MyStyles.background_image} />
                 <Image source={{ uri: Common.getImageUrl("uploads/product/siora18-1186283-unsplash.jpg") }} opacity={0.2} style={MyStyles.background_image} />
-                <TouchableOpacity style={{ position: "absolute", padding: 15, top: 5, right: 0 }}>
+                <TouchableOpacity style={{ position: "absolute", padding: 15, top: 5, right: 0 }} onPress={() => {
+                  this.props.navigation.navigate("EditProfile")
+                }}>
                   <Image source={require('../../assets/images/ic_edit.png')} style={MyStyles.ic_edit} />
                 </TouchableOpacity>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -131,9 +199,9 @@ export default class MyPageScreen extends React.Component {
               </View>
 
               {/* We recommend It! 로그인 했을때 나타나는 정보 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
-                <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                  <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
+              <View style={[{ marginTop: 20 }]}>
+                <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
+                  <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
                   <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
                     this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
                 </View>
@@ -141,12 +209,19 @@ export default class MyPageScreen extends React.Component {
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
+                  paddingTop: 10,
                   paddingLeft: 15,
                   paddingRight: 15,
-                  paddingBottom: 30
+                  paddingBottom: 20
                 }}>
+                  {/* <View style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_h_main]}>
+                    <Text style={[MyStyles.text_13_656565, { flex: 1 }]}>Tell us about your skin and we'll show you some product that you might want to check out!</Text>
+                    <TouchableOpacity>
+                      <Image source={require('../../assets/images/ic_btn_right.png')} style={[{ alignSelf: "center" }, MyStyles.ic_btn_right]} />
+                    </TouchableOpacity>
+                  </View> */}
                   {
-                    // this.renderRecommendingScroll()
+                    this.renderRecommendingScroll()
                   }
                 </View>
               </View>
@@ -155,7 +230,7 @@ export default class MyPageScreen extends React.Component {
               {/* My Point 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
                 <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
-                  this.setState({ section_allergic_show: !this.state.section_allergic_show })
+                  this.props.navigation.navigate("MyPoint")
                 }}>
                   <Image source={require("../../assets/images/ic_point_big.png")} style={[MyStyles.ic_point_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
@@ -169,7 +244,7 @@ export default class MyPageScreen extends React.Component {
               {/* My Review 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
                 <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
-                  this.setState({ section_allergic_show: !this.state.section_allergic_show })
+                  this.props.navigation.navigate("MyReview")
                 }}>
                   <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
@@ -195,7 +270,7 @@ export default class MyPageScreen extends React.Component {
               </View>
 
               {/* Questionnaire 부분 */}
-              <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
+              <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0, marginBottom: 40 }]}>
                 <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
                   this.setState({ section_allergic_show: !this.state.section_allergic_show })
                 }}>
@@ -216,6 +291,10 @@ export default class MyPageScreen extends React.Component {
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
+
+        <TouchableOpacity style={{ position: "absolute", bottom: 30, right: 0 }} onPress={() => { this.props.navigation.navigate("Setting") }}>
+          <Image source={require('../../assets/images/ic_setting.png')} style={MyStyles.ic_setting} />
+        </TouchableOpacity>
       </View>
     );
   }

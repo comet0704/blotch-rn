@@ -26,10 +26,10 @@ export default class SettingScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading:false,      
+      isLoading: false,
     };
   }
-  
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -45,19 +45,35 @@ export default class SettingScreen extends React.Component {
 
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding">
 
-          <TopbarWithBlackBack  title="Setting" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+          <TopbarWithBlackBack title="Setting" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
           <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-          
+
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
             <View style={MyStyles.container}>
-              <View style={[{flexDirection:"row", height:180/3, alignItems:"center"}, MyStyles.border_bottom_e5e5e5]}>
-                <Text style={{flex:1, fontSize:15, color:Colors.primary_dark}}>Version</Text>
-                <Text style={{fontSize:12, color:Colors.primary_purple}}>Ver 1.4 (Latest Version)</Text>
+              <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
+                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Version</Text>
+                <Text style={{ fontSize: 12, color: Colors.primary_purple }}>Ver 1.4 (Latest Version)</Text>
               </View>
-              <View style={[{flexDirection:"row", height:180/3, alignItems:"center"}, MyStyles.border_bottom_e5e5e5]}>
-                <Text style={{flex:1, fontSize:15, color:Colors.primary_dark}}>Privacy Policy</Text>
-                <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")}/>
-              </View>
+              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("Policy") }}>
+                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Privacy Policy</Text>
+                <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")} />
+              </TouchableOpacity>
+              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("Notification") }}>
+                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Notification</Text>
+                <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")} />
+              </TouchableOpacity>
+              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("Announcements") }}>
+                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Announcements</Text>
+                <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")} />
+              </TouchableOpacity>
+              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("ContactUs") }}>
+                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Contact Us</Text>
+                <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")} />
+              </TouchableOpacity>
+              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { alert("LogOut") }}>
+                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Logout</Text>
+                <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")} />
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
