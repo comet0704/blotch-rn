@@ -20,7 +20,7 @@ import Toast from 'react-native-whc-toast';
 import MyConstants from '../../constants/MyConstants';
 import { LinearGradient } from 'expo';
 import Colors from '../../constants/Colors';
-import DropdownMenu from 'react-native-dropdown-menu';
+import { Dropdown } from 'react-native-material-dropdown';
 
 export default class ContactUsScreen extends React.Component {
 
@@ -29,7 +29,19 @@ export default class ContactUsScreen extends React.Component {
   };
   render() {
 
-    var data = [["C", "Java", "JavaScript", "PHP"], ["Python", "Ruby"], ["Swift", "Objective-C"]];
+    let data = [{
+      value: 'Banana',
+    }, {
+      value: 'Mango',
+    }, {
+      value: 'Mango',
+    }, {
+      value: 'Mango',
+    }, {
+      value: 'Mango',
+    }, {
+      value: 'Pear',
+    }];
 
     return (
       <View style={{ flex: 1 }}>
@@ -45,55 +57,41 @@ export default class ContactUsScreen extends React.Component {
 
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
-          <TopbarWithBlackBack onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+          <TopbarWithBlackBack title="Contact us" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
           <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
 
             <View style={MyStyles.container}>
 
-              <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Category</Text>
-              <View style={{ flex: 1 }}>
-                <View style={{ height: 64 }} />
-                <DropdownMenu
-                  style={{ flex: 1 }}
-                  bgColor={'white'}
-                  tintColor={'#666666'}
-                  activityTintColor={'green'}
-                  // arrowImg={}      
-                  // checkImage={}   
-                  // optionTextStyle={{color: '#333333'}}
-                  // titleStyle={{color: '#333333'}} 
-                  // maxHeight={300} 
-                  handler={(selection, row) => this.setState({ text: data[selection][row] })}
-                  data={data}
-                >
-
-                  <View style={{ flex: 1 }}>
-                    <Text>
-                      {this.state.text} is the best language in the world
-            </Text>
-                  </View>
-
-                </DropdownMenu>
-              </View>
-              {/* <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Category</Text>
+              {/* <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Category</Text> */}
+              <Dropdown
+                dropdownPosition={0}
+                labelFontSize={11}
+                textColor={Colors.color_656565}
+                itemColor={Colors.color_656565}
+                selectedItemColor={Colors.color_656565}
+                baseColor={Colors.primary_dark}
+                label='Category'
+                data={data}
+              />
+              <Text style={{ fontSize: 13, color: Colors.color_212122, marginTop: 10, marginBottom:7 }}>Contents</Text>
               <TextInput
-                onSubmitEditing={() => {
-                  this.addMyList()
-                }}
+                textAlignVertical="top"
+                multiline={true}
+                returnKeyType="go"
                 ref={(input) => { this.request_list_name = input; }}
-                onChangeText={(text) => { console.log(text); this.setState({ request_product_name: text }) }}
-                style={MyStyles.text_input_with_border}>
-              </TextInput> */}
+                onChangeText={(text) => { this.setState({ request_product_name: text }) }}
+                style={[MyStyles.text_input_with_border, { height: 180 }]}>
+              </TextInput>
 
-              {/* <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: "row", marginTop:30, marginBottom:20}}>
                 <TouchableHighlight
-                  style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                  style={[MyStyles.btn_primary_cover, { borderRadius: 5 }]} onPress={() => {
 
                   }}>
                   <Text style={MyStyles.btn_primary}>Submit</Text>
                 </TouchableHighlight>
-              </View> */}
+              </View>
 
             </View>
           </ScrollView>

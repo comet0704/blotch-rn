@@ -192,8 +192,8 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
-  MyPage: MyPageScreen,
   ContactUs: ContactUsScreen,
+  MyPage: MyPageScreen,
   Announcements : AnnouncementsScreen,
   Notification: NotificationScreen,
   Policy: PolicyScreen,
