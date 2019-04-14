@@ -3,6 +3,7 @@ import {
   Image,
   ScrollView,
   StyleSheet,
+  Switch,
   Text,
   View,
   TextInput,
@@ -26,10 +27,54 @@ export default class NotificationScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading:false,      
+      isLoading: false,
+      switch: {
+        all: false,
+        reply: false,
+        ask_answer: false,
+        event: false,
+        point: false,
+      }
     };
   }
-  
+
+  checkSwitchStatus() {
+    if(this.state.switch.reply && this.state.switch.ask_answer && this.state.switch.event && this.state.switch.point) {
+      this.state.switch.all=true
+    } else {
+      this.state.switch.all=false
+    }
+    this.setState(this.state.switch);
+  }
+
+  toggoleSwitch = (p_switchType) => {
+    if (p_switchType == "all") {
+      this.state.switch.all = !this.state.switch.all;
+      if (this.state.switch.all == true) {
+        this.state.switch.reply = true
+        this.state.switch.ask_answer = true
+        this.state.switch.event = true
+        this.state.switch.point = true
+      } else {
+        this.state.switch.reply = false
+        this.state.switch.ask_answer = false
+        this.state.switch.event = false
+        this.state.switch.point = false
+      }
+    } else if (p_switchType == "reply") {
+      this.state.switch.reply = !this.state.switch.reply;
+    } else if (p_switchType == "ask_answer") {
+      this.state.switch.ask_answer = !this.state.switch.ask_answer;
+    } else if (p_switchType == "event") {
+      this.state.switch.event = !this.state.switch.event;
+    } else if (p_switchType == "point") {
+      this.state.switch.point = !this.state.switch.point;
+    }
+
+    this.setState({ switch: this.state.switch });
+    this.checkSwitchStatus();
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -47,16 +92,28 @@ export default class NotificationScreen extends React.Component {
 
           <TopbarWithBlackBack title="Notification" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
           <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-          
+
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
             <View style={MyStyles.container}>
-              <View style={[{flexDirection:"row", height:180/3, alignItems:"center"}, MyStyles.border_bottom_e5e5e5]}>
-                <Text style={{flex:1, fontSize:15, color:Colors.primary_dark}}>Version</Text>
-                <Text style={{fontSize:12, color:Colors.primary_purple}}>Ver 1.4 (Latest Version)</Text>
+              <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
+                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>All</Text>
+                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("all") }} value={this.state.switch.all} />
               </View>
-              <View style={[{flexDirection:"row", height:180/3, alignItems:"center"}, MyStyles.border_bottom_e5e5e5]}>
-                <Text style={{flex:1, fontSize:15, color:Colors.primary_dark}}>Privacy Policy</Text>
-                <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")}/>
+              <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
+                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Reply</Text>
+                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("reply") }} value={this.state.switch.reply} />
+              </View>
+              <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
+                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Ask Answer</Text>
+                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("ask_answer") }} value={this.state.switch.ask_answer} />
+              </View>
+              <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
+                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Event</Text>
+                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("event") }} value={this.state.switch.event} />
+              </View>
+              <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
+                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Point</Text>
+                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("point") }} value={this.state.switch.point} />
               </View>
             </View>
           </ScrollView>
