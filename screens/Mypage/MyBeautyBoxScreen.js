@@ -48,7 +48,7 @@ export default class MyBeautyBoxScreen extends React.Component {
 
 
   ScreenWidth = Dimensions.get('window').width;
-
+  
   onCategorySelect = (p_catName) => {
     const categoryItems = [...this.state.categoryItems]
     const index = categoryItems.findIndex(item => item.categoryName === p_catName)
@@ -87,6 +87,10 @@ export default class MyBeautyBoxScreen extends React.Component {
         </ScrollView>
       </View>
     );
+  }
+
+  onSelectedDayReturned = (day) => {
+    console.log("22222222222222\n" + day);
   }
 
   renderSubCategory(p_categoryIndex) {

@@ -42,6 +42,7 @@ import NotificationScreen from '../screens/Mypage/NotificationScreen';
 import AnnouncementsScreen from '../screens/Mypage/AnnouncementsScreen';
 import ContactUsScreen from '../screens/Mypage/ContactUsScreen';
 import MyBeautyBoxScreen from '../screens/Mypage/MyBeautyBoxScreen';
+import CalendarScreen from '../screens/Mypage/CalendarScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -194,6 +195,7 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 const MyPageStack = createStackNavigator({
   MyBeautyBox: MyBeautyBoxScreen,
+  Calendar: CalendarScreen,
   MyPage: MyPageScreen,
   ContactUs: ContactUsScreen,
   Announcements : AnnouncementsScreen,

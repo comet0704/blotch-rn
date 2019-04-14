@@ -56,5 +56,6 @@ export default {
     back_page: "back_page",
     product_container_initial_page: "product_container_initial_page",
     search_word: "search_word",
+    onDaySelect: "onDaySelect",
   },
 };

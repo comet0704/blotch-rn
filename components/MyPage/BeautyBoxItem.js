@@ -25,6 +25,23 @@ import {
 
 
 export class BeautyBoxItem extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      item: {}
+    }
+  }
+
+  componentDidMount() {
+    this.setState({ item: this.props.item })
+  }
+
+  onDaySelect = (selectedDay) => {
+    console.log("---------------------\n" + selectedDay.dateString);
+    this.state.item.open_date = selectedDay.dateString;
+    this.setState(this.state.item)
+  }
+
   render() {
     const item = this.props.item;
     const index = this.props.index;
@@ -76,8 +93,8 @@ export class BeautyBoxItem extends React.Component {
 
           <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 15 }}>
             <Text style={{ color: Colors.color_949292, fontSize: 13, }}>Opened: </Text>
-            <TouchableOpacity style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]}>
-              <Text style={{ paddingLeft: 5, paddingRight: 10 }}>Mar.03.2019</Text>
+            <TouchableOpacity style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
+              <Text style={{ paddingLeft: 5, paddingRight: 10 }}>{this.state.item.open_date}</Text>
               <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
             </TouchableOpacity>
             <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
