@@ -30,6 +30,10 @@ export default StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
   },
+  padding_v_10: {
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
   padding_h_5: {
     paddingLeft: 5,
     paddingRight: 5,

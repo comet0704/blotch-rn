@@ -16,8 +16,12 @@ import {
   View,
   Image,
   Dimensions,
+  Modal,
   WebBrowser,
+  TouchableWithoutFeedback,
+  TextInput,
   Text,
+  Keyboard,
   ScrollView,
   TouchableOpacity,
   TouchableHighlight,
@@ -26,6 +30,7 @@ import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
 import { BeautyBoxItem } from '../../components/MyPage/BeautyBoxItem';
 import { Dropdown } from 'react-native-material-dropdown';
+import StarRating from 'react-native-star-rating';
 
 export default class MyBeautyBoxScreen extends React.Component {
   offset = 0;
@@ -34,12 +39,56 @@ export default class MyBeautyBoxScreen extends React.Component {
     super(props);
   }
   componentDidMount() {
-    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+    // this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
   }
   state = {
+    myRatingModalVisible: true,
     categoryItems: Common.getCategoryItems(),
-    product_list_result_data: {
-      best_list: []
+    beauty_box_result_data: {
+      beautybox_list: [
+        {
+          "id": 10,
+          "title": "Product-10",
+          "image_list": "uploads/product/mahdiar-mahmoodi-655027-unsplash.jpg",
+          "visit_count": 270,
+          "like_count": 14,
+          "comment_count": 1,
+          "grade": 4.25,
+          "is_liked": 6,
+          "brand_title": "ASTRAEA",
+          "beautybox_id": 19,
+          "open_date": "2019-04-11 11:03:30",
+          "my_grade": 4
+        },
+        {
+          "id": 6,
+          "title": "Product-6",
+          "image_list": "uploads/product/jake-peterson-463095-unsplash.jpg",
+          "visit_count": 270,
+          "like_count": 14,
+          "comment_count": 0,
+          "grade": 0,
+          "is_liked": null,
+          "brand_title": "GATHER",
+          "beautybox_id": 15,
+          "open_date": "2019-03-12 11:03:30",
+          "my_grade": null
+        },
+        {
+          "id": 7,
+          "title": "Product-7",
+          "image_list": "uploads/product/jakub-dziubak-618225-unsplash.jpg",
+          "visit_count": 270,
+          "like_count": 15,
+          "comment_count": 0,
+          "grade": 0,
+          "is_liked": null,
+          "brand_title": "ROSITA",
+          "beautybox_id": 16,
+          "open_date": "2019-04-09 11:03:30",
+          "my_grade": null
+        },
+      ]
     },
 
     beforeCatIdx: 0,
@@ -48,7 +97,7 @@ export default class MyBeautyBoxScreen extends React.Component {
 
 
   ScreenWidth = Dimensions.get('window').width;
-  
+
   onCategorySelect = (p_catName) => {
     const categoryItems = [...this.state.categoryItems]
     const index = categoryItems.findIndex(item => item.categoryName === p_catName)
@@ -194,7 +243,7 @@ export default class MyBeautyBoxScreen extends React.Component {
               </View>
               <FlatGrid
                 itemDimension={this.ScreenWidth}
-                items={this.state.product_list_result_data.best_list}
+                items={this.state.beauty_box_result_data.beautybox_list}
                 style={[MyStyles.gridView,]}
                 spacing={10}
                 // staticDimension={300}
@@ -208,24 +257,108 @@ export default class MyBeautyBoxScreen extends React.Component {
 
           </View>
         </ScrollView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.myRatingModalVisible}
+          onRequestClose={() => {
+          }}>
+          <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+            <View style={{ flex: 1 }}>
+              <View style={MyStyles.modal_bg1}>
+                <View style={MyStyles.modalContainer}>
+                  {/* modal header */}
+                  <View style={MyStyles.modal_header}>
+                    <Text style={MyStyles.modal_title}>My Rating</Text>
+                    <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                      this.setState({ myRatingModalVisible: false });
+                    }}>
+                      <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                    </TouchableOpacity>
+                  </View>
+                  <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+
+                  <View style={[MyStyles.padding_v_25, MyStyles.container]}>
+                    {/* 이미지, description 부분 */}
+                    <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 75 / 3 }}>
+                      <View style={[MyStyles.productItemContainer, { width: 295 / 3, height: 270 / 3 }]}>
+                        <ImageLoad source={{ uri: Common.getImageUrl("uploads/product/jake-peterson-463095-unsplash.jpg") }} style={[MyStyles.background_image]} />
+                      </View>
+                      <View style={{ marginLeft: 10, flex: 1 }}>
+                        <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]}>Innisfree</Text>
+                        <Text style={[MyStyles.productName, { textAlign: "left" }]} numberOfLines={2}>Liquid Shampoo Liquid Shampoo Liquid Shampoo</Text>
+                      </View>
+                    </View>
+
+                    <View style={[MyStyles.border_bottom_e5e5e5, { marginBottom: 75 / 3 }]} />
+
+                    {/* Are you satisfied with the product? 부분 */}
+                    <View style={{ justifyContent: "center", marginBottom: 75 / 3, alignItems: "center" }}>
+                      <Text style={[{ textAlign: "center", fontWeight: "bold", marginBottom: 5, }, MyStyles.text_13_primary_dark]}>
+                        Are you satisfied with the product?
+                      </Text>
+                      <View style={[{ width: "100%", height: 38, borderWidth: 0.5, borderColor: Colors.color_e3e5e4, justifyContent:"center", alignItems:"center" }]}>
+                        <StarRating
+                          disabled={false}
+                          maxStars={5}
+                          containerStyle={[{ width: 200 / 3, },]}
+                          starSize={40 / 3}
+                          emptyStarColor={Colors.color_star_empty}
+                          rating={5}
+                          selectedStar={(rating) => { }}
+                          fullStarColor={Colors.primary_purple}
+                        />
+                        <Image style={[MyStyles.ic_arrow_down_gray_small, { position: "absolute", right: 15, top: 15 }]} source={require("../../assets/images/ic_arrow_down_gray_small.png")} />
+                      </View>
+                    </View>
+
+                    <View>
+                      <Text style={[{ textAlign: "center", fontWeight: "bold", marginBottom: 5, }, MyStyles.text_13_primary_dark]}>
+                        How about this product?
+                      </Text>
+                      <TextInput
+                        textAlignVertical="top"
+                        multiline={true}
+                        returnKeyType="go"
+                        ref={(input) => { this.request_list_name = input; }}
+                        onChangeText={(text) => { this.setState({ request_product_name: text }) }}
+                        style={[MyStyles.text_input_with_border, { height: 100 }]}>
+                      </TextInput>
+                    </View>
+
+                  </View>
+                  <View style={{ flexDirection: "row" }}>
+                    <TouchableHighlight
+                      style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                        
+                      }}>
+                      <Text style={MyStyles.btn_primary}>Save</Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+
 
       </KeyboardAvoidingView>
     );
   }
   onProductLiked = (p_product_id) => {
-    const product_list = this.state.product_list_result_data.best_list
+    const product_list = this.state.beauty_box_result_data.beautybox_list
     const index = product_list.findIndex(item => item.id === p_product_id)
     product_list[index].is_liked = 100
-    const result = { best_list: product_list };
-    this.setState({ product_list_result_data: result })
+    const result = { beautybox_list: product_list };
+    this.setState({ beauty_box_result_data: result })
   }
 
   onProductUnliked = (p_product_id) => {
-    const product_list = this.state.product_list_result_data.best_list
+    const product_list = this.state.beauty_box_result_data.beautybox_list
     const index = product_list.findIndex(item => item.id === p_product_id)
     product_list[index].is_liked = null
-    const result = { best_list: product_list };
-    this.setState({ product_list_result_data: result })
+    const result = { beautybox_list: product_list };
+    this.setState({ beauty_box_result_data: result })
   }
 
   requestBestList(p_category, p_sub_category, p_offset) {
@@ -261,19 +394,19 @@ export default class MyBeautyBoxScreen extends React.Component {
         if (p_offset == 0) { // 카테고리 선택했을대 offset값을 0에서부터 검색해야 함.
           this.offset = 0;
         }
-        this.offset += responseJson.result_data.best_list.length
-        if (responseJson.result_data.best_list.length < MyConstants.ITEMS_PER_PAGE) {
+        this.offset += responseJson.result_data.beautybox_list.length
+        if (responseJson.result_data.beautybox_list.length < MyConstants.ITEMS_PER_PAGE) {
           this.setState({ loading_end: true })
         }
         if (p_offset == 0) {
           this.setState({
-            product_list_result_data: responseJson.result_data
+            beauty_box_result_data: responseJson.result_data
           });
           return;
         }
-        const best_list = this.state.product_list_result_data.best_list
-        result = { best_list: [...best_list, ...responseJson.result_data.best_list] };
-        this.setState({ product_list_result_data: result })
+        const beautybox_list = this.state.beauty_box_result_data.beautybox_list
+        result = { beautybox_list: [...beautybox_list, ...responseJson.result_data.beautybox_list] };
+        this.setState({ beauty_box_result_data: result })
       })
       .catch((error) => {
         this.setState({
