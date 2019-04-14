@@ -71,7 +71,8 @@ export default class ContactUsScreen extends React.Component {
                 itemColor={Colors.color_656565}
                 selectedItemColor={Colors.color_656565}
                 baseColor={Colors.primary_dark}
-                label='Category'
+                label='Category'                
+                onChangeText={(value, index, data) => { alert(value) }}
                 data={data}
               />
               <Text style={{ fontSize: 13, color: Colors.color_212122, marginTop: 10, marginBottom:7 }}>Contents</Text>

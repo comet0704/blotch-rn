@@ -41,10 +41,11 @@ import PolicyScreen from '../screens/Mypage/PolicyScreen';
 import NotificationScreen from '../screens/Mypage/NotificationScreen';
 import AnnouncementsScreen from '../screens/Mypage/AnnouncementsScreen';
 import ContactUsScreen from '../screens/Mypage/ContactUsScreen';
+import MyBeautyBoxScreen from '../screens/Mypage/MyBeautyBoxScreen';
 
 const HomeStack = createStackNavigator({
-  Article: ArticlesScreen,
   Home: HomeScreen,
+  Article: ArticlesScreen,
   ArticleDetail: ArticleDetailScreen,
   Faq: FaqScreen,
   BannerDetail: BannerDetailScreen,
@@ -192,8 +193,9 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
-  ContactUs: ContactUsScreen,
+  MyBeautyBox: MyBeautyBoxScreen,
   MyPage: MyPageScreen,
+  ContactUs: ContactUsScreen,
   Announcements : AnnouncementsScreen,
   Notification: NotificationScreen,
   Policy: PolicyScreen,
@@ -256,11 +258,11 @@ SettingsStack.navigationOptions = {
 global.login_info = {};
 export default createBottomTabNavigator({
   MyPageStack,
-  MyListStack,
   HomeStack,
   ProductStack,
   IngredientStack,
   LoginStack,
+  MyListStack,
   // LinksStack,  
   // SettingsStack,
 }, {

@@ -1049,6 +1049,14 @@ export default StyleSheet.create({
     width: 110 / 3,
     height: 110 / 3,
   },
+  ic_remove_beautybox: {
+    width: 110 / 3,
+    height: 110 / 3,
+  },
+  ic_calendar: {
+    width: 35 / 3,
+    height: 33 / 3,
+  },
   ic_star_rate_bg: {
     width: 141 / 3,
     height: 69 / 3,

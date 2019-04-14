@@ -5,9 +5,9 @@ export default {
   IOS_CLIENT_ID : "921753193053-edfubitfhjom9qjul66c1k50pceukqr8.apps.googleusercontent.com",
   
   ITEMS_PER_PAGE : 30,
-  SERVER_URL :"http://192.168.0.74:3000",
+  // SERVER_URL :"http://192.168.0.74:3000",
   // UPLOAD_SERVER_URL : "http://192.168.0.74:3001",
-  // SERVER_URL : "http://chemi.rsad.kr",
+  SERVER_URL : "http://chemi.rsad.kr",
   UPLOAD_SERVER_URL : "http://upload.rsad.kr",
   CategoryName : {
     all : "",
