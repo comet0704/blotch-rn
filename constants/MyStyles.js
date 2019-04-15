@@ -534,6 +534,15 @@ export default StyleSheet.create({
     width: 40 / 3,
     height: 28 / 3,
   },
+  
+  ic_skin_type_dry: {
+    width: 71 / 3,
+    height: 100 / 3,
+  },  
+  ic_skin_type_dry_small: {
+    width: 71 / 3,
+    height: 100 / 3,
+  },  
   baby_container: {
     backgroundColor: "white",
     borderColor: "#e3e5e4",
@@ -934,6 +943,14 @@ export default StyleSheet.create({
     width: 21 / 3,
     height: 14 / 3,
   },
+  ic_question_checked: {
+    width: 47 / 3,
+    height: 48 / 3,
+  },
+  ic_arrow_right_white: {
+    width: 21 / 3,
+    height: 34 / 3,
+  },
   ic_point_big: {
     width: 99 / 3,
     height: 99 / 3,
@@ -957,6 +974,39 @@ export default StyleSheet.create({
   ic_polygon_up: {
     width: 21 / 3,
     height: 14 / 3,
+  },
+  question_section_closed: {
+    fontSize: 12,
+    color: Colors.color_949191,
+    fontWeight: "500"
+  },
+  question_section_opened: {
+    fontSize: 12,
+    color: Colors.primary_purple,
+    fontWeight: "500"
+  },
+  question_sub_text1: {
+    fontSize: 13,
+    color: Colors.primary_dark,
+    fontWeight: "500"
+  },
+  question_gender_on: {
+    borderWidth:0.5,
+    borderColor: Colors.color_primary_pink,
+    borderRadius: 3,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 270 / 3,
+    height: 230 / 3,
+  },
+  question_gender_off: {
+    borderWidth:0.5,
+    borderColor: Colors.color_e3e5e4,
+    borderRadius: 3,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 270 / 3,
+    height: 230 / 3,
   },
   ic_plus_button_purple_round: {
     width: 90 / 3,
@@ -1060,6 +1110,30 @@ export default StyleSheet.create({
   ic_calendar: {
     width: 35 / 3,
     height: 33 / 3,
+  },
+  ic_search_medium: {
+    width: 61 / 3,
+    height: 54 / 3,
+  },
+  ic_gender_female: {
+    width: 61 / 3,
+    height: 94 / 3,
+  },
+  ic_sun: {
+    width: 73 / 3,
+    height: 73 / 3,
+  },
+  ic_night: {
+    width: 69 / 3,
+    height: 72 / 3,
+  },
+  ic_gender_male: {
+    width: 62 / 3,
+    height: 94 / 3,
+  },
+  ic_gender_unspecified: {
+    width: 62 / 3,
+    height: 61 / 3,
   },
   ic_star_rate_bg: {
     width: 141 / 3,
@@ -1195,10 +1269,10 @@ export default StyleSheet.create({
     padding: 10, borderColor: Colors.color_e3e5e4, borderWidth: 0.5, fontSize: 13, color: Colors.color_656565
   },
   meta_info_box: {
-    width: 200 / 3,    
+    width: 200 / 3,
     aspectRatio: 1,
-    justifyContent:"center",
-    alignItems:"center",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 5,
     shadowColor: '#f2f2f2',
     shadowOffset: {
@@ -1216,10 +1290,10 @@ export default StyleSheet.create({
   },
   meta_text: {
     fontSize: 12,
-    marginTop:3,
+    marginTop: 3,
     color: Colors.color_515151,
     fontWeight: "500",
-  },  
+  },
   ic_weather_sync: {
     width: 49 / 3,
     height: 49 / 3,
@@ -1240,7 +1314,7 @@ export default StyleSheet.create({
     width: 90 / 3,
     height: 93 / 3,
   },
-  ic_one_line_desc_box : {
-    flexDirection: "row", color: "white", marginTop:7
+  ic_one_line_desc_box: {
+    flexDirection: "row", color: "white", marginTop: 7
   }
 });

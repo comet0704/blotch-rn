@@ -38,7 +38,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      categoryItems: Common.categoryItems2,
+      categoryItems: Common.getCategoryItems(),
       potentialAllergenProductList_result_data: {
         total_count: 0,
         list: [

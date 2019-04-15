@@ -43,6 +43,7 @@ import AnnouncementsScreen from '../screens/Mypage/AnnouncementsScreen';
 import ContactUsScreen from '../screens/Mypage/ContactUsScreen';
 import MyBeautyBoxScreen from '../screens/Mypage/MyBeautyBoxScreen';
 import CalendarScreen from '../screens/Mypage/CalendarScreen';
+import QuestionnareScreen from '../screens/Mypage/QuestionnareScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -194,6 +195,7 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
+  Questionnare: QuestionnareScreen,
   MyBeautyBox: MyBeautyBoxScreen,
   Calendar: CalendarScreen,
   MyPage: MyPageScreen,

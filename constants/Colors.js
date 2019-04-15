@@ -25,6 +25,7 @@ export default {
   ingredient_potential_allergen_light: "#f8f9fe",
   ingredient_preferred_dark: "#6bd5be",
   ingredient_preferred_light: "#f7fdfc",
+  color_primary_pink: '#ccaee3',
   color_dcdedd: '#dcdedd',
   color_f691a1: '#f691a1',
   color_f2f2f2: '#f2f2f2',

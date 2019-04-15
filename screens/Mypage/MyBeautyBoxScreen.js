@@ -138,10 +138,6 @@ export default class MyBeautyBoxScreen extends React.Component {
     );
   }
 
-  onSelectedDayReturned = (day) => {
-    console.log("22222222222222\n" + day);
-  }
-
   renderSubCategory(p_categoryIndex) {
     return (
       this.state.categoryItems[p_categoryIndex].sub_category.length > 0 ?

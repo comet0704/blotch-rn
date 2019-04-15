@@ -9,6 +9,24 @@ export default {
   // UPLOAD_SERVER_URL : "http://192.168.0.74:3001",
   SERVER_URL : "http://chemi.rsad.kr",
   UPLOAD_SERVER_URL : "http://upload.rsad.kr",
+  SkinTypeName : {
+    dry: "Dry",
+    oily: "Oily",
+    complex: "Complex",
+  },
+  ConcernName : {
+    acne: "Acne",
+    wrinkle: "Wrinkle",
+    pores: "Pores",
+    complex: "Complex",
+    redness: "Redness",
+    rashes: "Rashes",
+  },
+  NeedsName : {
+    whitening: "Whitening",
+    anti_Aging: "Anti-Aging",
+    moisturizing: "Moisturizing",
+  },
   CategoryName : {
     all : "",
     skin_care : "Skin care",
