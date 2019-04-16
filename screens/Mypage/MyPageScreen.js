@@ -8,7 +8,6 @@ import MyStyles from '../../constants/MyStyles';
 import Models from '../../Net/Models';
 import Net from '../../Net/Net';
 import MyConstants from '../../constants/MyConstants';
-import { Facebook, Google } from "expo";
 import Colors from '../../constants/Colors';
 import Common from '../../assets/Common';
 

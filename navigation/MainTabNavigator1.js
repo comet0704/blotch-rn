@@ -265,8 +265,7 @@ export default createBottomTabNavigator({
   ProductStack,
   IngredientStack,
   MyListStack,
-  LoginStack,
-  // MyPageStack,
+  MyPageStack,
   // LinksStack,  
   // SettingsStack,
 }, {
