@@ -75,9 +75,12 @@ export default {
         matchList: MyConstants.SERVER_URL + "/user/matchList",
         deleteAlbum: MyConstants.SERVER_URL + "/user/deleteAlbum",
         likeList: MyConstants.SERVER_URL + "/user/likeList",
+        brandList: MyConstants.SERVER_URL + "/user/brandList",
     },
     brand: {
         detail: MyConstants.SERVER_URL + "/brand/detail",
         productList: MyConstants.SERVER_URL + "/brand/productList",
+        like: MyConstants.SERVER_URL + "/brand/like",
+        unlike: MyConstants.SERVER_URL + "/brand/unlike",
     }
 };

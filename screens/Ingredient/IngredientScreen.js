@@ -931,9 +931,9 @@ ingredients that can cause allergies.</Text>
   }
 
   requestProductUnlike(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.product.unlike, {
       method: 'POST',
       headers: {
@@ -947,10 +947,10 @@ ingredients that can cause allergies.</Text>
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);

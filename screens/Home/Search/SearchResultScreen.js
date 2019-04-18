@@ -75,7 +75,7 @@ export default class SearchResultScreen extends React.Component {
           showsHorizontalScrollIndicator={false}
         >
           {this.state.result_data.brand_list.map(item => (
-            <BrandItem item={item} index={index} this={this}/>
+            <BrandItem key={item.id} item_width={((this.ScreenWidth - 60) / 3)} item={item} this={this} />
           ))}
         </ScrollView>
       </View>
@@ -139,7 +139,7 @@ export default class SearchResultScreen extends React.Component {
     this.setState({ requestProductModalVisible: false });
     this.requestProductRequest(this.state.request_brand_name, this.state.product_name)
   }
-  
+
   render() {
     const { weatherType, weatherInfo } = this.state;
 
@@ -232,7 +232,7 @@ export default class SearchResultScreen extends React.Component {
                         // fixed
                         // spacing={20}
                         renderItem={({ item, index }) => (
-                          <ProductItem2 item={item} index={index} this={this}/>
+                          <ProductItem2 item={item} index={index} this={this} />
                         )}
                       />
                     </View>
@@ -289,7 +289,7 @@ export default class SearchResultScreen extends React.Component {
                       <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ requestProductModalVisible: false });
                       }}>
-                        <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close.png")}/>
+                        <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close.png")} />
                       </TouchableOpacity>
                     </View>
                     <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
@@ -415,9 +415,9 @@ export default class SearchResultScreen extends React.Component {
   }
 
   requestProductUnlike(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.product.unlike, {
       method: 'POST',
       headers: {
@@ -431,10 +431,10 @@ export default class SearchResultScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -450,6 +450,81 @@ export default class SearchResultScreen extends React.Component {
       })
       .done();
   }
+
+  requestBrandLike(p_brand_id) {
+    // this.setState({
+    //   isLoading: true,
+    // });
+    return fetch(Net.brand.like, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        brand_id: p_brand_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.requestSearchAll(this.state.searchWord);
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestBrandUnlike(p_brand_id) {
+    // this.setState({
+    //   isLoading: true,
+    // });
+    return fetch(Net.brand.unlike, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        brand_id: p_brand_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.requestSearchAll(this.state.searchWord);
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
 
   requestProductRequest(p_brand_name, p_product_name) {
     this.setState({

@@ -33,61 +33,12 @@ export class FragmentMatchdBrand extends React.Component {
     super(props);
   }
   componentDidMount() {
-    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+    this.requestUserBrandList(this.offset)
   }
   state = {
     categoryItems: Common.getCategoryItems(),
     brand_list_result_data: {
       "brand_list": [
-        {
-          "id": 1,
-          "title": "LUSH",
-          "image": "uploads/brand/logo_01.jpg",
-          "is_liked": 9,
-          "product_count": 3
-        },
-        {
-          "id": 2,
-          "title": "BEAUTY",
-          "image": "uploads/brand/logo_02.jpg",
-          "is_liked": 1,
-          "product_count": 3
-        },
-        {
-          "id": 3,
-          "title": "BOBBI BROWN",
-          "image": "uploads/brand/logo_03.jpg",
-          "is_liked": 4,
-          "product_count": 3
-        },
-        {
-          "id": 4,
-          "title": "THE BODY SHOP",
-          "image": "uploads/brand/logo_05.jpg",
-          "is_liked": null,
-          "product_count": 3
-        },
-        {
-          "id": 5,
-          "title": "GENESIS",
-          "image": "uploads/brand/logo_07.jpg",
-          "is_liked": null,
-          "product_count": 3
-        },
-        {
-          "id": 6,
-          "title": "GATHER",
-          "image": "uploads/brand/logo_09.jpg",
-          "is_liked": null,
-          "product_count": 3
-        },
-        {
-          "id": 7,
-          "title": "ROSITA",
-          "image": "uploads/brand/logo_11.jpg",
-          "is_liked": null,
-          "product_count": 3
-        },
       ]
     },
 
@@ -115,7 +66,7 @@ export class FragmentMatchdBrand extends React.Component {
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({ nativeEvent }) => {
             if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-              this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+              this.requestUserBrandList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
             }
           }}>
 
@@ -141,29 +92,11 @@ export class FragmentMatchdBrand extends React.Component {
     );
   }
 
-  onProductLiked = (p_product_id) => {
-    const product_list = this.state.brand_list_result_data.brand_list
-    const index = product_list.findIndex(item => item.id === p_product_id)
-    product_list[index].is_liked = 100
-    const result = { brand_list: product_list };
-    this.setState({ product_list_result_data: result })
-  }
-
-  onProductUnliked = (p_product_id) => {
-    const product_list = this.state.brand_list_result_data.brand_list
-    const index = product_list.findIndex(item => item.id === p_product_id)
-    product_list[index].is_liked = null
-    const result = { brand_list: product_list };
-    this.setState({ product_list_result_data: result })
-  }
-
-  requestBestList(p_category, p_sub_category, p_offset) {
-    console.log("category= " + p_category);
-    console.log("p_sub_category = " + p_sub_category)
+  requestUserBrandList(p_offset) {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.product.bestList, {
+    return fetch(Net.user.brandList, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -171,8 +104,6 @@ export class FragmentMatchdBrand extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        category: p_category == "" ? "All" : p_category,
-        sub_category: p_sub_category,
         offset: p_offset.toString()
       }),
     })
@@ -196,13 +127,13 @@ export class FragmentMatchdBrand extends React.Component {
         }
         if (p_offset == 0) {
           this.setState({
-            product_list_result_data: responseJson.result_data
+            brand_list_result_data: responseJson.result_data
           });
           return;
         }
         const brand_list = this.state.brand_list_result_data.brand_list
         result = { brand_list: [...brand_list, ...responseJson.result_data.brand_list] };
-        this.setState({ product_list_result_data: result })
+        this.setState({ brand_list_result_data: result })
       })
       .catch((error) => {
         this.setState({
@@ -213,81 +144,4 @@ export class FragmentMatchdBrand extends React.Component {
       .done();
   }
 
-
-
-  requestProductLike(p_product_id) {
-    // this.setState({
-    //   isLoading: true,
-    // });
-    return fetch(Net.product.like, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-access-token': global.login_info.token
-      },
-      body: JSON.stringify({
-        product_id: p_product_id.toString()
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        // this.setState({
-        //   isLoading: false,
-        // });
-
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return
-        }
-        this.onProductLiked(p_product_id)
-
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-  }
-
-  requestProductUnlike(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.product.unlike, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-access-token': global.login_info.token
-      },
-      body: JSON.stringify({
-        product_id: p_product_id.toString()
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
-
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return
-        }
-        this.onProductUnliked(p_product_id)
-
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-  }
 };

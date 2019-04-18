@@ -196,7 +196,7 @@ export default class SearchBrandDetailScreen extends React.Component {
             />
           </TouchableOpacity>
 
-          <View style={[MyStyles.searchBoxCover, {paddingLeft:0}]}>
+          <View style={[MyStyles.searchBoxCover, { paddingLeft: 0 }]}>
             {/* <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} /> */}
             <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} value={this.state.brand_detail_result_data.detail.title} placeholder="Search keyword"></TextInput>
             <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
@@ -219,17 +219,18 @@ export default class SearchBrandDetailScreen extends React.Component {
           <View>
             <View style={{ height: 110, width: "100%", alignItems: "center" }}>
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ detailModalVisible: true }) }}>
-                <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
+                <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
+
               </TouchableOpacity>
               <Text style={{ fontSize: 16, color: "white", bottom: -5, textAlign: "center", position: "absolute", width: "100%", textAlign: "center" }} numberOfLines={1}>{this.state.brand_detail_result_data.detail.title} ></Text>
               {
                 this.state.brand_detail_result_data.detail.is_liked > 0
                   ?
-                  <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestProductUnlike(this.state.brand_detail_result_data.detail.id) }}>
+                  <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestBrandUnlike(this.state.brand_detail_result_data.detail.id) }}>
                     <Image source={require('../../../assets/images/ic_heart2_on.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                   :
-                  <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestProductLike(this.state.brand_detail_result_data.detail.id) }}>
+                  <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestBrandLike(this.state.brand_detail_result_data.detail.id) }}>
                     <Image source={require('../../../assets/images/ic_heart2_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
               }
@@ -270,7 +271,7 @@ export default class SearchBrandDetailScreen extends React.Component {
               }
             }}>
             <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Products({152})</Text>
+              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Products({this.state.product_list_result_data.product_list.length})</Text>
               <FlatGrid
                 itemDimension={this.ScreenWidth / 2 - 30}
                 items={this.state.product_list_result_data.product_list}
@@ -297,7 +298,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                 <View style={MyStyles.modalContainer}>
                   {/* 배경 및 브랜디 이미지 */}
                   <View style={{ height: 275 / 3, alignItems: "center" }}>
-                    <Image style={[MyStyles.background_image]} source={require("../../../assets/images/ic_gradient_bg.png")}/>
+                    <Image style={[MyStyles.background_image]} source={require("../../../assets/images/ic_gradient_bg.png")} />
 
                     <View style={{ position: "absolute", bottom: -85 / 2 }}>
                       <View style={{ width: 85, height: 85 }}>
@@ -309,11 +310,11 @@ export default class SearchBrandDetailScreen extends React.Component {
                         {
                           this.state.brand_detail_result_data.detail.is_liked > 0
                             ?
-                            <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0, zIndex: 100 }, MyStyles.heart2]} onPress={() => { this.requestProductUnlike(3) }}>
+                            <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0, zIndex: 100 }, MyStyles.heart2]} onPress={() => { this.requestBrandUnlike(this.state.brand_detail_result_data.detail.id) }}>
                               <Image source={require('../../../assets/images/ic_heart2_on.png')} style={[MyStyles.background_image]} />
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestProductLike(this.state.brand_detail_result_data.detail.id) }}>
+                            <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestBrandLike(this.state.brand_detail_result_data.detail.id) }}>
                               <Image source={require('../../../assets/images/ic_heart2_off.png')} style={[MyStyles.background_image]} />
                             </TouchableOpacity>
                         }
@@ -325,14 +326,14 @@ export default class SearchBrandDetailScreen extends React.Component {
                   <TouchableOpacity style={[MyStyles.modal_close_btn, { position: "absolute", top: 0, right: 0 }]} onPress={() => {
                     this.setState({ detailModalVisible: false });
                   }}>
-                    <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close2.png")}/>
+                    <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close2.png")} />
                   </TouchableOpacity>
 
                   <View style={{ marginTop: 200 / 3, }}>
                     <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
                       <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>{this.state.brand_detail_result_data.detail.title}</Text>
                       <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                        this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>Products({this.state.product_list_result_data.product_count})</Text>
+                        this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>Products({this.state.product_list_result_data.product_list.length})</Text>
                     </View>
                     <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginTop: 20 }]}></View>
 
@@ -504,9 +505,9 @@ export default class SearchBrandDetailScreen extends React.Component {
   }
 
   requestProductUnlike(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.product.unlike, {
       method: 'POST',
       headers: {
@@ -521,9 +522,9 @@ export default class SearchBrandDetailScreen extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         // console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -531,6 +532,80 @@ export default class SearchBrandDetailScreen extends React.Component {
         }
         this.onProductUnliked(p_product_id)
 
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestBrandLike(p_brand_id) {
+    // this.setState({
+    //   isLoading: true,
+    // });
+    return fetch(Net.brand.like, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        brand_id: p_brand_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.requestBrandDetail(this.state.brand_id);
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestBrandUnlike(p_brand_id) {
+    // this.setState({
+    //   isLoading: true,
+    // });
+    return fetch(Net.brand.unlike, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        brand_id: p_brand_id.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.requestBrandDetail(this.state.brand_id);
       })
       .catch((error) => {
         this.setState({
