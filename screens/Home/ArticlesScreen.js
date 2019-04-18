@@ -207,9 +207,9 @@ export default class ArticlesScreen extends React.Component {
   }
 
   requestArticleLike(p_article_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.article.like, {
       method: 'POST',
       headers: {
@@ -223,17 +223,17 @@ export default class ArticlesScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
 
-        this.requestArticleList(this.offset);
+        this.requestArticleList(0);
 
       })
       .catch((error) => {
@@ -246,9 +246,9 @@ export default class ArticlesScreen extends React.Component {
   }
 
   requestArticleUnlike(p_article_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.article.unlike, {
       method: 'POST',
       headers: {
@@ -262,17 +262,17 @@ export default class ArticlesScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
 
-        this.requestArticleList(this.offset);
+        this.requestArticleList(0);
       })
       .catch((error) => {
         this.setState({
