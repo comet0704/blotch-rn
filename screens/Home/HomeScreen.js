@@ -61,7 +61,7 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.requestHomeList()
+    // this.requestHomeList()
     handleAndroidBackButton(this, exitAlert);
   }
 
@@ -285,7 +285,7 @@ export default class HomeScreen extends React.Component {
                 this.setState({ isLogined: true })
               }
               if (beforeLoginState != this.state.isLogined) {
-                this.requestHomeList()
+                // this.requestHomeList()
               }
             });
           }}

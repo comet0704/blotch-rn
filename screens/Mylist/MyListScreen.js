@@ -122,13 +122,37 @@ export default class MyListScreen extends React.Component {
       scroll_enabled: true,
       alreadyLoaded: false,
       showLoginModal: false,
-      requestMyListModalVisible: false,
+      addAlbumModalVisible: false,
+      edit_album_id: 0, // 0  이면 add_album, > 0 이면 edit_album
+      opened_album_id: 0, // 오픈된 앨범은 requestMyList 다시 호출했을때도 open 상태 유지하도록 하기 위해 보관
       request_list_name: "",
-      mylist_result_data: {
-        "my_list": [
-        ]
-      },
-
+      //  서버에서 내려오는 자료구조는 
+      // "result_data": {
+      //   "like_list": [
+      //       {
+      //           "article_like_count": 3,
+      //           "product_match_count": 4,
+      //           "product_blotch_count": 3,
+      //           "product_watch_count": 3
+      //       }
+      //   ],
+      //   "album_list": [
+      //       {
+      //           "id": 1,
+      //           "title": "My List1",
+      //           "content": "My List1",
+      //           "count": 0
+      //       },
+      //       {
+      //           "id": 2,
+      //           "title": "내 목록",
+      //           "content": "My List2",
+      //           "count": 2
+      //       }
+      //   ]
+      // }
+      // 이런 형식이나 UI적인 구현요구가 sortablelist, SwipeListView 를 쓸것을 요구하는것으로 해서 결과값을
+      // like_list_data 와 album_list로 나누어 관리함.
       like_list_data: {
         match: {
           screen: "MatchdList",
@@ -160,43 +184,12 @@ export default class MyListScreen extends React.Component {
         },
       },
 
-      album_list: [
-        {
-          "id": 1,
-          "title": "My List1",
-          "content": "My List1",
-          "count": 0
-        },
-        {
-          "id": 2,
-          "title": "내 목록",
-          "content": "My List2",
-          "count": 2
-        },
-        {
-          "id": 3,
-          "title": "내 목록",
-          "content": "My List2",
-          "count": 2
-        },
-        {
-          "id": 4,
-          "title": "내 목록",
-          "content": "My List2",
-          "count": 2
-        },
-        {
-          "id": 5,
-          "title": "내 목록",
-          "content": "My List2",
-          "count": 2
-        },
-        {
-          "id": 2,
-          "title": "내 목록",
-          "content": "My List2",
-          "count": 2
-        }
+      album_list: [{ // 빈 자료라도 있어야지 없으면 warning이 뜸.
+        "id": 0,
+        "title": "ㅎ",
+        "content": "ㅎ",
+        "count": 0
+      },
       ],
 
       like_list_order: ["match", "blotch", "heart", "favorite"]
@@ -223,28 +216,32 @@ export default class MyListScreen extends React.Component {
   }
 
   addMyList() {
-    if (this.state.request_list_name == "" || this.state.request_product_name == "") {
+    if (this.state.request_list_name == "") {
       this.refs.toast.showTop("Please input List name");
       return;
     }
-    this.setState({ requestMyListModalVisible: false });
-    // this.requestProductRequest(this.state.request_brand_name, this.state.product_name)
+    this.setState({ addAlbumModalVisible: false });
+    if (this.state.edit_album_id > 0) { // 편집이면      
+      this.requestEditAlbum(this.state.edit_album_id, this.state.request_list_name)
+    } else {
+      this.requestAddAlbum(this.state.request_list_name)
+    }
   }
 
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: Colors.color_f8f8f8 }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
-        {/* <NavigationEvents
+        <NavigationEvents
           onWillFocus={payload => {
             if (global.login_info.token == null || global.login_info.token.length < 1) {
               this.setState({ showLoginModal: true });
               return;
             }
-            if(this.state.alreadyLoaded == false) {
+            if (this.state.alreadyLoaded == false) {
               this.requestMyList();
             }
           }}
-        /> */}
+        />
         <TopbarWithBlackBack title="My List" onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
         <Spinner
           //visibility of Overlay Loading Spinner
@@ -289,7 +286,20 @@ export default class MyListScreen extends React.Component {
             <SwipeListView
               contentContainerStyle={{ paddingLeft: 15, paddingRight: 15 }}
               dataSource={this.ds.cloneWithRows(this.state.album_list)}
-              onRowOpen={(rowId) => { }}
+              onRowOpen={(rowId) => {
+                // rowId 가 s10, s11, s12 ... s199 형식으로 들어오므로 실제 순서는 앞 두글자 없애서 계싼함
+                const order = rowId.substring(2);
+                this.state.album_list[order].rowOpened = true
+                this.setState(this.state.album_list)
+                this.setState({ opened_album_id: this.state.album_list[order].id })
+              }}
+              onRowClose={(rowId) => {
+                // rowId 가 s10, s11, s12 ... s199 형식으로 들어오므로 실제 순서는 앞 두글자 없애서 계싼함
+                const order = rowId.substring(2);
+                this.state.album_list[order].rowOpened = false
+                this.setState(this.state.album_list)
+                this.setState({ opened_album_id: 0 })
+              }}
               renderRow={(data, secId, rowId, rowMap) => (
                 <SwipeRow
                   rowKey={3}
@@ -319,12 +329,18 @@ export default class MyListScreen extends React.Component {
                       <Text style={{ color: "white" }}>Delete</Text>
                     </TouchableOpacity>
                   </View>
-                  <View style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.my_own_list_section]}>
+                  <View style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.my_own_list_section, data.rowOpened ? { marginLeft: 60 } : null]}>
                     <View style={MyStyles.ingredient_section_header}>
                       <TouchableOpacity style={[{ flex: 1 }]} onPress={() => { }}>
                         <View style={{ flexDirection: "row" }}>
                           <Text style={[MyStyles.ingredient_section_header_text1, { alignSelf: "center" }]}>{data.title}</Text>
-                          <Image source={require("../../assets/images/ic_pencil.png")} style={[MyStyles.ic_pencil, , { alignSelf: "center" }, { marginLeft: 5 }]} />
+                          {data.rowOpened ?
+                            <TouchableOpacity style={{ paddingLeft: 5, paddingRight: 5, alignSelf: "center" }} onPress={() => {
+                              this.setState({ edit_album_id: data.id, request_list_name: data.title, addAlbumModalVisible: true })
+                            }}>
+                              <Image source={require("../../assets/images/ic_pencil.png")} style={[MyStyles.ic_pencil]} />
+                            </TouchableOpacity>
+                            : null}
                         </View>
                         <Text style={[MyStyles.ingredient_section_header_text2]}>+{data.count}</Text>
                       </TouchableOpacity>
@@ -335,8 +351,8 @@ export default class MyListScreen extends React.Component {
               )}
             />
 
-            <TouchableOpacity style={{ flexDirection: "row", width: 100, alignSelf: "center", justifyContent: "center", marginTop: 15 }}
-              onPress={() => { this.setState({ requestMyListModalVisible: true }) }}>
+            <TouchableOpacity style={{ flexDirection: "row", width: 100, alignSelf: "center", justifyContent: "center", marginTop: 15, marginBottom: 30 }}
+              onPress={() => { this.setState({ edit_album_id: 0, request_list_name: "", addAlbumModalVisible: true }) }}>
               <Image style={[MyStyles.ic_plus_btn_big, { alignSelf: "center" }]} source={require("../../assets/images/ic_plus_btn_big.png")} />
               <Text style={{ marginLeft: 10, marginTop: 4, fontSize: 13, color: Colors.color_949292 }}>Add My List</Text>
             </TouchableOpacity>
@@ -387,10 +403,11 @@ export default class MyListScreen extends React.Component {
           </View>
         </Modal>
 
+        {/* 앨범 편집/추가 모달 */}
         <Modal
           animationType="slide"
           transparent={true}
-          visible={this.state.requestMyListModalVisible}
+          visible={this.state.addAlbumModalVisible}
           onRequestClose={() => {
           }}>
           <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
@@ -399,9 +416,13 @@ export default class MyListScreen extends React.Component {
                 <View style={MyStyles.modalContainer}>
                   {/* modal header */}
                   <View style={MyStyles.modal_header}>
-                    <Text style={MyStyles.modal_title}>Add My List</Text>
+                    {this.state.edit_album_id > 0 ?
+                      <Text style={MyStyles.modal_title}>Change My List</Text>
+                      :
+                      <Text style={MyStyles.modal_title}>Add My List</Text>
+                    }
                     <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
-                      this.setState({ requestMyListModalVisible: false });
+                      this.setState({ addAlbumModalVisible: false });
                     }}>
                       <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                     </TouchableOpacity>
@@ -414,8 +435,8 @@ export default class MyListScreen extends React.Component {
                       onSubmitEditing={() => {
                         this.addMyList()
                       }}
-                      ref={(input) => { this.request_list_name = input; }}
-                      onChangeText={(text) => { console.log(text); this.setState({ request_product_name: text }) }}
+                      value={this.state.request_list_name}
+                      onChangeText={(text) => { this.setState({ request_list_name: text }) }}
                       style={MyStyles.text_input_with_border}>
                     </TextInput>
                   </View>
@@ -425,7 +446,11 @@ export default class MyListScreen extends React.Component {
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
                         this.addMyList()
                       }}>
-                      <Text style={MyStyles.btn_primary}>Create</Text>
+                      {this.state.edit_album_id > 0 ?
+                        <Text style={MyStyles.btn_primary}>Change</Text>
+                        :
+                        <Text style={MyStyles.btn_primary}>Create</Text>
+                      }
                     </TouchableHighlight>
                   </View>
                 </View>
@@ -444,7 +469,7 @@ export default class MyListScreen extends React.Component {
       isLoading: true,
       alreadyLoaded: true,
     });
-    return fetch(Net.ingredient.myList, {
+    return fetch(Net.user.myList, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -466,7 +491,18 @@ export default class MyListScreen extends React.Component {
           return
         }
 
-        this.setState({ mylist_result_data: responseJson.result_data })
+        this.state.like_list_data.match.count = responseJson.result_data.like_list[0].product_match_count
+        this.state.like_list_data.blotch.count = responseJson.result_data.like_list[0].product_blotch_count
+        this.state.like_list_data.favorite.count = responseJson.result_data.like_list[0].article_like_count
+        this.state.like_list_data.heart.count = responseJson.result_data.like_list[0].product_watch_count
+        this.setState(this.state.like_list_data)
+
+        this.state.album_list = responseJson.result_data.album_list
+        if (this.state.opened_album_id > 0) { // 열렸던 앨범이 있으면 rowOpend를 true로 설정
+          const index = this.state.album_list.findIndex(item => item.id === this.state.opened_album_id)
+          this.state.album_list[index].rowOpened = true
+        }
+        this.setState(this.state.album_list)
 
       })
       .catch((error) => {
@@ -478,11 +514,13 @@ export default class MyListScreen extends React.Component {
       .done();
   }
 
-  requestDeleteUserIngredient(p_ingredient_id) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.ingredient.deleteUserIngredient, {
+
+  requestAddAlbum(p_title) {
+    // 성공시 requestMyList를 다시 호출해주므로 현재 progress는 막는게 땅수
+    // this.setState({
+    //   isLoading: true,
+    // });
+    return fetch(Net.user.addAlbum, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -490,15 +528,15 @@ export default class MyListScreen extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        ingredient_id: p_ingredient_id.toString()
+        title: p_title,
       }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -516,11 +554,12 @@ export default class MyListScreen extends React.Component {
       .done();
   }
 
-  requestSearchIngredient(p_ingredient_name, p_offset) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.ingredient.searchIngredient, {
+  requestEditAlbum(p_album_id, p_title) {
+    // 성공시 requestMyList를 다시 호출해주므로 현재 progress는 막는게 땅수
+    // this.setState({
+    //   isLoading: true,
+    // });)
+    return fetch(Net.user.editAlbum, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -528,82 +567,21 @@ export default class MyListScreen extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        ingredient_name: p_ingredient_name,
-        offset: p_offset.toString(),
+        album_id: p_album_id,
+        title: p_title,
       }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
-
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showTop(responseJson.result_msg);
-          return
-        }
-        if (p_offset == 0) { // 카테고리 선택했을대 offset값을 0에서부터 검색해야 함.
-          this.offset = 0;
-        }
-
-        this.offset += responseJson.result_data.ingredient_list.length
-        if (responseJson.result_data.ingredient_list.length < MyConstants.ITEMS_PER_PAGE) {
-          this.setState({ loading_end: true })
-        }
-
-        if (p_offset == 0) {
-          this.setState({
-            searchIngredient_result_data: responseJson.result_data
-          });
-          this.setState({ searchResultModalVisible: true, searchModalVisible: false })
-          return;
-        }
-        const ingredient_list = this.state.searchIngredient_result_data.ingredient_list
-        result = { ingredient_list: [...ingredient_list, ...responseJson.result_data.ingredient_list] };
-        this.setState({ searchIngredient_result_data: result })
-        this.setState({ searchResultModalVisible: true, searchModalVisible: false })
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({
-          isLoading: false,
-        });
-        showTop.showBottom(error);
-      })
-      .done();
-  }
-
-  requestAddUserIngredient(p_ingredient_id, p_type) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.ingredient.addUserIngredient, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-access-token': global.login_info.token
-      },
-      body: JSON.stringify({
-        ingredient_id: p_ingredient_id.toString(),
-        type: p_type.toString(),
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-
-        this.setState({ searchResultModalVisible: false })
-        this.setState({ saveToModalVisible: false });
 
         this.requestMyList();
       })
@@ -615,80 +593,4 @@ export default class MyListScreen extends React.Component {
       })
       .done();
   }
-
-  requestProductLike(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.product.like, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-access-token': global.login_info.token
-      },
-      body: JSON.stringify({
-        product_id: p_product_id.toString()
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
-
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return
-        }
-        this.requestMyList();
-
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-  }
-
-  requestProductUnlike(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.product.unlike, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-access-token': global.login_info.token
-      },
-      body: JSON.stringify({
-        product_id: p_product_id.toString()
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
-
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return
-        }
-        this.requestMyList();
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-  }
-
 };
