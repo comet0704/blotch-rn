@@ -4,9 +4,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  Alert,
   View,
   TextInput,
   Button,
+  AsyncStorage,
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -32,6 +34,13 @@ export default class SettingScreen extends React.Component {
 
   componentDidMount() {
     console.log(pkg.expo.version)
+  }
+
+  doLogout() {
+    global.login_info = null;
+    AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, null);
+
+    // 이제는 앱을 로그아웃 상태로 만들어야 하겠는데 그러자면 재기동하자.
   }
 
   render() {
@@ -74,7 +83,26 @@ export default class SettingScreen extends React.Component {
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Contact Us</Text>
                 <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")} />
               </TouchableOpacity>
-              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { alert("LogOut") }}>
+              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => {
+                Alert.alert(
+                  'Logout',
+                  'Are you sure?',
+                  [
+                    {
+                      text: 'No',
+                      onPress: () => { },
+                      style: 'cancel',
+                    },
+                    {
+                      text: 'Yes', onPress: () => {
+                        this.doLogout()
+                      }
+                    },
+                  ],
+                  { cancelable: false },
+                );
+
+              }}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Logout</Text>
                 <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")} />
               </TouchableOpacity>

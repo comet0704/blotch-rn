@@ -14,6 +14,7 @@ import {
 import { ImagePicker } from 'expo';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
 
 export default class AboutUsScreen extends React.Component {
 
@@ -26,7 +27,7 @@ export default class AboutUsScreen extends React.Component {
             <TopbarWithBlackBack title="About Us" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
             <View style={[MyStyles.container, {flex:1}]}>
               <WebView
-                source={{ uri: 'https://github.com/facebook/react-native' }}
+                source={{ uri: Net.user.terms_privacy }}
                 style={{ flex: 1}}
               />
             </View>

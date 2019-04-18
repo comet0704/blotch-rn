@@ -81,6 +81,9 @@ export default {
         updateProfile: MyConstants.SERVER_URL + "/user/updateProfile",
         changePassword: MyConstants.SERVER_URL + "/user/changePassword",
         announceList: MyConstants.SERVER_URL + "/user/announceList",
+        contactUsCategory: MyConstants.SERVER_URL + "/user/contactUsCategory",
+        contactUs: MyConstants.SERVER_URL + "/user/contactUs",
+        pointHistory: MyConstants.SERVER_URL + "/user/pointHistory",
         terms_privacy: MyConstants.SERVER_URL + "/terms/usage.html",
     },
     brand: {

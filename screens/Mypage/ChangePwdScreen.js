@@ -170,8 +170,19 @@ export default class ChangePwdScreen extends React.Component {
         }
         // 변경된 패서드 저장.
         AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.user_pwd, p_pwd1);
-        this.refs.toast.showBottom("The password has been changed.");
-        this.props.navigation.pop(2)
+
+        Alert.alert(
+          '',
+          'The password has been changed.',
+          [
+            {
+              text: 'OK', onPress: () => {
+                this.props.navigation.pop(2)
+              }
+            },
+          ],
+          { cancelable: false },
+        );
       })
       .catch((error) => {
         this.setState({

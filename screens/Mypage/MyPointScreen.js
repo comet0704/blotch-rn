@@ -27,50 +27,62 @@ export default class MyPointScreen extends React.Component {
     </Text>
   );
 
-  state = {
-    sendPressed: false,
-    image: null,
-    email: null,
-    id: null,
-    password: null,
-    password_confirm: null,
-  };
-
-  checkValidation = (value, check_type) => {
-    if (value == null || value.length == 0) {
-      return false
-    }
-
-    if (check_type == "id") {
-      if (value.length < 4) {
-        return false
+  constructor(props) {
+    super(props)
+    this.state = {
+      "result_data": {
+        "point_history": [
+         
+        ]
       }
-    }
-
-    if (check_type == "password") {
-      if (value.length < 8) {
-        return false
-      }
-    }
-
-    if (check_type == "password_confirm") {
-      if (value != this.state.password) {
-        return false
-      }
-    }
-
-    return true
+    };
   }
 
-  onPressSend = (email) => {
-    this.setState({ sendPressed: true });
-    if (this.checkValidation(this.state.email, "email")) { // 이메일, 패스워드 모두 유효한 값이면
-      this.requestForgetPassword(email)
+  componentDidMount() {
+    this.requestPointHistory(0);
+  }
+
+  renderPointHistory(item, index) {
+    if (item.type == 1) {
+      {/* 리뷰작성으로 인한 지급 */ }
+      <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
+        <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+          this.setState({ section_allergic_show: !this.state.section_allergic_show })
+        }}>
+          <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
+          <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
+            <Text style={[MyStyles.ingredient_section_header_text1]}>My Review</Text>
+            <Text style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</Text>
+          </View>
+          <Text style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<Text style={{ color: Colors.primary_purple }}>P</Text></Text>
+        </TouchableOpacity>
+      </View>
+    } else if (item.type == 2) { // 미등록 제품스캔, 사진 업로드로 인한  인한 지급
+
+    } else if (item.type == 3) {
+      {/* Questionnaire 완료시 지급 */ }
+      return (
+        <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
+          <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+            this.setState({ section_allergic_show: !this.state.section_allergic_show })
+          }}>
+            <Image source={require("../../assets/images/ic_questionnare_big.png")} style={[MyStyles.ic_questionnare_big]} />
+            <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={[MyStyles.ingredient_section_header_text1]}>Questionnaire</Text>
+              </View>
+
+              <Text style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</Text>
+            </View>
+            <Text style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<Text style={{ color: Colors.primary_purple }}>P</Text></Text>
+          </TouchableOpacity>
+        </View>
+      );
     }
+
   }
 
   render() {
-    let { sendPressed, image, email, id, password, password_confirm } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <Spinner
@@ -86,47 +98,25 @@ export default class MyPointScreen extends React.Component {
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
           <TopbarWithBlackBack title="My Point" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
-          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
+          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
+            onScroll={({ nativeEvent }) => {
+              if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+                this.requestPointHistory(this.offset)
+              }
+            }}
+          >
             <View>
               <View style={[{ flexDirection: "row", height: 200 / 3, margin: 15, overflow: "hidden", alignItems: "center", borderRadius: 5 }, MyStyles.padding_main]}>
                 <Image style={[MyStyles.background_image]} source={require("../../assets/images/ic_gradient_bg.png")} />
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>Ellie's</Text>
+                  <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{global.login_info.user_id}'s</Text>
                   <Text style={{ color: "white", fontSize: 13 }}>holding point</Text>
                 </View>
-                <Text style={{ color: "white", fontSize: 32, fontWeight: "bold" }}>150<Text style={{ fontWeight: "300" }}>P</Text></Text>
+                <Text style={{ color: "white", fontSize: 32, fontWeight: "bold" }}>{global.login_info.point}<Text style={{ fontWeight: "300" }}>P</Text></Text>
               </View>
 
-              {/* Questionnaire 부분 */}
-              <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
-                <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
-                  this.setState({ section_allergic_show: !this.state.section_allergic_show })
-                }}>
-                  <Image source={require("../../assets/images/ic_questionnare_big.png")} style={[MyStyles.ic_questionnare_big]} />
-                  <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
-                    <View style={{ flexDirection: "row" }}>
-                      <Text style={[MyStyles.ingredient_section_header_text1]}>Questionnaire</Text>
-                    </View>
 
-                    <Text style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>Completed</Text>
-                  </View>
-                  <Text style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>150<Text style={{ color: Colors.primary_purple }}>P</Text></Text>
-                </TouchableOpacity>
-              </View>
-
-              {/* My Review 부분 */}
-              <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
-                <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
-                  this.setState({ section_allergic_show: !this.state.section_allergic_show })
-                }}>
-                  <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
-                  <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
-                    <Text style={[MyStyles.ingredient_section_header_text1]}>My Review</Text>
-                    <Text style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>Recent Review</Text>
-                  </View>
-                  <Text style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>150<Text style={{ color: Colors.primary_purple }}>P</Text></Text>
-                </TouchableOpacity>
-              </View>
+              {this.state.result_data.point_history.map((item, index) => this.renderPointHistory(item, index))}
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -135,18 +125,19 @@ export default class MyPointScreen extends React.Component {
     );
   }
 
-  requestForgetPassword(p_email) {
+  requestPointHistory(p_offset) {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.auth.forgotPassword, {
+    return fetch(Net.user.pointHistory, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        email: p_email,
+        offset: p_offset.toString(),
       }),
     })
       .then((response) => response.json())
@@ -160,8 +151,14 @@ export default class MyPointScreen extends React.Component {
           return;
         }
 
-        this.refs.toast.showBottom("Temperary passcode has been sent to your email.");
+        this.offset += responseJson.result_data.point_history.length
+        if (responseJson.result_data.point_history.length < MyConstants.ITEMS_PER_PAGE) {
+          this.setState({ loading_end: true })
+        }
 
+        const point_history = this.state.result_data.point_history
+        result = { point_history: [...point_history, ...responseJson.result_data.point_history] };
+        this.setState({ result_data: result })
       })
       .catch((error) => {
         this.setState({
@@ -170,6 +167,6 @@ export default class MyPointScreen extends React.Component {
         this.refs.toast.showBottom(error);
       })
       .done();
-
   }
+
 }

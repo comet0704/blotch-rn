@@ -42,7 +42,7 @@ export default class MyPageScreen extends React.Component {
   };
 
   onProfileEdited = () => {
-    this.setState({profileEdited : !this.state.profileEdited});
+    this.setState({ profileEdited: !this.state.profileEdited });
   }
 
   renderRecommendingScroll() {
@@ -289,6 +289,8 @@ export default class MyPageScreen extends React.Component {
           return
         }
 
+        global.login_info.point = responseJson.result_data.mypage.my_point // 포인트만은 여기서 건사했다 저장시켜야 함.
+        AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(global.login_info));
         this.state.result_data = responseJson.result_data
         this.setState(this.state.result_data)
 

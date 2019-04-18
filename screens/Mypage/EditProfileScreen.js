@@ -3,7 +3,7 @@ import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
-import { TouchableWithoutFeedback, Image, AsyncStorage, KeyboardAvoidingView, Modal, ScrollView, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { Alert, TouchableWithoutFeedback, Image, AsyncStorage, KeyboardAvoidingView, Modal, ScrollView, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import MyStyles from '../../constants/MyStyles';
 import Net from '../../Net/Net';
@@ -280,9 +280,21 @@ export default class EditProfileScreen extends React.Component {
             global.login_info.profile_image = p_profile_image;
           }
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(global.login_info));
-          this.refs.toast.showBottom("Changes have been saved");
-          this.props.navigation.goBack()
-          this.onProfileEdited()
+
+          Alert.alert(
+            '',
+            'Changes have been saved',
+            [
+              {
+                text: 'OK', onPress: () => {
+                  this.props.navigation.goBack()
+                  this.onProfileEdited()
+                }
+              },
+            ],
+            { cancelable: false },
+          );
+          
         }
 
       })
