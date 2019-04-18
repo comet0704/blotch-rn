@@ -320,7 +320,6 @@ export default class ProductDetailScreen extends React.Component {
   }
 
 
-  // p_type : 0: Match'd, 1:Blotch'd
   requestDeleteMatch(p_product_id) {
     this.setState({
       isLoading: true,

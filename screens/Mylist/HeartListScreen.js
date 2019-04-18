@@ -18,13 +18,14 @@ import {
   Dimensions,
   WebBrowser,
   Text,
+  Modal,
   ScrollView,
   TouchableOpacity,
   TouchableHighlight,
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
-import { ProductItem2 } from '../../components/Products/ProductItem2';
+import { ProductItem3 } from '../../components/Products/ProductItem3';
 
 export default class HeartListScreen extends React.Component {
   offset = 0;
@@ -33,12 +34,13 @@ export default class HeartListScreen extends React.Component {
     super(props);
   }
   componentDidMount() {
-    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+    this.requestWatchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
   }
   state = {
     categoryItems: Common.getCategoryItems(),
+    showDeleteModal: false,
     product_list_result_data: {
-      best_list: []
+      watch_list: []
     },
 
     beforeCatIdx: 0,
@@ -62,7 +64,7 @@ export default class HeartListScreen extends React.Component {
     } else {
       this.selectedSubCatName = "";
     }
-    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+    this.requestWatchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
   }
 
 
@@ -83,6 +85,48 @@ export default class HeartListScreen extends React.Component {
               <Text style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</Text>
             </View>
           ))}
+
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.showDeleteModal}
+            onRequestClose={() => {
+            }}>
+            <View style={{ flex: 1 }}>
+              <View style={MyStyles.modal_bg}>
+                <View style={MyStyles.modalContainer}>
+                  <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                    this.setState({ showDeleteModal: false });
+                  }}>
+                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                  </TouchableOpacity>
+
+                  <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
+                  <Text style={{ fontSize: 16, color: "black", alignSelf: "center", textAlign: "center", marginLeft: 10, marginRight: 10, fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Are you sure you want to delete this product from the list?</Text>
+
+                  <View style={{ flexDirection: "row" }}>
+                    <TouchableHighlight onPress={() => {
+                      this.setState({ showDeleteModal: false });
+                      this.requestDeleteMatch(this.state.delete_item_id);
+                    }}
+                      style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                      <Text style={MyStyles.btn_primary}>Yes</Text>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                      style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                      onPress={() => {
+                        this.setState({ showDeleteModal: false });
+                      }}>
+                      <Text style={MyStyles.btn_primary_white}>No</Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+
+              </View>
+            </View>
+          </Modal>
+
         </ScrollView>
       </View>
     );
@@ -103,7 +147,7 @@ export default class HeartListScreen extends React.Component {
                     categoryItems[p_categoryIndex].sub_category[index].is_selected = true
                     this.setState({ categoryItems: categoryItems })
                     this.setState({ loading_end: false })
-                    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+                    this.requestWatchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
                   }}>
                     <Text style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</Text>
                   </TouchableOpacity>
@@ -116,6 +160,9 @@ export default class HeartListScreen extends React.Component {
     );
   }
 
+  deleteFromList(p_item_id) {
+    this.setState({ delete_item_id: p_item_id, showDeleteModal: true })
+  }
 
   render() {
     return (
@@ -137,7 +184,7 @@ export default class HeartListScreen extends React.Component {
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({ nativeEvent }) => {
             if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-              this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+              this.requestWatchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
             }
           }}>
 
@@ -163,17 +210,17 @@ export default class HeartListScreen extends React.Component {
 
             {/* product 나열 */}
             <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({152})</Text>
+              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.watch_list.length})</Text>
               <FlatGrid
                 itemDimension={this.ScreenWidth}
-                items={this.state.product_list_result_data.best_list}
+                items={this.state.product_list_result_data.watch_list}
                 style={MyStyles.gridView}
                 spacing={10}
                 // staticDimension={300}
                 // fixed
                 // spacing={20}
                 renderItem={({ item, index }) => (
-                  <ProductItem2 is_heart_list={true} item={item} index={index} this={this}></ProductItem2>
+                  <ProductItem3 is_heart_list={true} item={item} index={index} this={this}/>
                 )}
               />
             </View>
@@ -184,29 +231,14 @@ export default class HeartListScreen extends React.Component {
       </KeyboardAvoidingView>
     );
   }
-  onProductLiked = (p_product_id) => {
-    const product_list = this.state.product_list_result_data.best_list
-    const index = product_list.findIndex(item => item.id === p_product_id)
-    product_list[index].is_liked = 100
-    const result = { best_list: product_list };
-    this.setState({ product_list_result_data: result })
-  }
 
-  onProductUnliked = (p_product_id) => {
-    const product_list = this.state.product_list_result_data.best_list
-    const index = product_list.findIndex(item => item.id === p_product_id)
-    product_list[index].is_liked = null
-    const result = { best_list: product_list };
-    this.setState({ product_list_result_data: result })
-  }
-
-  requestBestList(p_category, p_sub_category, p_offset) {
+  requestWatchList(p_category, p_sub_category, p_offset) {
     console.log("category= " + p_category);
     console.log("p_sub_category = " + p_sub_category)
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.product.bestList, {
+    return fetch(Net.user.watchList, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -216,7 +248,8 @@ export default class HeartListScreen extends React.Component {
       body: JSON.stringify({
         category: p_category == "" ? "All" : p_category,
         sub_category: p_sub_category,
-        offset: p_offset.toString()
+        offset: p_offset.toString(),
+        type: "1", // 0 이면 match 목록, 1 이면 blotch 목록
       }),
     })
       .then((response) => response.json())
@@ -233,8 +266,8 @@ export default class HeartListScreen extends React.Component {
         if (p_offset == 0) { // 카테고리 선택했을대 offset값을 0에서부터 검색해야 함.
           this.offset = 0;
         }
-        this.offset += responseJson.result_data.best_list.length
-        if (responseJson.result_data.best_list.length < MyConstants.ITEMS_PER_PAGE) {
+        this.offset += responseJson.result_data.watch_list.length
+        if (responseJson.result_data.watch_list.length < MyConstants.ITEMS_PER_PAGE) {
           this.setState({ loading_end: true })
         }
         if (p_offset == 0) {
@@ -243,8 +276,8 @@ export default class HeartListScreen extends React.Component {
           });
           return;
         }
-        const best_list = this.state.product_list_result_data.best_list
-        result = { best_list: [...best_list, ...responseJson.result_data.best_list] };
+        const watch_list = this.state.product_list_result_data.watch_list
+        result = { watch_list: [...watch_list, ...responseJson.result_data.watch_list] };
         this.setState({ product_list_result_data: result })
       })
       .catch((error) => {
@@ -257,12 +290,11 @@ export default class HeartListScreen extends React.Component {
   }
 
 
-
-  requestProductLike(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.product.like, {
+  requestDeleteMatch(p_product_id) {
+    // this.setState({
+    //   isLoading: true,
+    // });
+    return fetch(Net.product.deleteMatch, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -270,22 +302,24 @@ export default class HeartListScreen extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        product_id: p_product_id.toString()
+        product_id: p_product_id.toString(),
       }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
-
+        // this.setState({
+        //   isLoading: false,
+        // });
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
-          return
+          return;
         }
-        this.onProductLiked(p_product_id)
-
+        const watch_list = this.state.product_list_result_data.watch_list
+        const index = watch_list.findIndex(item => item.id === p_product_id)
+        watch_list.splice(index, 1)
+        const result = { watch_list: watch_list };
+        this.setState({ product_list_result_data: result })
       })
       .catch((error) => {
         this.setState({
@@ -294,43 +328,7 @@ export default class HeartListScreen extends React.Component {
         this.refs.toast.showBottom(error);
       })
       .done();
+
   }
 
-  requestProductUnlike(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.product.unlike, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-access-token': global.login_info.token
-      },
-      body: JSON.stringify({
-        product_id: p_product_id.toString()
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
-
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return
-        }
-        this.onProductUnliked(p_product_id)
-
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-  }
 };

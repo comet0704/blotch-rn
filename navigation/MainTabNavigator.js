@@ -170,6 +170,7 @@ const MyListStack = createStackNavigator({
   MatchdList: MatchdListScreen,
   SearchBrandDetail: SearchBrandDetailScreen,
   SearchCamera:SearchCameraScreen,
+  ProductDetail: ProductDetailScreen,
 },
   {
     headerMode: 'screen ',

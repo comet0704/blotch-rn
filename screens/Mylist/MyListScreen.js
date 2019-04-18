@@ -162,7 +162,7 @@ export default class MyListScreen extends React.Component {
           count: 0,
         },
         blotch: {
-          screen: "BlothdList",
+          screen: "BlotchdList",
           image: require("../../assets/images/ic_like_blotchd.png"),
           img_style: MyStyles.ic_like_blotchd,
           desc: "Blotch'd List",
@@ -184,12 +184,7 @@ export default class MyListScreen extends React.Component {
         },
       },
 
-      album_list: [{ // 빈 자료라도 있어야지 없으면 warning이 뜸.
-        "id": 0,
-        "title": "ㅎ",
-        "content": "ㅎ",
-        "count": 0
-      },
+      album_list: [
       ],
 
       like_list_order: ["match", "blotch", "heart", "favorite"]
@@ -208,11 +203,12 @@ export default class MyListScreen extends React.Component {
     })
   }
 
-  deleteMyListRow(secId, rowId, rowMap) {
+  deleteMyListRow(secId, rowId, rowMap, album_id) {
     rowMap[`${secId}${rowId}`].closeRow();
     const newData = [...this.state.album_list];
     newData.splice(rowId, 1);
     this.setState({ album_list: newData });
+    this.requestDeleteAlbum(album_id)
   }
 
   addMyList() {
@@ -283,73 +279,75 @@ export default class MyListScreen extends React.Component {
               }}
             />
 
-            <SwipeListView
-              contentContainerStyle={{ paddingLeft: 15, paddingRight: 15 }}
-              dataSource={this.ds.cloneWithRows(this.state.album_list)}
-              onRowOpen={(rowId) => {
-                // rowId 가 s10, s11, s12 ... s199 형식으로 들어오므로 실제 순서는 앞 두글자 없애서 계싼함
-                const order = rowId.substring(2);
-                this.state.album_list[order].rowOpened = true
-                this.setState(this.state.album_list)
-                this.setState({ opened_album_id: this.state.album_list[order].id })
-              }}
-              onRowClose={(rowId) => {
-                // rowId 가 s10, s11, s12 ... s199 형식으로 들어오므로 실제 순서는 앞 두글자 없애서 계싼함
-                const order = rowId.substring(2);
-                this.state.album_list[order].rowOpened = false
-                this.setState(this.state.album_list)
-                this.setState({ opened_album_id: 0 })
-              }}
-              renderRow={(data, secId, rowId, rowMap) => (
-                <SwipeRow
-                  rowKey={3}
-                  style={{ marginBottom: 15 }}
-                  disableRightSwipe={true}
-                  rightOpenValue={-180 / 3}>
-                  <View style={{
-                    alignItems: 'center',
-                    backgroundColor: '#DDD',
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    color: "white",
-                    borderRadius: 5
-                  }}>
-                    <TouchableOpacity
-                      style={{
-                        alignItems: 'center',
-                        bottom: 0,
-                        justifyContent: 'center',
-                        position: 'absolute',
-                        top: 0,
-                        width: 180 / 3,
-                        right: 0,
-                      }}
-                      onPress={_ => this.deleteMyListRow(secId, rowId, rowMap)}>
-                      <Text style={{ color: "white" }}>Delete</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.my_own_list_section, data.rowOpened ? { marginLeft: 60 } : null]}>
-                    <View style={MyStyles.ingredient_section_header}>
-                      <TouchableOpacity style={[{ flex: 1 }]} onPress={() => { }}>
-                        <View style={{ flexDirection: "row" }}>
-                          <Text style={[MyStyles.ingredient_section_header_text1, { alignSelf: "center" }]}>{data.title}</Text>
-                          {data.rowOpened ?
-                            <TouchableOpacity style={{ paddingLeft: 5, paddingRight: 5, alignSelf: "center" }} onPress={() => {
-                              this.setState({ edit_album_id: data.id, request_list_name: data.title, addAlbumModalVisible: true })
-                            }}>
-                              <Image source={require("../../assets/images/ic_pencil.png")} style={[MyStyles.ic_pencil]} />
-                            </TouchableOpacity>
-                            : null}
-                        </View>
-                        <Text style={[MyStyles.ingredient_section_header_text2]}>+{data.count}</Text>
+            {this.state.album_list.length > 0 ?
+              <SwipeListView
+                contentContainerStyle={{ paddingLeft: 15, paddingRight: 15 }}
+                dataSource={this.ds.cloneWithRows(this.state.album_list)}
+                onRowOpen={(rowId) => {
+                  // rowId 가 s10, s11, s12 ... s199 형식으로 들어오므로 실제 순서는 앞 두글자 없애서 계싼함
+                  const order = rowId.substring(2);
+                  this.state.album_list[order].rowOpened = true
+                  this.setState(this.state.album_list)
+                  this.setState({ opened_album_id: this.state.album_list[order].id })
+                }}
+                onRowClose={(rowId) => {
+                  // rowId 가 s10, s11, s12 ... s199 형식으로 들어오므로 실제 순서는 앞 두글자 없애서 계싼함
+                  const order = rowId.substring(2);
+                  this.state.album_list[order].rowOpened = false
+                  this.setState(this.state.album_list)
+                  this.setState({ opened_album_id: 0 })
+                }}
+                renderRow={(data, secId, rowId, rowMap) => (
+                  <SwipeRow
+                    rowKey={3}
+                    style={{ marginBottom: 15 }}
+                    disableRightSwipe={true}
+                    rightOpenValue={-180 / 3}>
+                    <View style={{
+                      alignItems: 'center',
+                      backgroundColor: '#DDD',
+                      flex: 1,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      color: "white",
+                      borderRadius: 5
+                    }}>
+                      <TouchableOpacity
+                        style={{
+                          alignItems: 'center',
+                          bottom: 0,
+                          justifyContent: 'center',
+                          position: 'absolute',
+                          top: 0,
+                          width: 180 / 3,
+                          right: 0,
+                        }}
+                        onPress={_ => this.deleteMyListRow(secId, rowId, rowMap, data.id)}>
+                        <Text style={{ color: "white" }}>Delete</Text>
                       </TouchableOpacity>
-                      <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
                     </View>
-                  </View>
-                </SwipeRow>
-              )}
-            />
+                    <View style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.my_own_list_section, data.rowOpened ? { marginLeft: 60 } : null]}>
+                      <View style={MyStyles.ingredient_section_header}>
+                        <TouchableOpacity style={[{ flex: 1 }]} onPress={() => { }}>
+                          <View style={{ flexDirection: "row" }}>
+                            <Text style={[MyStyles.ingredient_section_header_text1, { alignSelf: "center" }]}>{data.title}</Text>
+                            {data.rowOpened ?
+                              <TouchableOpacity style={{ paddingLeft: 5, paddingRight: 5, alignSelf: "center" }} onPress={() => {
+                                this.setState({ edit_album_id: data.id, request_list_name: data.title, addAlbumModalVisible: true })
+                              }}>
+                                <Image source={require("../../assets/images/ic_pencil.png")} style={[MyStyles.ic_pencil]} />
+                              </TouchableOpacity>
+                              : null}
+                          </View>
+                          <Text style={[MyStyles.ingredient_section_header_text2]}>+{data.count}</Text>
+                        </TouchableOpacity>
+                        <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
+                      </View>
+                    </View>
+                  </SwipeRow>
+                )}
+              />
+              : null}
 
             <TouchableOpacity style={{ flexDirection: "row", width: 100, alignSelf: "center", justifyContent: "center", marginTop: 15, marginBottom: 30 }}
               onPress={() => { this.setState({ edit_album_id: 0, request_list_name: "", addAlbumModalVisible: true }) }}>
@@ -584,6 +582,43 @@ export default class MyListScreen extends React.Component {
         }
 
         this.requestMyList();
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+  
+  requestDeleteAlbum(p_album_id) {
+    // 성공시 requestMyList를 다시 호출해주므로 현재 progress는 막는게 땅수
+    // this.setState({
+    //   isLoading: true,
+    // });)
+    return fetch(Net.user.deleteAlbum, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        album_id: p_album_id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
       })
       .catch((error) => {
         this.setState({

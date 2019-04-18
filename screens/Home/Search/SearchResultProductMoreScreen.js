@@ -113,7 +113,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
                   // fixed
                   // spacing={20}
                   renderItem={({ item, index }) => (
-                    <ProductItem2 item={item} index={index} this={this}></ProductItem2>
+                    <ProductItem2 item={item} index={index} this={this}/>
                   )}
                 />
               </View>

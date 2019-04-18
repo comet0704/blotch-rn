@@ -421,6 +421,11 @@ export default StyleSheet.create({
     padding: 10,
     aspectRatio: 1,
   },
+  productItemContainer1: {
+    justifyContent: 'flex-end',
+    borderRadius: 5,
+    padding: 10,
+  },
   productName: {
     fontSize: 13,
     color: Colors.primary_dark,

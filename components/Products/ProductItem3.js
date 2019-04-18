@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 
 
-export class ProductItem2 extends React.Component {
+export class ProductItem3 extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -39,23 +39,13 @@ export class ProductItem2 extends React.Component {
     return (
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TouchableOpacity onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-          <View style={[MyStyles.productItemContainer, { width: 418 / 3, aspectRatio: 1.2 }]}>
+          <View style={[MyStyles.productItemContainer1, { width: 302 / 3, height: 260 / 3 }]}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
-            {item.is_liked > 0
-              ?
-              <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { _this.requestProductUnlike(item.id) }}>
-                <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
-              </TouchableOpacity>
-              :
-              <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { _this.requestProductLike(item.id) }}>
-                <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-              </TouchableOpacity>
-            }
           </View>
         </TouchableOpacity>
         <View style={{ marginLeft: 10, flex: 1 }}>
           <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]}>{item.brand_title}</Text>
-          <Text style={[MyStyles.productName, { textAlign: "left", height: 110 / 3 }]} numberOfLines={2}>{item.title}</Text>
+          <Text style={[MyStyles.productName, { textAlign: "left", height: 40 / 3 }]} numberOfLines={1}>{item.title}</Text>
           <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", height: 69 / 3 }}
             onPress={() => {
               this.state.isStarPressed = !this.state.isStarPressed
@@ -81,10 +71,9 @@ export class ProductItem2 extends React.Component {
                 <Text style={{ color: Colors.color_star_full, alignSelf: "center", marginTop: -2, fontSize: 12 }}>{parseFloat(item.grade).toFixed(1)}</Text>
               </View>
               : null}
-
-
           </TouchableOpacity>
-          <View style={{ flexDirection: "row", alignItems: "center", marginTop: 15 }}>
+
+          <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
             <Image source={require("../../assets/images/ic_comment.png")} style={MyStyles.ic_comment} />
             <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{item.comment_count}</Text>
             {this.props.is_match_list ?
@@ -103,17 +92,17 @@ export class ProductItem2 extends React.Component {
         </View>
 
         {this.props.is_match_list ?
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => {_this.deleteFromList(item.id)}}>
             <Image source={require("../../assets/images/ic_match_on1.png")} style={[MyStyles.ic_match_on1, { marginLeft: 10 }]} />
           </TouchableOpacity>
           : null}
         {this.props.is_blotch_list ?
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => {_this.deleteFromList(item.id)}}>
             <Image source={require("../../assets/images/ic_blotch_on1.png")} style={[MyStyles.ic_blotch_on1, { marginLeft: 10 }]} />
           </TouchableOpacity>
           : null}
         {this.props.is_heart_list ?
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => {_this.deleteFromList(item.id)}}>
             <Image source={require("../../assets/images/ic_heart_big.png")} style={[MyStyles.ic_heart_big, { marginLeft: 10 }]} />
           </TouchableOpacity>
           : null}
