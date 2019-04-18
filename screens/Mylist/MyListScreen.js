@@ -133,7 +133,7 @@ export default class MyListScreen extends React.Component {
       //           "article_like_count": 3,
       //           "product_match_count": 4,
       //           "product_blotch_count": 3,
-      //           "product_watch_count": 3
+      //           "product_like_count": 3
       //       }
       //   ],
       //   "album_list": [
@@ -492,7 +492,7 @@ export default class MyListScreen extends React.Component {
         this.state.like_list_data.match.count = responseJson.result_data.like_list[0].product_match_count
         this.state.like_list_data.blotch.count = responseJson.result_data.like_list[0].product_blotch_count
         this.state.like_list_data.favorite.count = responseJson.result_data.like_list[0].article_like_count
-        this.state.like_list_data.heart.count = responseJson.result_data.like_list[0].product_watch_count
+        this.state.like_list_data.heart.count = responseJson.result_data.like_list[0].product_like_count
         this.setState(this.state.like_list_data)
 
         this.state.album_list = responseJson.result_data.album_list

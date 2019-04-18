@@ -34,13 +34,13 @@ export default class HeartListScreen extends React.Component {
     super(props);
   }
   componentDidMount() {
-    this.requestWatchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+    this.requestHeartList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
   }
   state = {
     categoryItems: Common.getCategoryItems(),
     showDeleteModal: false,
     product_list_result_data: {
-      watch_list: []
+      like_list: []
     },
 
     beforeCatIdx: 0,
@@ -64,7 +64,7 @@ export default class HeartListScreen extends React.Component {
     } else {
       this.selectedSubCatName = "";
     }
-    this.requestWatchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+    this.requestHeartList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
   }
 
 
@@ -147,7 +147,7 @@ export default class HeartListScreen extends React.Component {
                     categoryItems[p_categoryIndex].sub_category[index].is_selected = true
                     this.setState({ categoryItems: categoryItems })
                     this.setState({ loading_end: false })
-                    this.requestWatchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+                    this.requestHeartList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
                   }}>
                     <Text style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</Text>
                   </TouchableOpacity>
@@ -184,7 +184,7 @@ export default class HeartListScreen extends React.Component {
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({ nativeEvent }) => {
             if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-              this.requestWatchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+              this.requestHeartList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
             }
           }}>
 
@@ -210,10 +210,10 @@ export default class HeartListScreen extends React.Component {
 
             {/* product 나열 */}
             <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.watch_list.length})</Text>
+              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.like_list.length})</Text>
               <FlatGrid
                 itemDimension={this.ScreenWidth}
-                items={this.state.product_list_result_data.watch_list}
+                items={this.state.product_list_result_data.like_list}
                 style={MyStyles.gridView}
                 spacing={10}
                 // staticDimension={300}
@@ -232,13 +232,13 @@ export default class HeartListScreen extends React.Component {
     );
   }
 
-  requestWatchList(p_category, p_sub_category, p_offset) {
+  requestHeartList(p_category, p_sub_category, p_offset) {
     console.log("category= " + p_category);
     console.log("p_sub_category = " + p_sub_category)
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.user.watchList, {
+    return fetch(Net.user.likeList, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -266,8 +266,8 @@ export default class HeartListScreen extends React.Component {
         if (p_offset == 0) { // 카테고리 선택했을대 offset값을 0에서부터 검색해야 함.
           this.offset = 0;
         }
-        this.offset += responseJson.result_data.watch_list.length
-        if (responseJson.result_data.watch_list.length < MyConstants.ITEMS_PER_PAGE) {
+        this.offset += responseJson.result_data.like_list.length
+        if (responseJson.result_data.like_list.length < MyConstants.ITEMS_PER_PAGE) {
           this.setState({ loading_end: true })
         }
         if (p_offset == 0) {
@@ -276,8 +276,8 @@ export default class HeartListScreen extends React.Component {
           });
           return;
         }
-        const watch_list = this.state.product_list_result_data.watch_list
-        result = { watch_list: [...watch_list, ...responseJson.result_data.watch_list] };
+        const like_list = this.state.product_list_result_data.like_list
+        result = { like_list: [...like_list, ...responseJson.result_data.like_list] };
         this.setState({ product_list_result_data: result })
       })
       .catch((error) => {
@@ -315,10 +315,10 @@ export default class HeartListScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
-        const watch_list = this.state.product_list_result_data.watch_list
-        const index = watch_list.findIndex(item => item.id === p_product_id)
-        watch_list.splice(index, 1)
-        const result = { watch_list: watch_list };
+        const like_list = this.state.product_list_result_data.like_list
+        const index = like_list.findIndex(item => item.id === p_product_id)
+        like_list.splice(index, 1)
+        const result = { like_list: like_list };
         this.setState({ product_list_result_data: result })
       })
       .catch((error) => {
