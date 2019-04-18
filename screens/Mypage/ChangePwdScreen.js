@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Image,
   ScrollView,
+  AsyncStorage,
   StyleSheet,
   Text,
   View,
@@ -28,9 +29,7 @@ export default class ChangePwdScreen extends React.Component {
 
   state = {
     sendPressed: false,
-    image: null,
-    email: null,
-    id: null,
+    cur_password: null,
     password: null,
     password_confirm: null,
   };
@@ -38,12 +37,6 @@ export default class ChangePwdScreen extends React.Component {
   checkValidation = (value, check_type) => {
     if (value == null || value.length == 0) {
       return false
-    }
-
-    if (check_type == "id") {
-      if (value.length < 4) {
-        return false
-      }
     }
 
     if (check_type == "password") {
@@ -61,15 +54,15 @@ export default class ChangePwdScreen extends React.Component {
     return true
   }
 
-  onPressSend = (email) => {
+  onResetPwd = (old_pwd, pwd1, pwd2) => {
     this.setState({ sendPressed: true });
-    if (this.checkValidation(this.state.email, "email")) { // 이메일, 패스워드 모두 유효한 값이면
-      this.requestForgetPassword(email)
+    if (this.checkValidation(old_pwd, "empty") && this.checkValidation(pwd1, "password") && this.checkValidation(pwd1, "password_confirm")) { // 이메일, 패스워드 모두 유효한 값이면
+      this.requestChangePassword(old_pwd, pwd1, pwd2)
     }
   }
 
   render() {
-    let { sendPressed, image, email, id, password, password_confirm } = this.state;
+    let { sendPressed, cur_password, password, password_confirm } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <Spinner
@@ -91,17 +84,18 @@ export default class ChangePwdScreen extends React.Component {
               <Text style={MyStyles.text_header1}>Change Password</Text>
               <Text style={MyStyles.text_desc}>It's a good idea to use a strong password{"\n"}that you're not using elsewhere.</Text>
 
-              <View style={[MyStyles.inputBox, (this.checkValidation(email, "email") == false && sendPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-                {this.checkValidation(email, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Current Password {this.Necessarry}</Text> : null}
+              <View style={[MyStyles.inputBox, (this.checkValidation(cur_password, "empty") == false && sendPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
+                {this.checkValidation(cur_password, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Current Password {this.Necessarry}</Text> : null}
                 <TextInput
-                  returnKeyType="done"
-                  onChangeText={(text) => { this.setState({ email: text }) }}
-                  keyboardType="email-address"
+                  returnKeyType="next"
+                  onSubmitEditing={() => { this.pwdTextInput.focus(); }}
+                  onChangeText={(text) => { this.setState({ cur_password: text }) }}
+                  secureTextEntry={true}
                 />
               </View>
               {
-                ((this.checkValidation(email, "email") == false) && sendPressed == true) ?
-                  <Text style={MyStyles.warningText}>Please Confirm your Email</Text> : null
+                ((this.checkValidation(cur_password, "empty") == false) && sendPressed == true) ?
+                  <Text style={MyStyles.warningText}>Please Confirm your Password</Text> : null
               }
 
               <View style={[MyStyles.inputBox, (this.checkValidation(password, "password") == false && sendPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
@@ -134,7 +128,7 @@ export default class ChangePwdScreen extends React.Component {
               }
 
               <View style={{ flex: 1, marginTop: 35, flexDirection: "row" }}>
-                <TouchableOpacity style={[MyStyles.btn_primary_cover]} onPress={() => { this.onPressSend(this.state.email) }}>
+                <TouchableOpacity style={[MyStyles.btn_primary_cover]} onPress={() => { this.onResetPwd(this.state.cur_password, this.state.password, this.state.password_confirm) }}>
                   <Text style={MyStyles.btn_primary}>Reset Password</Text>
                 </TouchableOpacity>
               </View>
@@ -147,18 +141,21 @@ export default class ChangePwdScreen extends React.Component {
     );
   }
 
-  requestForgetPassword(p_email) {
+  requestChangePassword(p_pwd_old, p_pwd1, p_pwd2) {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.auth.forgotPassword, {
+    return fetch(Net.user.changePassword, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        email: p_email,
+        password_old: p_pwd_old,
+        password: p_pwd1,
+        password2: p_pwd2,
       }),
     })
       .then((response) => response.json())
@@ -171,9 +168,10 @@ export default class ChangePwdScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
-
-        this.refs.toast.showBottom("Temperary passcode has been sent to your email.");
-
+        // 변경된 패서드 저장.
+        AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.user_pwd, p_pwd1);
+        this.refs.toast.showBottom("The password has been changed.");
+        this.props.navigation.pop(2)
       })
       .catch((error) => {
         this.setState({

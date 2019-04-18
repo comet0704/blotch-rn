@@ -16,7 +16,7 @@ export default class MyPageScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
-      loginPressed: false,
+      profileEdited: false,
       email: null,
       password: null,
       result_data: {
@@ -42,8 +42,7 @@ export default class MyPageScreen extends React.Component {
   };
 
   onProfileEdited = () => {
-    alert("changed");
-    this.render();    
+    this.setState({profileEdited : !this.state.profileEdited});
   }
 
   renderRecommendingScroll() {
@@ -68,7 +67,7 @@ export default class MyPageScreen extends React.Component {
     );
   }
 
-  render() {
+  renderTrack() {
     return (
       <View style={{ flex: 1 }}>
         <Spinner
@@ -94,15 +93,15 @@ export default class MyPageScreen extends React.Component {
                 }
 
                 <TouchableOpacity style={{ position: "absolute", padding: 15, top: 5, right: 0 }} onPress={() => {
-                  this.props.navigation.navigate("EditProfile", {[MyConstants.NAVIGATION_PARAMS.onProfileEdited] : this.onProfileEdited})
+                  this.props.navigation.navigate("EditProfile", { [MyConstants.NAVIGATION_PARAMS.onProfileEdited]: this.onProfileEdited })
                 }}>
                   <Image source={require('../../assets/images/ic_edit.png')} style={MyStyles.ic_edit} />
                 </TouchableOpacity>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <View style={[MyStyles.profile_box1]}>
                     {/* <TouchableOpacity onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
-                      <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={{ width: 12, height: 11, alignSelf: "center" }} />
-                    </TouchableOpacity> */}
+                    <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={{ width: 12, height: 11, alignSelf: "center" }} />
+                  </TouchableOpacity> */}
                     <Image source={global.login_info.profile_image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: Common.getImageUrl(global.login_info.profile_image) }} style={global.login_info.profile_image == null ? { width: 117 / 3, height: 166 / 3, alignSelf: "center" } : { width: 315 / 3, height: 315 / 3, borderRadius: 100, }} />
                   </View>
                   <View style={{ marginLeft: 15 }}>
@@ -172,11 +171,11 @@ export default class MyPageScreen extends React.Component {
                   paddingBottom: 20
                 }}>
                   {/* <View style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_h_main]}>
-                    <Text style={[MyStyles.text_13_656565, { flex: 1 }]}>Tell us about your skin and we'll show you some product that you might want to check out!</Text>
-                    <TouchableOpacity>
-                      <Image source={require('../../assets/images/ic_btn_right.png')} style={[{ alignSelf: "center" }, MyStyles.ic_btn_right]} />
-                    </TouchableOpacity>
-                  </View> */}
+                  <Text style={[MyStyles.text_13_656565, { flex: 1 }]}>Tell us about your skin and we'll show you some product that you might want to check out!</Text>
+                  <TouchableOpacity>
+                    <Image source={require('../../assets/images/ic_btn_right.png')} style={[{ alignSelf: "center" }, MyStyles.ic_btn_right]} />
+                  </TouchableOpacity>
+                </View> */}
                   {
                     this.renderRecommendingScroll()
                   }
@@ -254,6 +253,13 @@ export default class MyPageScreen extends React.Component {
         </TouchableOpacity>
       </View>
     );
+  }
+  render() {
+    if (this.state.profileEdited) {
+      return this.renderTrack()
+    } else {
+      return this.renderTrack()
+    }
   }
 
 

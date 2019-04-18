@@ -260,14 +260,13 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-global.login_info = {};
 export default createBottomTabNavigator({
   HomeStack,
   ProductStack,
   IngredientStack,
   MyListStack,
   LoginStack,
-  MyPageStack,
+  // MyPageStack,
   // LinksStack,  
   // SettingsStack,
 }, {

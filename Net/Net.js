@@ -79,6 +79,7 @@ export default {
         articleLikeList: MyConstants.SERVER_URL + "/user/articleLikeList",
         myPage: MyConstants.SERVER_URL + "/user/myPage",
         updateProfile: MyConstants.SERVER_URL + "/user/updateProfile",
+        changePassword: MyConstants.SERVER_URL + "/user/changePassword",
     },
     brand: {
         detail: MyConstants.SERVER_URL + "/brand/detail",

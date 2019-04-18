@@ -170,6 +170,7 @@ const MyListStack = createStackNavigator({
   MatchdList: MatchdListScreen,
   SearchBrandDetail: SearchBrandDetailScreen,
   SearchCamera:SearchCameraScreen,
+  ProductDetail: ProductDetailScreen,
 },
   {
     headerMode: 'screen ',
@@ -195,10 +196,10 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
+  MyPage: MyPageScreen,
   Questionnare: QuestionnareScreen,
   MyBeautyBox: MyBeautyBoxScreen,
   Calendar: CalendarScreen,
-  MyPage: MyPageScreen,
   ContactUs: ContactUsScreen,
   Announcements : AnnouncementsScreen,
   Notification: NotificationScreen,
@@ -259,12 +260,12 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-global.login_info = {};
 export default createBottomTabNavigator({
   HomeStack,
   ProductStack,
   IngredientStack,
   MyListStack,
+  // LoginStack,
   MyPageStack,
   // LinksStack,  
   // SettingsStack,

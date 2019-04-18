@@ -68,7 +68,7 @@ export default class HomeScreen extends React.Component {
   componentWillMount() {
     removeAndroidBackButtonHandler()
   }
-  
+
   static navigationOptions = {
     header: null,
   };
@@ -273,21 +273,18 @@ export default class HomeScreen extends React.Component {
       <View style={{ flex: 1 }}>
         <NavigationEvents
           onWillFocus={payload => {
-            AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.login_info, (err, result) => {
-              global.login_info = JSON.parse(result);
-              const beforeLoginState = this.state.isLogined;
-              if (global.login_info == null) {
-                global.login_info = {
-                  token: ""
-                }
-                this.setState({ isLogined: false })
-              } else {
-                this.setState({ isLogined: true })
+            const beforeLoginState = this.state.isLogined;
+            if (global.login_info == null) {
+              global.login_info = {
+                token: ""
               }
-              if (beforeLoginState != this.state.isLogined) {
-                // this.requestHomeList()
-              }
-            });
+              this.setState({ isLogined: false })
+            } else {
+              this.setState({ isLogined: true })
+            }
+            if (beforeLoginState != this.state.isLogined) {
+              // this.requestHomeList()
+            }
           }}
         />
         <Spinner

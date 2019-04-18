@@ -266,8 +266,10 @@ export default class LoginScreen extends React.Component {
           return;
         } else {
           global.login_user = responseJson.login_user;
+          global.setting = responseJson.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
+          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.user_pwd, p_pwd);
           this.props.navigation.navigate("Home")
         }
 

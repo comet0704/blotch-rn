@@ -69,6 +69,7 @@ export default {
     setting : "setting",
     recent_search_words: "recent_search_words",
     like_list_order: "like_list_order",
+    user_pwd: "user_pwd",
   },
   NAVIGATION_PARAMS : {
     item_id: "item_id",

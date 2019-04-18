@@ -23,7 +23,7 @@ export default class EditProfileScreen extends React.Component {
       selectedImage: Common.getImageUrl(global.login_info.profile_image),
       selectedFile: null,
       uploadedImagePath: null,
-      email: global.login_info.user_email,
+      email: global.login_info.email,
       id: global.login_info.user_id,
     };
   }
@@ -57,7 +57,7 @@ export default class EditProfileScreen extends React.Component {
     // 유효한 값들이 입력되었는지 검사
     if (this.state.email && this.state.id &&
       this.state.email.length > 0 && this.state.id.length >= 4) {
-      if (this.state.selectedFile == null) {
+      if (this.state.selectedFile != null) {
         this.requestUploadUserImage(this.state.selectedFile)
       } else {
         this.requestUpdateProfile(this.state.email, this.state.id, null)
@@ -275,8 +275,10 @@ export default class EditProfileScreen extends React.Component {
           return;
         } else {
           global.login_info.user_id = p_user_id;
-          global.login_info.user_email = p_email;
-          global.login_info.profile_image = p_profile_image;
+          global.login_info.email = p_email;
+          if (p_profile_image != null) {
+            global.login_info.profile_image = p_profile_image;
+          }
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(global.login_info));
           this.refs.toast.showBottom("Changes have been saved");
           this.props.navigation.goBack()
