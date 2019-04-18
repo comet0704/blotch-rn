@@ -25,7 +25,7 @@ export default class CalendarScreen extends React.Component {
     super(props);
     this.state = {
       originalMarkedDates: {
-        '2019-04-14': { selected: true, marked: true, selectedColor: 'red' }
+        // '2019-04-14': { selected: true, marked: true, selectedColor: 'red' }
       },
     };
 
@@ -34,7 +34,6 @@ export default class CalendarScreen extends React.Component {
   onDaySelect = null;
   componentDidMount() {
     this.onDaySelect = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.onDaySelect)
-    console.log("1111111111111111111\n" + this.onDaySelect)
   }
 
 

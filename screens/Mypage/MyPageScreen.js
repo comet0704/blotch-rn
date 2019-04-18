@@ -214,7 +214,7 @@ export default class MyPageScreen extends React.Component {
               {/* My Beauty Box 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
                 <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
-                  this.setState({ section_allergic_show: !this.state.section_allergic_show })
+                  this.props.navigation.navigate("MyBeautyBox")
                 }}>
                   <Image source={require("../../assets/images/ic_beauty_box_big.png")} style={[MyStyles.ic_beauty_box_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
@@ -228,7 +228,7 @@ export default class MyPageScreen extends React.Component {
               {/* Questionnaire 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0, marginBottom: 40 }]}>
                 <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
-                  this.setState({ section_allergic_show: !this.state.section_allergic_show })
+                  this.props.navigation.navigate("Questionnare")
                 }}>
                   <Image source={require("../../assets/images/ic_questionnare_big.png")} style={[MyStyles.ic_questionnare_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>

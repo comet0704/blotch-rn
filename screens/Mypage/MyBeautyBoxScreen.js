@@ -39,11 +39,12 @@ export default class MyBeautyBoxScreen extends React.Component {
     super(props);
   }
   componentDidMount() {
-    // this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+    this.requestBeautyBoxList(this.state.type, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
   }
   state = {
     myRatingModalVisible: true,
     categoryItems: Common.getCategoryItems(),
+    type: 0,
     beauty_box_result_data: {
       beautybox_list: [
         {
@@ -112,7 +113,7 @@ export default class MyBeautyBoxScreen extends React.Component {
     } else {
       this.selectedSubCatName = "";
     }
-    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+    this.requestBeautyBoxList(this.state.type, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
   }
 
 
@@ -153,7 +154,7 @@ export default class MyBeautyBoxScreen extends React.Component {
                     categoryItems[p_categoryIndex].sub_category[index].is_selected = true
                     this.setState({ categoryItems: categoryItems })
                     this.setState({ loading_end: false })
-                    this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+                    this.requestBeautyBoxList(this.state.type, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
                   }}>
                     <Text style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</Text>
                   </TouchableOpacity>
@@ -197,7 +198,7 @@ export default class MyBeautyBoxScreen extends React.Component {
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({ nativeEvent }) => {
             if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-              this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+              this.requestBeautyBoxList(this.state.type, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
             }
           }}>
 
@@ -233,7 +234,10 @@ export default class MyBeautyBoxScreen extends React.Component {
                   fontSize={14}
                   selectedItemColor={Colors.color_656565}
                   baseColor={Colors.primary_dark}
-                  onChangeText={(value, index, data) => { alert(value) }}
+                  onChangeText={(value, index, data) => {
+                    this.setState({ type: index });
+                    this.requestBeautyBoxList(this.state.type, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+                  }}
                   data={data}
                 />
               </View>
@@ -293,7 +297,7 @@ export default class MyBeautyBoxScreen extends React.Component {
                       <Text style={[{ textAlign: "center", fontWeight: "bold", marginBottom: 5, }, MyStyles.text_13_primary_dark]}>
                         Are you satisfied with the product?
                       </Text>
-                      <View style={[{ width: "100%", height: 38, borderWidth: 0.5, borderColor: Colors.color_e3e5e4, justifyContent:"center", alignItems:"center" }]}>
+                      <View style={[{ width: "100%", height: 38, borderWidth: 0.5, borderColor: Colors.color_e3e5e4, justifyContent: "center", alignItems: "center" }]}>
                         <StarRating
                           disabled={false}
                           maxStars={5}
@@ -326,7 +330,7 @@ export default class MyBeautyBoxScreen extends React.Component {
                   <View style={{ flexDirection: "row" }}>
                     <TouchableHighlight
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
-                        
+
                       }}>
                       <Text style={MyStyles.btn_primary}>Save</Text>
                     </TouchableHighlight>
@@ -336,34 +340,17 @@ export default class MyBeautyBoxScreen extends React.Component {
             </View>
           </TouchableWithoutFeedback>
         </Modal>
-
-
       </KeyboardAvoidingView>
     );
   }
-  onProductLiked = (p_product_id) => {
-    const product_list = this.state.beauty_box_result_data.beautybox_list
-    const index = product_list.findIndex(item => item.id === p_product_id)
-    product_list[index].is_liked = 100
-    const result = { beautybox_list: product_list };
-    this.setState({ beauty_box_result_data: result })
-  }
 
-  onProductUnliked = (p_product_id) => {
-    const product_list = this.state.beauty_box_result_data.beautybox_list
-    const index = product_list.findIndex(item => item.id === p_product_id)
-    product_list[index].is_liked = null
-    const result = { beautybox_list: product_list };
-    this.setState({ beauty_box_result_data: result })
-  }
-
-  requestBestList(p_category, p_sub_category, p_offset) {
+  requestBeautyBoxList(p_type, p_category, p_sub_category, p_offset) {
     console.log("category= " + p_category);
     console.log("p_sub_category = " + p_sub_category)
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.product.bestList, {
+    return fetch(Net.user.beautyBoxList, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -371,6 +358,7 @@ export default class MyBeautyBoxScreen extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
+        type: p_type.toString(),
         category: p_category == "" ? "All" : p_category,
         sub_category: p_sub_category,
         offset: p_offset.toString()
@@ -414,12 +402,8 @@ export default class MyBeautyBoxScreen extends React.Component {
   }
 
 
-
-  requestProductLike(p_product_id) {
-    // this.setState({
-    //   isLoading: true,
-    // });
-    return fetch(Net.product.like, {
+  requestDeleteBeautyBox(p_beautybox_id) {
+    return fetch(Net.user.deleteBeautyBox, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -427,65 +411,25 @@ export default class MyBeautyBoxScreen extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        product_id: p_product_id.toString()
+        beautybox_id: p_beautybox_id.toString(),
       }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        // this.setState({
-        //   isLoading: false,
-        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
-          return
+          return;
         }
-        this.onProductLiked(p_product_id)
 
+        const beautybox_list = this.state.beauty_box_result_data.beautybox_list
+        const index = beautybox_list.findIndex(item => item.beautybox_id === p_beautybox_id)
+        beautybox_list.splice(index, 1)
+        const result = { beautybox_list: beautybox_list };
+        this.setState({ beauty_box_result_data: result })
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-  }
-
-  requestProductUnlike(p_product_id) {
-    // this.setState({
-    //   isLoading: true,
-    // });
-    return fetch(Net.product.unlike, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-access-token': global.login_info.token
-      },
-      body: JSON.stringify({
-        product_id: p_product_id.toString()
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        // console.log(responseJson);
-        // this.setState({
-        //   isLoading: false,
-        // });
-
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return
-        }
-        this.onProductUnliked(p_product_id)
-
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
         this.refs.toast.showBottom(error);
       })
       .done();

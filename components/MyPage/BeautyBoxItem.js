@@ -25,10 +25,14 @@ import {
 
 
 export class BeautyBoxItem extends React.Component {
+
   constructor(props) {
     super(props)
     this.state = {
-      item: {}
+      date_changed: false,
+      item: {
+        open_date: this.props.item.open_date.substring(0, 10)
+      }
     }
   }
 
@@ -40,6 +44,10 @@ export class BeautyBoxItem extends React.Component {
     console.log("---------------------\n" + selectedDay.dateString);
     this.state.item.open_date = selectedDay.dateString;
     this.setState(this.state.item)
+    this.setState({ date_changed: true })
+
+    // 오픈일 저장시킴
+    this.requestEditBeautyBox(this.props.item.beautybox_id, this.state.item.open_date)
   }
 
   render() {
@@ -47,10 +55,10 @@ export class BeautyBoxItem extends React.Component {
     const index = this.props.index;
     const _this = this.props.this;
     return (
-      <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-        <View style={[MyStyles.productItemContainer, { width: 295 / 3, height: 270 / 3 }]}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <TouchableOpacity style={[MyStyles.productItemContainer1, { width: 295 / 3, height: 270 / 3 }]} onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
-        </View>
+        </TouchableOpacity>
         <View style={{ marginLeft: 10, flex: 1 }}>
           <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
             <View style={{ flex: 1 }}>
@@ -86,23 +94,76 @@ export class BeautyBoxItem extends React.Component {
               </View>
             </View>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {_this.requestDeleteBeautyBox(item.beautybox_id)}}>
               <Image source={require("../../assets/images/ic_remove_beautybox.png")} style={[MyStyles.ic_remove_beautybox, { marginLeft: 10 }]} />
             </TouchableOpacity>
           </View>
 
-          <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 15 }}>
-            <Text style={{ color: Colors.color_949292, fontSize: 13, }}>Opened: </Text>
-            <TouchableOpacity style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
-              <Text style={{ paddingLeft: 5, paddingRight: 10 }}>{this.state.item.open_date}</Text>
-              <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
-            </TouchableOpacity>
-            <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
-              <Text style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>3.5M</Text>
+          {this.state.date_changed == false ? // 초기자료이면 item.open_date로 현시, open_date설정하였으면 this.state.item.open_date 현시
+            <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5 }}>
+              <Text style={{ color: Colors.color_949292, fontSize: 13, }}>Opened: </Text>
+              <TouchableOpacity style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
+                {item.open_date != null ?
+                  <Text style={{ paddingLeft: 5, paddingRight: 10 }}>{item.open_date.substring(0, 10)}</Text>
+                  :
+                  <Text style={{ paddingLeft: 5, paddingRight: 10 }}>-</Text>
+                }
+
+                <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
+              </TouchableOpacity>
+              {item.open_date != null ?
+                <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
+                  <Text style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>3.5M</Text>
+                </View>
+                : null
+              }
+
             </View>
-          </View>
+            :
+            <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5 }}>
+              <Text style={{ color: Colors.color_949292, fontSize: 13, }}>Opened: </Text>
+              <TouchableOpacity style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
+                <Text style={{ paddingLeft: 5, paddingRight: 10 }}>{this.state.item.open_date}</Text>
+                <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
+              </TouchableOpacity>
+              <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
+                <Text style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>3.5M</Text>
+              </View>
+            </View>
+          }
         </View>
-      </TouchableOpacity>
+      </View>
     )
+  }
+
+
+  requestEditBeautyBox(p_beautybox_id, p_open_date) {
+
+    return fetch(Net.user.editBeautyBox, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        beautybox_id: p_beautybox_id.toString(),
+        open_date: p_open_date,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        alert("BBBBB:" + p_beautybox_id + ":" + p_open_date);
+        console.log(responseJson);
+
+        if (responseJson.result_code < 0) {
+          this.props.this.refs.toast.showBottom(responseJson.result_msg);
+          return;
+        }
+      })
+      .catch((error) => {
+        this.props.this.refs.toast.showBottom(error);
+      })
+      .done();
   }
 }

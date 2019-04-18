@@ -85,6 +85,9 @@ export default {
         contactUs: MyConstants.SERVER_URL + "/user/contactUs",
         pointHistory: MyConstants.SERVER_URL + "/user/pointHistory",
         commentList: MyConstants.SERVER_URL + "/user/commentList",
+        beautyBoxList: MyConstants.SERVER_URL + "/user/beautyBoxList",
+        editBeautyBox: MyConstants.SERVER_URL + "/user/editBeautyBox",
+        deleteBeautyBox: MyConstants.SERVER_URL + "/user/deleteBeautyBox",
         terms_privacy: MyConstants.SERVER_URL + "/terms/usage.html",
     },
     brand: {
