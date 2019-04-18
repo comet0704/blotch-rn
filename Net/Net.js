@@ -80,6 +80,8 @@ export default {
         myPage: MyConstants.SERVER_URL + "/user/myPage",
         updateProfile: MyConstants.SERVER_URL + "/user/updateProfile",
         changePassword: MyConstants.SERVER_URL + "/user/changePassword",
+        announceList: MyConstants.SERVER_URL + "/user/announceList",
+        terms_privacy: MyConstants.SERVER_URL + "/terms/usage.html",
     },
     brand: {
         detail: MyConstants.SERVER_URL + "/brand/detail",

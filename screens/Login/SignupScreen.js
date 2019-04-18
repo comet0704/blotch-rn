@@ -356,11 +356,7 @@ export default class SignupScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         } else {
-          console.log(global.login_user);
-          Models.login_user = responseJson.login_user;
-          global.login_user = Models.login_user;
-          console.log("requestRegister--------")
-          console.log(responseJson.login_user);
+          global.login_info = responseJson.result_data.login_user;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           this.showAskInputQueModal();
         }

@@ -8,6 +8,12 @@ import AppNavigator from './navigation/AppNavigator';
 import AppNavigator1 from './navigation/AppNavigator1';
 import Net from './Net/Net'
 
+// 사용하는 대역변수 나열
+global.login_info = null
+global.setting = null;
+global.user_pwd = null;
+global.noti_setting = null;
+
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
@@ -15,8 +21,26 @@ export default class App extends React.Component {
   };
 
   componentWillMount() {
+    // 저장해둔 async 값들 받아오기
+    this.getAsyncData()
+
     // 여기서 로그인을 진행해보고 로그인 성공/실패 여부를 따져보아야 함.
     this.tryLogin()
+  }
+
+  async getAsyncData() {
+    result = await AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.noti_setting)
+    if (result != null) {
+      global.noti_setting = JSON.parse(result)
+    } else {
+      global.noti_setting = {
+        all: false,
+        reply: false,
+        ask_answer: false,
+        event: false,
+        point: false,
+      }
+    }
   }
 
   async tryLogin() {
@@ -41,12 +65,12 @@ export default class App extends React.Component {
       );
     } else {
       if (this.state.isLogined == false) {
-      return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
-      );
+        return (
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <AppNavigator />
+          </View>
+        );
       } else {
         return (
           <View style={styles.container}>
@@ -106,11 +130,11 @@ export default class App extends React.Component {
           isLoading: false
         });
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
+          // this.refs.toast.showBottom(responseJson.result_msg);
           return;
         } else {
-          global.login_user = responseJson.login_user;
-          global.setting = responseJson.setting;
+          global.login_info = responseJson.result_data.login_user;
+          global.setting = responseJson.result_data.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.user_pwd, p_pwd);
@@ -123,7 +147,7 @@ export default class App extends React.Component {
         this.setState({
           isLoading: false,
         });
-        this.refs.toast.showBottom(error);
+        // this.refs.toast.showBottom(error);
       })
       .done();
 

@@ -15,6 +15,7 @@ import { ImagePicker } from 'expo';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import MyStyles from '../../constants/MyStyles';
 import { LinearGradient } from 'expo';
+import Net from '../../Net/Net';
 
 export default class PolicyScreen extends React.Component {
 
@@ -28,7 +29,7 @@ export default class PolicyScreen extends React.Component {
 
           <View style={[MyStyles.container, { flex: 1 }]}>
             <WebView
-              source={{ uri: 'https://github.com/facebook/react-native' }}
+              source={{ uri: Net.user.terms_privacy }}
               style={{ flex: 1 }}
             />
           </View>

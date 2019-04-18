@@ -209,6 +209,7 @@ const MyPageStack = createStackNavigator({
   MyPoint: MyPointScreen,
   ChangePwd: ChangePwdScreen,
   EditProfile: EditProfileScreen,
+  ProductDetail: ProductDetailScreen,
 },
   {
     headerMode: 'screen ',

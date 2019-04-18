@@ -265,8 +265,8 @@ export default class LoginScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         } else {
-          global.login_user = responseJson.login_user;
-          global.setting = responseJson.setting;
+          global.login_info = responseJson.result_data.login_user;
+          global.setting = responseJson.result_data.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.user_pwd, p_pwd);
@@ -311,8 +311,10 @@ export default class LoginScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         } else {
-          global.login_user = responseJson.login_user;
+          global.login_info = responseJson.result_data.login_user;
+          global.setting = responseJson.result_data.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
+          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
           this.props.navigation.navigate("Home")
         }
 
@@ -352,8 +354,10 @@ export default class LoginScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         } else {
-          global.login_user = responseJson.login_user;
+          global.login_info = responseJson.result_data.login_user;
+          global.setting = responseJson.result_data.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
+          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
           this.props.navigation.navigate("Home")
         }
 

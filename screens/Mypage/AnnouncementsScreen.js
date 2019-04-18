@@ -29,34 +29,20 @@ export default class AnnouncementsScreen extends React.Component {
 
     this.state = {
       isLoading: false,
-      selected_category: "",
       result_data: {
         announce_list: [
-          {
-            "id": 2,
-            "title": "test",
-            "content": "test test",
-            "create_date": "2019-04-11 12:59:07",
-            "announce_type": 0,
-          },
-          {
-            "id": 1,
-            "title": "공지사항",
-            "content": "공지사항 내용입니다.",
-            "create_date": "2019-03-15 10:56:09",
-            "announce_type": 1,
-          }
+
         ]
       }
     };
   }
 
   componentDidMount() {
-    this.requestFaqList("브랜드", 0);
+    this.requestAnnounceList(0);
   }
 
   beforeSelectedFaqItem = -1;
-  onFaqItemSelected = (index) => {
+  onAnnounceItemSelected = (index) => {
     faq_item_list = this.state.result_data.announce_list;
     try {
       faq_item_list[this.beforeSelectedFaqItem].is_selected = false
@@ -90,24 +76,47 @@ export default class AnnouncementsScreen extends React.Component {
         <ScrollView style={{ fex: 1 }}
           onScroll={({ nativeEvent }) => {
             if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-              this.requestFaqList(this.state.selectedCatName, this.offset)
+              this.requestAnnounceList(this.offset)
             }
           }}>
           {this.state.result_data.announce_list.map((item, index) => (
-            <View key={item.id}>
-              <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.onFaqItemSelected(index) }}>
-                {item.announce_type == 0 ?
-                  <Image style={MyStyles.ic_announce_comment} source={require('../../assets/images/ic_announce_comment.png')} />
-                  :
-                  <Image style={MyStyles.ic_announce_notice} source={require('../../assets/images/ic_announce_notice.png')} />
-                }
-                <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
-                  <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
-                  <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>5 minuts ago</Text>
-                </View>
-                {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :
-                  <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_down_gray_small.png')} />}
-              </TouchableOpacity>
+            <View key={index}>
+              {item.type == 0 ? // notice 일때
+                <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.onAnnounceItemSelected(index) }}>
+                  <Image style={MyStyles.ic_announce_comment} source={require('../../assets/images/ic_announce_notice.png')} />
+                  <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
+                    <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
+                    <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0,10)}</Text>
+                  </View>
+                  {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :
+                    <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_down_gray_small.png')} />}
+                </TouchableOpacity>
+
+                :
+                item.type == 1 ? // comment_alert 일때
+                  <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+                    <Image style={MyStyles.ic_announce_notice} source={require('../../assets/images/ic_announce_comment.png')} />
+
+                    <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
+                      <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
+                      <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0,10)}</Text>
+                    </View>
+                    {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :
+                      <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_down_gray_small.png')} />}
+                  </TouchableOpacity>
+
+                  : // contact us 답변내용일때
+                  <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.onAnnounceItemSelected(index) }}>
+                    <Image style={MyStyles.ic_announce_notice} source={require('../../assets/images/ic_announce_comment.png')} />
+
+                    <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
+                      <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
+                      <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0,10)}</Text>
+                    </View>
+                    {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :
+                      <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_down_gray_small.png')} />}
+                  </TouchableOpacity>
+              }
 
               {item.is_selected ?
                 <View style={[MyStyles.padding_main, MyStyles.margin_h_main, { backgroundColor: Colors.color_f8f8f8 }]}>
@@ -121,12 +130,11 @@ export default class AnnouncementsScreen extends React.Component {
     );
   }
 
-  requestFaqList(p_category, p_offset) {
-    console.log("category = " + p_category);
+  requestAnnounceList(p_offset) {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.home.faqList, {
+    return fetch(Net.user.announceList, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -135,8 +143,7 @@ export default class AnnouncementsScreen extends React.Component {
 
       },
       body: JSON.stringify({
-        category: p_category,
-        offset: p_offset
+        offset: p_offset.toString()
       }),
     })
       .then((response) => response.json())
@@ -159,13 +166,13 @@ export default class AnnouncementsScreen extends React.Component {
         }
         if (p_offset == 0) {
           this.setState({
-            announce_list_result_data: responseJson.result_data
+            result_data: responseJson.result_data
           });
           return;
         }
-        const announce_list = this.state.product_list_result_data.announce_list
+        const announce_list = this.state.result_data.announce_list
         result = { announce_list: [...announce_list, ...responseJson.result_data.announce_list] };
-        this.setState({ announce_list_result_data: result })
+        this.setState({ result_data: result })
       })
       .catch((error) => {
         this.setState({

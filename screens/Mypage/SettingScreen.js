@@ -20,7 +20,7 @@ import MyConstants from '../../constants/MyConstants';
 import { LinearGradient } from 'expo';
 import Colors from '../../constants/Colors';
 
-
+let pkg = require('../../app.json')
 export default class SettingScreen extends React.Component {
 
   constructor(props) {
@@ -28,6 +28,10 @@ export default class SettingScreen extends React.Component {
     this.state = {
       isLoading: false,
     };
+  }
+
+  componentDidMount() {
+    console.log(pkg.expo.version)
   }
 
   render() {
@@ -52,7 +56,7 @@ export default class SettingScreen extends React.Component {
             <View style={MyStyles.container}>
               <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Version</Text>
-                <Text style={{ fontSize: 12, color: Colors.primary_purple }}>Ver 1.4 (Latest Version)</Text>
+                <Text style={{ fontSize: 12, color: Colors.primary_purple }}>Ver {pkg.expo.version} {pkg.expo.version == global.setting.version_name ? "(Latest Version)" : null}</Text>
               </View>
               <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("Policy") }}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Privacy Policy</Text>
@@ -80,43 +84,5 @@ export default class SettingScreen extends React.Component {
 
       </View>
     );
-  }
-
-  requestForgetPassword(p_email) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.auth.forgotPassword, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        email: p_email,
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson)
-        this.setState({
-          isLoading: false
-        });
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return;
-        }
-
-        this.refs.toast.showBottom("Temperary passcode has been sent to your email.");
-
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-
   }
 }

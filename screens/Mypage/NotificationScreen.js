@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   Switch,
+  AsyncStorage,
   Text,
   View,
   TextInput,
@@ -28,23 +29,19 @@ export default class NotificationScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
-      switch: {
-        all: false,
-        reply: false,
-        ask_answer: false,
-        event: false,
-        point: false,
-      }
+      switch: global.noti_setting
     };
   }
 
   checkSwitchStatus() {
-    if(this.state.switch.reply && this.state.switch.ask_answer && this.state.switch.event && this.state.switch.point) {
-      this.state.switch.all=true
+    if (this.state.switch.reply && this.state.switch.ask_answer && this.state.switch.event && this.state.switch.point) {
+      this.state.switch.all = true
     } else {
-      this.state.switch.all=false
+      this.state.switch.all = false
     }
     this.setState(this.state.switch);
+    global.noti_setting = this.state.switch
+    AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.noti_setting, JSON.stringify(global.noti_setting));
   }
 
   toggoleSwitch = (p_switchType) => {
