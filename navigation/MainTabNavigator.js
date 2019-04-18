@@ -196,10 +196,10 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
+  MyPage: MyPageScreen,
   Questionnare: QuestionnareScreen,
   MyBeautyBox: MyBeautyBoxScreen,
   Calendar: CalendarScreen,
-  MyPage: MyPageScreen,
   ContactUs: ContactUsScreen,
   Announcements : AnnouncementsScreen,
   Notification: NotificationScreen,
@@ -267,7 +267,7 @@ export default createBottomTabNavigator({
   IngredientStack,
   MyListStack,
   LoginStack,
-  // MyPageStack,
+  MyPageStack,
   // LinksStack,  
   // SettingsStack,
 }, {

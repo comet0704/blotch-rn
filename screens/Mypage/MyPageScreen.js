@@ -19,79 +19,32 @@ export default class MyPageScreen extends React.Component {
       loginPressed: false,
       email: null,
       password: null,
-      image: null,
       result_data: {
         "detail": null,
         "recommend_list": [
-          {
-            "id": 10,
-            "title": "Product-10",
-            "image_list": "uploads/product/mahdiar-mahmoodi-655027-unsplash.jpg",
-            "visit_count": 270,
-            "like_count": 14,
-            "comment_count": 1,
-            "grade": 4.25,
-            "is_liked": 6,
-            "brand_title": "ASTRAEA"
-          },
-          {
-            "id": 24,
-            "title": "Product-24",
-            "image_list": "uploads/product/dose-juice-1184434-unsplash.jpg###uploads/product/siora18-1186301-unsplash.jpg",
-            "visit_count": 270,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "THE BODY SHOP"
-          },
-          {
-            "id": 25,
-            "title": "Product-25",
-            "image_list": "uploads/product/eco-warrior-princess-740692-unsplash.jpg",
-            "visit_count": 270,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "GENESIS"
-          },
-          {
-            "id": 9,
-            "title": "Product-9",
-            "image_list": "uploads/product/j-kelly-brito-383355-unsplash.jpg",
-            "visit_count": 270,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "MIA"
-          },
-          {
-            "id": 26,
-            "title": "Product-26",
-            "image_list": "uploads/product/element5-digital-611469-unsplash.jpg###uploads/product/rahul-chakraborty-556155-unsplash.jpg",
-            "visit_count": 270,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "GATHER"
-          }
         ],
         "mypage": {
-          "my_point": 120,
-          "my_last_review_date": "2019-04-03 15:21:00",
-          "my_beautybox_count": 6,
-          "my_questionnaire": "Me"
+          "my_point": 0,
+          "my_last_review_date": "0000-00-00 00:00:00",
+          "my_beautybox_count": 0,
+          "my_questionnaire": ""
         }
       }
     };
   }
 
+  componentDidMount() {
+    this.requestMyPage();
+  }
+
   static navigationOptions = {
     header: null,
   };
+
+  onProfileEdited = () => {
+    alert("changed");
+    this.render();    
+  }
 
   renderRecommendingScroll() {
     return (
@@ -116,7 +69,6 @@ export default class MyPageScreen extends React.Component {
   }
 
   render() {
-    const { loginPressed, email, password, image } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <Spinner
@@ -134,9 +86,15 @@ export default class MyPageScreen extends React.Component {
               {/* 사진, 텍스트 */}
               <View style={[MyStyles.profile_back, MyStyles.padding_h_main, { justifyContent: "center" }]}>
                 <Image source={require('../../assets/images/ic_profile_back.png')} style={MyStyles.background_image} />
-                <Image source={{ uri: Common.getImageUrl("uploads/product/siora18-1186283-unsplash.jpg") }} opacity={0.2} style={MyStyles.background_image} />
+                {
+                  global.login_info.profile_image != null ?
+                    <Image source={{ uri: Common.getImageUrl(global.login_info.profile_image) }} opacity={0.2} style={MyStyles.background_image} />
+                    :
+                    null
+                }
+
                 <TouchableOpacity style={{ position: "absolute", padding: 15, top: 5, right: 0 }} onPress={() => {
-                  this.props.navigation.navigate("EditProfile")
+                  this.props.navigation.navigate("EditProfile", {[MyConstants.NAVIGATION_PARAMS.onProfileEdited] : this.onProfileEdited})
                 }}>
                   <Image source={require('../../assets/images/ic_edit.png')} style={MyStyles.ic_edit} />
                 </TouchableOpacity>
@@ -145,10 +103,10 @@ export default class MyPageScreen extends React.Component {
                     {/* <TouchableOpacity onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
                       <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={{ width: 12, height: 11, alignSelf: "center" }} />
                     </TouchableOpacity> */}
-                    <Image source={image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: image }} style={image == null ? { width: 117 / 3, height: 166 / 3, alignSelf: "center" } : { width: 315 / 3, height: 315 / 3, borderRadius: 100, }} />
+                    <Image source={global.login_info.profile_image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: Common.getImageUrl(global.login_info.profile_image) }} style={global.login_info.profile_image == null ? { width: 117 / 3, height: 166 / 3, alignSelf: "center" } : { width: 315 / 3, height: 315 / 3, borderRadius: 100, }} />
                   </View>
                   <View style={{ marginLeft: 15 }}>
-                    <Text style={{ fontSize: 59 / 3, color: "white", fontWeight: "500" }}>Hello Elliel</Text>
+                    <Text style={{ fontSize: 59 / 3, color: "white", fontWeight: "500" }}>Hello {global.login_info.user_id}</Text>
                     <Text style={{ fontSize: 59 / 3, color: "white" }}>Do you need advice?</Text>
                   </View>
                 </View>
@@ -234,7 +192,7 @@ export default class MyPageScreen extends React.Component {
                   <Image source={require("../../assets/images/ic_point_big.png")} style={[MyStyles.ic_point_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
                     <Text style={[MyStyles.ingredient_section_header_text1]}>My Point</Text>
-                    <Text style={[MyStyles.ingredient_section_header_text2]}>{150}P</Text>
+                    <Text style={[MyStyles.ingredient_section_header_text2]}>{this.state.result_data.mypage.my_point}P</Text>
                   </View>
                   <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
                 </TouchableOpacity>
@@ -248,7 +206,7 @@ export default class MyPageScreen extends React.Component {
                   <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
                     <Text style={[MyStyles.ingredient_section_header_text1]}>My Review</Text>
-                    <Text style={[MyStyles.ingredient_section_header_text2]}>Recent Review<Text style={{ marginLeft: 5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>  5 minuts ago</Text></Text>
+                    <Text style={[MyStyles.ingredient_section_header_text2]}>Recent Review<Text style={{ marginLeft: 5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>  {this.state.result_data.mypage.my_last_review_date.substring(0, 10)}</Text></Text>
                   </View>
                   <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
                 </TouchableOpacity>
@@ -262,7 +220,7 @@ export default class MyPageScreen extends React.Component {
                   <Image source={require("../../assets/images/ic_beauty_box_big.png")} style={[MyStyles.ic_beauty_box_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
                     <Text style={[MyStyles.ingredient_section_header_text1]}>My Beauty Box</Text>
-                    <Text style={[MyStyles.ingredient_section_header_text2]}>10 Product in use</Text>
+                    <Text style={[MyStyles.ingredient_section_header_text2]}>{this.state.result_data.mypage.my_beautybox_count} Product in use</Text>
                   </View>
                   <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
                 </TouchableOpacity>
@@ -298,78 +256,35 @@ export default class MyPageScreen extends React.Component {
     );
   }
 
-  requestLogin(p_email, p_pwd) {
+
+  requestMyPage() {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.auth.login, {
+    return fetch(Net.user.myPage, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        email: p_email,
-        password: p_pwd,
       }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
-        this.setState({
-          isLoading: false
-        });
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return;
-        } else {
-          global.login_user = responseJson.login_user;
-          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
-          this.props.navigation.navigate("Home")
-        }
-
-      })
-      .catch((error) => {
+        console.log(responseJson);
         this.setState({
           isLoading: false,
         });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
 
-  }
-
-  requestLoginGoogle(p_email, p_id, p_profile_image) {
-    console.log(p_email + "_" + p_id + "_ " + p_profile_image)
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.auth.loginGoogle, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        email: p_email,
-        id: p_id,
-        profile_image: p_profile_image,
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson)
-        this.setState({
-          isLoading: false
-        });
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
-          return;
-        } else {
-          global.login_user = responseJson.login_user;
-          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
-          this.props.navigation.navigate("Home")
+          return
         }
+
+        this.state.result_data = responseJson.result_data
+        this.setState(this.state.result_data)
 
       })
       .catch((error) => {
@@ -381,44 +296,4 @@ export default class MyPageScreen extends React.Component {
       .done();
   }
 
-  requestLoginFacebook(p_email, p_id, p_profile_image) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.auth.loginFacebook, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        email: p_email,
-        id: p_id,
-        profile_image: p_profile_image,
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson)
-        this.setState({
-          isLoading: false
-        });
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return;
-        } else {
-          global.login_user = responseJson.login_user;
-          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
-          this.props.navigation.navigate("Home")
-        }
-
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-  }
 }

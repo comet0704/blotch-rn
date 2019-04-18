@@ -38,21 +38,21 @@ export default class App extends React.Component {
         />
       );
     } else {
-      if (this.state.isLogined == false) {
+      // if (this.state.isLogined == false) {
         return (
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
             <AppNavigator />
           </View>
         );
-      } else {
-        return (
-          <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <AppNavigator1 />
-          </View>
-        );
-      }
+      // } else {
+      //   return (
+      //     <View style={styles.container}>
+      //       {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+      //       <AppNavigator1 />
+      //     </View>
+      //   );
+      // }
     }
   }
 

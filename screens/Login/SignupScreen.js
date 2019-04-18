@@ -1,9 +1,9 @@
-import { ImagePicker , Permissions} from 'expo';
+import { ImagePicker, Permissions } from 'expo';
 import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
-import {TouchableWithoutFeedback, Image, AsyncStorage, KeyboardAvoidingView, Modal, ScrollView, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { TouchableWithoutFeedback, Image, AsyncStorage, KeyboardAvoidingView, Modal, ScrollView, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import MyStyles from '../../constants/MyStyles';
 import Net from '../../Net/Net';
@@ -71,8 +71,12 @@ export default class SignupScreen extends React.Component {
     // 유효한 값들이 입력되었는지 검사
     if (this.state.email && this.state.id && this.state.password && this.state.password_confirm &&
       this.state.email.length > 0 && this.state.id.length >= 4 && this.state.password.length >= 8 &&
-      this.state.password == this.state.password_confirm) {        
-      this.requestUploadUserImage(this.state.selectedFile)
+        this.state.password == this.state.password_confirm) {
+      if (this.state.selectedFile != null) { // 프로필이미지가 있을때는 업로드
+        this.requestUploadUserImage(this.state.selectedFile)
+      } else { // 업을때는 즉시 등록
+        this.requestRegister(this.state.email, this.state.id, this.state.password, this.state.password_confirm, this.state.uploadedImagePath)
+      }
     } else {
       this.setState({ savePressed: true });
     }
@@ -80,7 +84,7 @@ export default class SignupScreen extends React.Component {
   }
 
   render() {
-    let { savePressed, selectedImage: image, email, id, password, password_confirm } = this.state;
+    let { savePressed, selectedImage, email, id, password, password_confirm } = this.state;
     return (
 
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
@@ -103,9 +107,9 @@ export default class SignupScreen extends React.Component {
 
             <View style={[MyStyles.profile_box]}>
               <TouchableOpacity onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
-                <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={{ width: 12, height: 11, alignSelf: "center" }}/>
+                <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={{ width: 12, height: 11, alignSelf: "center" }} />
               </TouchableOpacity>
-              <Image source={image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: image }} style={image == null ? { width: 30, height: 43, alignSelf: "center" } : { width: 75, height: 75, borderRadius: 37 }}/>
+              <Image source={selectedImage == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: selectedImage }} style={selectedImage == null ? { width: 30, height: 43, alignSelf: "center" } : { width: 75, height: 75, borderRadius: 37 }} />
             </View>
 
             <View style={[MyStyles.inputBox, (this.checkValidation(email, "email") == false && savePressed == true) ? { borderColor: "#f33f5b" } : {}]}>
@@ -186,10 +190,10 @@ export default class SignupScreen extends React.Component {
                   this.setState({ askInputQueModal: false });
                   this.props.navigation.navigate('Home')
                 }}>
-                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}/>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                 </TouchableOpacity>
 
-                <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")}/>
+                <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
                 <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Tell us little more about you so {"\n"} we can find recommendation!</Text>
 
                 <View style={{ flexDirection: "row" }}>
@@ -226,11 +230,11 @@ export default class SignupScreen extends React.Component {
               <View style={[{ height: 800 / 3, width: "100%", justifyContent: "center", alignItems: "center", backgroundColor: Colors.color_f8f8f8 }, MyStyles.shadow_2]}>
                 <View style={{ flexDirection: "row" }}>
                   <TouchableOpacity style={{ justifyContent: "center" }} onPress={() => { this._pickImageFromCamera() }}>
-                    <Image source={require("../../assets/images/ic_camera_big.png")} style={MyStyles.ic_camera_big}/>
+                    <Image source={require("../../assets/images/ic_camera_big.png")} style={MyStyles.ic_camera_big} />
                     <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={{ marginLeft: 50, justifyContent: "center" }} onPress={() => { this._pickImageFromGallery() }}>
-                    <Image source={require("../../assets/images/ic_gallery_big.png")} style={MyStyles.ic_gallery_big}/>
+                    <Image source={require("../../assets/images/ic_gallery_big.png")} style={MyStyles.ic_gallery_big} />
                     <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</Text>
                   </TouchableOpacity>
                 </View>
