@@ -518,7 +518,7 @@ export class FragmentProductDetailReviews extends React.Component {
         <Modal visible={this.state.zoomViewerModalVisible} transparent={true}
           onRequestClose={() => {
           }}>
-          <ImageLoadViewer imageUrls={this.state.zoomViewerImages} index={this.state.zoomViewerIndex} />
+          <ImageLoad imageUrls={this.state.zoomViewerImages} index={this.state.zoomViewerIndex} />
           <TouchableOpacity style={{ position: "absolute", top: 0, left: 0, padding: 15, marginTop: 30 }} onPress={() => {
             this.setState({ zoomViewerModalVisible: false });
           }}>

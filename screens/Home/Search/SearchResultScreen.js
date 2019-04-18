@@ -378,9 +378,9 @@ export default class SearchResultScreen extends React.Component {
   }
 
   requestProductLike(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.product.like, {
       method: 'POST',
       headers: {
@@ -395,9 +395,9 @@ export default class SearchResultScreen extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
