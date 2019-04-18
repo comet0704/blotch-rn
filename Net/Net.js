@@ -84,6 +84,7 @@ export default {
         contactUsCategory: MyConstants.SERVER_URL + "/user/contactUsCategory",
         contactUs: MyConstants.SERVER_URL + "/user/contactUs",
         pointHistory: MyConstants.SERVER_URL + "/user/pointHistory",
+        commentList: MyConstants.SERVER_URL + "/user/commentList",
         terms_privacy: MyConstants.SERVER_URL + "/terms/usage.html",
     },
     brand: {
