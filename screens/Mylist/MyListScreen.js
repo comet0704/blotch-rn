@@ -213,7 +213,7 @@ export default class MyListScreen extends React.Component {
 
   addMyList() {
     if (this.state.request_list_name == "") {
-      this.refs.toast.showTop("Please input List name");
+      this.refs.modal_toast.showTop("Please input List name");
       return;
     }
     this.setState({ addAlbumModalVisible: false });
@@ -410,6 +410,7 @@ export default class MyListScreen extends React.Component {
           }}>
           <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
             <View style={{ flex: 1 }}>
+              <Toast ref='modal_toast' />
               <View style={MyStyles.modal_bg}>
                 <View style={MyStyles.modalContainer}>
                   {/* modal header */}
@@ -591,7 +592,7 @@ export default class MyListScreen extends React.Component {
       })
       .done();
   }
-  
+
   requestDeleteAlbum(p_album_id) {
     // 성공시 requestMyList를 다시 호출해주므로 현재 progress는 막는게 땅수
     // this.setState({

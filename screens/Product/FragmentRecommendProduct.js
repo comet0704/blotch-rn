@@ -34,73 +34,15 @@ export class FragmentRecommendProduct extends React.Component {
       main_all_selected: false,
       no_search_result: false,
       filterModalVisible: false,
-      weatherType: "dry",
-      bannerImages: [
-        "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
-        "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
-        "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
-      ],
-      bannerLinkes: [
-        "http://files.techcrunch.cn/2014/10/shutterstock_87153322.jpg",
-        "http://img.mp.itc.cn/upload/20160817/1164b794aeb34c75a3d0182fa2d0ce21_th.jpg",
-        "http://igx.4sqi.net/img/general/600x600/2553055_fsxvDqjLmgupV5JaF-1f2EtnByGYjETgh9YUgftiT3Y.jpg"
-      ],
-      weatherInfo: "Seoul. -6˚C",
 
       product_list_result_data: {
         recomment_list: [
-          {
-            "id": 7,
-            "title": "Product-7",
-            "image_list": "uploads/product/jakub-dziubak-618225-unsplash.jpg",
-            "visit_count": 581,
-            "like_count": 16,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": 34,
-            "brand_title": "ROSITA"
-          },
-          {
-            "id": 30,
-            "title": "Product-30",
-            "image_list": "uploads/product/john-soo-689351-unsplash.jpg###uploads/product/maxim-lozyanko-1203735-unsplash.jpg###uploads/product/neonbrand-398872-unsplash.jpg",
-            "visit_count": 581,
-            "like_count": 15,
-            "comment_count": 1,
-            "grade": 5,
-            "is_liked": 53,
-            "brand_title": "ASTRAEA"
-          },
-          {
-            "id": 8,
-            "title": "Product-8",
-            "image_list": "uploads/product/jazmin-quaynor-470729-unsplash.jpg",
-            "visit_count": 581,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "CM"
-          },
-          {
-            "id": 9,
-            "title": "Product-9",
-            "image_list": "uploads/product/j-kelly-brito-383355-unsplash.jpg",
-            "visit_count": 581,
-            "like_count": 14,
-            "comment_count": 0,
-            "grade": 0,
-            "is_liked": null,
-            "brand_title": "MIA"
-          }
         ]
       },
       mainCategoryItems: Common.categoryItems_recom,
     };
   }
 
-  BannerHeight = 560 / 3;
-  BannerWidth = Dimensions.get('window').width;
   ScreenWidth = Dimensions.get('window').width;
 
   componentDidMount() {

@@ -88,6 +88,8 @@ export default {
         beautyBoxList: MyConstants.SERVER_URL + "/user/beautyBoxList",
         editBeautyBox: MyConstants.SERVER_URL + "/user/editBeautyBox",
         deleteBeautyBox: MyConstants.SERVER_URL + "/user/deleteBeautyBox",
+        questionnaireList: MyConstants.SERVER_URL + "/user/questionnaireList",
+        addQuestionnaireItem: MyConstants.SERVER_URL + "/user/addQuestionnaireItem",
         terms_privacy: MyConstants.SERVER_URL + "/terms/usage.html",
     },
     brand: {

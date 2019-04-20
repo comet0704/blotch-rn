@@ -543,15 +543,15 @@ export default StyleSheet.create({
     width: 40 / 3,
     height: 28 / 3,
   },
-  
+
   ic_skin_type_dry: {
     width: 71 / 3,
     height: 100 / 3,
-  },  
+  },
   ic_skin_type_dry_small: {
     width: 71 / 3,
     height: 100 / 3,
-  },  
+  },
   baby_container: {
     backgroundColor: "white",
     borderColor: "#e3e5e4",
@@ -569,6 +569,17 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderRadius: 240 / 6,
     width: 240 / 3,
+    aspectRatio: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  baby_container_selected1: {
+    backgroundColor: "white",
+    borderColor: "#e3e5e4",
+    borderWidth: 1,
+    borderRadius: 180 / 6,
+    width: 180 / 3,
     aspectRatio: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -1004,7 +1015,7 @@ export default StyleSheet.create({
     fontWeight: "500"
   },
   question_gender_on: {
-    borderWidth:0.5,
+    borderWidth: 0.5,
     borderColor: Colors.color_primary_pink,
     borderRadius: 3,
     alignItems: "center",
@@ -1013,13 +1024,22 @@ export default StyleSheet.create({
     height: 230 / 3,
   },
   question_gender_off: {
-    borderWidth:0.5,
+    borderWidth: 0.5,
     borderColor: Colors.color_e3e5e4,
     borderRadius: 3,
     alignItems: "center",
     justifyContent: "center",
     width: 270 / 3,
     height: 230 / 3,
+  },
+  question_routine_Type: {
+    borderWidth: 0.5,
+    borderColor: Colors.color_primary_pink,
+    borderRadius: 3,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 130 / 3,
+    flex: 1
   },
   ic_plus_button_purple_round: {
     width: 90 / 3,
