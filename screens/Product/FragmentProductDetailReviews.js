@@ -602,11 +602,10 @@ export class FragmentProductDetailReviews extends React.Component {
 
 
   requestPostProductComment(p_product_id, p_comment, p_parent, p_grade, p_image_url) {
-    console.log("6");
     console.log(p_product_id + ": " + p_comment + ":" + p_parent + ":" + p_grade + ": " + p_image_url)
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.product.postComment, {
       method: 'POST',
       headers: {
@@ -626,9 +625,9 @@ export class FragmentProductDetailReviews extends React.Component {
       .then((responseJson) => {
         console.log("7");
         // console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
         if (responseJson.result_code < 0) {
           this.props.toast.showBottom(responseJson.result_msg);
           return;

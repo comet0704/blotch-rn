@@ -3,17 +3,53 @@ import MyStyles from "../constants/MyStyles";
 
 export default {
   getImageUrl(image_list) {
-    if(image_list == null) {
+    if (image_list == null) {
       return null;
     }
     return MyConstants.UPLOAD_SERVER_URL + "/" + image_list.split(this.IMAGE_SPLITTER)[0]
   },
+
   getLinkUrl(p_linkUrl) {
-    if(p_linkUrl.indexOf("http://") > -1 || p_linkUrl.indexOf("https://") > -1) {
+    if (p_linkUrl.indexOf("http://") > -1 || p_linkUrl.indexOf("https://") > -1) {
       return p_linkUrl
     }
     return "http://" + p_linkUrl
   },
+
+  // 남은 사용기간 구하기 : 현재 날짜에서 opend_date를 덜고 그 값을 p_useful_period에서 던 값을 리턴
+  // p_opened_date : 2019-03-01
+  // p_useful_period : 180
+  // 일수가 아니라 달수로 돌려줌.
+  getRestUsePeriod(p_opened_date, p_use_period) {
+    // opened_date 가 오늘부터 며칠전일가 계싼
+    diffDate = this.dateDiff(p_opened_date, new Date())
+    returnValue = 0
+    if(diffDate > 0) {
+      returnValue = p_use_period - diffDate
+    } else { // 아직 사용하지 않았으면 유효기간 그대로 돌려줌
+      returnValue = p_use_period
+    }
+
+    if(returnValue < 0 ) { // 유효기간이 지났으면 0 돌림.
+      returnValue = 0;
+    }
+
+    return (returnValue > 30 ? (returnValue / 30).toFixed(1) + "M" : returnValue + "days")
+  },
+
+  dateDiff(_date1, _date2) {
+    var diffDate_1 = _date1 instanceof Date ? _date1 : new Date(_date1);
+    var diffDate_2 = _date2 instanceof Date ? _date2 : new Date(_date2);
+
+    diffDate_1 = new Date(diffDate_1.getFullYear(), diffDate_1.getMonth() + 1, diffDate_1.getDate());
+    diffDate_2 = new Date(diffDate_2.getFullYear(), diffDate_2.getMonth() + 1, diffDate_2.getDate());
+
+    var diff = diffDate_2.getTime() - diffDate_1.getTime();
+    diff = Math.ceil(diff / (1000 * 3600 * 24));
+
+    return diff;
+  },
+
   scrollIsCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
     const paddingToBottom = 20;
     return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
@@ -35,17 +71,17 @@ export default {
     curYear = curTime.getYear() + 1900
     curMonth = curTime.getMonth() + 1
     curDay = curTime.getDate()
-    
-    if(curYear == p_year && curMonth == p_month) {
-      if(curDay == p_day) {
+
+    if (curYear == p_year && curMonth == p_month) {
+      if (curDay == p_day) {
         return "Today"
       }
-      if(curDay == (parseInt(p_day) + 1)) {
+      if (curDay == (parseInt(p_day) + 1)) {
         return "Yesterday"
       }
     }
 
-    return p_time.substring(0,10)
+    return p_time.substring(0, 10)
   },
   getCategoryItems() {
     return [
@@ -255,10 +291,10 @@ export default {
         sub_category: [
         ]
       },
-    ];  
+    ];
   },
-  IMAGE_SPLITTER:"###",
-  SEARCH_KEYWORD_SPLITTER:"###",
+  IMAGE_SPLITTER: "###",
+  SEARCH_KEYWORD_SPLITTER: "###",
 
   // 메인카테고리의 is_selected 마당)  0 : 선택안함, 1 : 최초 선택시 서브카테고리 선택안됨., 2 : 서브카테고리 1개이상 선택됨.
   categoryItems_recom: [
@@ -541,7 +577,7 @@ export default {
     },
   ],
 
-  skinType : [
+  skinType: [
     {
       typeName: MyConstants.SkinTypeName.dry,
       image_off: require("../assets/images/SkinTypes/ic_skin_type_dry_off.png"),

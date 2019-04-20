@@ -32,7 +32,7 @@ export default class MyPointScreen extends React.Component {
     this.state = {
       "result_data": {
         "point_history": [
-         
+
         ]
       }
     };
@@ -45,7 +45,7 @@ export default class MyPointScreen extends React.Component {
   renderPointHistory(item, index) {
     if (item.type == 1) {
       {/* 리뷰작성으로 인한 지급 */ }
-      <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
+      <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: -3 }]}>
         <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
           this.setState({ section_allergic_show: !this.state.section_allergic_show })
         }}>
@@ -59,7 +59,7 @@ export default class MyPointScreen extends React.Component {
       </View>
     } else if (item.type == 2) { // 미등록 제품스캔, 사진 업로드로 인한  인한 지급
       return (
-        <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
+        <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
           <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
             this.setState({ section_allergic_show: !this.state.section_allergic_show })
           }}>
@@ -79,7 +79,7 @@ export default class MyPointScreen extends React.Component {
     } else if (item.type == 3) {
       {/* Questionnaire 완료시 지급 */ }
       return (
-        <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
+        <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
           <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
             this.setState({ section_allergic_show: !this.state.section_allergic_show })
           }}>
@@ -123,7 +123,7 @@ export default class MyPointScreen extends React.Component {
             }}
           >
             <View>
-              <View style={[{ flexDirection: "row", height: 200 / 3, margin: 15, overflow: "hidden", alignItems: "center", borderRadius: 5 }, MyStyles.padding_main]}>
+              <View style={[{ flexDirection: "row", height: 200 / 3, margin: 15, overflow: "hidden", alignItems: "center", borderRadius: 5, marginBottom: 30 }, MyStyles.padding_main]}>
                 <Image style={[MyStyles.background_image]} source={require("../../assets/images/ic_gradient_bg.png")} />
                 <View style={{ flex: 1 }}>
                   <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{global.login_info.user_id}'s</Text>

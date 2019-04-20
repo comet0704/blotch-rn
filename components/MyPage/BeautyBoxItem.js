@@ -72,34 +72,41 @@ export class BeautyBoxItem extends React.Component {
                   starSize={40 / 3}
                   emptyStarColor={Colors.color_star_empty}
                   rating={item.grade}
-                  onPress={() => {
-                    _this.onStarPressed(item)
+                  selectedStar={(rating) => {
                   }}
-                  selectedStar={(rating) => { }}
                   fullStarColor={Colors.color_star_full}
                 />
                 <View style={{ height: 15, marginLeft: 10, marginRight: 10, borderWidth: 0.5, borderColor: Colors.color_e3e5e4 }} />
-                <TouchableOpacity style={[{ padding: 5, borderRadius: 3 }, MyStyles.shadow_2]}>
-                  <StarRating
-                    disabled={false}
-                    maxStars={5}
-                    containerStyle={[{ width: 200 / 3, },]}
-                    starSize={40 / 3}
-                    emptyStarColor={Colors.color_star_empty}
-                    rating={5}
-                    selectedStar={(rating) => { }}
-                    fullStarColor={Colors.primary_purple}
-                  />
+                <TouchableOpacity style={[{ padding: 5, borderRadius: 3 }, MyStyles.shadow_2]}
+                  onPress={() => {
+                    _this.onStarPressed(item.id)
+                  }}>
+                  {item.my_grade != null ?
+                    <StarRating
+                      disabled={false}
+                      maxStars={5}
+                      containerStyle={[{ width: 200 / 3, },]}
+                      starSize={40 / 3}
+                      emptyStarColor={Colors.color_star_empty}
+                      rating={item.my_grade}
+                      selectedStar={(rating) => {
+                        _this.onStarPressed(item.id)
+                      }}
+                      fullStarColor={Colors.primary_purple}
+                    />
+                    :
+                    <Text style={{ paddingLeft: 5, paddingRight: 10, width: 200 / 3, height: 40 / 3 }}>-</Text>
+                  }
                 </TouchableOpacity>
               </View>
             </View>
 
-            <TouchableOpacity onPress={() => {_this.requestDeleteBeautyBox(item.beautybox_id)}}>
+            <TouchableOpacity onPress={() => { _this.requestDeleteBeautyBox(item.beautybox_id) }}>
               <Image source={require("../../assets/images/ic_remove_beautybox.png")} style={[MyStyles.ic_remove_beautybox, { marginLeft: 10 }]} />
             </TouchableOpacity>
           </View>
 
-          {this.state.date_changed == false ? // 초기자료이면 item.open_date로 현시, open_date설정하였으면 this.state.item.open_date 현시
+          {this.state.date_changed == false ? // 초기자료이면 item.open_date로 현시, open_date설정하였으면 this.state.item.open_date 현시, 원래 this.state.item.open_date로 했으면 좋겟으나 잘 안되는 문제가 있음.
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5 }}>
               <Text style={{ color: Colors.color_949292, fontSize: 13, }}>Opened: </Text>
               <TouchableOpacity style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
@@ -113,7 +120,7 @@ export class BeautyBoxItem extends React.Component {
               </TouchableOpacity>
               {item.open_date != null ?
                 <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
-                  <Text style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>3.5M</Text>
+                  <Text style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>{Common.getRestUsePeriod(item.open_date.substring(0, 10), 180)}</Text>
                 </View>
                 : null
               }
@@ -127,7 +134,7 @@ export class BeautyBoxItem extends React.Component {
                 <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
               </TouchableOpacity>
               <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
-                <Text style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>3.5M</Text>
+                <Text style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>{Common.getRestUsePeriod(this.state.item.open_date, 180)}</Text>
               </View>
             </View>
           }
@@ -153,7 +160,6 @@ export class BeautyBoxItem extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        alert("BBBBB:" + p_beautybox_id + ":" + p_open_date);
         console.log(responseJson);
 
         if (responseJson.result_code < 0) {

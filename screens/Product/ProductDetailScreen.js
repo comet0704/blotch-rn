@@ -256,13 +256,14 @@ export default class ProductDetailScreen extends React.Component {
         console.log(responseJson);
         this.setState({
           isLoading: false,
-          product_detail_result_data: responseJson.result_data
         });
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
-
+        this.setState({
+          product_detail_result_data: responseJson.result_data
+        });
       })
       .catch((error) => {
         this.setState({

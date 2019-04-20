@@ -37,65 +37,38 @@ export default class MyBeautyBoxScreen extends React.Component {
   selectedSubCatName = "";
   constructor(props) {
     super(props);
+    this.state = {
+      post_comment: "",
+      selectedProductId: 0,
+      myRatingModalVisible: false,
+      categoryItems: Common.getCategoryItems(),
+      type: 0,
+      beauty_box_result_data: {
+        beautybox_list: [
+        ]
+      },
+      product_detail_result_data: {
+        detail: {
+          "id": 1,
+          "title": "",
+          "image_list": "",
+          "visit_count": 0,
+          "like_count": 0,
+          "comment_count": 0,
+          "grade": 0,
+          "is_liked": null,
+          "brand_title": ""
+        }
+      },
+      beforeCatIdx: 0,
+      loading_end: false,
+    };
+
   }
+
   componentDidMount() {
     this.requestBeautyBoxList(this.state.type, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
   }
-  state = {
-    myRatingModalVisible: true,
-    categoryItems: Common.getCategoryItems(),
-    type: 0,
-    beauty_box_result_data: {
-      beautybox_list: [
-        {
-          "id": 10,
-          "title": "Product-10",
-          "image_list": "uploads/product/mahdiar-mahmoodi-655027-unsplash.jpg",
-          "visit_count": 270,
-          "like_count": 14,
-          "comment_count": 1,
-          "grade": 4.25,
-          "is_liked": 6,
-          "brand_title": "ASTRAEA",
-          "beautybox_id": 19,
-          "open_date": "2019-04-11 11:03:30",
-          "my_grade": 4
-        },
-        {
-          "id": 6,
-          "title": "Product-6",
-          "image_list": "uploads/product/jake-peterson-463095-unsplash.jpg",
-          "visit_count": 270,
-          "like_count": 14,
-          "comment_count": 0,
-          "grade": 0,
-          "is_liked": null,
-          "brand_title": "GATHER",
-          "beautybox_id": 15,
-          "open_date": "2019-03-12 11:03:30",
-          "my_grade": null
-        },
-        {
-          "id": 7,
-          "title": "Product-7",
-          "image_list": "uploads/product/jakub-dziubak-618225-unsplash.jpg",
-          "visit_count": 270,
-          "like_count": 15,
-          "comment_count": 0,
-          "grade": 0,
-          "is_liked": null,
-          "brand_title": "ROSITA",
-          "beautybox_id": 16,
-          "open_date": "2019-04-09 11:03:30",
-          "my_grade": null
-        },
-      ]
-    },
-
-    beforeCatIdx: 0,
-    loading_end: false,
-  };
-
 
   ScreenWidth = Dimensions.get('window').width;
 
@@ -167,6 +140,12 @@ export default class MyBeautyBoxScreen extends React.Component {
     );
   }
 
+  onStarPressed(p_product_id) {
+    console.log("00000000000" + p_product_id);
+    // 먼저 상품상세정보를 얻어온다음 현시되는 dialog에 적용해주어야 하므로 
+    this.setState({ selectedProductId: p_product_id })
+    this.requestProductDetail(p_product_id)
+  }
 
   render() {
     let data = [{
@@ -263,6 +242,7 @@ export default class MyBeautyBoxScreen extends React.Component {
           visible={this.state.myRatingModalVisible}
           onRequestClose={() => {
           }}>
+          <Toast ref='modal_toast' />
           <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
             <View style={{ flex: 1 }}>
               <View style={MyStyles.modal_bg1}>
@@ -281,12 +261,12 @@ export default class MyBeautyBoxScreen extends React.Component {
                   <View style={[MyStyles.padding_v_25, MyStyles.container]}>
                     {/* 이미지, description 부분 */}
                     <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 75 / 3 }}>
-                      <View style={[MyStyles.productItemContainer, { width: 295 / 3, height: 270 / 3 }]}>
-                        <ImageLoad source={{ uri: Common.getImageUrl("uploads/product/jake-peterson-463095-unsplash.jpg") }} style={[MyStyles.background_image]} />
+                      <View style={[MyStyles.productItemContainer1, { width: 295 / 3, height: 270 / 3 }]}>
+                        <ImageLoad source={{ uri: Common.getImageUrl(this.state.product_detail_result_data.detail.image_list) }} style={[MyStyles.background_image]} />
                       </View>
                       <View style={{ marginLeft: 10, flex: 1 }}>
-                        <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]}>Innisfree</Text>
-                        <Text style={[MyStyles.productName, { textAlign: "left" }]} numberOfLines={2}>Liquid Shampoo Liquid Shampoo Liquid Shampoo</Text>
+                        <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]}>{this.state.product_detail_result_data.detail.brand_title}</Text>
+                        <Text style={[MyStyles.productName, { textAlign: "left", height: 50 }]} numberOfLines={2}>{this.state.product_detail_result_data.detail.title}</Text>
                       </View>
                     </View>
 
@@ -304,8 +284,11 @@ export default class MyBeautyBoxScreen extends React.Component {
                           containerStyle={[{ width: 200 / 3, },]}
                           starSize={40 / 3}
                           emptyStarColor={Colors.color_star_empty}
-                          rating={5}
-                          selectedStar={(rating) => { }}
+                          rating={this.state.product_detail_result_data.detail.grade}
+                          selectedStar={(rating) => {
+                            this.state.product_detail_result_data.detail.grade = rating
+                            this.setState({ product_detail_result_data: this.state.product_detail_result_data });
+                          }}
                           fullStarColor={Colors.primary_purple}
                         />
                         <Image style={[MyStyles.ic_arrow_down_gray_small, { position: "absolute", right: 15, top: 15 }]} source={require("../../assets/images/ic_arrow_down_gray_small.png")} />
@@ -320,8 +303,7 @@ export default class MyBeautyBoxScreen extends React.Component {
                         textAlignVertical="top"
                         multiline={true}
                         returnKeyType="go"
-                        ref={(input) => { this.request_list_name = input; }}
-                        onChangeText={(text) => { this.setState({ request_product_name: text }) }}
+                        onChangeText={(text) => { this.setState({ post_comment: text }) }}
                         style={[MyStyles.text_input_with_border, { height: 100 }]}>
                       </TextInput>
                     </View>
@@ -330,7 +312,16 @@ export default class MyBeautyBoxScreen extends React.Component {
                   <View style={{ flexDirection: "row" }}>
                     <TouchableHighlight
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
-
+                        console.log(this.state.product_detail_result_data.grade);
+                        if (this.state.product_detail_result_data.detail.grade == null || this.state.product_detail_result_data.detail.grade == 0) {
+                          this.refs.modal_toast.showBottom("Please select star");
+                          return
+                        }
+                        if (this.state.post_comment.length <= 0) {
+                          this.refs.modal_toast.showBottom("Please input comment");
+                          return
+                        }
+                        this.requestPostProductComment(this.state.selectedProductId, this.state.post_comment, 0, this.state.product_detail_result_data.detail.grade, null)
                       }}>
                       <Text style={MyStyles.btn_primary}>Save</Text>
                     </TouchableHighlight>
@@ -343,6 +334,7 @@ export default class MyBeautyBoxScreen extends React.Component {
       </KeyboardAvoidingView>
     );
   }
+
 
   requestBeautyBoxList(p_type, p_category, p_sub_category, p_offset) {
     console.log("category= " + p_category);
@@ -431,6 +423,103 @@ export default class MyBeautyBoxScreen extends React.Component {
       })
       .catch((error) => {
         this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+
+  requestProductDetail(p_product_id) {
+    // this.setState({
+    //   isLoading: true,
+    // });
+    return fetch(Net.product.detail, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return;
+        }
+        this.setState({
+          product_detail_result_data: responseJson.result_data
+        });
+
+        // 제품정보 얻어왔으니 모달을 띄워주자
+        this.setState({ myRatingModalVisible: true })
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+
+  }
+
+  onCommentPosted = (p_product_id, grade, p_my_grade) => {
+    const beautybox_list = this.state.beauty_box_result_data.beautybox_list
+    const index = beautybox_list.findIndex(item => item.id === p_product_id)
+    beautybox_list[index].grade = grade
+    beautybox_list[index].my_grade = p_my_grade
+    const result = { beautybox_list: beautybox_list };
+    this.setState({ beauty_box_result_data: result })
+  }
+
+  requestPostProductComment(p_product_id, p_comment, p_parent, p_grade, p_image_url) {
+    console.log(p_product_id + ": " + p_comment + ":" + p_parent + ":" + p_grade + ": " + p_image_url)
+    // this.setState({
+    //   isLoading: true,
+    // });
+    return fetch(Net.product.postComment, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString(),
+        comment: p_comment,
+        parent: p_parent.toString(),
+        grade: p_grade.toString(),
+        image_url: p_image_url,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log("7");
+        // console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
+        if (responseJson.result_code < 0) {
+          this.props.toast.showBottom(responseJson.result_msg);
+          return;
+        }
+        // 댓글 추가해주자.
+        this.onCommentPosted(p_product_id, responseJson.result_data.grade, p_grade)
+        this.setState({ myRatingModalVisible: false, post_comment: "" })
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.props.toast.showBottom(error);
       })
       .done();
   }
