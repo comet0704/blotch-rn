@@ -412,6 +412,10 @@ export default StyleSheet.create({
     width: 56 / 3,
     height: 51 / 3,
   },
+  ic_announce_contact_us: {
+    width: 56 / 3,
+    height: 52 / 3,
+  },
   gridView: {
     flex: 1,
   },
@@ -963,6 +967,10 @@ export default StyleSheet.create({
   ic_questionnare_big: {
     width: 99 / 3,
     height: 109 / 3,
+  },
+  ic_product_approval: {
+    width: 98 / 3,
+    height: 86 / 3,
   },
   ic_beauty_box_big: {
     width: 99 / 3,

@@ -58,6 +58,23 @@ export default class MyPointScreen extends React.Component {
         </TouchableOpacity>
       </View>
     } else if (item.type == 2) { // 미등록 제품스캔, 사진 업로드로 인한  인한 지급
+      return (
+        <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
+          <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+            this.setState({ section_allergic_show: !this.state.section_allergic_show })
+          }}>
+            <Image source={require("../../assets/images/ic_product_approval.png")} style={[MyStyles.ic_product_approval]} />
+            <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={[MyStyles.ingredient_section_header_text1]}>Product approval</Text>
+              </View>
+
+              <Text style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</Text>
+            </View>
+            <Text style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<Text style={{ color: Colors.primary_purple }}>P</Text></Text>
+          </TouchableOpacity>
+        </View>
+      );
 
     } else if (item.type == 3) {
       {/* Questionnaire 완료시 지급 */ }

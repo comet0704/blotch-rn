@@ -107,7 +107,7 @@ export default class AnnouncementsScreen extends React.Component {
 
                   : // contact us 답변내용일때
                   <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.onAnnounceItemSelected(index) }}>
-                    <Image style={MyStyles.ic_announce_notice} source={require('../../assets/images/ic_announce_comment.png')} />
+                    <Image style={MyStyles.ic_announce_contact_us} source={require('../../assets/images/ic_announce_contact_us.png')} />
 
                     <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
                       <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
