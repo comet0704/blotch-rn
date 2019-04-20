@@ -544,14 +544,16 @@ export default StyleSheet.create({
     height: 28 / 3,
   },
 
-  ic_skin_type_dry: {
-    width: 71 / 3,
-    height: 100 / 3,
+  ic_skin_types_big: {
+    width: 240 / 3,
+    height: 240 / 3,
   },
-  ic_skin_type_dry_small: {
-    width: 71 / 3,
-    height: 100 / 3,
+
+  ic_skin_types_small: {
+    width: 91 / 3,
+    height: 91 / 3,
   },
+
   baby_container: {
     backgroundColor: "white",
     borderColor: "#e3e5e4",
@@ -1143,6 +1145,10 @@ export default StyleSheet.create({
   ic_calendar: {
     width: 35 / 3,
     height: 33 / 3,
+  },
+  ic_search_small: {
+    width: 40 / 3,
+    height: 34 / 3,
   },
   ic_search_medium: {
     width: 61 / 3,

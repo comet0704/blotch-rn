@@ -197,8 +197,8 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
-  WeCanSearchIt: WeCanSearchItScreen,
   Questionnare: QuestionnareScreen,
+  WeCanSearchIt: WeCanSearchItScreen,
   MyPage: MyPageScreen,
   MyBeautyBox: MyBeautyBoxScreen,
   Calendar: CalendarScreen,
@@ -264,8 +264,8 @@ SettingsStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  HomeStack,
   MyPageStack,
+  HomeStack,
   ProductStack,
   IngredientStack,
   MyListStack,

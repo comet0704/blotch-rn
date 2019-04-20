@@ -54,7 +54,7 @@ export default class QuestionnareScreen extends React.Component {
         "location": "Tokyo",
         "marital_status": "N",
         "is_kids": "N",
-        "skin_type": "Dry",
+        "skin_type": "Dry,Complex",
         "needs": "Whitening",
         "concern": "Acne",
         "brand_favourite": "1,3,5",
@@ -91,6 +91,9 @@ export default class QuestionnareScreen extends React.Component {
 
       ],
 
+      skin_types: Common.getSkinTypes(),
+      concern_types: Common.getConcernTypes(),
+      need_types: Common.getNeedTypes(),
       mainCategoryItems: Common.categoryItems_recom,
     };
   }
@@ -168,6 +171,13 @@ export default class QuestionnareScreen extends React.Component {
     this.setState(this.state.questionnaire_detail)
   }
 
+  onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
+    console.log("000000000000" + ":" + p_skin_type + ":" + p_concern+ ":" + p_needs)
+    this.state.questionnaire_detail.skin_type = p_skin_type
+    this.state.questionnaire_detail.concern = p_concern
+    this.state.questionnaire_detail.needs = p_needs
+    this.setState(this.state.questionnaire_detail)
+  }
   render() {
 
     return (
@@ -217,12 +227,12 @@ export default class QuestionnareScreen extends React.Component {
                         <View style={{ flexDirection: "row" }}>
                           <Text style={[MyStyles.ingredient_section_header_text1]}>Basic Info</Text>
                           { // 섹션1 완성상태 체크
-                            this.state.questionnaire_detail.birth && 
-                            this.state.questionnaire_detail.gender && 
-                            this.state.questionnaire_detail.location && 
-                            this.state.questionnaire_detail.marital_status && 
-                            this.state.questionnaire_detail.is_kids ?
-                            <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked, { marginLeft: 5 }]} /> : null
+                            this.state.questionnaire_detail.birth &&
+                              this.state.questionnaire_detail.gender &&
+                              this.state.questionnaire_detail.location &&
+                              this.state.questionnaire_detail.marital_status &&
+                              this.state.questionnaire_detail.is_kids ?
+                              <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked, { marginLeft: 5 }]} /> : null
                           }
                         </View>
                       </View>
@@ -347,7 +357,7 @@ export default class QuestionnareScreen extends React.Component {
                         }
                         <View style={{ flexDirection: "row" }}>
                           <Text style={[MyStyles.ingredient_section_header_text1]}>My Skin Type</Text>
-                          <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked, { marginLeft: 5 }]} />
+
                         </View>
                       </View>
                     </TouchableOpacity>
@@ -355,37 +365,118 @@ export default class QuestionnareScreen extends React.Component {
 
                     {
                       this.state.section_skin_type ?
-                        <View style={[MyStyles.padding_main]}>
+                        <View style={[MyStyles.padding_main, { minHeight: 300 / 3 }]}>
                           {/* My skin is */}
-                          <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>My skin is</Text>
-                            <View style={{ flexDirection: "row", marginTop: 10 }}>
-                              <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked]} />
-                              <Text style={MyStyles.text_12_949292}>Oily</Text>
+                          {this.state.questionnaire_detail.skin_type != null && this.state.questionnaire_detail.skin_type.length > 0 ?
+                            <View>
+                              <Text style={[MyStyles.question_sub_text1]}>My skin is</Text>
+                              <View style={{ flexDirection: "row" }}>
+                                {/* questionnaire_detail을 위주로 flatgrid 를 순회. 안에서 skin_type 매칭 */}
+                                <FlatGrid
+                                  itemDimension={this.ScreenWidth / 3 - 40}
+                                  items={this.state.questionnaire_detail.skin_type.split(",")}
+                                  style={[MyStyles.gridView, { marginLeft: -10 }]}
+                                  spacing={10}
+
+                                  // staticDimension={300}
+                                  // fixed
+                                  renderItem={({ item, index }) => {
+                                    // this.state.skin_types 를 조회하여 매칭되는 아이템 현시
+                                    const w_index = this.state.skin_types.findIndex(item1 => item1.typeName == item)
+                                    const w_item = this.state.skin_types[w_index]
+
+                                    return (
+                                      <View style={{ alignItems: "center", flexDirection: "row" }} >
+                                        <Image source={w_item.image_on} style={[MyStyles.ic_skin_types_small]} />
+                                        <Text style={{ textAlign: "center", color: Colors.color_949292, fontSize: 12, marginLeft: 5 }}>{w_item.typeName}</Text>
+                                      </View>
+                                    )
+                                  }}
+                                />
+                              </View>
                             </View>
-                          </View>
+                            :
+                            null
+                          }
 
                           {/* I'm unhappy about my */}
-                          <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>I'm unhappy about my</Text>
-                            <View style={{ flexDirection: "row", marginTop: 10 }}>
-                              <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked]} />
-                              <Text style={MyStyles.text_12_949292}>Oily</Text>
-                            </View>
-                          </View>
+                          {this.state.questionnaire_detail.concern != null && this.state.questionnaire_detail.concern.length > 0 ?
+                            <View>
+                              <Text style={[MyStyles.question_sub_text1]}>I'm unhappy about my</Text>
+                              <View style={{ flexDirection: "row" }}>
+                                {/* questionnaire_detail을 위주로 flatgrid 를 순회. 안에서 skin_type 매칭 */}
+                                <FlatGrid
+                                  itemDimension={this.ScreenWidth / 3 - 40}
+                                  items={this.state.questionnaire_detail.concern.split(",")}
+                                  style={[MyStyles.gridView, { marginLeft: -10 }]}
+                                  spacing={10}
 
+                                  // staticDimension={300}
+                                  // fixed
+                                  renderItem={({ item, index }) => {
+                                    // this.state.concern_types 를 조회하여 매칭되는 아이템 현시
+                                    const w_index = this.state.concern_types.findIndex(item1 => item1.typeName == item)
+                                    const w_item = this.state.concern_types[w_index]
+
+                                    return (
+                                      <View style={{ alignItems: "center", flexDirection: "row" }} >
+                                        <Image source={w_item.image_on} style={[MyStyles.ic_skin_types_small]} />
+                                        <Text style={{ textAlign: "center", color: Colors.color_949292, fontSize: 12, marginLeft: 5 }}>{w_item.typeName}</Text>
+                                      </View>
+                                    )
+                                  }}
+                                />
+                              </View>
+                            </View>
+                            :
+                            null
+                          }
 
                           {/* I'm interested in */}
-                          <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>I'm interested in</Text>
-                            <View style={{ flexDirection: "row", marginTop: 10 }}>
-                              <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked]} />
-                              <Text style={MyStyles.text_12_949292}>Oily</Text>
+                          {this.state.questionnaire_detail.needs != null && this.state.questionnaire_detail.needs.length > 0 ?
+                            <View>
+                              <Text style={[MyStyles.question_sub_text1]}>I'm interested in</Text>
+                              <View style={{ flexDirection: "row" }}>
+                                {/* questionnaire_detail을 위주로 flatgrid 를 순회. 안에서 skin_type 매칭 */}
+                                <FlatGrid
+                                  itemDimension={this.ScreenWidth / 3 - 40}
+                                  items={this.state.questionnaire_detail.needs.split(",")}
+                                  style={[MyStyles.gridView, { marginLeft: -10 }]}
+                                  spacing={10}
+
+                                  // staticDimension={300}
+                                  // fixed
+                                  renderItem={({ item, index }) => {
+                                    // this.state.need_types 를 조회하여 매칭되는 아이템 현시
+                                    const w_index = this.state.need_types.findIndex(item1 => item1.typeName == item)
+                                    const w_item = this.state.need_types[w_index]
+
+                                    return (
+                                      <View style={{ alignItems: "center", flexDirection: "row" }} >
+                                        <Image source={w_item.image_on} style={[MyStyles.ic_skin_types_small]} />
+                                        <Text style={{ textAlign: "center", color: Colors.color_949292, fontSize: 12, marginLeft: 5 }}>{w_item.typeName}</Text>
+                                      </View>
+                                    )
+                                  }}
+                                />
+                              </View>
                             </View>
-                          </View>
+                            :
+                            null
+                          }
+
 
                           <View style={{ position: "absolute", overflow: "hidden", top: 0, bottom: 0, right: 0, justifyContent: "center" }}>
-                            <TouchableOpacity style={{ marginRight: -190 / 6, width: 190 / 3, height: 190 / 3, justifyContent: "center", backgroundColor: Colors.primary_purple, borderRadius: 190 }}>
+                            <TouchableOpacity style={{ marginRight: -190 / 6, width: 190 / 3, height: 190 / 3, justifyContent: "center", backgroundColor: Colors.primary_purple, borderRadius: 190 }}
+                              onPress={() => {
+                                this.props.navigation.navigate("WeCanSearchIt", {
+                                  [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: this.state.questionnaire_detail.skin_type,
+                                  [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: this.state.questionnaire_detail.concern,
+                                  [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: this.state.questionnaire_detail.needs,
+                                  [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                                })
+                              }}
+                            >
                               <Image source={require("../../assets/images/ic_arrow_right_white.png")} style={[MyStyles.ic_arrow_right_white, { marginLeft: 40 / 3 }]} />
                             </TouchableOpacity>
                           </View>

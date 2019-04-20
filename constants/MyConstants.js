@@ -79,5 +79,9 @@ export default {
     search_word: "search_word",
     onDaySelect: "onDaySelect",
     onProfileEdited: "profileEdited",
+    questionnaire_skin_type: "questionnaire_skin_type",
+    questionnaire_concern: "questionnaire_concern_type",
+    questionnaire_needs: "questionnaire_needs",
+    onWeCanSearchItCallback: "onWeCanSearchItCallback",
   },
 };

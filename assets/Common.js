@@ -24,13 +24,13 @@ export default {
     // opened_date 가 오늘부터 며칠전일가 계싼
     diffDate = this.dateDiff(p_opened_date, new Date())
     returnValue = 0
-    if(diffDate > 0) {
+    if (diffDate > 0) {
       returnValue = p_use_period - diffDate
     } else { // 아직 사용하지 않았으면 유효기간 그대로 돌려줌
       returnValue = p_use_period
     }
 
-    if(returnValue < 0 ) { // 유효기간이 지났으면 0 돌림.
+    if (returnValue < 0) { // 유효기간이 지났으면 0 돌림.
       returnValue = 0;
     }
 
@@ -577,17 +577,94 @@ export default {
     },
   ],
 
-  skinType: [
-    {
-      typeName: MyConstants.SkinTypeName.dry,
-      image_off: require("../assets/images/SkinTypes/ic_skin_type_dry_off.png"),
-      image_on: require("../assets/images/SkinTypes/ic_skin_type_dry_off.png"),
-      image_half: require("../assets/images/SkinTypes/ic_skin_type_dry_off.png"),
-      image_style: MyStyles.ic_skin_type_dry,
-      image_style_small: MyStyles.ic_skin_type_dry_small,
-      is_selected: 0,
-    }
-  ]
+  // We can search it , questionnaire에서 이용
+  getSkinTypes() {
+    return [
+      {
+        typeName: MyConstants.SkinTypeName.dry,
+        image_off: require("../assets/images/SkinTypes/ic_skin_type_dry_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_skin_type_dry_on.png"),
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.SkinTypeName.oily,
+        image_off: require("../assets/images/SkinTypes/ic_skin_type_oily_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_skin_type_oily_on.png"),
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.SkinTypeName.complex,
+        image_off: require("../assets/images/SkinTypes/ic_skin_type_complex_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_skin_type_complex_on.png"),
+        is_selected: false,
+      },
+    ]
+  },
 
+  // We can search it , questionnaire에서 이용
+  getConcernTypes() {
+    return [
+      {
+        typeName: MyConstants.ConcernName.acne,
+        image_off: require("../assets/images/SkinTypes/ic_concern_type_acne_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_concern_type_acne_on.png"),
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.ConcernName.wrinkle,
+        image_off: require("../assets/images/SkinTypes/ic_concern_type_wrinkle_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_concern_type_wrinkle_on.png"),
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.ConcernName.pores,
+        image_off: require("../assets/images/SkinTypes/ic_concern_type_pores_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_concern_type_pores_on.png"),
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.ConcernName.complex,
+        image_off: require("../assets/images/SkinTypes/ic_concern_type_complex_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_concern_type_complex_on.png"),
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.ConcernName.redness,
+        image_off: require("../assets/images/SkinTypes/ic_concern_type_redness_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_concern_type_redness_on.png"),
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.ConcernName.rashes,
+        image_off: require("../assets/images/SkinTypes/ic_concern_type_rashes_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_concern_type_rashes_on.png"),
+        is_selected: false,
+      },
+    ]
+  },
+
+  // We can search it , questionnaire에서 이용
+  getNeedTypes() {
+    return [
+      {
+        typeName: MyConstants.NeedsName.whitening,
+        image_off: require("../assets/images/SkinTypes/ic_need_type_whitening_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_need_type_whitening_on.png"),
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.NeedsName.anti_Aging,
+        image_off: require("../assets/images/SkinTypes/ic_need_type_anti_aging_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_need_type_anti_aging_on.png"),
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.NeedsName.moisturizing,
+        image_off: require("../assets/images/SkinTypes/ic_need_type_anti_moisturizing_off.png"),
+        image_on: require("../assets/images/SkinTypes/ic_need_type_anti_moisturizing_on.png"),
+        is_selected: false,
+      },
+    ]
+  },
 }
 
