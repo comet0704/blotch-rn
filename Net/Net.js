@@ -82,6 +82,7 @@ export default {
         changePassword: MyConstants.SERVER_URL + "/user/changePassword",
         announceList: MyConstants.SERVER_URL + "/user/announceList",
         contactUsCategory: MyConstants.SERVER_URL + "/user/contactUsCategory",
+        countryList : MyConstants.SERVER_URL + "/user/countryList ",
         contactUs: MyConstants.SERVER_URL + "/user/contactUs",
         pointHistory: MyConstants.SERVER_URL + "/user/pointHistory",
         commentList: MyConstants.SERVER_URL + "/user/commentList",
@@ -90,6 +91,8 @@ export default {
         deleteBeautyBox: MyConstants.SERVER_URL + "/user/deleteBeautyBox",
         questionnaireList: MyConstants.SERVER_URL + "/user/questionnaireList",
         addQuestionnaireItem: MyConstants.SERVER_URL + "/user/addQuestionnaireItem",
+        updateQuestionnaireItem: MyConstants.SERVER_URL + "/user/updateQuestionnaireItem",
+        questionnaireDetail: MyConstants.SERVER_URL + "/user/questionnaireDetail",
         terms_privacy: MyConstants.SERVER_URL + "/terms/usage.html",
     },
     brand: {

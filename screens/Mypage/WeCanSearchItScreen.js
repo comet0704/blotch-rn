@@ -285,7 +285,7 @@ export default class WeCanSearcnItScreen extends React.Component {
                   
 
                   this.onWeCanSearchItCallback(returnSkinType, returnConcern, returnNeeds)
-                  this.navigation.goBack();
+                  this.props.navigation.goBack();
                 }}>
                 <Text style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</Text>
               </TouchableOpacity>

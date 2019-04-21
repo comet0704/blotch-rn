@@ -27,6 +27,19 @@ export default {
     anti_Aging: "Anti-Aging",
     moisturizing: "Moisturizing",
   },
+  CleansingName : {
+    Soap: "Soap",
+    Facial_Cleanser: "Facial Cleanser",
+    Just_Water: "Just Water",
+  },
+  CareName : {
+    Moisturizer: "Moisturizer",
+    Toner: "Toner",
+    Sunblock: "Sunblock",
+    Cream: "Cream",
+    Eye_Cream: "Eye Cream",
+    Lotion: "Lotion",
+  },
   CategoryName : {
     all : "",
     skin_care : "Skin care",

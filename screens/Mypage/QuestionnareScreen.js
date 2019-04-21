@@ -45,6 +45,7 @@ export default class QuestionnareScreen extends React.Component {
       section_product_reference: false,
       section_skin_routine: true,
       beforeBabyIdx: 0,
+      morningRoutineSelected: true,
       questionnaire_detail: {
         "id": 1,
         "uid": 3,
@@ -87,6 +88,7 @@ export default class QuestionnareScreen extends React.Component {
           }
         ]
       },
+
       questionnaire_list: [
 
       ],
@@ -94,7 +96,10 @@ export default class QuestionnareScreen extends React.Component {
       skin_types: Common.getSkinTypes(),
       concern_types: Common.getConcernTypes(),
       need_types: Common.getNeedTypes(),
-      mainCategoryItems: Common.categoryItems_recom,
+      morning_cleansing_types: Common.getCleansingTypes(),
+      morning_care_types: Common.getCareTypes(),
+      night_cleansing_types: Common.getCleansingTypes(),
+      night_care_types: Common.getCareTypes(),
     };
   }
 
@@ -118,6 +123,7 @@ export default class QuestionnareScreen extends React.Component {
     this.state.beforeBabyIdx = index
     this.setState({ questionnaire_list: questionnaire_list, edit_baby_id: questionnaire_list[index].id })
     this.setState({ loading_end: false })
+    this.requestQuestionnaireDetail(this.state.questionnaire_list[index].id)
   }
 
   renderMyBabies() {
@@ -166,18 +172,72 @@ export default class QuestionnareScreen extends React.Component {
     }
   }
 
+  updateQuestionnaireItem() {
+    // 반점으로 구분하여 돌려줘야 하는 값들
+    updateMorningCleansing = ""
+    updateMorningCare = ""
+    updateNightCleansing = ""
+    updateNightCare = ""
+
+    this.state.morning_cleansing_types.map((item, index) => {
+      if (item.is_selected) {
+        if (updateMorningCleansing != "") {
+          updateMorningCleansing += ","
+        }
+        updateMorningCleansing += item.typeName
+      }
+    })
+    this.state.questionnaire_detail.morning_cleansing = updateMorningCleansing
+
+    this.state.morning_care_types.map((item, index) => {
+      if (item.is_selected) {
+        if (updateMorningCare != "") {
+          updateMorningCare += ","
+        }
+        updateMorningCare += item.typeName
+      }
+    })
+    this.state.questionnaire_detail.morning_care = updateMorningCare
+
+    this.state.night_cleansing_types.map((item, index) => {
+      if (item.is_selected) {
+        if (updateNightCleansing != "") {
+          updateNightCleansing += ","
+        }
+        updateNightCleansing += item.typeName
+      }
+    })
+    this.state.questionnaire_detail.night_cleansing = updateNightCleansing
+
+    this.state.night_care_types.map((item, index) => {
+      if (item.is_selected) {
+        if (updateNightCare != "") {
+          updateNightCare += ","
+        }
+        updateNightCare += item.typeName
+      }
+    })
+    this.state.questionnaire_detail.night_care = updateNightCare
+
+    this.setState(this.state.questionnaire_detail)
+
+    this.requestUpdateQuestionnaireItem()
+
+  }
+
   onDaySelect = (selectedDay) => {
     this.state.questionnaire_detail.birth = selectedDay.dateString
     this.setState(this.state.questionnaire_detail)
   }
 
   onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
-    console.log("000000000000" + ":" + p_skin_type + ":" + p_concern+ ":" + p_needs)
+    console.log("000000000000" + ":" + p_skin_type + ":" + p_concern + ":" + p_needs)
     this.state.questionnaire_detail.skin_type = p_skin_type
     this.state.questionnaire_detail.concern = p_concern
     this.state.questionnaire_detail.needs = p_needs
     this.setState(this.state.questionnaire_detail)
   }
+
   render() {
 
     return (
@@ -227,11 +287,14 @@ export default class QuestionnareScreen extends React.Component {
                         <View style={{ flexDirection: "row" }}>
                           <Text style={[MyStyles.ingredient_section_header_text1]}>Basic Info</Text>
                           { // 섹션1 완성상태 체크
-                            this.state.questionnaire_detail.birth &&
-                              this.state.questionnaire_detail.gender &&
-                              this.state.questionnaire_detail.location &&
-                              this.state.questionnaire_detail.marital_status &&
-                              this.state.questionnaire_detail.is_kids ?
+                            this.state.questionnaire_detail.birth != null &&
+                              this.state.questionnaire_detail.birth.length > 0 &&
+                              this.state.questionnaire_detail.gender != null &&
+                              this.state.questionnaire_detail.gender.length > 0 &&
+                              this.state.questionnaire_detail.location != null &&
+                              this.state.questionnaire_detail.location.length > 0 &&
+                              this.state.questionnaire_detail.is_kids != null &&
+                              this.state.questionnaire_detail.is_kids.length > 0 ?
                               <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked, { marginLeft: 5 }]} /> : null
                           }
                         </View>
@@ -358,6 +421,15 @@ export default class QuestionnareScreen extends React.Component {
                         <View style={{ flexDirection: "row" }}>
                           <Text style={[MyStyles.ingredient_section_header_text1]}>My Skin Type</Text>
 
+                          { // 섹션2 완성상태 체크
+                            this.state.questionnaire_detail.skin_type != null &&
+                              this.state.questionnaire_detail.skin_type.length > 0 &&
+                              this.state.questionnaire_detail.concern != null &&
+                              this.state.questionnaire_detail.concern.length > 0 &&
+                              this.state.questionnaire_detail.needs != null &&
+                              this.state.questionnaire_detail.needs.length > 0 ?
+                              <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked, { marginLeft: 5 }]} /> : null
+                          }
                         </View>
                       </View>
                     </TouchableOpacity>
@@ -509,35 +581,53 @@ export default class QuestionnareScreen extends React.Component {
                           {/* Favorite Brands */}
                           <View style={{ marginBottom: 65 / 3 }}>
                             <Text style={[MyStyles.question_sub_text1]}>Favorite Brands</Text>
-                            <View style={{ flexDirection: "row", marginTop: 10 }}>
-                              <View style={{ marginRight: 15 }}>
-                                <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(null) }} />
-                                <View style={{ position: "absolute", top: -5, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}>
-                                  <Image source={require("../../assets/images/ic_close2.png")} style={{ width: 10 / 3, height: 10 / 3, }} />
-                                </View>
-                              </View>
+                            <ScrollView
+                              horizontal
+                              style={[{ flex: 1, }]}
+                              showsHorizontalScrollIndicator={false}>
 
-                              <TouchableOpacity style={{ marginRight: 15, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}>
+                              {this.state.questionnaire_detail.brand_favourite_list.map((item) =>
+                                (
+                                  <View key={item.id} style={[{ marginRight: 15 }, MyStyles.padding_v_5]}>
+                                    <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
+                                    <View style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}>
+                                      <Image source={require("../../assets/images/ic_close2.png")} style={{ width: 10 / 3, height: 10 / 3, }} />
+                                    </View>
+                                  </View>
+                                )
+                              )}
+
+                              {/* 목록 다 돌린 후에는  추가버튼 추가*/}
+                              <TouchableOpacity style={{ marginRight: 15, marginTop: 7, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}>
                                 <Text style={{ fontSize: 46 / 3, color: "white" }}>+</Text>
                               </TouchableOpacity>
-                            </View>
+                            </ScrollView>
                           </View>
 
                           {/* Brands I use mostly */}
                           <View style={{ marginBottom: 65 / 3 }}>
                             <Text style={[MyStyles.question_sub_text1]}>Brands I use mostly</Text>
-                            <View style={{ flexDirection: "row", marginTop: 10 }}>
-                              <View style={{ marginRight: 15 }}>
-                                <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(null) }} />
-                                <View style={{ position: "absolute", top: -5, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}>
-                                  <Image source={require("../../assets/images/ic_close2.png")} style={{ width: 10 / 3, height: 10 / 3, }} />
-                                </View>
-                              </View>
+                            <ScrollView
+                              horizontal
+                              style={[{ flex: 1, }]}
+                              showsHorizontalScrollIndicator={false}>
 
-                              <TouchableOpacity style={{ marginRight: 15, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}>
+                              {this.state.questionnaire_detail.brand_mostly_list.map((item) =>
+                                (
+                                  <View key={item.id} style={[{ marginRight: 15 }, MyStyles.padding_v_5]}>
+                                    <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
+                                    <View style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}>
+                                      <Image source={require("../../assets/images/ic_close2.png")} style={{ width: 10 / 3, height: 10 / 3, }} />
+                                    </View>
+                                  </View>
+                                )
+                              )}
+
+                              {/* 목록 다 돌린 후에는  추가버튼 추가*/}
+                              <TouchableOpacity style={{ marginRight: 15, marginTop: 7, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}>
                                 <Text style={{ fontSize: 46 / 3, color: "white" }}>+</Text>
                               </TouchableOpacity>
-                            </View>
+                            </ScrollView>
                           </View>
 
                           {/* I buy products from */}
@@ -545,33 +635,33 @@ export default class QuestionnareScreen extends React.Component {
                             <Text style={[MyStyles.question_sub_text1]}>I buy products from</Text>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "Y",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.buy_products_from = 1,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "Y" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Shopping mall</Text>
                               </TouchableOpacity>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "N",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.buy_products_from = 2,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "N" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 2 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Internet</Text>
                               </TouchableOpacity>
                             </View>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 3 }]}>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "Y",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.buy_products_from = 3,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "Y" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 3 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Permanent shop</Text>
                               </TouchableOpacity>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "N",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.buy_products_from = 4,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "N" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 4 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Medical shop</Text>
                               </TouchableOpacity>
                             </View>
@@ -583,33 +673,33 @@ export default class QuestionnareScreen extends React.Component {
                             <Text style={[MyStyles.question_sub_text1]}>I use ___ skincare products in one day</Text>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "Y",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.product_count_in_day = 1,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "Y" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>None</Text>
                               </TouchableOpacity>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "N",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.product_count_in_day = 2,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "N" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>1~2</Text>
                               </TouchableOpacity>
                             </View>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 3 }]}>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "Y",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.product_count_in_day = 3,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "Y" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 3 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>3~4</Text>
                               </TouchableOpacity>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "N",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.product_count_in_day = 4,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "N" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 4 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>More than 5</Text>
                               </TouchableOpacity>
                             </View>
@@ -621,33 +711,33 @@ export default class QuestionnareScreen extends React.Component {
                             <Text style={[MyStyles.question_sub_text1]}>Time I spend in caring for my skin</Text>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "Y",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.time_for_care = 1,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "Y" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.time_for_care == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Less than 1 hour</Text>
                               </TouchableOpacity>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "N",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.time_for_care = 2,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "N" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.time_for_care == 2 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Between 1~3 hour</Text>
                               </TouchableOpacity>
                             </View>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 3 }]}>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "Y",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.time_for_care = 3,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "Y" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.time_for_care == 3 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Between 3~5 hour</Text>
                               </TouchableOpacity>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                // this.state.questionnaire_detail.marital_status = "N",
-                                //   this.setState(this.state.questionnaire_detail)
+                                this.state.questionnaire_detail.time_for_care = 4,
+                                  this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == "N" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.time_for_care == 4 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>More than 5 hour</Text>
                               </TouchableOpacity>
                             </View>
@@ -680,74 +770,150 @@ export default class QuestionnareScreen extends React.Component {
                       this.state.section_skin_routine ?
                         <View style={[]}>
                           {/* My daily skincare routine */}
-                          <View style={[{ marginBottom: 65 / 3 }, MyStyles.padding_h_main]}>
+                          <View style={[{ marginBottom: 20 / 3, marginTop: 50 / 3 }, MyStyles.padding_h_main]}>
                             <View style={{ flexDirection: "row" }}>
-                              <TouchableOpacity style={MyStyles.question_routine_Type}>
+                              <TouchableOpacity style={[MyStyles.question_routine_Type, this.state.morningRoutineSelected ? null : { borderColor: Colors.color_e3e5e4 }]} onPress={() => {
+                                this.setState({ morningRoutineSelected: true })
+                              }}>
                                 <Image source={require("../../assets/images/ic_sun.png")} style={[MyStyles.ic_sun]} />
                               </TouchableOpacity>
                               <View style={{ width: 10 }} />
-                              <TouchableOpacity style={MyStyles.question_routine_Type}>
+                              <TouchableOpacity style={[MyStyles.question_routine_Type, , this.state.morningRoutineSelected ? { borderColor: Colors.color_e3e5e4 } : null]} onPress={() => {
+                                this.setState({ morningRoutineSelected: false })
+                              }}>
                                 <Image source={require("../../assets/images/ic_night.png")} style={[MyStyles.ic_night]} />
                               </TouchableOpacity>
                             </View>
                           </View>
 
-                          {/* Morning cleansing */}
-                          <View style={[{ marginBottom: 65 / 3, marginTop: 20 },]}>
-                            <Text style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Morning cleansing</Text>
-                            <View style={{ flexDirection: "row", marginTop: 10, paddingLeft: 5 }}>
-                              <View>
-                                {this.state.mainCategoryItems.map((item, index) => (
-                                  item.sub_category.length > 0 ?
-                                    <FlatGrid
-                                      View key={index}
-                                      itemDimension={this.ScreenWidth / item.sub_category.length - 40}
-                                      items={item.sub_category}
-                                      style={[MyStyles.gridView, { marginTop: -20, }]}
-                                      spacing={10}
+                          {this.state.morningRoutineSelected ?
+                            <View>
+                              {/* Morning cleansing */}
+                              <View style={[{ marginBottom: 65 / 3, marginTop: 20 },]}>
+                                <Text style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Morning cleansing</Text>
+                                <View style={{ flexDirection: "row", marginTop: 5, paddingLeft: 5 }}>
+                                  <View>
+                                    <ScrollView
+                                      horizontal
+                                      style={{ flex: 1, marginTop: 10, marginLeft: 10 }}
+                                      showsHorizontalScrollIndicator={false}>
 
-                                      // staticDimension={300}
-                                      // fixed
-                                      // spacing={20}
-                                      renderItem={({ item: sub_item, index: sub_index }) => (
-                                        <TouchableOpacity onPress={() => {
-                                          this.state.mainCategoryItems[index].sub_category[sub_index].is_selected = !this.state.mainCategoryItems[index].sub_category[sub_index].is_selected
-                                          moreThanOneSelected = false;
-                                          sub_all_selected = true;
-                                          for (i = 0; i < this.state.mainCategoryItems[index].sub_category.length; i++) {
-                                            if (this.state.mainCategoryItems[index].sub_category[i].is_selected == true) {
-                                              moreThanOneSelected = true
-                                            } else {
-                                              sub_all_selected = false
-                                            }
-                                          }
-                                          if (moreThanOneSelected) {
-                                            this.state.mainCategoryItems[index].is_selected = 2
-                                          } else {
-                                            this.state.mainCategoryItems[index].is_selected = 1
-                                          }
-
-                                          this.state.mainCategoryItems[index].sub_all_selected = sub_all_selected
-
-                                          this.setState({ mainCategoryItems: this.state.mainCategoryItems })
+                                      {this.state.morning_cleansing_types.map(item => (
+                                        <TouchableOpacity key={item.typeName} onPress={() => {
+                                          const w_index = this.state.morning_cleansing_types.findIndex(p_item => p_item.typeName == item.typeName)
+                                          this.state.morning_cleansing_types[w_index].is_selected = !this.state.morning_cleansing_types[w_index].is_selected
+                                          this.setState(this.state.morning_cleansing_types)
                                         }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
-                                          <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
-                                            {sub_item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
+                                          <View style={{ height: 100 / 3, paddingLeft: 10, paddingRight: 10, justifyContent: "center", alignItems: "center" }}>
+                                            {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                                              {sub_item.is_selected ? <Image style={sub_item.image_style} source={sub_item.image_on} /> : <Image style={sub_item.image_style} source={sub_item.image_off} />}
-                                              {sub_item.is_selected ? <Text style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{sub_item.name}</Text> : <Text style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{sub_item.name}</Text>}
+                                              {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
+                                              {item.is_selected ? <Text style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</Text> :
+                                                <Text style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</Text>}
+                                            </View>
+                                          </View>
+                                        </TouchableOpacity>
+                                      ))}
+                                    </ScrollView>
+                                  </View>
+                                </View>
+                              </View>
+
+                              {/* Morning care */}
+                              <View style={[{ marginBottom: 65 / 3 },]}>
+                                <Text style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Morning care</Text>
+                                <View style={{ flexDirection: "row", marginTop: 5, paddingLeft: 10, paddingRight: 10 }}>
+                                  <View>
+                                    <FlatGrid
+                                      itemDimension={this.ScreenWidth / 3 - 45}
+                                      items={this.state.morning_care_types}
+                                      spacing={5}
+                                      style={[MyStyles.gridView,]}
+                                      renderItem={({ item, index }) => (
+                                        <TouchableOpacity key={index} onPress={() => {
+                                          const w_index = this.state.morning_care_types.findIndex(p_item => p_item.typeName == item.typeName)
+                                          this.state.morning_care_types[w_index].is_selected = !this.state.morning_care_types[w_index].is_selected
+                                          this.setState(this.state.morning_care_types)
+                                        }} style={{ borderColor: Colors.color_e3e5e4, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
+                                          <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
+                                            {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
+                                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                              {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
+                                              {item.is_selected ? <Text style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</Text> :
+                                                <Text style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</Text>}
                                             </View>
                                           </View>
                                         </TouchableOpacity>
                                       )}
                                     />
-                                    : null))}
-
+                                  </View>
+                                </View>
                               </View>
                             </View>
-                          </View>
+                            : <View>
+                              {/* Night cleansing */}
+                              <View style={[{ marginBottom: 65 / 3, marginTop: 20 },]}>
+                                <Text style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Night cleansing</Text>
+                                <View style={{ flexDirection: "row", marginTop: 5, paddingLeft: 5 }}>
+                                  <View>
+                                    <ScrollView
+                                      horizontal
+                                      style={{ flex: 1, marginTop: 10, marginLeft: 10 }}
+                                      showsHorizontalScrollIndicator={false}>
 
+                                      {this.state.night_cleansing_types.map(item => (
+                                        <TouchableOpacity key={item.typeName} onPress={() => {
+                                          const w_index = this.state.night_cleansing_types.findIndex(p_item => p_item.typeName == item.typeName)
+                                          this.state.night_cleansing_types[w_index].is_selected = !this.state.night_cleansing_types[w_index].is_selected
+                                          this.setState(this.state.night_cleansing_types)
+                                        }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
+                                          <View style={{ height: 100 / 3, paddingLeft: 10, paddingRight: 10, justifyContent: "center", alignItems: "center" }}>
+                                            {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
+                                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                              {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
+                                              {item.is_selected ? <Text style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</Text> :
+                                                <Text style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</Text>}
+                                            </View>
+                                          </View>
+                                        </TouchableOpacity>
+                                      ))}
+                                    </ScrollView>
+                                  </View>
+                                </View>
+                              </View>
 
+                              {/* Night care */}
+                              <View style={[{ marginBottom: 65 / 3 },]}>
+                                <Text style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Night care</Text>
+                                <View style={{ flexDirection: "row", marginTop: 5, paddingLeft: 10, paddingRight: 10 }}>
+                                  <View>
+                                    <FlatGrid
+                                      itemDimension={this.ScreenWidth / 3 - 45}
+                                      items={this.state.night_care_types}
+                                      spacing={5}
+                                      style={[MyStyles.gridView,]}
+                                      renderItem={({ item, index }) => (
+                                        <TouchableOpacity key={index} onPress={() => {
+                                          const w_index = this.state.night_care_types.findIndex(p_item => p_item.typeName == item.typeName)
+                                          this.state.night_care_types[w_index].is_selected = !this.state.night_care_types[w_index].is_selected
+                                          this.setState(this.state.night_care_types)
+                                        }} style={{ borderColor: Colors.color_e3e5e4, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
+                                          <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
+                                            {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
+                                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                              {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
+                                              {item.is_selected ? <Text style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</Text> :
+                                                <Text style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</Text>}
+                                            </View>
+                                          </View>
+                                        </TouchableOpacity>
+                                      )}
+                                    />
+                                  </View>
+                                </View>
+                              </View>
+                            </View>
+                          }
                         </View>
                         : null
                     }
@@ -755,6 +921,10 @@ export default class QuestionnareScreen extends React.Component {
 
                 </View>
                 : null}
+
+              <TouchableOpacity onPress={() => { this.updateQuestionnaireItem() }} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginTop: 30, marginBottom: 40, marginLeft: 15, marginRight: 15 }]}>
+                <Text style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
           {/* 설문 편집/추가 모달 */}
@@ -850,7 +1020,6 @@ export default class QuestionnareScreen extends React.Component {
                   <View style={{ flexDirection: "row" }}>
                     <TouchableHighlight onPress={() => {
                       this.setState({ countrySelectModalVisible: false });
-                      this.setState
                     }}
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
                       <Text style={MyStyles.btn_primary}>Yes</Text>
@@ -903,9 +1072,11 @@ export default class QuestionnareScreen extends React.Component {
           })
           if (this.state.edit_baby_id == 0) {
             this.state.questionnaire_list[0].is_selected = true
+            this.requestQuestionnaireDetail(this.state.questionnaire_list[0].id);
           } else {
             const index = this.state.questionnaire_list.findIndex(item => item.id == this.state.edit_baby_id)
             this.state.questionnaire_list[index].is_selected = true
+            this.requestQuestionnaireDetail(this.state.questionnaire_list[index].id);
           }
         }
 
@@ -990,7 +1161,7 @@ export default class QuestionnareScreen extends React.Component {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.user.contactUsCategory, {
+    return fetch(Net.user.countryList, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1002,7 +1173,7 @@ export default class QuestionnareScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
+        console.log("111111111111" + responseJson)
         this.setState({
           isLoading: false
         });
@@ -1017,7 +1188,7 @@ export default class QuestionnareScreen extends React.Component {
           data.push({ value: element.title })
         });
 
-        // data.push({ value: "Other" }) // 나중에 직접입력 항목 추가해주어야 함
+        // data.push({value: "Other" }) // 나중에 직접입력 항목 추가해주어야 함
 
         this.setState({ country_list: data })
       })
@@ -1030,4 +1201,140 @@ export default class QuestionnareScreen extends React.Component {
       .done();
   }
 
+  requestQuestionnaireDetail(p_questionnaire_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.user.questionnaireDetail, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        questionnaire_id: p_questionnaire_id
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.setState({ questionnaire_detail: responseJson.result_data.questionnaire_detail })
+
+        this.state.morning_cleansing_types = Common.getCleansingTypes()
+        this.state.morning_care_types = Common.getCareTypes()
+        this.state.night_cleansing_types = Common.getCleansingTypes()
+        this.state.night_care_types = Common.getCareTypes()
+
+        const morning_cleansing = this.state.questionnaire_detail.morning_cleansing;
+        // 위 값들은 선택된 상태로 만들어줌
+        if (morning_cleansing != null && morning_cleansing.length > 0) {
+          morning_cleansing.split(",").forEach((element) => {
+            const index = this.state.morning_cleansing_types.findIndex(item => item.typeName == element)
+            this.state.morning_cleansing_types[index].is_selected = true
+          })
+        }
+        this.setState(this.state.morning_cleansing_types)
+
+        const morning_care = this.state.questionnaire_detail.morning_care;
+        // 위 값들은 선택된 상태로 만들어줌
+        if (morning_care != null && morning_care.length > 0) {
+          morning_care.split(",").forEach((element) => {
+            const index = this.state.morning_care_types.findIndex(item => item.typeName == element)
+            this.state.morning_care_types[index].is_selected = true
+          })
+        }
+        this.setState(this.state.morning_care_types)
+
+        const night_cleansing = this.state.questionnaire_detail.night_cleansing;
+        // 위 값들은 선택된 상태로 만들어줌
+        if (night_cleansing != null && night_cleansing.length > 0) {
+          night_cleansing.split(",").forEach((element) => {
+            const index = this.state.night_cleansing_types.findIndex(item => item.typeName == element)
+            this.state.night_cleansing_types[index].is_selected = true
+          })
+        }
+        this.setState(this.state.night_cleansing_types)
+
+        const night_care = this.state.questionnaire_detail.night_care;
+        // 위 값들은 선택된 상태로 만들어줌
+        if (night_care != null && night_care.length > 0) {
+          night_care.split(",").forEach((element) => {
+            const index = this.state.night_care_types.findIndex(item => item.typeName == element)
+            this.state.night_care_types[index].is_selected = true
+          })
+        }
+        this.setState(this.state.night_care_types)
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestUpdateQuestionnaireItem() {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.user.updateQuestionnaireItem, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        questionnaire_id: this.state.questionnaire_detail.id,
+        title: this.state.questionnaire_detail.title,
+        birth: this.state.questionnaire_detail.birth,
+        gender: this.state.questionnaire_detail.gender,
+        location: this.state.questionnaire_detail.location,
+        marital_status: this.state.questionnaire_detail.marital_status,
+        is_kids: this.state.questionnaire_detail.is_kids,
+        skin_type: this.state.questionnaire_detail.skin_type,
+        needs: this.state.questionnaire_detail.needs,
+        concern: this.state.questionnaire_detail.concern,
+        brand_favourite: this.state.questionnaire_detail.brand_favourite,
+        brand_mostly: this.state.questionnaire_detail.brand_mostly,
+        buy_products_from: this.state.questionnaire_detail.buy_products_from,
+        product_count_in_day: this.state.questionnaire_detail.product_count_in_day,
+        time_for_care: this.state.questionnaire_detail.time_for_care,
+        morning_cleansing: this.state.questionnaire_detail.morning_cleansing,
+        morning_care: this.state.questionnaire_detail.morning_care,
+        night_cleansing: this.state.questionnaire_detail.night_cleansing,
+        night_care: this.state.questionnaire_detail.night_care,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
 }

@@ -666,5 +666,80 @@ export default {
       },
     ]
   },
+
+  // questionnaire에서 이용
+  getCleansingTypes() {
+    return [
+      {
+        typeName: MyConstants.CleansingName.Soap,
+        image_off: require("../assets/images/Categories/ic_skin_care.png"),
+        image_on: require("../assets/images/Categories/ic_skin_care_on.png"),
+        image_style: MyStyles.ic_skin_care_small,
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.CleansingName.Facial_Cleanser,
+        image_off: require("../assets/images/Categories/ic_skin_care.png"),
+        image_on: require("../assets/images/Categories/ic_skin_care_on.png"),
+        image_style: MyStyles.ic_skin_care_small,
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.CleansingName.Just_Water,
+        image_off: require("../assets/images/Categories/ic_skin_care.png"),
+        image_on: require("../assets/images/Categories/ic_skin_care_on.png"),
+        image_style: MyStyles.ic_skin_care_small,
+        is_selected: false,
+      },
+    ]
+  },
+
+  // questionnaire에서 이용
+  getCareTypes() {
+    return [
+      {
+        typeName: MyConstants.CareName.Moisturizer,
+        image_off: require("../assets/images/Categories/ic_skin_care.png"),
+        image_on: require("../assets/images/Categories/ic_skin_care_on.png"),
+        image_style: MyStyles.ic_skin_care_small,
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.CareName.Toner,
+        image_off: require("../assets/images/Categories/ic_skin_care.png"),
+        image_on: require("../assets/images/Categories/ic_skin_care_on.png"),
+        image_style: MyStyles.ic_skin_care_small,
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.CareName.Sunblock,
+        image_off: require("../assets/images/Categories/ic_skin_care.png"),
+        image_on: require("../assets/images/Categories/ic_skin_care_on.png"),
+        image_style: MyStyles.ic_skin_care_small,
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.CareName.Cream,
+        image_off: require("../assets/images/Categories/ic_skin_care.png"),
+        image_on: require("../assets/images/Categories/ic_skin_care_on.png"),
+        image_style: MyStyles.ic_skin_care_small,
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.CareName.Eye_Cream,
+        image_off: require("../assets/images/Categories/ic_skin_care.png"),
+        image_on: require("../assets/images/Categories/ic_skin_care_on.png"),
+        image_style: MyStyles.ic_skin_care_small,
+        is_selected: false,
+      },
+      {
+        typeName: MyConstants.CareName.Lotion,
+        image_off: require("../assets/images/Categories/ic_skin_care.png"),
+        image_on: require("../assets/images/Categories/ic_skin_care_on.png"),
+        image_style: MyStyles.ic_skin_care_small,
+        is_selected: false,
+      },
+    ]
+  },
 }
 

@@ -417,6 +417,7 @@ export default class HomeScreen extends React.Component {
                       showsPageIndicator={true}
                       loop
                       index={0}
+                      
                       pageSize={this.BannerWidth / 2}
                       ref={(carousel) => { this.bestCarouselIndicator = carousel }}
                     >

@@ -630,6 +630,18 @@ export default StyleSheet.create({
     fontWeight: "400",
     textAlign: "center",
   },
+  category_text11: {
+    fontSize: 12,
+    color: Colors.color_d8d7d7,
+    fontWeight: "400",
+    textAlign: "center",
+  },
+  category_text22: {
+    fontSize: 12,
+    color: Colors.primary_purple,
+    fontWeight: "400",
+    textAlign: "center",
+  },
   ic_best_ranking: {
     width: 70 / 3,
     height: 102 / 3,
