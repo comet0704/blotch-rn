@@ -30,28 +30,48 @@ export class BrandItem extends React.Component {
     const index = this.props.index;
     const item_width = this.props.item_width;
     const is_match_list = this.props.is_match_list;
+    const is_add_modal = this.props.is_add_modal; // quetionnaire 에서 brand_favorite_list, brand_mostly_list 에 추가할때 현시되는 팝업에서 이용하는 경우
     const _this = this.props.this;
     return (
       <View key={item.id} style={[{ flex: 1, width: item_width }, is_match_list ? null : { marginRight: 20, }]}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { _this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-          <ImageLoad style={{ width: item_width, height: item_width, borderColor: Colors.color_e3e5e4, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
-        </TouchableOpacity>
-        <Text style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + item.product_count}</Text>
-        {is_match_list != true ?
-          item.is_liked > 0
-            ?
-            <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { _this.requestBrandUnlike(item.id) }}>
-              <Image source={require('../../assets/images/ic_heart2_on.png')} style={[MyStyles.background_image]} />
-            </TouchableOpacity>
-            :
-            <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { _this.requestBrandLike(item.id) }}>
-              <Image source={require('../../assets/images/ic_heart2_off.png')} style={[MyStyles.background_image]} />
-            </TouchableOpacity>
+        {is_add_modal ?
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => { _this.onBrandSelect(item) }}>
+            <ImageLoad style={{ width: item_width, height: item_width, borderColor: Colors.color_e3e5e4, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
+          </TouchableOpacity>
           :
-          null
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => { _this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+            <ImageLoad style={{ width: item_width, height: item_width, borderColor: Colors.color_e3e5e4, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
+          </TouchableOpacity>
+        }
+        <Text style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + item.product_count}</Text>
+        {
+          is_match_list != true && is_add_modal != true ?
+            item.is_liked > 0
+              ?
+              <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { _this.requestBrandUnlike(item.id) }}>
+                <Image source={require('../../assets/images/ic_heart2_on.png')} style={[MyStyles.background_image]} />
+              </TouchableOpacity>
+              :
+              <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { _this.requestBrandLike(item.id) }}>
+                <Image source={require('../../assets/images/ic_heart2_off.png')} style={[MyStyles.background_image]} />
+              </TouchableOpacity>
+            :
+            null
+        }
+        {
+          is_add_modal ?
+            item.is_selected > 0
+              ?
+              <View style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { _this.requestBrandUnlike(item.id) }}>
+                <Image source={require('../../assets/images/ic_question_checked.png')} style={[MyStyles.background_image]} />
+              </View>
+              :
+              null
+            :
+            null
         }
 
-      </View>
+      </View >
     )
   }
 }

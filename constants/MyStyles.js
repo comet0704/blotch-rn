@@ -279,6 +279,13 @@ export default StyleSheet.create({
     justifyContent: "center",
   },
 
+  btn_primary_cover1: {
+    borderRadius: 5,
+    height: 45,
+    backgroundColor: "#a695fe",
+    justifyContent: "center",
+  },
+
   btn_primary: {
     color: "white",
     fontSize: 13,

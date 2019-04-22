@@ -22,6 +22,7 @@ export default {
         searchProduct: MyConstants.SERVER_URL + "/home/searchProduct",
         searchIngredient: MyConstants.SERVER_URL + "/home/searchIngredient",
         searchCamera: MyConstants.SERVER_URL + "/home/searchCamera",
+        searchBrand: MyConstants.SERVER_URL + "/home/searchBrand",
     },
     article: {
         list: MyConstants.SERVER_URL + "/article/list",
@@ -91,6 +92,7 @@ export default {
         deleteBeautyBox: MyConstants.SERVER_URL + "/user/deleteBeautyBox",
         questionnaireList: MyConstants.SERVER_URL + "/user/questionnaireList",
         addQuestionnaireItem: MyConstants.SERVER_URL + "/user/addQuestionnaireItem",
+        deleteQuestionnaireItem: MyConstants.SERVER_URL + "/user/deleteQuestionnaireItem",
         updateQuestionnaireItem: MyConstants.SERVER_URL + "/user/updateQuestionnaireItem",
         questionnaireDetail: MyConstants.SERVER_URL + "/user/questionnaireDetail",
         terms_privacy: MyConstants.SERVER_URL + "/terms/usage.html",

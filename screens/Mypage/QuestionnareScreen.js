@@ -29,23 +29,33 @@ import Common from '../../assets/Common';
 
 import { FlatGrid } from 'react-native-super-grid';
 import { Dropdown } from 'react-native-material-dropdown';
+import { BrandItem } from '../../components/Search/BrandItem';
 
 export default class QuestionnareScreen extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      countrySelectModalVisible: false,
-      country_list: [],
-      addBabyModalVisible: false,
-      edit_baby_id: 0, // 0  이면 add_baby, > 0 이면 edit_baby
-      request_list_name: "",
       section_basic_info: false,
       section_skin_type: false,
       section_product_reference: false,
-      section_skin_routine: true,
+      section_skin_routine: false,
+
+      noCompletedQuestionnaireModalVisible: false,
+      countrySelectModalVisible: false,
+      addBabyModalVisible: false,
+      searchBrandModalVisible: false,
+
+      searchBrandForFavorite: true, // brand_favorite_list에 brand추가를 위해 띄워주면 true, brand_mostly_list에 brand 추가를 위해 띄워주면 false
+      selected_brand_item: {}, // 브랜드 검색 모달에서 선택된 브랜드 객체.
+      country_list: [],
+      edit_baby_id: 0, // 0  이면 add_baby, > 0 이면 edit_baby
+      request_list_name: "",
       beforeBabyIdx: 0,
       morningRoutineSelected: true,
+      search_brand_list: [
+
+      ],
       questionnaire_detail: {
         "id": 1,
         "uid": 3,
@@ -172,12 +182,66 @@ export default class QuestionnareScreen extends React.Component {
     }
   }
 
+  checkCompleteStatus() {
+    if (this.state.questionnaire_detail.birth != null &&
+      this.state.questionnaire_detail.birth.length > 0 &&
+      this.state.questionnaire_detail.gender != null &&
+      this.state.questionnaire_detail.gender.length > 0 &&
+      this.state.questionnaire_detail.location != null &&
+      this.state.questionnaire_detail.location.length > 0 &&
+      this.state.questionnaire_detail.is_kids != null &&
+      this.state.questionnaire_detail.is_kids.length > 0 &&
+      this.state.questionnaire_detail.skin_type != null &&
+      this.state.questionnaire_detail.skin_type.length > 0 &&
+      this.state.questionnaire_detail.concern != null &&
+      this.state.questionnaire_detail.concern.length > 0 &&
+      this.state.questionnaire_detail.needs != null &&
+      this.state.questionnaire_detail.needs.length > 0 &&
+      this.state.questionnaire_detail.brand_favourite_list != null &&
+      this.state.questionnaire_detail.brand_favourite_list.length > 0 &&
+      this.state.questionnaire_detail.brand_mostly_list != null &&
+      this.state.questionnaire_detail.brand_mostly_list.length > 0 &&
+      this.state.questionnaire_detail.buy_products_from != null &&
+      this.state.questionnaire_detail.buy_products_from > 0 &&
+      this.state.questionnaire_detail.product_count_in_day != null &&
+      this.state.questionnaire_detail.product_count_in_day > 0 &&
+      this.state.questionnaire_detail.time_for_care != null &&
+      this.state.questionnaire_detail.time_for_care > 0 &&
+      this.state.morning_cleansing_types.findIndex(item => item.is_selected == true) >= 0 &&
+      this.state.morning_care_types.findIndex(item => item.is_selected == true) >= 0 &&
+      this.state.night_cleansing_types.findIndex(item => item.is_selected == true) >= 0 &&
+      this.state.night_care_types.findIndex(item => item.is_selected == true) >= 0) {
+      this.updateQuestionnaireItem()
+    } else {
+      this.setState({ noCompletedQuestionnaireModalVisible: true })
+    }
+  }
+
   updateQuestionnaireItem() {
     // 반점으로 구분하여 돌려줘야 하는 값들
+    updateBrandFavorite = ""
+    updateBrandMostly = ""
     updateMorningCleansing = ""
     updateMorningCare = ""
     updateNightCleansing = ""
     updateNightCare = ""
+
+    this.state.questionnaire_detail.brand_favourite_list.map((item, index) => {
+      if (updateBrandFavorite != "") {
+        updateBrandFavorite += ","
+      }
+      updateBrandFavorite += item.id
+    })
+    this.state.questionnaire_detail.brand_favourite = updateBrandFavorite
+
+    this.state.questionnaire_detail.brand_mostly_list.map((item, index) => {
+      if (updateBrandMostly != "") {
+        updateBrandMostly += ","
+      }
+      updateBrandMostly += item.id
+    })
+    this.state.questionnaire_detail.brand_mostly = updateBrandMostly
+
 
     this.state.morning_cleansing_types.map((item, index) => {
       if (item.is_selected) {
@@ -229,14 +293,41 @@ export default class QuestionnareScreen extends React.Component {
     this.state.questionnaire_detail.birth = selectedDay.dateString
     this.setState(this.state.questionnaire_detail)
   }
+  onBrandSelect = (p_brand_item) => {
+    // 여기서는 오직 하나만 선택되어야 함
+    this.state.search_brand_list.forEach(element => {
+      element.is_selected = false
+    })
+    const w_index = this.state.search_brand_list.findIndex(p_item => p_item.id === p_brand_item.id)
+    this.state.search_brand_list[w_index].is_selected = true
+    this.setState(this.state.search_brand_list)
+    this.setState({ selected_brand_item: p_brand_item })
+  }
 
   onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
-    console.log("000000000000" + ":" + p_skin_type + ":" + p_concern + ":" + p_needs)
     this.state.questionnaire_detail.skin_type = p_skin_type
     this.state.questionnaire_detail.concern = p_concern
     this.state.questionnaire_detail.needs = p_needs
     this.setState(this.state.questionnaire_detail)
   }
+
+  // 브랜드 검색 팝업에서 검색결과현시에 이용
+  renderBrandsScroll() {
+    return (
+      <View
+      >
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        >
+          {this.state.search_brand_list.map(item => (
+            <BrandItem is_add_modal={true} key={item.id} item_width={235 / 3} item={item} this={this} />
+          ))}
+        </ScrollView>
+      </View>
+    );
+  }
+
 
   render() {
 
@@ -569,7 +660,19 @@ export default class QuestionnareScreen extends React.Component {
                         }
                         <View style={{ flexDirection: "row" }}>
                           <Text style={[MyStyles.ingredient_section_header_text1]}>Product Preference</Text>
-                          <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked, { marginLeft: 5 }]} />
+                          { // 섹션3 완성상태 체크
+                            this.state.questionnaire_detail.brand_favourite_list != null &&
+                              this.state.questionnaire_detail.brand_favourite_list.length > 0 &&
+                              this.state.questionnaire_detail.brand_mostly_list != null &&
+                              this.state.questionnaire_detail.brand_mostly_list.length > 0 &&
+                              this.state.questionnaire_detail.buy_products_from != null &&
+                              this.state.questionnaire_detail.buy_products_from > 0 &&
+                              this.state.questionnaire_detail.product_count_in_day != null &&
+                              this.state.questionnaire_detail.product_count_in_day > 0 &&
+                              this.state.questionnaire_detail.time_for_care != null &&
+                              this.state.questionnaire_detail.time_for_care > 0 ?
+                              <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked, { marginLeft: 5 }]} /> : null
+                          }
                         </View>
                       </View>
                     </TouchableOpacity>
@@ -590,15 +693,44 @@ export default class QuestionnareScreen extends React.Component {
                                 (
                                   <View key={item.id} style={[{ marginRight: 15 }, MyStyles.padding_v_5]}>
                                     <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
-                                    <View style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}>
+                                    <TouchableOpacity style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}
+                                      onPress={() => {
+                                        const brand_favourite_list = this.state.questionnaire_detail.brand_favourite_list
+                                        const index = brand_favourite_list.findIndex(item1 => item1.id === item.id)
+                                        // 목록을 없애주고
+                                        brand_favourite_list.splice(index, 1)
+                                        // brand_favorite 에서 해당 아이디를 삭제해준다.
+                                        const brand_favorite_ids = this.state.questionnaire_detail.brand_favourite.split(",")
+                                        const index1 = brand_favorite_ids.findIndex(item2 => item2 === item.id)
+                                        brand_favorite_ids.splice(index1, 1)
+
+                                        update_brand_favorite = ""
+                                        brand_favorite_ids.map((item, index) => {
+                                          if (update_brand_favorite != "") {
+                                            update_brand_favorite += ","
+                                          }
+                                          update_brand_favorite += item
+                                        })
+
+                                        console.log(update_brand_favorite);
+
+                                        this.state.questionnaire_detail.brand_favourite = update_brand_favorite
+                                        this.state.questionnaire_detail.brand_favourite_list = brand_favourite_list
+                                        this.setState(this.state.questionnaire_detail)
+                                      }}>
                                       <Image source={require("../../assets/images/ic_close2.png")} style={{ width: 10 / 3, height: 10 / 3, }} />
-                                    </View>
+                                    </TouchableOpacity>
                                   </View>
                                 )
                               )}
 
                               {/* 목록 다 돌린 후에는  추가버튼 추가*/}
-                              <TouchableOpacity style={{ marginRight: 15, marginTop: 7, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}>
+                              <TouchableOpacity style={{ marginRight: 15, marginTop: 7, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
+                                onPress={() => {
+                                  this.setState({ searchBrandForFavorite: true })
+                                  this.setState({ searchBrandModalVisible: true })
+                                }}
+                              >
                                 <Text style={{ fontSize: 46 / 3, color: "white" }}>+</Text>
                               </TouchableOpacity>
                             </ScrollView>
@@ -616,15 +748,43 @@ export default class QuestionnareScreen extends React.Component {
                                 (
                                   <View key={item.id} style={[{ marginRight: 15 }, MyStyles.padding_v_5]}>
                                     <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
-                                    <View style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}>
+                                    <TouchableOpacity style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}
+                                      onPress={() => {
+                                        const brand_mostly_list = this.state.questionnaire_detail.brand_mostly_list
+                                        const index = brand_mostly_list.findIndex(item1 => item1.id === item.id)
+                                        // 목록을 없애주고
+                                        brand_mostly_list.splice(index, 1)
+                                        // brand_mostly 에서 해당 아이디를 삭제해준다.
+                                        const brand_mostly_ids = this.state.questionnaire_detail.brand_mostly.split(",")
+                                        const index1 = brand_mostly_ids.findIndex(item2 => item2 === item.id)
+                                        brand_mostly_ids.splice(index1, 1)
+
+                                        update_brand_mostly = ""
+                                        brand_mostly_ids.map((item, index) => {
+                                          if (update_brand_mostly != "") {
+                                            update_brand_mostly += ","
+                                          }
+                                          update_brand_mostly += item
+                                        })
+
+                                        console.log(update_brand_mostly);
+
+                                        this.state.questionnaire_detail.brand_mostly = update_brand_mostly
+                                        this.state.questionnaire_detail.brand_mostly_list = brand_mostly_list
+                                        this.setState(this.state.questionnaire_detail)
+                                      }}>
                                       <Image source={require("../../assets/images/ic_close2.png")} style={{ width: 10 / 3, height: 10 / 3, }} />
-                                    </View>
+                                    </TouchableOpacity>
                                   </View>
                                 )
                               )}
 
                               {/* 목록 다 돌린 후에는  추가버튼 추가*/}
-                              <TouchableOpacity style={{ marginRight: 15, marginTop: 7, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}>
+                              <TouchableOpacity style={{ marginRight: 15, marginTop: 7, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
+                                onPress={() => {
+                                  this.setState({ searchBrandForFavorite: false })
+                                  this.setState({ searchBrandModalVisible: true })
+                                }}>
                                 <Text style={{ fontSize: 46 / 3, color: "white" }}>+</Text>
                               </TouchableOpacity>
                             </ScrollView>
@@ -683,7 +843,7 @@ export default class QuestionnareScreen extends React.Component {
                                 this.state.questionnaire_detail.product_count_in_day = 2,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 2 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>1~2</Text>
                               </TouchableOpacity>
                             </View>
@@ -760,7 +920,13 @@ export default class QuestionnareScreen extends React.Component {
                         }
                         <View style={{ flexDirection: "row" }}>
                           <Text style={[MyStyles.ingredient_section_header_text1]}>My daily skincare routine</Text>
-                          <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked, { marginLeft: 5 }]} />
+                          { // 섹션4 완성상태 체크
+                            this.state.morning_cleansing_types.findIndex(item => item.is_selected == true) >= 0 &&
+                              this.state.morning_care_types.findIndex(item => item.is_selected == true) >= 0 &&
+                              this.state.night_cleansing_types.findIndex(item => item.is_selected == true) >= 0 &&
+                              this.state.night_care_types.findIndex(item => item.is_selected == true) >= 0 ?
+                              <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked, { marginLeft: 5 }]} /> : null
+                          }
                         </View>
                       </View>
                     </TouchableOpacity>
@@ -922,7 +1088,7 @@ export default class QuestionnareScreen extends React.Component {
                 </View>
                 : null}
 
-              <TouchableOpacity onPress={() => { this.updateQuestionnaireItem() }} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginTop: 30, marginBottom: 40, marginLeft: 15, marginRight: 15 }]}>
+              <TouchableOpacity onPress={() => { this.checkCompleteStatus() }} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginTop: 30, marginBottom: 40, marginLeft: 15, marginRight: 15 }]}>
                 <Text style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</Text>
               </TouchableOpacity>
             </View>
@@ -958,7 +1124,15 @@ export default class QuestionnareScreen extends React.Component {
                       <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Name</Text>
                       <TextInput
                         onSubmitEditing={() => {
-                          this.addQuestionnaire()
+                          if (this.state.edit_baby_id > 0) {
+                            this.state.questionnaire_detail.id = this.state.questionnaire_list[this.state.beforeBabyIdx].id
+                            this.state.questionnaire_detail.title = this.state.request_list_name
+                            this.setState(this.state.questionnaire_detail)
+                            this.updateQuestionnaireItem()
+                            this.setState({ addBabyModalVisible: false });
+                          } else {
+                            this.addQuestionnaire()
+                          }
                         }}
                         value={this.state.request_list_name}
                         onChangeText={(text) => { this.setState({ request_list_name: text }) }}
@@ -966,27 +1140,48 @@ export default class QuestionnareScreen extends React.Component {
                       </TextInput>
                     </View>
 
-                    <View style={{ flexDirection: "row" }}>
-                      <TouchableHighlight
-                        style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
-                          this.addQuestionnaire()
-                        }}>
-                        {this.state.edit_baby_id > 0 ?
+
+                    {this.state.edit_baby_id > 0 ?
+                      <View style={{ flexDirection: "row" }}>
+                        <TouchableHighlight
+                          style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                            this.state.questionnaire_detail.id = this.state.questionnaire_list[this.state.beforeBabyIdx].id
+                            this.state.questionnaire_detail.title = this.state.request_list_name
+                            this.setState(this.state.questionnaire_detail)
+                            this.updateQuestionnaireItem()
+                            this.setState({ addBabyModalVisible: false });
+                          }}>
                           <Text style={MyStyles.btn_primary}>Change</Text>
-                          :
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                          style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]} onPress={() => {
+                            console.log("1111111111" + this.state.questionnaire_list[this.state.beforeBabyIdx].id)
+                            this.requestDeleteQuestionnaireItem(this.state.questionnaire_list[this.state.beforeBabyIdx].id)
+                            this.setState({ addBabyModalVisible: false });
+                          }}>
+                          <Text style={MyStyles.btn_primary_white}>Delete</Text>
+                        </TouchableHighlight>
+                      </View>
+                      :
+                      <View style={{ flexDirection: "row" }}>
+                        <TouchableHighlight
+                          style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                            this.addQuestionnaire()
+                          }}>
                           <Text style={MyStyles.btn_primary}>Create</Text>
-                        }
-                      </TouchableHighlight>
-                    </View>
+                        </TouchableHighlight>
+                      </View>
+                    }
+
                   </View>
                 </View>
               </View>
             </TouchableWithoutFeedback>
           </Modal>
-
+          {/* 지역선택 모달 */}
           <Modal
             animationType="slide"
-            transparent={false}
+            transparent={true}
             visible={this.state.countrySelectModalVisible}
             onRequestClose={() => {
             }}>
@@ -1030,6 +1225,167 @@ export default class QuestionnareScreen extends React.Component {
               </View>
             </View>
           </Modal>
+
+          {/* 브랜드 검색 팝업 */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.searchBrandModalVisible}
+            onRequestClose={() => {
+            }}>
+            <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+              <View style={{ flex: 1 }}>
+                <Toast ref='toast_modal2' />
+                <View style={MyStyles.modal_bg1}>
+                  <View style={MyStyles.modalContainer}>
+                    {/* modal header */}
+                    <View style={MyStyles.modal_header}>
+                      <Text style={MyStyles.modal_title}>Brand</Text>
+                      <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                        this.setState({ searchBrandModalVisible: false });
+                      }}>
+                        <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                      </TouchableOpacity>
+                    </View>
+                    <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+
+                    {/* body */}
+                    <View style={[MyStyles.padding_h_main, { paddingTop: 70 / 3, paddingBottom: 75 / 3 }]}>
+                      <Text style={[MyStyles.text_13_primary_dark, { fontWeight: "500" }]}>Brand Name</Text>
+                      <TextInput
+                        onChangeText={(text) => { this.setState({ searchKeyword: text }) }}
+                        value={this.state.searchKeyword}
+                        returnKeyType="search"
+                        onSubmitEditing={() => {
+                          this.setState({ loading_end: false })
+                          if (this.state.searchKeyword == null) {
+                            this.refs.toast_modal2.showBottom("Please input search keyword");
+                            return;
+                          }
+                          this.requestSearchBrand(this.state.searchKeyword)
+                        }}
+                        style={[{ borderWidth: 0.5, marginTop: 10, borderColor: Colors.color_e5e6e5, color: Colors.color_656565, fontSize: 13, padding: 10 }]}>
+                      </TextInput>
+                    </View>
+                    <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 25 }}>
+                      <TouchableOpacity style={[MyStyles.btn_primary_cover1, { borderRadius: 3, width: 444 / 3, height: 30 }]}
+                        onPress={() => {
+                          this.setState({ loading_end: false })
+                          if (this.state.searchKeyword == null) {
+                            this.refs.toast_modal2.showBottom("Please input search keyword");
+                            return;
+                          }
+                          this.requestSearchBrand(this.state.searchKeyword)
+                        }
+                        }>
+                        <Text style={MyStyles.btn_primary}>Search</Text>
+                      </TouchableOpacity>
+                    </View>
+
+
+                    {this.state.search_brand_list.length > 0 ?
+
+                      <View style={{ height: 670 / 3 }}>
+                        <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
+                        <View style={{
+                          flex: 1,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          paddingLeft: 15,
+                          paddingRight: 15,
+                          paddingTop: 75 / 3,
+                          paddingBottom: 110 / 3,
+                        }}>
+                          {
+                            this.renderBrandsScroll()
+                          }
+                        </View>
+                        <View style={{ flexDirection: "row" }}>
+
+                          <TouchableHighlight style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                            if (this.state.searchBrandForFavorite) { // brand_favorite_list 에 추가할때
+                              // 이미 추가된 브랜드인가 체크
+                              const check_index = this.state.questionnaire_detail.brand_favourite_list.findIndex(w_item => w_item.id == this.state.selected_brand_item.id)
+                              if (check_index >= 0) {
+                                this.refs.toast_modal2.showBottom("Already added brand item. Please choose another");
+                                return
+                              }
+                              const brand_favourite_list = this.state.questionnaire_detail.brand_favourite_list
+                              added_favorite_list = [...brand_favourite_list, this.state.selected_brand_item]
+                              this.state.questionnaire_detail.brand_favourite_list = added_favorite_list
+                              this.setState(this.state.questionnaire_detail)
+
+                            } else { // brand_mostly_list 에 추가할때
+                              // 이미 추가된 브랜드인가 체크
+                              const check_index = this.state.questionnaire_detail.brand_mostly_list.findIndex(w_item => w_item.id == this.state.selected_brand_item.id)
+                              if (check_index >= 0) {
+                                this.refs.toast_modal2.showBottom("Already added brand item. Please choose another");
+                                return
+                              }
+                              const brand_mostly_list = this.state.questionnaire_detail.brand_mostly_list
+                              added_mostly_list = [...brand_mostly_list, this.state.selected_brand_item]
+                              this.state.questionnaire_detail.brand_mostly_list = added_mostly_list
+                              this.setState(this.state.questionnaire_detail)
+                            }
+
+                            this.setState({ searchBrandModalVisible: false })
+
+                          }}>
+                            <Text style={MyStyles.btn_primary}>Add</Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                      :
+                      null}
+                  </View>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </Modal>
+
+          {/* 전체 입력이 안되었을 경우 저장시 alert */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.noCompletedQuestionnaireModalVisible}
+            onRequestClose={() => {
+            }}>
+            <View style={{ flex: 1 }}>
+              <View style={MyStyles.modal_bg}>
+                <View style={MyStyles.modalContainer}>
+                  <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                    this.setState({ noCompletedQuestionnaireModalVisible: false });
+                  }}>
+                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                  </TouchableOpacity>
+
+                  <Image style={{ width: 85 / 3, height: 96 / 3, alignSelf: "center" }} source={require("../../assets/images/ic_pin.png")} />
+                  <Text style={{ fontSize: 16, color: "black", textAlign: "center", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20, paddingLeft: 20, paddingRight: 20 }}>
+                    If you do not complete the Questionnaire, it may be difficult to get the correct consultation.
+                    </Text>
+                  <View style={{ flexDirection: "row" }}>
+                    <TouchableHighlight onPress={() => {
+                      this.setState({ noCompletedQuestionnaireModalVisible: false });
+                    }}
+                      style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                      <Text style={MyStyles.btn_primary}>OK</Text>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                      style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                      onPress={() => {
+                        this.setState({ noCompletedQuestionnaireModalVisible: false });
+                        this.updateQuestionnaireItem()
+                      }}>
+                      <Text style={MyStyles.btn_primary_white}>Cancel</Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+
+              </View>
+            </View>
+          </Modal>
+
 
         </KeyboardAvoidingView>
 
@@ -1131,6 +1487,47 @@ export default class QuestionnareScreen extends React.Component {
       .done();
   }
 
+  requestDeleteQuestionnaireItem(p_questionnaire_id) {
+    console.log(p_questionnaire_id);
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.user.deleteQuestionnaireItem, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        questionnaire_id: p_questionnaire_id
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.setState({ edit_baby_id: 0 })
+        this.requestQuestionnaireList();
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
   // 현재위치로부터 날씨 api를 호출해서 지역정보를 얻는다.
   requestGetMyPosition() {
     navigator.geolocation.getCurrentPosition(
@@ -1149,7 +1546,6 @@ export default class QuestionnareScreen extends React.Component {
   }
 
   _getWeather = (latitude, longitude) => {
-    console.log("0000000=" + latitude + ":" + longitude)
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`)
       .then(response => response.json()) // 응답값을 json으로 변환
       .then(json => {
@@ -1173,7 +1569,6 @@ export default class QuestionnareScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log("111111111111" + responseJson)
         this.setState({
           isLoading: false
         });
@@ -1184,11 +1579,9 @@ export default class QuestionnareScreen extends React.Component {
 
         const data = [];
 
-        responseJson.result_data.contact_us_category.forEach(element => {
+        responseJson.result_data.country_list.forEach(element => {
           data.push({ value: element.title })
         });
-
-        // data.push({value: "Other" }) // 나중에 직접입력 항목 추가해주어야 함
 
         this.setState({ country_list: data })
       })
@@ -1308,9 +1701,9 @@ export default class QuestionnareScreen extends React.Component {
         concern: this.state.questionnaire_detail.concern,
         brand_favourite: this.state.questionnaire_detail.brand_favourite,
         brand_mostly: this.state.questionnaire_detail.brand_mostly,
-        buy_products_from: this.state.questionnaire_detail.buy_products_from,
-        product_count_in_day: this.state.questionnaire_detail.product_count_in_day,
-        time_for_care: this.state.questionnaire_detail.time_for_care,
+        buy_products_from: this.state.questionnaire_detail.buy_products_from.toString(),
+        product_count_in_day: this.state.questionnaire_detail.product_count_in_day.toString(),
+        time_for_care: this.state.questionnaire_detail.time_for_care.toString(),
         morning_cleansing: this.state.questionnaire_detail.morning_cleansing,
         morning_care: this.state.questionnaire_detail.morning_care,
         night_cleansing: this.state.questionnaire_detail.night_cleansing,
@@ -1328,6 +1721,50 @@ export default class QuestionnareScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
+
+        this.state.questionnaire_list[this.state.beforeBabyIdx].title = this.state.questionnaire_detail.title
+        this.setState(this.state.questionnaire_list)
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  // brand_favorite_list, brand_mostly_list 에 brand를 추가할때 이용하는 검색 api
+  requestSearchBrand(p_keyword) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.home.searchBrand, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+
+      },
+      body: JSON.stringify({
+        keyword: p_keyword
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return;
+        }
+        this.setState({
+          search_brand_list: responseJson.result_data.brand_list,
+        });
       })
       .catch((error) => {
         this.setState({
