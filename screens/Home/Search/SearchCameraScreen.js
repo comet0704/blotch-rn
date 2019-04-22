@@ -36,6 +36,9 @@ export default class SearchCameraScreen extends React.Component {
 
 
   _handleBarCodeRead = result => {
+    if(this.state.isLoading)
+      return
+    console.log("111111" + result);
     this.requestSearchCamera(result.data);
   };
 
@@ -139,11 +142,12 @@ export default class SearchCameraScreen extends React.Component {
     );
   }
 
-  requestSearchCamera(p_keyword) {
+  requestSearchCamera(p_barcode) {
+    console.log(p_barcode);
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.home.searchCamera, {
+    return fetch(Net.camera.searchBarcode, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -152,7 +156,7 @@ export default class SearchCameraScreen extends React.Component {
 
       },
       body: JSON.stringify({
-        keyword: "pro"
+        barcode: p_barcode.toString()
       }),
     })
       .then((response) => response.json())

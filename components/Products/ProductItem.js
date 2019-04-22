@@ -50,7 +50,7 @@ export class ProductItem extends React.Component {
                         : null} */}
         </View>
         <Text style={[MyStyles.productBrand]}>{item.brand_title}</Text>
-        <Text style={[MyStyles.productName]}>{item.title}</Text>
+        <Text style={[MyStyles.productName]} numberOfLines={1}>{item.title}</Text>
       </TouchableOpacity>
     )
   }

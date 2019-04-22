@@ -36,9 +36,9 @@ export default class SettingScreen extends React.Component {
     console.log(pkg.expo.version)
   }
 
-  doLogout() {
+  async doLogout() {
     global.login_info = null;
-    AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, null);
+    await AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, "");
 
     // 이제는 앱을 로그아웃 상태로 만들어야 하겠는데 그러자면 재기동하자.
   }

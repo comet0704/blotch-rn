@@ -36,7 +36,7 @@ export default class IngredientScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      alreadyLoaded:false,
+      alreadyLoaded: false,
       showLoginModal: false,
       searchKeyword: null,
       ingredient_add_type: -1,
@@ -48,28 +48,7 @@ export default class IngredientScreen extends React.Component {
       searchResultModalVisible: false,
       saveToModalVisible: false,
       potentialInfoModal: false,
-      babyItems: [
-        {
-          id: 1,
-          name: "Me",
-          is_selected: true
-        },
-        {
-          id: 2,
-          name: "Baby2"
-        },
-        {
-          id: 3,
-          name: "Baby3"
-        },
-        {
-          id: 4,
-          name: "Baby4"
-        },
-        {
-          id: 5,
-          name: "Baby5"
-        },
+      questionnaire_list: [
       ],
       mylist_result_data: {
         "my_list": [
@@ -88,15 +67,15 @@ export default class IngredientScreen extends React.Component {
   componentWillMount() {
     removeAndroidBackButtonHandler()
   }
-  
+
 
   onBabySelected = (p_babyName) => {
-    const babyItems = [...this.state.babyItems]
-    const index = babyItems.findIndex(item => item.name === p_babyName)
-    babyItems[this.state.beforeBabyIdx].is_selected = false
-    babyItems[index].is_selected = true
+    const questionnaire_list = [...this.state.questionnaire_list]
+    const index = questionnaire_list.findIndex(item => item.title === p_babyName)
+    questionnaire_list[this.state.beforeBabyIdx].is_selected = false
+    questionnaire_list[index].is_selected = true
     this.state.beforeBabyIdx = index
-    this.setState({ babyItems: babyItems })
+    this.setState({ questionnaire_list: questionnaire_list })
 
     this.setState({ loading_end: false })
   }
@@ -108,14 +87,14 @@ export default class IngredientScreen extends React.Component {
       >
         <ScrollView
           horizontal
-          style={{ flex: 1}}
+          style={{ flex: 1 }}
           showsHorizontalScrollIndicator={false}>
 
-          {this.state.babyItems.map(item => (
-            <View key={item.name} style={{ marginRight: 10, flex: 1, alignItems: "center", justifyContent: "center" }}>
-              <TouchableOpacity onPress={() => { this.onBabySelected(item.name) }} style={[item.is_selected ? MyStyles.baby_container_selected : MyStyles.baby_container]}>
+          {this.state.questionnaire_list.map(item => (
+            <View key={item.id} style={{ marginRight: 10, flex: 1, alignItems: "center", justifyContent: "center" }}>
+              <TouchableOpacity onPress={() => { this.onBabySelected(item.title) }} style={[item.is_selected ? MyStyles.baby_container_selected : MyStyles.baby_container]}>
                 {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
-                {item.is_selected ? <Text style={MyStyles.baby_text_selected} numberOfLines={1}>{item.name}</Text> : <Text style={MyStyles.baby_text} numberOfLines={1}>{item.name}</Text>}
+                {item.is_selected ? <Text style={MyStyles.baby_text_selected} numberOfLines={1}>{item.title}</Text> : <Text style={MyStyles.baby_text} numberOfLines={1}>{item.title}</Text>}
               </TouchableOpacity>
             </View>
           ))}
@@ -331,8 +310,9 @@ export default class IngredientScreen extends React.Component {
               this.setState({ showLoginModal: true });
               return;
             }
-            if(this.state.alreadyLoaded == false) {
+            if (this.state.alreadyLoaded == false) {
               this.requestMyList();
+              this.requestQuestionnaireList();
             }
           }}
         />
@@ -378,7 +358,7 @@ export default class IngredientScreen extends React.Component {
                     : <Image source={require("../../assets/images/ic_polygon_down.png")} style={[MyStyles.ic_polygon_down]} />
                 }
               </TouchableOpacity>
-              <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}/>
+              <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
 
               {
                 this.state.section_allergic_show ?
@@ -417,7 +397,7 @@ export default class IngredientScreen extends React.Component {
                     : <Image source={require("../../assets/images/ic_polygon_down.png")} style={[MyStyles.ic_polygon_down]} />
                 }
               </TouchableOpacity>
-              <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}/>
+              <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
 
               {
                 this.state.section_potential_show ?
@@ -469,7 +449,7 @@ export default class IngredientScreen extends React.Component {
                     : <Image source={require("../../assets/images/ic_polygon_down.png")} style={[MyStyles.ic_polygon_down]} />
                 }
               </TouchableOpacity>
-              <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}/>
+              <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
 
               {
                 this.state.section_preferred_show ?
@@ -504,7 +484,7 @@ export default class IngredientScreen extends React.Component {
                   <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                     this.setState({ searchModalVisible: false });
                   }}>
-                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}/>
+                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                   </TouchableOpacity>
                 </View>
                 <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
@@ -554,7 +534,7 @@ export default class IngredientScreen extends React.Component {
                   <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                     this.setState({ searchResultModalVisible: false });
                   }}>
-                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}/>
+                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                   </TouchableOpacity>
                 </View>
                 <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
@@ -598,7 +578,7 @@ export default class IngredientScreen extends React.Component {
                   <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                     this.setState({ saveToModalVisible: false })
                   }}>
-                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}/>
+                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                   </TouchableOpacity>
                 </View>
 
@@ -610,30 +590,30 @@ export default class IngredientScreen extends React.Component {
                     onPress={() => {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 0)
                     }}>
-                    <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")}/>
+                    <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
-                    <Image style={{ flex: 1 }}/>
-                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}/>
+                    <Image style={{ flex: 1 }} />
+                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
                   {/* Potential Allergens */}
                   <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 1)
                     }}>
-                    <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")}/>
+                    <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
-                    <Image style={{ flex: 1 }}/>
-                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}/>
+                    <Image style={{ flex: 1 }} />
+                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
                   {/* Preferred Ingredients */}
                   <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 2)
                     }}>
-                    <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")}/>
+                    <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
-                    <Image style={{ flex: 1 }}/>
-                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}/>
+                    <Image style={{ flex: 1 }} />
+                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -655,7 +635,7 @@ export default class IngredientScreen extends React.Component {
               <View style={[MyStyles.modalContainer, { backgroundColor: "transparent", overflow: "visible" }]}>
 
                 <View>
-                  <Image source={require('../../assets/images/ic_white_polygon.png')} style={[MyStyles.ic_white_polygon, { marginLeft: "55%" }]}/>
+                  <Image source={require('../../assets/images/ic_white_polygon.png')} style={[MyStyles.ic_white_polygon, { marginLeft: "55%" }]} />
                   <Text style={[MyStyles.padding_main, MyStyles.text_13_primary_dark, { width: "100%", marginTop: -3, borderRadius: 10, backgroundColor: "white" }]}>We will analyze the common ingredients of
 two or more products and inform you of the
 ingredients that can cause allergies.</Text>
@@ -680,10 +660,10 @@ ingredients that can cause allergies.</Text>
                   this.setState({ showLoginModal: false });
                   this.props.navigation.navigate('Home')
                 }}>
-                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}/>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                 </TouchableOpacity>
 
-                <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")}/>
+                <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
                 <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>You need to login</Text>
 
                 <View style={{ flexDirection: "row" }}>
@@ -718,7 +698,7 @@ ingredients that can cause allergies.</Text>
   requestMyList() {
     this.setState({
       isLoading: true,
-      alreadyLoaded : true,
+      alreadyLoaded: true,
     });
     return fetch(Net.ingredient.myList, {
       method: 'POST',
@@ -957,6 +937,53 @@ ingredients that can cause allergies.</Text>
           return
         }
         this.requestMyList();
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+
+  requestQuestionnaireList() {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.user.questionnaireList, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.state.questionnaire_list = responseJson.result_data.questionnaire_list
+
+        if (this.state.questionnaire_list.length > 0) {
+          this.state.questionnaire_list.forEach(element => {
+            element.is_selected = false
+          })
+          this.state.questionnaire_list[0].is_selected = true
+        }
+
+        this.setState({ questionnaire_list: this.state.questionnaire_list })
       })
       .catch((error) => {
         this.setState({

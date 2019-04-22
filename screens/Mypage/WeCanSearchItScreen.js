@@ -257,39 +257,56 @@ export default class WeCanSearcnItScreen extends React.Component {
                   returnNeeds = ""
 
                   this.state.skin_types.map((item, index) => {
-                    if(item.is_selected) {
-                      if(returnSkinType != "") {
+                    if (item.is_selected) {
+                      if (returnSkinType != "") {
                         returnSkinType += ","
                       }
                       returnSkinType += item.typeName
-                    }                    
+                    }
                   })
 
                   this.state.concern_types.map((item, index) => {
-                    if(item.is_selected) {
-                      if(returnConcern != "") {
+                    if (item.is_selected) {
+                      if (returnConcern != "") {
                         returnConcern += ","
                       }
                       returnConcern += item.typeName
-                    }                    
+                    }
                   })
 
                   this.state.need_types.map((item, index) => {
-                    if(item.is_selected) {
-                      if(returnNeeds != "") {
+                    if (item.is_selected) {
+                      if (returnNeeds != "") {
                         returnNeeds += ","
                       }
                       returnNeeds += item.typeName
-                    }                    
+                    }
                   })
-                  
+
 
                   this.onWeCanSearchItCallback(returnSkinType, returnConcern, returnNeeds)
                   this.props.navigation.goBack();
                 }}>
                 <Text style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[{ borderColor: Colors.primary_purple, height: 135 / 3, borderWidth: 1, borderRadius: 2, justifyContent: "center", flex: 1, marginLeft: 10 }]}>
+              <TouchableOpacity style={[{ borderColor: Colors.primary_purple, height: 135 / 3, borderWidth: 1, borderRadius: 2, justifyContent: "center", flex: 1, marginLeft: 10 }]}
+                onPress={() => {
+                  this.state.skin_types.forEach(element => {
+                    element.is_selected = false
+                  })
+                  this.setState(this.state.skin_types)
+
+                  this.state.concern_types.forEach(element => {
+                    element.is_selected = false
+                  })
+                  this.setState(this.state.concern_types)
+
+                  this.state.need_types.forEach(element => {
+                    element.is_selected = false
+                  })
+                  this.setState(this.state.need_types)
+                }}
+              >
                 <Text style={{ textAlign: "center", color: Colors.primary_purple, fontSize: 13 }}>Clear</Text>
               </TouchableOpacity>
             </View>

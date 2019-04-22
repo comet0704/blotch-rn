@@ -48,6 +48,7 @@ import WeCanSearchItScreen from '../screens/Mypage/WeCanSearchItScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  WeCanSearchIt: WeCanSearchItScreen,
   Article: ArticlesScreen,
   ArticleDetail: ArticleDetailScreen,
   Faq: FaqScreen,
@@ -197,9 +198,9 @@ MyListStack.navigationOptions = ({ navigation }) => {
 
 
 const MyPageStack = createStackNavigator({
-  Questionnare: QuestionnareScreen,
-  WeCanSearchIt: WeCanSearchItScreen,
   MyPage: MyPageScreen,
+  WeCanSearchIt: WeCanSearchItScreen,
+  Questionnare: QuestionnareScreen,
   MyBeautyBox: MyBeautyBoxScreen,
   Calendar: CalendarScreen,
   ContactUs: ContactUsScreen,
@@ -264,8 +265,8 @@ SettingsStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  MyPageStack,
   HomeStack,
+  MyPageStack,
   ProductStack,
   IngredientStack,
   MyListStack,

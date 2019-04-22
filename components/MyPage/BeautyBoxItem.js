@@ -41,7 +41,6 @@ export class BeautyBoxItem extends React.Component {
   }
 
   onDaySelect = (selectedDay) => {
-    console.log("---------------------\n" + selectedDay.dateString);
     this.state.item.open_date = selectedDay.dateString;
     this.setState(this.state.item)
     this.setState({ date_changed: true })

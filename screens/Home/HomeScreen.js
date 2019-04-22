@@ -30,6 +30,7 @@ import { WebBrowser } from 'expo';
 import { NavigationEvents } from 'react-navigation';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 import { exitAlert } from '../../components/androidBackButton/exitAlert';
+import { LoginModal } from '../../components/Modals/LoginModal';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -37,8 +38,13 @@ export default class HomeScreen extends React.Component {
     this.currentRouteName = 'Main';
     this.state = {
       isLogined: false,
-      weatherType: "dry",
-      weatherInfo: "Seoul. -6˚C",
+      showLoginModal: false,
+      weatherInfo: {
+        main: "",
+        temp: "",
+        icon: "",
+        city: "",
+      },
       result_data: {
         recommend_product_list: [],
         banner_list: [],
@@ -62,6 +68,7 @@ export default class HomeScreen extends React.Component {
 
   componentDidMount() {
     // this.requestHomeList()
+    // this.requestGetMyPosition();
     handleAndroidBackButton(this, exitAlert);
   }
 
@@ -265,9 +272,11 @@ export default class HomeScreen extends React.Component {
     );
   }
 
+  onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
+  }
+
 
   render() {
-    const { weatherType, weatherInfo } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
@@ -320,14 +329,18 @@ export default class HomeScreen extends React.Component {
                 <Text style={[MyStyles.text_20, { marginTop: 10 }]}>Today's Beauty Information</Text>
                 <View style={[{ borderRadius: 3, overflow: "hidden", width: "100%", height: 125, marginTop: 20, padding: 15, marginBottom: 23 }]}>
                   <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} />
-
+                  {/* <Spinner
+                    size={"small"}
+                    //visibility of Overlay Loading Spinner
+                    visible={this.state.weatherInfo.icon.length <= 0}
+                  /> */}
                   <View style={{ flexDirection: "row", flex: 1 }}>
                     <View style={{ flex: 1 }}>
                       <Text style={[{ fontSize: 15, fontWeight: "500", color: "white" }]}>Beauty Advice</Text>
                       <View style={[MyStyles.seperate_line_white, { marginTop: 10, marginBottom: 10 }]} />
                       <View style={[{ flexDirection: "row", color: "white" }]}>
                         <Image source={require('../../assets/images/Home/ic_weather_type.png')} style={{ width: 13, height: 7, alignSelf: "center" }} />
-                        <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {weatherType}</Text> today</Text>
+                        <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {this.state.weatherInfo.main.toLowerCase()}</Text> today</Text>
                       </View>
                       {this.state.isLogined ?
                         <View>
@@ -342,25 +355,44 @@ export default class HomeScreen extends React.Component {
                         </View>
                         : null}
                     </View>
-                    <View style={{ alignSelf: "center", marginLeft: 10, justifyContent: "center" }}>
-                      <Image source={require('../../assets/images/Home/ic_cloud.png')} style={{ width: 51, height: 41, alignSelf: "center" }} />
-                      <Text style={{ fontSize: 13, color: "white", alignSelf: "center", marginLeft: 10 }}>{weatherInfo}</Text>
-                    </View>
+                    {this.state.weatherInfo.icon.length > 0 ?
+                      <View style={{ alignSelf: "center", marginLeft: 10, justifyContent: "center" }}>
+                        <Image source={{ uri: this.state.weatherInfo.icon }} style={{ width: 50, height: 50, alignSelf: "center" }} />
+                        <Text style={{ fontSize: 13, color: "white", alignSelf: "center", marginLeft: 10 }}>{this.state.weatherInfo.city + "." + parseFloat(this.state.weatherInfo.temp - 273.15).toFixed(2).toString() + "˚C"}</Text>
+                      </View>
+                      : null
+                    }
+
                   </View>
                 </View>
               </View>
 
               {/* We can search it */}
-              {this.state.isLogined == false ? <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress={() => { alert("2차 개발 준비중입니다.") }}>
-                <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, MyStyles.bg_white, MyStyles.shadow_2]}>
-                  <View style={{ flex: 1 }}>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
-                    <Text style={{ fontSize: 12, color: "#949393", marginTop: 3 }}>Please set up your skin type</Text>
-                  </View>
+              {this.state.isLogined == false || global.login_info.needs == null || global.login_info.needs.length <= 0 ?
+                <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress=
+                  {() => {
+                    if (this.state.isLogined == false) {
+                      this.setState({ showLoginModal: true })
+                    } else {
+                      this.props.navigation.navigate("WeCanSearchIt", {
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                        [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                      })
+                    }
+                  }
+                  }
+                >
+                  <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+                    <View style={{ flex: 1 }}>
+                      <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
+                      <Text style={{ fontSize: 12, color: "#949393", marginTop: 3 }}>Please set up your skin type</Text>
+                    </View>
 
-                  <Image source={require('../../assets/images/Home/ic_avatar_woman.png')} style={{ width: 30, height: 42, alignSelf: "center" }} />
-                </View>
-              </TouchableOpacity>
+                    <Image source={require('../../assets/images/Home/ic_avatar_woman.png')} style={{ width: 30, height: 42, alignSelf: "center" }} />
+                  </View>
+                </TouchableOpacity>
                 : null
               }
 
@@ -417,7 +449,7 @@ export default class HomeScreen extends React.Component {
                       showsPageIndicator={true}
                       loop
                       index={0}
-                      
+
                       pageSize={this.BannerWidth / 2}
                       ref={(carousel) => { this.bestCarouselIndicator = carousel }}
                     >
@@ -556,6 +588,8 @@ export default class HomeScreen extends React.Component {
               </View>
 
             </View>
+
+            <LoginModal is_transparent={true} this={this} />
           </ScrollView>
         </KeyboardAvoidingView>
       </View >
@@ -776,4 +810,35 @@ export default class HomeScreen extends React.Component {
       })
       .done();
   }
+
+  // 현재위치로부터 날씨 api를 호출해서 지역정보를 얻는다.
+  requestGetMyPosition() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        //현재 위치 가져옴 position = 현재위치, JSON 형태
+        console.log(position)
+        this._getWeather(position.coords.latitude, position.coords.longitude)
+      },
+      (error) => {
+        //가져오기 실패 했을 경우.
+        // this.refs.toast.showBottom("Please allow location permissions in Settings.")
+      }, {
+        //Accuracy가 높아야하는지, 위치를 가져오는데 max 시간, 가져온 위치의 마지막 시간과 현재의 차이
+        enableHighAccuracy: false, timeout: 20000, maximumAge: 1000
+      });
+  }
+
+  _getWeather = (latitude, longitude) => {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${MyConstants.WEATHER_MAP_API_KET}`)
+      .then(response => response.json()) // 응답값을 json으로 변환
+      .then(json => {
+        console.log("1111111111" + JSON.stringify(json));
+        this.state.weatherInfo.main = json.weather[0].main
+        this.state.weatherInfo.temp = json.main.temp // 켈빈으로 내려옴
+        this.state.weatherInfo.icon = "http://openweathermap.org/img/w/" + json.weather[0].icon + ".png"
+        this.state.weatherInfo.city = json.name
+        this.setState(this.state.weatherInfo)
+      });
+  }
+
 }

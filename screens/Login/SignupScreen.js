@@ -71,7 +71,7 @@ export default class SignupScreen extends React.Component {
     // 유효한 값들이 입력되었는지 검사
     if (this.state.email && this.state.id && this.state.password && this.state.password_confirm &&
       this.state.email.length > 0 && this.state.id.length >= 4 && this.state.password.length >= 8 &&
-        this.state.password == this.state.password_confirm) {
+      this.state.password == this.state.password_confirm) {
       if (this.state.selectedFile != null) { // 프로필이미지가 있을때는 업로드
         this.requestUploadUserImage(this.state.selectedFile)
       } else { // 업을때는 즉시 등록
@@ -197,7 +197,10 @@ export default class SignupScreen extends React.Component {
                 <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Tell us little more about you so {"\n"} we can find recommendation!</Text>
 
                 <View style={{ flexDirection: "row" }}>
-                  <TouchableHighlight onPress={() => { this.refs.toast.showBottom("2차개발 준비중") }}
+                  <TouchableHighlight onPress={() => {
+                    this.setState({ askInputQueModal: false });
+                    this.props.navigation.navigate("Questionnare")
+                  }}
                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
                     <Text style={MyStyles.btn_primary}>Yes</Text>
                   </TouchableHighlight>

@@ -114,7 +114,6 @@ export class FragmentProductDetailReviews extends React.Component {
     }
 
     // 위까지 호출되면 this.uploadedImagePaths에 이미지 목록이 현시됨.
-    console.log("----------------------이제는 댓글 포스팅------------=\n" + this.uploadedImagePaths);
     this.requestPostProductComment(item_id, this.state.product_comment_list_result_data.user_comment.comment, 0, this.state.product_comment_list_result_data.user_comment.grade, this.uploadedImagePaths)
   }
 

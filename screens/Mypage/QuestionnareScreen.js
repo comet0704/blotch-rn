@@ -1138,12 +1138,12 @@ export default class QuestionnareScreen extends React.Component {
                     }
                   </View>
 
+                  <TouchableOpacity onPress={() => { this.checkCompleteStatus() }} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginTop: 30, marginBottom: 40, marginLeft: 15, marginRight: 15 }]}>
+                    <Text style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</Text>
+                  </TouchableOpacity>
                 </View>
                 : null}
 
-              <TouchableOpacity onPress={() => { this.checkCompleteStatus() }} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginTop: 30, marginBottom: 40, marginLeft: 15, marginRight: 15 }]}>
-                <Text style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</Text>
-              </TouchableOpacity>
             </View>
           </ScrollView>
           {/* 설문 편집/추가 모달 */}
@@ -1208,7 +1208,6 @@ export default class QuestionnareScreen extends React.Component {
                         </TouchableHighlight>
                         <TouchableHighlight
                           style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]} onPress={() => {
-                            console.log("1111111111" + this.state.questionnaire_list[this.state.beforeBabyIdx].id)
                             this.requestDeleteQuestionnaireItem(this.state.questionnaire_list[this.state.beforeBabyIdx].id)
                             this.setState({ addBabyModalVisible: false });
                           }}>
@@ -1579,31 +1578,6 @@ export default class QuestionnareScreen extends React.Component {
         this.refs.toast.showBottom(error);
       })
       .done();
-  }
-
-  // 현재위치로부터 날씨 api를 호출해서 지역정보를 얻는다.
-  requestGetMyPosition() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        //현재 위치 가져옴 position = 현재위치, JSON 형태
-        console.log(position)
-        this._getWeather(position.coords.latitude, position.coords.longitude)
-      },
-      (error) => {
-        //가져오기 실패 했을 경우.
-        // this.refs.toast.showBottom("Please allow location permissions in Settings.")
-      }, {
-        //Accuracy가 높아야하는지, 위치를 가져오는데 max 시간, 가져온 위치의 마지막 시간과 현재의 차이
-        enableHighAccuracy: false, timeout: 20000, maximumAge: 1000
-      });
-  }
-
-  _getWeather = (latitude, longitude) => {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`)
-      .then(response => response.json()) // 응답값을 json으로 변환
-      .then(json => {
-        console.log(json);
-      });
   }
 
   requestCountryList() {

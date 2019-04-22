@@ -102,5 +102,8 @@ export default {
         productList: MyConstants.SERVER_URL + "/brand/productList",
         like: MyConstants.SERVER_URL + "/brand/like",
         unlike: MyConstants.SERVER_URL + "/brand/unlike",
+    },
+    camera: {
+        searchBarcode: MyConstants.SERVER_URL + "/camera/searchBarcode",
     }
 };

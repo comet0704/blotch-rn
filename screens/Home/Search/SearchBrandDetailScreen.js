@@ -414,7 +414,6 @@ export default class SearchBrandDetailScreen extends React.Component {
     this.setState({
       isLoading: true,
     });
-    console.log(p_brand_id + "------" + p_category + "---------" + p_sub_category + "---------" + p_offset)
     return fetch(Net.brand.productList, {
       method: 'POST',
       headers: {

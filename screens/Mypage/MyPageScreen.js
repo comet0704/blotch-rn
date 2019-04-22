@@ -205,7 +205,11 @@ export default class MyPageScreen extends React.Component {
                   <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
                     <Text style={[MyStyles.ingredient_section_header_text1]}>My Review</Text>
-                    <Text style={[MyStyles.ingredient_section_header_text2]}>Recent Review<Text style={{ marginLeft: 5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>  {this.state.result_data.mypage.my_last_review_date.substring(0, 10)}</Text></Text>
+                    {this.state.result_data.mypage.my_last_review_date != null && this.state.result_data.mypage.my_last_review_date.length > 0 ?
+                      <Text style={[MyStyles.ingredient_section_header_text2]}>Recent Review<Text style={{ marginLeft: 5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>  {this.state.result_data.mypage.my_last_review_date.substring(0, 10)}</Text></Text>
+                      :
+                      <Text style={[MyStyles.ingredient_section_header_text2]}>Please write a review</Text>
+                    }
                   </View>
                   <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
                 </TouchableOpacity>
@@ -219,7 +223,11 @@ export default class MyPageScreen extends React.Component {
                   <Image source={require("../../assets/images/ic_beauty_box_big.png")} style={[MyStyles.ic_beauty_box_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
                     <Text style={[MyStyles.ingredient_section_header_text1]}>My Beauty Box</Text>
-                    <Text style={[MyStyles.ingredient_section_header_text2]}>{this.state.result_data.mypage.my_beautybox_count} Product in use</Text>
+                    {this.state.result_data.mypage.my_beautybox_count > 0 ?
+                      <Text style={[MyStyles.ingredient_section_header_text2]}>{this.state.result_data.mypage.my_beautybox_count} Product in use</Text>
+                      :
+                      <Text style={[MyStyles.ingredient_section_header_text2]}>There is no Product in use</Text>
+                    }
                   </View>
                   <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
                 </TouchableOpacity>
@@ -234,10 +242,18 @@ export default class MyPageScreen extends React.Component {
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
                     <View style={{ flexDirection: "row" }}>
                       <Text style={[MyStyles.ingredient_section_header_text1]}>Questionnaire</Text>
-                      <Text style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>Me</Text>
+                      {this.state.result_data.mypage.my_questionnaire != null && this.state.result_data.mypage.my_questionnaire.length > 0 ?
+                        <Text style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>Me</Text>
+                        :
+                        <Text style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>-</Text>
+                      }
                     </View>
 
-                    <Text style={[MyStyles.ingredient_section_header_text2]}>Completed</Text>
+                    {this.state.result_data.mypage.my_questionnaire_status > 0 ?
+                      <Text style={[MyStyles.ingredient_section_header_text2]}>Completed</Text>
+                      :
+                      <Text style={[MyStyles.ingredient_section_header_text2]}>-</Text>
+                    }
                   </View>
                   <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
                 </TouchableOpacity>
