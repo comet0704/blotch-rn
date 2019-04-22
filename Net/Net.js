@@ -60,6 +60,7 @@ export default {
         deleteComment: MyConstants.SERVER_URL + "/product/deleteComment",
         reportComment: MyConstants.SERVER_URL + "/product/reportComment",
         request: MyConstants.SERVER_URL + "/product/request",
+        addToMyList: MyConstants.SERVER_URL + "/product/addToMyList",
     },
     ingredient: {
         userIngredientList: MyConstants.SERVER_URL + "/ingredient/userIngredientList",

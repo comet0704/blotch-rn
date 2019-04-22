@@ -17,7 +17,7 @@ import { LinearGradient } from 'expo';
 import StarRating from 'react-native-star-rating';
 import { FragmentProductDetailIngredients } from './FragmentProductDetailIngredients';
 import { FragmentProductDetailReviews } from './FragmentProductDetailReviews';
-
+import { Dropdown } from 'react-native-material-dropdown';
 
 export default class ProductDetailScreen extends React.Component {
 
@@ -27,6 +27,7 @@ export default class ProductDetailScreen extends React.Component {
     super(props)
     item_id = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_id)
     this.state = {
+      saveAsModalVisible: false,
       product_detail_result_data: {
         detail: {
           "id": 1,
@@ -47,12 +48,16 @@ export default class ProductDetailScreen extends React.Component {
       tabbar: {
         Ingredients: true,
         Reviews: false,
-      }
+      }, 
+      album_list: [
+
+      ]
     };
   }
 
   componentDidMount() {
     this.requestProductDetail(item_id)
+    this.requestMyList()
   }
 
   onShare = async () => {
@@ -205,6 +210,55 @@ export default class ProductDetailScreen extends React.Component {
               </View>
             </View>
           </View>
+
+          {/* Save as 모달*/}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.saveAsModalVisible}
+            onRequestClose={() => {
+            }}>
+            <View style={{ flex: 1 }}>
+              <View style={MyStyles.modal_bg}>
+                <View style={MyStyles.modalContainer}>
+                  <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                    this.setState({ saveAsModalVisible: false });
+                  }}>
+                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                  </TouchableOpacity>
+
+                  <View style={{ width: 200, height: 150, marginBottom: 40, justifyContent: "center", alignSelf: "center" }}>
+                    <Dropdown
+                      // dropdownPosition={0}
+                      labelFontSize={11}
+                      textColor={Colors.color_656565}
+                      itemColor={Colors.color_656565}
+                      selectedItemColor={Colors.color_656565}
+                      baseColor={Colors.primary_dark}
+                      label='Please select your own list'
+                      onChangeText={(value, index, data) => {
+                        this.requestAddToMyList(data[index].id, item_id)
+                        this.setState({ saveAsModalVisible: false })
+                      }}
+                      data={this.state.album_list}
+                    />
+                  </View>
+
+                  <View style={{ flexDirection: "row" }}>
+                    <TouchableHighlight onPress={() => {
+                      this.setState({ saveAsModalVisible: false });
+                    }}
+                      style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                      <Text style={MyStyles.btn_primary}>Yes</Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+
+              </View>
+            </View>
+          </Modal>
+
+
         </ScrollView>
 
         {/* 하단바 */}
@@ -225,7 +279,7 @@ export default class ProductDetailScreen extends React.Component {
 
           <View style={{ flex: 1 }}>
             <TouchableOpacity style={[{ height: 30, width: 250 / 3, justifyContent: "center", alignSelf: "center", alignItems: "center" }, MyStyles.purple_round_btn]} onPress={() => {
-              alert("2차 개발 준비중입니다.")
+              this.setState({saveAsModalVisible : true})
             }}>
               <Text style={{ fontSize: 13, color: "white" }}>Save as</Text>
               <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { position: "absolute", right: 10 }]} />
@@ -438,5 +492,96 @@ export default class ProductDetailScreen extends React.Component {
       })
       .done();
   }
+  
+  requestMyList() {
+    this.setState({
+      isLoading: true,
+      alreadyLoaded: true,
+    });
+    return fetch(Net.user.myList, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
 
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+
+        const data = [];
+
+        responseJson.result_data.album_list.forEach(element => {
+          data.push({ value: element.title, id: element.id })
+        });
+
+        this.setState({ album_list: data })
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestAddToMyList(p_album_id, p_product_id) {
+    this.setState({
+      isLoading: true,
+      alreadyLoaded: true,
+    });
+    return fetch(Net.product.addToMyList, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        album_id: p_album_id.toString(),
+        product_id: p_product_id.toString(),
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+
+        const data = [];
+
+        responseJson.result_data.album_list.forEach(element => {
+          data.push({ value: element.title, id: element.id })
+        });
+
+        this.setState({ album_list: data })
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
 }

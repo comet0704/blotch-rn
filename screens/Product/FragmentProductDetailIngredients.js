@@ -27,6 +27,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
+import { QuestionnaireListModal } from '../../components/Modals/QuestionnaireListModal';
 
 export class FragmentProductDetailIngredients extends React.Component {
   item_id = 0;
@@ -35,6 +36,7 @@ export class FragmentProductDetailIngredients extends React.Component {
     this.item_id = this.props.item_id
     this.state = {
       saveToModalVisible: false,
+      qlistModalVisible: false,
       isLoading: false,
       tabbar: {
         Good: true,
@@ -50,14 +52,19 @@ export class FragmentProductDetailIngredients extends React.Component {
         user_ingredient_list: [
 
         ]
-      }
+      },
+      questionnaire_list: [
+
+      ],
+      selected_questionnaire: "",
     };
   }
 
   componentDidMount() {
     this.requestIngredientList(this.item_id)
-    if (global.login_info.token.length > 0) { // 로그인 한 회원일때만 회원성분정보 불러옴.
+    if (global.login_info.token.length > 0) { // 로그인 한 회원일때만 회원성분정보 및 설문목록 불러옴.
       this.requestUserIngredientList()
+      this.requestQuestionnaireList()
     }
   }
 
@@ -202,20 +209,27 @@ export class FragmentProductDetailIngredients extends React.Component {
 
         {/* Allergic and Potential Ingredients  */}
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-        {global.login_info.token.length > 0 ? <View style={MyStyles.padding_main}>
-          <TouchableOpacity style={[{ height: 30, width: 250 / 3, alignSelf: "flex-end" }, MyStyles.purple_round_btn]} onPress={() => { alert("2차개발 준비중입니다.") }}>
-            <Text style={{ fontSize: 13, color: "white" }}>Me</Text>
-            <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { position: "absolute", right: 10 }]} />
-          </TouchableOpacity>
-          <Text style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500" }}>Allergic Ingredients</Text>
-          <View style={{ flex: 1, marginTop: 10 }}>
-            {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderAllergicIngredients(item, index))}
-          </View>
-          <Text style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500", marginTop: 15 }}>Potential Allergens</Text>
-          <View style={{ flex: 1, marginTop: 10 }}>
-            {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderPotentialAllergenIngredients(item, index))}
-          </View>
-        </View> : null}
+        {global.login_info.token.length > 0 ?
+          <View style={MyStyles.padding_main}>
+            {this.state.questionnaire_list.length > 0 ?
+              <TouchableOpacity style={[{ height: 30, width: 250 / 3, alignSelf: "flex-end" }, MyStyles.purple_round_btn]} onPress={() => {
+                this.setState({ qlistModalVisible: true })
+              }}>
+                <Text style={{ fontSize: 13, color: "white" }}>{this.state.selected_questionnaire}</Text>
+                <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { position: "absolute", right: 10 }]} />
+              </TouchableOpacity>
+              :
+              null}
+
+            <Text style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500" }}>Allergic Ingredients</Text>
+            <View style={{ flex: 1, marginTop: 10 }}>
+              {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderAllergicIngredients(item, index))}
+            </View>
+            <Text style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500", marginTop: 15 }}>Potential Allergens</Text>
+            <View style={{ flex: 1, marginTop: 10 }}>
+              {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderPotentialAllergenIngredients(item, index))}
+            </View>
+          </View> : null}
 
         {/* Save to modal */}
         <Modal
@@ -235,7 +249,7 @@ export class FragmentProductDetailIngredients extends React.Component {
                   <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                     this.setState({ saveToModalVisible: false })
                   }}>
-                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}/>
+                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                   </TouchableOpacity>
                 </View>
 
@@ -247,30 +261,30 @@ export class FragmentProductDetailIngredients extends React.Component {
                     onPress={() => {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 0)
                     }}>
-                    <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")}/>
+                    <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
-                    <Image style={{ flex: 1 }}/>
-                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}/>
+                    <Image style={{ flex: 1 }} />
+                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
                   {/* Potential Allergens */}
                   <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 1)
                     }}>
-                    <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")}/>
+                    <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
-                    <Image style={{ flex: 1 }}/>
-                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}/>
+                    <Image style={{ flex: 1 }} />
+                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
                   {/* Preferred Ingredients */}
                   <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 2)
                     }}>
-                    <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")}/>
+                    <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
-                    <Image style={{ flex: 1 }}/>
-                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")}/>
+                    <Image style={{ flex: 1 }} />
+                    <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -278,6 +292,9 @@ export class FragmentProductDetailIngredients extends React.Component {
             </View>
           </View>
         </Modal>
+        
+        {/* 설문선택 모달 */}
+        <QuestionnaireListModal is_transparent={true} this={this} />
       </View>
     );
   }
@@ -438,4 +455,51 @@ export class FragmentProductDetailIngredients extends React.Component {
       })
       .done();
   }
+
+  requestQuestionnaireList() {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.user.questionnaireList, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        const data = [];
+
+        responseJson.result_data.questionnaire_list.forEach(element => {
+          data.push({ value: element.title })
+        });
+
+        if (data.length > 0) {
+          this.setState({ selected_questionnaire: data[0].value })
+        }
+        this.setState({ questionnaire_list: data })
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
 };
