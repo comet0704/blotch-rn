@@ -941,13 +941,22 @@ export default class QuestionnareScreen extends React.Component {
                               <TouchableOpacity style={[MyStyles.question_routine_Type, this.state.morningRoutineSelected ? null : { borderColor: Colors.color_e3e5e4 }]} onPress={() => {
                                 this.setState({ morningRoutineSelected: true })
                               }}>
-                                <Image source={require("../../assets/images/ic_sun.png")} style={[MyStyles.ic_sun]} />
+                                {this.state.morningRoutineSelected ?
+                                  <Image source={require("../../assets/images/ic_sun_on.png")} style={[MyStyles.ic_sun]} />
+                                  :
+                                  <Image source={require("../../assets/images/ic_sun.png")} style={[MyStyles.ic_sun]} />
+                                }
                               </TouchableOpacity>
                               <View style={{ width: 10 }} />
                               <TouchableOpacity style={[MyStyles.question_routine_Type, , this.state.morningRoutineSelected ? { borderColor: Colors.color_e3e5e4 } : null]} onPress={() => {
                                 this.setState({ morningRoutineSelected: false })
                               }}>
-                                <Image source={require("../../assets/images/ic_night.png")} style={[MyStyles.ic_night]} />
+                                {this.state.morningRoutineSelected ?
+                                  <Image source={require("../../assets/images/ic_night.png")} style={[MyStyles.ic_night]} />
+                                  :
+                                  <Image source={require("../../assets/images/ic_night_on.png")} style={[MyStyles.ic_night]} />
+                                }
+
                               </TouchableOpacity>
                             </View>
                           </View>

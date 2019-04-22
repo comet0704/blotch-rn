@@ -560,7 +560,42 @@ export default StyleSheet.create({
     width: 91 / 3,
     height: 91 / 3,
   },
-
+  ic_soap: {
+    width: 40 / 3,
+    height: 52 / 3,
+  },
+  ic_facial_cleanser: {
+    width: 39 / 3,
+    height: 52 / 3,
+  },
+  ic_just_water: {
+    width: 36 / 3,
+    height: 52 / 3,
+  },
+  ic_moisturizer: {
+    width: 24 / 3,
+    height: 52 / 3,
+  },
+  ic_lotion: {
+    width: 39 / 3,
+    height: 52 / 3,
+  },
+  ic_eye_cream: {
+    width: 18 / 3,
+    height: 52 / 3,
+  },
+  ic_cream: {
+    width: 50 / 3,
+    height: 52 / 3,
+  },
+  ic_toner: {
+    width: 18 / 3,
+    height: 52 / 3,
+  },
+  ic_sunblock: {
+    width: 27 / 3,
+    height: 52 / 3,
+  },
   baby_container: {
     backgroundColor: "white",
     borderColor: "#e3e5e4",
