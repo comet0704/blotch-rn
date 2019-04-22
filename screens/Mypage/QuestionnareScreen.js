@@ -408,37 +408,81 @@ export default class QuestionnareScreen extends React.Component {
                           <View style={{ marginBottom: 65 / 3 }}>
                             <Text style={[MyStyles.question_sub_text1]}>Gender</Text>
                             <View style={{ marginTop: 10, flexDirection: "row" }}>
-                              <TouchableOpacity style={this.state.questionnaire_detail.gender == "F" ? MyStyles.question_gender_on : MyStyles.question_gender_off}
-                                onPress={() => {
-                                  this.state.questionnaire_detail.gender = "F"
-                                  this.setState(this.state.questionnaire_detail)
-                                }
-                                }
-                              >
-                                <Image source={require("../../assets/images/ic_gender_female.png")} style={[MyStyles.ic_gender_female]} />
-                                <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_primary_pink }}>Female</Text>
-                              </TouchableOpacity>
+
+                              {this.state.questionnaire_detail.gender == "F" ?
+                                <TouchableOpacity style={MyStyles.question_gender_on}
+                                  onPress={() => {
+                                    this.state.questionnaire_detail.gender = "F"
+                                    this.setState(this.state.questionnaire_detail)
+                                  }
+                                  }
+                                >
+                                  <Image source={require("../../assets/images/ic_gender_female_on.png")} style={[MyStyles.ic_gender_female]} />
+                                  <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_primary_pink }}>Female</Text>
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity style={MyStyles.question_gender_off}
+                                  onPress={() => {
+                                    this.state.questionnaire_detail.gender = "F"
+                                    this.setState(this.state.questionnaire_detail)
+                                  }
+                                  }
+                                >
+                                  <Image source={require("../../assets/images/ic_gender_female.png")} style={[MyStyles.ic_gender_female]} />
+                                  <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_e3e5e4 }}>Female</Text>
+                                </TouchableOpacity>
+                              }
+
+
                               <View style={{ flex: 1 }} />
 
-                              <TouchableOpacity style={this.state.questionnaire_detail.gender == "M" ? MyStyles.question_gender_on : MyStyles.question_gender_off}
-                                onPress={() => {
-                                  this.state.questionnaire_detail.gender = "M"
-                                  this.setState(this.state.questionnaire_detail)
-                                }
-                                }>
-                                <Image source={require("../../assets/images/ic_gender_male.png")} style={[MyStyles.ic_gender_male]} />
-                                <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_e3e5e4 }}>Male</Text>
-                              </TouchableOpacity>
+                              {this.state.questionnaire_detail.gender == "M" ?
+                                <TouchableOpacity style={MyStyles.question_gender_on}
+                                  onPress={() => {
+                                    this.state.questionnaire_detail.gender = "M"
+                                    this.setState(this.state.questionnaire_detail)
+                                  }
+                                  }>
+                                  <Image source={require("../../assets/images/ic_gender_male_on.png")} style={[MyStyles.ic_gender_male]} />
+                                  <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_primary_pink }}>Male</Text>
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity style={MyStyles.question_gender_off}
+                                  onPress={() => {
+                                    this.state.questionnaire_detail.gender = "M"
+                                    this.setState(this.state.questionnaire_detail)
+                                  }
+                                  }>
+                                  <Image source={require("../../assets/images/ic_gender_male.png")} style={[MyStyles.ic_gender_male]} />
+                                  <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_e3e5e4 }}>Male</Text>
+                                </TouchableOpacity>
+                              }
+
+
                               <View style={{ flex: 1 }} />
-                              <TouchableOpacity style={this.state.questionnaire_detail.gender == "U" ? MyStyles.question_gender_on : MyStyles.question_gender_off}
-                                onPress={() => {
-                                  this.state.questionnaire_detail.gender = "U"
-                                  this.setState(this.state.questionnaire_detail)
-                                }
-                                }>
-                                <Image source={require("../../assets/images/ic_gender_unspecified.png")} style={[MyStyles.ic_gender_unspecified, { marginTop: 31 / 6 }]} />
-                                <Text style={{ fontSize: 12, marginTop: 5 + 31 / 6, color: Colors.color_e3e5e4 }}>Unspecitied</Text>
-                              </TouchableOpacity>
+
+                              {this.state.questionnaire_detail.gender == "U" ?
+                                <TouchableOpacity style={MyStyles.question_gender_on}
+                                  onPress={() => {
+                                    this.state.questionnaire_detail.gender = "U"
+                                    this.setState(this.state.questionnaire_detail)
+                                  }
+                                  }>
+                                  <Image source={require("../../assets/images/ic_gender_unspecified_on.png")} style={[MyStyles.ic_gender_unspecified, { marginTop: 31 / 6 }]} />
+
+                                  <Text style={{ fontSize: 12, marginTop: 5 + 31 / 6, color: Colors.color_primary_pink }}>Unspecitied</Text>
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity style={MyStyles.question_gender_off}
+                                  onPress={() => {
+                                    this.state.questionnaire_detail.gender = "U"
+                                    this.setState(this.state.questionnaire_detail)
+                                  }
+                                  }>
+                                  <Image source={require("../../assets/images/ic_gender_unspecified.png")} style={[MyStyles.ic_gender_unspecified, { marginTop: 31 / 6 }]} />
+                                  <Text style={{ fontSize: 12, marginTop: 5 + 31 / 6, color: Colors.color_e3e5e4 }}>Unspecitied</Text>
+                                </TouchableOpacity>
+                              }
                             </View>
                           </View>
 
