@@ -11,14 +11,20 @@ import MyConstants from '../../constants/MyConstants';
 import Colors from '../../constants/Colors';
 import Common from '../../assets/Common';
 
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
+import { exitAlert } from '../../components/androidBackButton/exitAlert';
 export default class MyPageScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
       profileEdited: false,
-      email: null,
-      password: null,
+      weatherInfo: {
+        main: "",
+        temp: "",
+        icon: "",
+        city: "",
+      },
       result_data: {
         "detail": null,
         "recommend_list": [
@@ -29,12 +35,40 @@ export default class MyPageScreen extends React.Component {
           "my_beautybox_count": 0,
           "my_questionnaire": ""
         }
-      }
+      },
+      skin_types: Common.getSkinTypes(),
+      concern_types: Common.getConcernTypes(),
+      need_types: Common.getNeedTypes(),
+      my_skin_type_img: null,
+      my_concern_img: null,
+      my_needs_img: null,
     };
   }
 
   componentDidMount() {
     this.requestMyPage();
+    this.requestGetMyPosition();
+    handleAndroidBackButton(this, exitAlert);
+
+    if (global.login_info.skin_type != null && global.login_info.skin_type.length > 0) {
+      const w_index = this.state.skin_types.findIndex(item1 => item1.typeName == global.login_info.skin_type)
+      const w_item = this.state.skin_types[w_index]
+      this.setState({ my_skin_type_img: w_item.image_on })
+    }
+    if (global.login_info.concern != null && global.login_info.concern.length > 0) {
+      const w_index = this.state.concern_types.findIndex(item1 => item1.typeName == global.login_info.concern)
+      const w_item = this.state.concern_types[w_index]
+      this.setState({ my_concern_img: w_item.image_on })
+    }
+    if (global.login_info.needs != null && global.login_info.needs.length > 0) {
+      const w_index = this.state.need_types.findIndex(item1 => item1.typeName == global.login_info.needs)
+      const w_item = this.state.need_types[w_index]
+      this.setState({ my_needs_img: w_item.image_on })
+    }
+  }
+
+  componentWillMount() {
+    removeAndroidBackButtonHandler()
   }
 
   static navigationOptions = {
@@ -114,25 +148,44 @@ export default class MyPageScreen extends React.Component {
               {/* Weather, SkinType, Concern, Needs */}
               <View style={[MyStyles.padding_main, { flexDirection: "row" }]}>
                 <View style={[MyStyles.meta_info_box]}>
-                  <Image source={(require('../../assets/images/Login/ic_avatar.png'))} style={[{ alignSelf: "center" }, MyStyles.weather_icon]} />
+                  {this.state.weatherInfo.icon.length > 0 ?
+                    <Image source={{ uri: this.state.weatherInfo.icon }} style={[{ alignSelf: "center" }, MyStyles.weather_icon]} />
+                    :
+                    null
+                  }
                   <Text style={[MyStyles.meta_text]}>Weather</Text>
-                  <TouchableOpacity style={{ position: "absolute", top: 0, right: 0, padding: 5 }}>
+                  <TouchableOpacity style={{ position: "absolute", top: 0, right: 0, padding: 5 }} onPress={() => { this.requestGetMyPosition() }}>
                     <Image source={(require('../../assets/images/ic_weather_sync.png'))} style={[MyStyles.ic_weather_sync]} />
                   </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1 }} />
                 <View style={[MyStyles.meta_info_box]}>
-                  <Image source={(require('../../assets/images/Login/ic_avatar.png'))} style={[{ alignSelf: "center" }, MyStyles.weather_icon]} />
+                  {
+                    this.state.my_skin_type_img != null ?
+                      <Image source={this.state.my_skin_type_img} style={[{ alignSelf: "center" }, MyStyles.ic_pink_ellipse]} />
+                      :
+                      <Image source={(require('../../assets/images/ic_pink_ellipse.png'))} style={[{ alignSelf: "center" }, MyStyles.ic_pink_ellipse]} />
+                  }
                   <Text style={[MyStyles.meta_text]}>Skin Type</Text>
                 </View>
                 <View style={{ flex: 1 }} />
                 <View style={[MyStyles.meta_info_box]}>
-                  <Image source={(require('../../assets/images/Login/ic_avatar.png'))} style={[{ alignSelf: "center" }, MyStyles.weather_icon]} />
+                  {
+                    this.state.my_concern_img != null ?
+                      <Image source={this.state.my_concern_img} style={[{ alignSelf: "center" }, MyStyles.ic_pink_ellipse]} />
+                      :
+                      <Image source={(require('../../assets/images/ic_pink_ellipse.png'))} style={[{ alignSelf: "center" }, MyStyles.ic_pink_ellipse]} />
+                  }
                   <Text style={[MyStyles.meta_text]}>Concern</Text>
                 </View>
                 <View style={{ flex: 1 }} />
                 <View style={[MyStyles.meta_info_box]}>
-                  <Image source={(require('../../assets/images/Login/ic_avatar.png'))} style={[{ alignSelf: "center" }, MyStyles.weather_icon]} />
+                  {
+                    this.state.my_needs_img != null ?
+                      <Image source={this.state.my_needs_img} style={[{ alignSelf: "center" }, MyStyles.ic_pink_ellipse]} />
+                      :
+                      <Image source={(require('../../assets/images/ic_pink_ellipse.png'))} style={[{ alignSelf: "center" }, MyStyles.ic_pink_ellipse]} />
+                  }
                   <Text style={[MyStyles.meta_text]}>Needs</Text>
                 </View>
               </View>
@@ -320,4 +373,33 @@ export default class MyPageScreen extends React.Component {
       .done();
   }
 
+  // 현재위치로부터 날씨 api를 호출해서 지역정보를 얻는다.
+  requestGetMyPosition() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        //현재 위치 가져옴 position = 현재위치, JSON 형태
+        console.log(position)
+        this._getWeather(position.coords.latitude, position.coords.longitude)
+      },
+      (error) => {
+        //가져오기 실패 했을 경우.
+        // this.refs.toast.showBottom("Please allow location permissions in Settings.")
+      }, {
+        //Accuracy가 높아야하는지, 위치를 가져오는데 max 시간, 가져온 위치의 마지막 시간과 현재의 차이
+        enableHighAccuracy: false, timeout: 20000, maximumAge: 1000
+      });
+  }
+
+  _getWeather = (latitude, longitude) => {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${MyConstants.WEATHER_MAP_API_KET}`)
+      .then(response => response.json()) // 응답값을 json으로 변환
+      .then(json => {
+        console.log("1111111111" + JSON.stringify(json));
+        this.state.weatherInfo.main = json.weather[0].main
+        this.state.weatherInfo.temp = json.main.temp // 켈빈으로 내려옴
+        this.state.weatherInfo.icon = "http://openweathermap.org/img/w/" + json.weather[0].icon + ".png"
+        this.state.weatherInfo.city = json.name
+        this.setState(this.state.weatherInfo)
+      });
+  }
 }

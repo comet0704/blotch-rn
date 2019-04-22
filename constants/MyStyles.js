@@ -1381,6 +1381,10 @@ export default StyleSheet.create({
     width: 109 / 3,
     height: 90 / 3,
   },
+  ic_pink_ellipse: {
+    width: 90 / 3,
+    height: 90 / 3,
+  },
   meta_text: {
     fontSize: 12,
     marginTop: 3,

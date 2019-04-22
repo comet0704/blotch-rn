@@ -36,6 +36,8 @@ import { NavigationEvents } from 'react-navigation';
 import { LinearGradient } from 'expo';
 import SortableList from 'react-native-sortable-list';
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
+import { exitAlert } from '../../components/androidBackButton/exitAlert';
 
 import 'prop-types';
 
@@ -201,6 +203,11 @@ export default class MyListScreen extends React.Component {
         this.setState({ like_list_order: result.split(",") })
       }
     })
+    handleAndroidBackButton(this, exitAlert);
+  }
+
+  componentWillMount() {
+    removeAndroidBackButtonHandler()
   }
 
   deleteMyListRow(secId, rowId, rowMap, album_id) {
@@ -238,7 +245,7 @@ export default class MyListScreen extends React.Component {
             }
           }}
         />
-        <TopbarWithBlackBack title="My List" onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack isRootDepth={true} title="My List" onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
