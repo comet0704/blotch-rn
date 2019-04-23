@@ -40,8 +40,7 @@ export class QuestionnaireListModal extends React.Component {
                                     value={_this.state.selected_questionnaire}
                                     label='Please select your baby item'
                                     onChangeText={(value, index, data) => {
-                                        _this.setState({ selected_questionnaire: value })
-                                        _this.setState({ qlistModalVisible: false });
+                                        _this.onQuestionnaireSelected(value, index, data)
                                     }}
                                     data={_this.state.questionnaire_list}
                                 />

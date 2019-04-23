@@ -704,6 +704,10 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: "center"
   },
+  skin_info_image: {
+    width: 115 / 3,
+    height: 115 / 3,
+  },
   ic_filter: {
     width: 51 / 3,
     height: 45 / 3,

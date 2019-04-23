@@ -168,6 +168,10 @@ export class FragmentProductDetailIngredients extends React.Component {
     return countTypes.length;
   }
 
+  onQuestionnaireSelected(value, index, data) {    
+    this.setState({ selected_questionnaire: value })
+    this.setState({ qlistModalVisible: false });
+  }
   render() {
     return (
       <View>
@@ -294,7 +298,7 @@ export class FragmentProductDetailIngredients extends React.Component {
         </Modal>
         
         {/* 설문선택 모달 */}
-        <QuestionnaireListModal is_transparent={true} this={this} />
+        <QuestionnaireListModal this={this} />
       </View>
     );
   }

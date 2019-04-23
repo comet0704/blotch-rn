@@ -25,12 +25,14 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
+import { QuestionnaireListModal } from '../../components/Modals/QuestionnaireListModal';
 
 export class FragmentRecommendProduct extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
+      qlistModalVisible: false,
       main_all_selected: false,
       no_search_result: false,
       filterModalVisible: false,
@@ -40,13 +42,45 @@ export class FragmentRecommendProduct extends React.Component {
         ]
       },
       mainCategoryItems: Common.categoryItems_recom,
+      selected_questionnaire: "",
+
+      questionnaire_list: [
+
+      ],
+      skin_types: Common.getSkinTypes(),
+      concern_types: Common.getConcernTypes(),
+      need_types: Common.getNeedTypes(),
+      my_skin_type: null,
+      my_concern: null,
+      my_needs: null,
     };
   }
 
   ScreenWidth = Dimensions.get('window').width;
 
   componentDidMount() {
+    console.log("222222222222222222");
     this.getRecommendList(0);
+    this.requestQuestionnaireList();
+
+    console.log("00000000");
+    if (global.login_info.skin_type != null && global.login_info.skin_type.length > 0) {
+      const w_index = this.state.skin_types.findIndex(item1 => item1.typeName == global.login_info.skin_type)
+      const w_item = this.state.skin_types[w_index]
+      this.state.my_skin_type = w_item
+      console.log("111111" + w_item);
+      this.setState(this.state.my_skin_type)
+    }
+    if (global.login_info.concern != null && global.login_info.concern.length > 0) {
+      const w_index = this.state.concern_types.findIndex(item1 => item1.typeName == global.login_info.concern)
+      const w_item = this.state.concern_types[w_index]
+      this.setState({ my_concern: w_item })
+    }
+    if (global.login_info.needs != null && global.login_info.needs.length > 0) {
+      const w_index = this.state.need_types.findIndex(item1 => item1.typeName == global.login_info.needs)
+      const w_item = this.state.need_types[w_index]
+      this.setState({ my_needs: w_item })
+    }
   }
 
   getRecommendList = (p_offset) => {
@@ -102,36 +136,75 @@ export class FragmentRecommendProduct extends React.Component {
         <View style={{ flexDirection: "row", justifyContent: "center", width: "100%" }}>
           <Text style={{ fontSize: 14, color: Colors.primary_dark, fontWeight: "bold" }}>My Skin Info</Text>
           <View style={{ flex: 1 }}></View>
-          <TouchableOpacity style={[{ height: 20 }, MyStyles.purple_round_btn]} onPress={() => { alert("2차개발 준비중입니다.") }}>
-            <Text style={{ fontSize: 13, color: "white" }}>Me</Text>
+          <TouchableOpacity style={[{ height: 20 }, MyStyles.purple_round_btn]} onPress={() => {
+            this.setState({ qlistModalVisible: true })
+          }}>
+            <Text style={{ fontSize: 13, color: "white" }}>{this.state.selected_questionnaire}</Text>
             <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { marginLeft: 5 }]} />
           </TouchableOpacity>
         </View>
         <View style={{ marginTop: 10, flexDirection: "row" }}>
-          <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
-            <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, width: 115 / 3, borderWidth: 0.5, height: 115 / 3, justifyContent: "center", alignItems: "center" }]}>
-              <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>30's</Text>
-            </View>
-            <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>30's</Text>
-          </View>
-          <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
-            <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, width: 115 / 3, borderWidth: 0.5, height: 115 / 3, justifyContent: "center", alignItems: "center" }]}>
-              <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>30's</Text>
-            </View>
-            <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>30's</Text>
-          </View>
-          <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
-            <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, width: 115 / 3, borderWidth: 0.5, height: 115 / 3, justifyContent: "center", alignItems: "center" }]}>
-              <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>30's</Text>
-            </View>
-            <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>30's</Text>
-          </View>
-          <View style={[MyStyles.skin_info_container]}>
-            <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, width: 115 / 3, borderWidth: 0.5, height: 115 / 3, justifyContent: "center", alignItems: "center" }]}>
-              <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>30's</Text>
-            </View>
-            <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>30's</Text>
-          </View>
+
+          {
+            global.login_info.birth != null && global.login_info.birth.length > 0 ?
+              <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
+                <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, backgroundColor: Colors.color_f8f8f8, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
+                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>{Common.getAgeFromBirth(global.login_info.birth)}</Text>
+                </View>
+                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{Common.getAgeFromBirth(global.login_info.birth)}</Text>
+              </View>
+              :
+              <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
+                <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
+                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>Age</Text>
+                </View>
+                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Age</Text>
+              </View>
+          }
+          {
+            this.state.my_skin_type != null ?
+              <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
+                <Image source={this.state.my_skin_type.image_off} style={[{ alignSelf: "center" }, MyStyles.skin_info_image]} />
+                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_skin_type.typeName}</Text>
+              </View>
+              :
+              <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
+                <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
+                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</Text>
+                </View>
+                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Skin Type</Text>
+              </View>
+          }
+
+          {
+            this.state.my_concern != null ?
+              <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
+                <Image source={this.state.my_concern.image_off} style={[{ alignSelf: "center" }, MyStyles.skin_info_image]} />
+                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_concern.typeName}</Text>
+              </View>
+              :
+              <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
+                <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
+                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</Text>
+                </View>
+                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Concern</Text>
+              </View>
+          }
+
+          {
+            this.state.my_needs != null ?
+              <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
+                <Image source={this.state.my_needs.image_off} style={[{ alignSelf: "center" }, MyStyles.skin_info_image]} />
+                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_needs.typeName}</Text>
+              </View>
+              :
+              <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
+                <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
+                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</Text>
+                </View>
+                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Needs</Text>
+              </View>
+          }
         </View>
       </View>
     );
@@ -165,6 +238,10 @@ export class FragmentRecommendProduct extends React.Component {
     this.setState({ mainCategoryItems: this.state.mainCategoryItems })
   }
 
+  onQuestionnaireSelected(value, index, data) {
+    this.setState({ selected_questionnaire: value })
+    this.setState({ qlistModalVisible: false });
+  }
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -267,7 +344,7 @@ export class FragmentRecommendProduct extends React.Component {
                       <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ filterModalVisible: false });
                       }}>
-                        <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")}/>
+                        <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                       </TouchableOpacity>
                     </View>
 
@@ -425,6 +502,10 @@ export class FragmentRecommendProduct extends React.Component {
                 </View>
               </View>
             </Modal>
+
+
+            {/* 설문선택 모달 */}
+            <QuestionnaireListModal this={this} />
           </ScrollView>
           :
           <View>
@@ -566,6 +647,52 @@ export class FragmentRecommendProduct extends React.Component {
         }
         this.onProductUnliked(p_product_id)
 
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestQuestionnaireList() {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.user.questionnaireList, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        const data = [];
+
+        responseJson.result_data.questionnaire_list.forEach(element => {
+          data.push({ value: element.title })
+        });
+
+        if (data.length > 0) {
+          this.setState({ selected_questionnaire: data[0].value })
+        }
+        this.setState({ questionnaire_list: data })
       })
       .catch((error) => {
         this.setState({

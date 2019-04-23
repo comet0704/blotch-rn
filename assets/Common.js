@@ -50,6 +50,15 @@ export default {
     return diff;
   },
 
+  // 생년월일로부터 연령대 계산 예:) 1990-07-04 -> 20's
+  getAgeFromBirth(p_birthday) {
+    var birthDate = p_birthday instanceof Date ? p_birthday : new Date(p_birthday);
+    curDate = new Date()
+    var age = Math.abs(curDate.getFullYear() - birthDate.getFullYear())
+    age = parseInt(age / 10) * 10
+    return age + "'s"
+  },
+
   scrollIsCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
     const paddingToBottom = 20;
     return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
