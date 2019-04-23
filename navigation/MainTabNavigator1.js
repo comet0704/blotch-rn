@@ -45,6 +45,7 @@ import MyBeautyBoxScreen from '../screens/Mypage/MyBeautyBoxScreen';
 import CalendarScreen from '../screens/Mypage/CalendarScreen';
 import QuestionnareScreen from '../screens/Mypage/QuestionnareScreen';
 import WeCanSearchItScreen from '../screens/Mypage/WeCanSearchItScreen';
+import MyOwnListScreen from '../screens/Mylist/MyOwnListScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -173,6 +174,7 @@ const MyListStack = createStackNavigator({
   SearchBrandDetail: SearchBrandDetailScreen,
   SearchCamera:SearchCameraScreen,
   ProductDetail: ProductDetailScreen,
+  MyOwnList: MyOwnListScreen,
 },
   {
     headerMode: 'screen ',
@@ -266,11 +268,11 @@ SettingsStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
+  LoginStack,
   MyPageStack,
   ProductStack,
   IngredientStack,
   MyListStack,
-  // LoginStack,
   // LinksStack,  
   // SettingsStack,
 }, {

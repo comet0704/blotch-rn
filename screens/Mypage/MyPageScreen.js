@@ -134,7 +134,7 @@ export default class MyPageScreen extends React.Component {
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <View style={[MyStyles.profile_box1]}>
                     {/* <TouchableOpacity onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
-                    <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={{ width: 12, height: 11, alignSelf: "center" }} />
+                <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={[{ alignSelf: "center" }, MyStyles.ic_camera]} />
                   </TouchableOpacity> */}
                     <Image source={global.login_info.profile_image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: Common.getImageUrl(global.login_info.profile_image) }} style={global.login_info.profile_image == null ? { width: 117 / 3, height: 166 / 3, alignSelf: "center" } : { width: 315 / 3, height: 315 / 3, borderRadius: 100, }} />
                   </View>
@@ -394,7 +394,6 @@ export default class MyPageScreen extends React.Component {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${MyConstants.WEATHER_MAP_API_KET}`)
       .then(response => response.json()) // 응답값을 json으로 변환
       .then(json => {
-        console.log("1111111111" + JSON.stringify(json));
         this.state.weatherInfo.main = json.weather[0].main
         this.state.weatherInfo.temp = json.main.temp // 켈빈으로 내려옴
         this.state.weatherInfo.icon = "http://openweathermap.org/img/w/" + json.weather[0].icon + ".png"

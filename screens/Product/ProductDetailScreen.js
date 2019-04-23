@@ -93,6 +93,7 @@ export default class ProductDetailScreen extends React.Component {
   BannerHeight = 760 / 3;
   BannerWidth = Dimensions.get('window').width - 30;
   renderImages(image, index) {
+    console.log("1111111" + image)
     return (
       <View key={index}>
         <TouchableHighlight>
@@ -126,16 +127,20 @@ export default class ProductDetailScreen extends React.Component {
 
             {/* 이미지 부분 */}
             <View style={{ overflow: "hidden", justifyContent: "center", alignSelf: "center", width: this.BannerWidth, height: this.BannerHeight, borderBottomLeftRadius: 10, borderBottomRightRadius: 10, borderLeftColor: Colors.color_f9f9f9, borderRightColor: Colors.color_f9f9f9, borderWidth: 1, borderBottomColor: Colors.color_f3f3f3, borderBottomWidth: 2, borderTopWidth: 0 }}>
-              <Carousel
-                autoplay
-                autoplayTimeout={3000}
-                loop
-                index={0}
-                showsPageIndicator={false}
-                pageSize={this.BannerWidth}
-              >
-                {this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).map((image, index) => this.renderImages(image, index))}
-              </Carousel>
+              {this.state.product_detail_result_data.detail.image_list.length > 0 ?
+                <Carousel
+                  autoplay
+                  autoplayTimeout={3000}
+                  loop
+                  index={0}
+                  showsPageIndicator={false}
+                  pageSize={this.BannerWidth}
+                >
+                  {this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).map((image, index) => this.renderImages(image, index))}
+                </Carousel>
+                :
+                null
+              }
               {
                 this.state.product_detail_result_data.detail.is_liked > 0
                   ?
@@ -228,7 +233,7 @@ export default class ProductDetailScreen extends React.Component {
                     <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                   </TouchableOpacity>
 
-                  <View style={{ width: 200, height: 150, marginBottom: 40, justifyContent: "center", alignSelf: "center" }}>
+                  <View style={{ width: 200, height: 150, marginTop: -30, marginBottom: 40, justifyContent: "center", alignSelf: "center" }}>
                     <Dropdown
                       // dropdownPosition={0}
                       labelFontSize={11}
@@ -245,14 +250,14 @@ export default class ProductDetailScreen extends React.Component {
                     />
                   </View>
 
-                  <View style={{ flexDirection: "row" }}>
+                  {/* <View style={{ flexDirection: "row" }}>
                     <TouchableHighlight onPress={() => {
                       this.setState({ saveAsModalVisible: false });
                     }}
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
                       <Text style={MyStyles.btn_primary}>Yes</Text>
                     </TouchableHighlight>
-                  </View>
+                  </View> */}
                 </View>
 
               </View>
@@ -308,7 +313,7 @@ export default class ProductDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        console.log("999999999" + responseJson.result_data.detail.image_list);
         this.setState({
           isLoading: false,
         });
@@ -349,7 +354,7 @@ export default class ProductDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -393,7 +398,7 @@ export default class ProductDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -432,7 +437,7 @@ export default class ProductDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -511,7 +516,7 @@ export default class ProductDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -557,7 +562,7 @@ export default class ProductDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -619,7 +624,7 @@ export default class ProductDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });

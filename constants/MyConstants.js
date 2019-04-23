@@ -93,6 +93,8 @@ export default {
   },
   NAVIGATION_PARAMS : {
     item_id: "item_id",
+    album_id: "album_id",
+    album_title: "album_title",
     back_page: "back_page",
     product_container_initial_page: "product_container_initial_page",
     search_word: "search_word",

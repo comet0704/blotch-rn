@@ -169,6 +169,14 @@ export default StyleSheet.create({
     width: 32 / 3,
     height: 32 / 3
   },
+  ic_logo: {
+    width: 276 / 3,
+    height: 85 / 3
+  },
+  ic_camera: {
+    width: 38 / 3,
+    height: 37 / 3
+  },
   profile_back: {
     width: "100%",
     height: 841 / 3
@@ -366,9 +374,9 @@ export default StyleSheet.create({
     alignItems: "center",
     borderColor: "#ededed",
     borderWidth: 2,
-    width: 75,
-    height: 75,
-    borderRadius: 37.5,
+    width: 78,
+    height: 78,
+    borderRadius: 100,
     alignSelf: "center",
     justifyContent: "center",
   },
@@ -390,13 +398,14 @@ export default StyleSheet.create({
     backgroundColor: "white",
     borderColor: "#ededed",
     borderWidth: 2,
-    width: 23,
-    height: 23,
-    borderRadius: 11.5,
+    width: 70 / 3,
+    height: 70 / 3,
+    borderRadius: 100,
     position: "absolute",
-    top: 0,
-    right: 0,
+    top: -2,
+    right: -2,
     justifyContent: "center",
+    alignItems:"center",
     zIndex: 1,
   },
 

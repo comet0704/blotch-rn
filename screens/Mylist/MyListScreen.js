@@ -335,7 +335,9 @@ export default class MyListScreen extends React.Component {
                     </View>
                     <View style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.my_own_list_section, data.rowOpened ? { marginLeft: 60 } : null]}>
                       <View style={MyStyles.ingredient_section_header}>
-                        <TouchableOpacity style={[{ flex: 1 }]} onPress={() => { }}>
+                        <TouchableOpacity style={[{ flex: 1 }]} onPress={() => {
+                          this.props.navigation.navigate("MyOwnList", { [MyConstants.NAVIGATION_PARAMS.album_id]: data.id, [MyConstants.NAVIGATION_PARAMS.album_title]: data.title })
+                        }}>
                           <View style={{ flexDirection: "row" }}>
                             <Text style={[MyStyles.ingredient_section_header_text1, { alignSelf: "center" }]}>{data.title}</Text>
                             {data.rowOpened ?

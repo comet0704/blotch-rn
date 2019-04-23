@@ -76,6 +76,7 @@ export default {
         addAlbum: MyConstants.SERVER_URL + "/user/addAlbum",
         editAlbum: MyConstants.SERVER_URL + "/user/editAlbum",
         matchList: MyConstants.SERVER_URL + "/user/matchList",
+        myOwnList : MyConstants.SERVER_URL + "/user/myOwnList ",
         deleteAlbum: MyConstants.SERVER_URL + "/user/deleteAlbum",
         likeList: MyConstants.SERVER_URL + "/user/likeList",
         brandList: MyConstants.SERVER_URL + "/user/brandList",

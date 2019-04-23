@@ -9,6 +9,7 @@ import Models from '../../Net/Models';
 import Net from '../../Net/Net';
 import MyConstants from '../../constants/MyConstants';
 import { Facebook, Google } from "expo";
+import Colors from '../../constants/Colors';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -131,15 +132,18 @@ export default class LoginScreen extends React.Component {
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled keyboardDismissMode="on-press"  /*keyboardVerticalOffset={100}*/>
 
           <TouchableWithoutFeedback style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" onPress={() => { Keyboard.dismiss() }} >
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 310 }}>
               <Image source={require('../../assets/images/Login/login_bg.png')} style={MyStyles.background_image} />
               <TopbarWithWhiteBack onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithWhiteBack>
               <Image style={{ flex: 100 }} />
-              <Image source={require('../../assets/images/Login/logo.png')} style={[MyStyles.h_auto, { width: "30%", }]} resizeMode="contain" />
-              <Text style={{ marginLeft: "auto", marginRight: "auto", color: "white", marginTop: -20, fontSize: 12, fontWeight: "100" }} >Your Beauty Counselor</Text>
-              <Image style={{ flex: 80 }} />
+              <View style={[MyStyles.h_auto, {justifyContent:"center",flexDirection:"row"}]}>
+                <Image style={{width:10}}/>
+                <Image source={require('../../assets/images/Login/logo.png')} style={[MyStyles.h_auto, MyStyles.ic_logo]} />
+              </View>
+              <Text style={{ marginLeft: "auto", marginRight: "auto", color: "white", marginTop: 8, fontSize: 12, fontWeight: "100" }} >Your Beauty Counselor</Text>
+              <Image style={{ flex: 200 }} />
               <View style={[MyStyles.h_auto, { width: "85%", borderRadius: 15, backgroundColor: "white", paddingVertical: 40, paddingHorizontal: 18 }]}>
-                <View style={[MyStyles.inputBox, (this.checkValidation(email, "email") == false && loginPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
+                <View style={[MyStyles.inputBox, { marginTop: -20 }, (this.checkValidation(email, "email") == false && loginPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
                   {this.checkValidation(email, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Email {this.Necessarry}</Text> : null}
                   <TextInput
                     returnKeyType="next"
@@ -171,11 +175,13 @@ export default class LoginScreen extends React.Component {
                   Forget Password
                 </Text>
 
-                <TouchableOpacity style={{ marginTop: 30 }}>
-                  <Button onPress={() => this.onPressLogin(this.state.email, this.state.password)} color="#a695fe" style={{ margin: 60, borderRadius: 5, color: "white", fontSize: 15 }} title="LOGIN" />
+                <TouchableOpacity style={{ marginTop: 27, backgroundColor: Colors.primary_purple, borderRadius: 5, height: 135 / 3, justifyContent: "center" }} onPress={() => {
+                  this.onPressLogin(this.state.email, this.state.password)
+                }}>
+                  <Text style={{ color: "white", fontSize: 15, textAlign: "center", fontWeight: "500" }}>LOGIN</Text>
                 </TouchableOpacity>
 
-                <View style={{ alignItems: "center", fontSize: 13, marginTop: 25 }}>
+                <View style={{ alignItems: "center", fontSize: 13, marginTop: 18 }}>
                   <Text style={{ color: "#aeaeae" }}>Don't have an account?  {this.Signup}</Text>
                 </View>
 
@@ -183,7 +189,7 @@ export default class LoginScreen extends React.Component {
                   <View
                     style={{
                       alignItems: "flex-start",
-                      borderBottomColor: '#aeaeae',
+                      borderBottomColor: Colors.color_e3e5e4,
                       borderBottomWidth: 1,
                       width: "30%",
                     }}
@@ -194,7 +200,7 @@ export default class LoginScreen extends React.Component {
                   <View
                     style={{
                       alignItems: "flex-end",
-                      borderBottomColor: '#aeaeae',
+                      borderBottomColor: Colors.color_e3e5e4,
                       borderBottomWidth: 1,
                       width: "30%",
                     }}
@@ -230,9 +236,8 @@ export default class LoginScreen extends React.Component {
                   </TouchableOpacity>
                 </View>
               </View>
-              <Image style={{ flex: 45 }} />
-              <Text style={{ color: "white", marginTop: 20, marginBottom: 10, textAlign: "center", fontSize: 12, fontWeight: "100" }}>copyright © 2019 by Chemi. all rights reserved</Text>
-              <Image style={{ flex: 30 }} />
+              <Image style={{ flex: 100 }} />
+              <Text style={{ color: "white", marginBottom: 50 / 3, textAlign: "center", fontSize: 12, fontWeight: "100" }}>copyright © 2019 by Chemi. all rights reserved</Text>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

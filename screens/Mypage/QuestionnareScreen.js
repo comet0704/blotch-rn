@@ -521,14 +521,14 @@ export default class QuestionnareScreen extends React.Component {
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.is_kids == "Y" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={{ marginLeft: 5 }}>Yes</Text>
+                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Yes</Text>
                               </TouchableOpacity>
                               <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.is_kids = "N",
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.is_kids == "N" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={{ marginLeft: 5 }}>No</Text>
+                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>No</Text>
                               </TouchableOpacity>
                             </View>
                           </View>

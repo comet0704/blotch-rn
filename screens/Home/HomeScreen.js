@@ -68,7 +68,6 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    // this.requestHomeList()
     this.requestGetMyPosition();
     handleAndroidBackButton(this, exitAlert);
   }
@@ -279,6 +278,7 @@ export default class HomeScreen extends React.Component {
     global.login_info.skin_type = p_skin_type
     global.login_info.concern = p_concern
     global.login_info.needs = p_needs
+    console.log("1");
     this.setState({ refreshOneLineInfo: !this.state.refreshOneLineInfo });
   }
 
@@ -294,8 +294,10 @@ export default class HomeScreen extends React.Component {
               global.login_info = {
                 token: ""
               }
+              console.log("2");
               this.setState({ isLogined: false })
             } else {
+              console.log("3");
               this.setState({ isLogined: true })
             }
             if (beforeLoginState != this.state.isLogined) {
@@ -395,6 +397,7 @@ export default class HomeScreen extends React.Component {
                   <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress=
                     {() => {
                       if (this.state.isLogined == false) {
+                        console.log("4");
                         this.setState({ showLoginModal: true })
                       } else {
                         this.props.navigation.navigate("WeCanSearchIt", {
@@ -422,6 +425,7 @@ export default class HomeScreen extends React.Component {
                   <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress=
                     {() => {
                       if (this.state.isLogined == false) {
+                        console.log("5");
                         this.setState({ showLoginModal: true })
                       } else {
                         this.props.navigation.navigate("WeCanSearchIt", {
@@ -647,6 +651,7 @@ export default class HomeScreen extends React.Component {
   }
 
   requestHomeList() {
+    console.log("6");
     this.setState({
       isLoading: true,
     });
@@ -664,6 +669,7 @@ export default class HomeScreen extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         // console.log(responseJson);
+        console.log("7");
         this.setState({
           isLoading: false,
           result_data: responseJson.result_data
@@ -675,6 +681,7 @@ export default class HomeScreen extends React.Component {
         }
 
         try {
+          console.log("8");
           this.setState({
             'newProductBanner': {
               'image_list': this.state.result_data.new_product_list[0].image_list,
@@ -685,6 +692,7 @@ export default class HomeScreen extends React.Component {
 
         }
         try {
+          console.log("9");
           this.setState({
             'bestProductBanner': {
               'image_list': this.state.result_data.best_product_list[0].image_list,
@@ -702,6 +710,7 @@ export default class HomeScreen extends React.Component {
         // this.props.navigation.navigate("SearchResult", { [MyConstants.NAVIGATION_PARAMS.search_word]: "pro" }) 
       })
       .catch((error) => {
+        console.log("10");
         this.setState({
           isLoading: false,
         });
@@ -741,6 +750,7 @@ export default class HomeScreen extends React.Component {
 
       })
       .catch((error) => {
+        console.log("11");
         this.setState({
           isLoading: false,
         });
@@ -778,6 +788,7 @@ export default class HomeScreen extends React.Component {
         this.requestHomeList();
       })
       .catch((error) => {
+        console.log("12");
         this.setState({
           isLoading: false,
         });
@@ -816,6 +827,7 @@ export default class HomeScreen extends React.Component {
 
       })
       .catch((error) => {
+        console.log("13");
         this.setState({
           isLoading: false,
         });
@@ -853,6 +865,7 @@ export default class HomeScreen extends React.Component {
         this.requestHomeList();
       })
       .catch((error) => {
+        console.log("14");
         this.setState({
           isLoading: false,
         });
@@ -886,11 +899,13 @@ export default class HomeScreen extends React.Component {
         this.state.weatherInfo.temp = json.main.temp // 켈빈으로 내려옴
         this.state.weatherInfo.icon = "http://openweathermap.org/img/w/" + json.weather[0].icon + ".png"
         this.state.weatherInfo.city = json.name
+        console.log("15");
         this.setState(this.state.weatherInfo)
       });
   }
 
   requestAddQuestionnaireItem(p_title, p_skin_type, p_concern, p_needs) {
+    console.log("16");
     this.setState({
       isLoading: true,
     });
@@ -911,6 +926,7 @@ export default class HomeScreen extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
+        console.log("17");
         this.setState({
           isLoading: false,
         });
@@ -920,11 +936,13 @@ export default class HomeScreen extends React.Component {
           return
         }
 
+        console.log("18");
         this.setState({ edit_baby_id: responseJson.result_data.questionnaire_detail.id })
         this.requestQuestionnaireList();
 
       })
       .catch((error) => {
+        console.log("19");
         this.setState({
           isLoading: false,
         });
