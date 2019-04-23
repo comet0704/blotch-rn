@@ -6,7 +6,6 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/Home/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from '../screens/Login/LoginScreen';
 import SignupScreen from '../screens/Login/SignupScreen';
 import FindPwdScreen from '../screens/Login/FindPwdScreen';
@@ -252,29 +251,15 @@ LinksStack.navigationOptions = {
   ),
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
-});
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
-};
 
 export default createBottomTabNavigator({
   HomeStack,
-  LoginStack,
-  MyPageStack,
   ProductStack,
   IngredientStack,
   MyListStack,
+  // LoginStack,
+  MyPageStack,
   // LinksStack,  
-  // SettingsStack,
 }, {
     backBehavior: "history",
     tabBarOptions: {

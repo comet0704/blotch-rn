@@ -60,7 +60,7 @@ export class FragmentNewProduct extends React.Component {
         }}>
           <View>
             <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
-            <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
+            <View style={[MyStyles.banner_title]}>
               <Text style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{item.title}</Text>
               <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
             </View>
@@ -163,6 +163,8 @@ export class FragmentNewProduct extends React.Component {
             {/* 배너 부분 */}
             <View style={{ overflow: "hidden" }}>
               <Carousel
+                pageIndicatorStyle={MyStyles.pageIndicatorStyle}
+                activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
                 autoplay
                 autoplayTimeout={3000}
                 loop

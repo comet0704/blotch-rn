@@ -61,11 +61,11 @@ export default class ArticlesScreen extends React.Component {
               {
                 item.is_liked > 0
                   ?
-                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleUnlike(item.id) }}>
+                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestArticleUnlike(item.id) }}>
                     <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                   :
-                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleLike(item.id) }}>
+                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestArticleLike(item.id) }}>
                     <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
               }
@@ -77,7 +77,7 @@ export default class ArticlesScreen extends React.Component {
           <View style={{ flex: 1 }}>
             <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>
               {item.title} </Text>
-            <Text onPress={() => { Linking.openURL(Common.getLinkUrl(item.url)) }}  style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
+            <Text onPress={() => { Linking.openURL(Common.getLinkUrl(item.url)) }} style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
               {item.url}
             </Text>
           </View>
@@ -98,14 +98,14 @@ export default class ArticlesScreen extends React.Component {
             {
               item.is_liked > 0
                 ?
-                <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleUnlike(item.id) }}>
+                <TouchableHighlight style={[MyStyles.heart_in_item]} onPress={() => { this.requestArticleUnlike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                 </TouchableHighlight>
-                : <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleLike(item.id) }}>
+                : <TouchableHighlight style={[MyStyles.heart_in_item]} onPress={() => { this.requestArticleLike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                 </TouchableHighlight>
             }
-            <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
+            <View style={[MyStyles.banner_title]}>
               <Text style={{ fontSize: 13, color: "white" }}>{item.title}</Text>
               <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{item.content}</Text>
             </View>
@@ -140,6 +140,8 @@ export default class ArticlesScreen extends React.Component {
           <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, justifyContent: "center" }}>
             <View style={{ flex: 1, justifyContent: "center" }}>
               <Carousel
+                pageIndicatorStyle={MyStyles.pageIndicatorStyle}
+                activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
                 autoplay={true}
                 autoplayTimeout={3000}
                 loop

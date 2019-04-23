@@ -48,6 +48,10 @@ export default class App extends React.Component {
     global.login_info = JSON.parse(result1);
     if (global.login_info == null) { // 로그인 정보가 없는경우는 아예 시도 안함.
       this.setState({ isLogined: false })
+      // 토큰 항상 쓰는 값이므로 빈값으로 초기화라도 해주자
+      global.login_info = {
+        token:""
+      }
     } else { // 로그인 정보가 있을때는 로그인 해보자
       result2 = await AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.user_pwd)
       this.requestLogin(global.login_info.email, result2)

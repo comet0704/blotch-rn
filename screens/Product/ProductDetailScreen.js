@@ -129,6 +129,8 @@ export default class ProductDetailScreen extends React.Component {
             <View style={{ overflow: "hidden", justifyContent: "center", alignSelf: "center", width: this.BannerWidth, height: this.BannerHeight, borderBottomLeftRadius: 10, borderBottomRightRadius: 10, borderLeftColor: Colors.color_f9f9f9, borderRightColor: Colors.color_f9f9f9, borderWidth: 1, borderBottomColor: Colors.color_f3f3f3, borderBottomWidth: 2, borderTopWidth: 0 }}>
               {this.state.product_detail_result_data.detail.image_list.length > 0 ?
                 <Carousel
+                  pageIndicatorStyle={MyStyles.pageIndicatorStyle}
+                  activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
                   autoplay
                   autoplayTimeout={3000}
                   loop
@@ -144,11 +146,11 @@ export default class ProductDetailScreen extends React.Component {
               {
                 this.state.product_detail_result_data.detail.is_liked > 0
                   ?
-                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(this.state.product_detail_result_data.detail.id) }}>
+                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(this.state.product_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                   :
-                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductLike(this.state.product_detail_result_data.detail.id) }}>
+                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(this.state.product_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
               }

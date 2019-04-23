@@ -282,11 +282,11 @@ export class FragmentRecommendProduct extends React.Component {
                         <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
                         {item.is_liked > 0
                           ?
-                          <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                          <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
                             <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                           </TouchableOpacity>
                           :
-                          <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductLike(item.id) }}>
+                          <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
                             <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                           </TouchableOpacity>
                         }

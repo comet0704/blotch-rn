@@ -38,6 +38,12 @@ export default StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
   },
+  pageIndicatorStyle: {
+    backgroundColor: 'rgba(0,0,0,.3)'
+  },
+  activePageIndicatorStyle: {
+    backgroundColor: 'rgba(254, 118, 171, .7)'
+  },
   bg_white: {
     backgroundColor: "white"
   },
@@ -111,10 +117,10 @@ export default StyleSheet.create({
     shadowColor: '#3a3a3a',
     shadowOffset: {
       width: 1,
-      height: 3,
+      height: -20,
     },
-    shadowOpacity: 0.8,
-    elevation: 2,
+    shadowOpacity: 0,
+    elevation: 1,
     // background color must be set
     backgroundColor: "white" // invisible color,
   },
@@ -128,6 +134,18 @@ export default StyleSheet.create({
     elevation: 1,
     // background color must be set
     backgroundColor: "white" // invisible color,
+  },
+  banner_title: {
+    position: "absolute",
+    top: 28,
+    left: 15,
+    maxWidth: 150,
+  },
+  we_can_search_it_cover: {
+    paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
   },
   background_image: {
     left: 0,
@@ -161,9 +179,22 @@ export default StyleSheet.create({
   text_normal: {
     color: "#949191", fontSize: 13
   },
+  heart_in_item: {
+    width: 56 / 3,
+    height: 48 / 3,
+    position: "absolute",
+    right: 13,
+    top: 13,
+  },
   heart: {
-    width: 17.7,
-    height: 15
+    width: 56 / 3,
+    height: 48 / 3,
+  },
+  product_thumbnail1: {
+    width: 249 / 3,
+    height: 173 / 3,
+    alignSelf: "center",
+    marginTop: 40 ,
   },
   ic_clock: {
     width: 32 / 3,
@@ -172,6 +203,22 @@ export default StyleSheet.create({
   ic_logo: {
     width: 276 / 3,
     height: 85 / 3
+  },
+  btn_more_cover: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingTop: 10, paddingBottom: 10,
+  },
+  txt_more: {
+    fontSize: 12, color: "#949393", alignSelf: "center",
+  },
+  ic_more_right: {
+    width: 13 / 3,
+    height: 19 / 3,
+    alignSelf: "center",
+    marginLeft: 5,
+    marginTop: 2.5
   },
   ic_camera: {
     width: 38 / 3,
@@ -405,7 +452,7 @@ export default StyleSheet.create({
     top: -2,
     right: -2,
     justifyContent: "center",
-    alignItems:"center",
+    alignItems: "center",
     zIndex: 1,
   },
 

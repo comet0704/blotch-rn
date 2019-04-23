@@ -211,8 +211,11 @@ export default class MyPageScreen extends React.Component {
               <View style={[{ marginTop: 20 }]}>
                 <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                    this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
+                  <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                    this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>
+                    <Text style={MyStyles.txt_more}>more</Text>
+                    <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                  </TouchableOpacity>
                 </View>
                 <View style={{
                   flex: 1,

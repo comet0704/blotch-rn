@@ -200,11 +200,11 @@ export default class BannerDetailScreen extends React.Component {
               {
                 this.state.banner_detail_result_data.detail.is_liked > 0
                   ?
-                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestBannerUnlike(this.state.banner_detail_result_data.detail.id) }}>
+                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestBannerUnlike(this.state.banner_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                   :
-                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestBannerLike(this.state.banner_detail_result_data.detail.id) }}>
+                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestBannerLike(this.state.banner_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
               }

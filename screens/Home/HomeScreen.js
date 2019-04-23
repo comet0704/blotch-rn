@@ -68,6 +68,9 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
+    if (this.state.isLogined == false) {
+      this.requestHomeList()
+    }
     this.requestGetMyPosition();
     handleAndroidBackButton(this, exitAlert);
   }
@@ -93,7 +96,7 @@ export default class HomeScreen extends React.Component {
         }}>
           <View>
             <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
-            <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
+            <View style={[MyStyles.banner_title]}>
               <Text style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{item.title}</Text>
               <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
             </View>
@@ -137,15 +140,15 @@ export default class HomeScreen extends React.Component {
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1 }}>
-            <ImageLoad style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
+            <ImageLoad style={MyStyles.product_thumbnail1} source={{ uri: Common.getImageUrl(item.image_list) }} />
             {
               item.is_liked > 0
                 ?
-                <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
                 :
-                <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductLike(item.id) }}>
+                <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
             }
@@ -164,15 +167,15 @@ export default class HomeScreen extends React.Component {
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1 }}>
-            <ImageLoad style={{ width: 83, height: 53, alignSelf: "center", marginTop: 40 }} source={{ uri: Common.getImageUrl(item.image_list) }} />
+            <ImageLoad style={MyStyles.product_thumbnail1} source={{ uri: Common.getImageUrl(item.image_list) }} />
             {
               item.is_liked > 0
                 ?
-                <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
                 :
-                <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductLike(item.id) }}>
+                <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
             }
@@ -193,17 +196,7 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
             <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
-            {/* {
-              item.is_liked > 0
-                ?
-                <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleUnlike(item.id) }}>
-                  <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
-                </TouchableHighlight>
-                : <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleLike(item.id) }}>
-                  <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-                </TouchableHighlight>
-            } */}
-            <View style={{ position: "absolute", top: 20, left: 15, maxWidth: 150 }}>
+            <View style={[MyStyles.banner_title]}>
               <Text style={{ fontSize: 13, color: "white" }}>{item.title}</Text>
               <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{item.content}</Text>
             </View>
@@ -226,16 +219,6 @@ export default class HomeScreen extends React.Component {
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
                   <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
-                  {/* {
-                    item.is_liked > 0
-                      ?
-                      <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleUnlike(item.id) }}>
-                        <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
-                      </TouchableHighlight>
-                      : <TouchableHighlight style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestArticleLike(item.id) }}>
-                        <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-                      </TouchableHighlight>
-                  } */}
                   <View style={{ position: "absolute", bottom: 5, left: 5, maxWidth: 120 }}>
                     <Text style={{ fontSize: 12, color: "white" }}>{item.title}</Text>
                     <Text style={{ fontSize: 14, color: "white", fontWeight: "bold" }} numberOfLines={1}>{item.content}</Text>
@@ -301,7 +284,7 @@ export default class HomeScreen extends React.Component {
               this.setState({ isLogined: true })
             }
             if (beforeLoginState != this.state.isLogined) {
-              // this.requestHomeList()
+              this.requestHomeList()
             }
           }}
         />
@@ -333,9 +316,12 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* Today's Beauty Information */}
-              <View style={[{ paddingTop: 25, borderBottomLeftRadius: 20, borderWidth: 0, borderBottomWidth: 2, borderBottomColor: "#dadada", borderLeftColor: "#dadada", borderLeftWidth: 2 }, MyStyles.container, MyStyles.bg_white]}>
+              <View style={[{ paddingTop: 20, borderBottomLeftRadius: 20, }, MyStyles.container, MyStyles.bg_white, MyStyles.shadow_2]}>
+                {/* borderTop에 그림자 효과 가리기 위한 뷰 */}
+                <View style={{ position: "absolute", height: 2, top: -2, left: 0, right: 0, backgroundColor: "white" }} />
+
                 <Text style={[{ color: "#949393", fontSize: 12 }]}>Today's counselor</Text>
-                <Text style={[MyStyles.text_20, { marginTop: 10 }]}>Today's Beauty Information</Text>
+                <Text style={[MyStyles.text_20, { marginTop: 5 }]}>Today's Beauty Information</Text>
                 <View style={[{ borderRadius: 3, overflow: "hidden", width: "100%", height: 125, marginTop: 20, padding: 15, marginBottom: 23 }]}>
                   <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} />
                   {/* <Spinner
@@ -382,19 +368,46 @@ export default class HomeScreen extends React.Component {
                     {this.state.weatherInfo.icon.length > 0 ?
                       <View style={{ alignSelf: "center", marginLeft: 10, justifyContent: "center" }}>
                         <Image source={{ uri: this.state.weatherInfo.icon }} style={{ width: 50, height: 50, alignSelf: "center" }} />
-                        <Text style={{ fontSize: 13, color: "white", alignSelf: "center", marginLeft: 10 }}>{this.state.weatherInfo.city + "." + parseFloat(this.state.weatherInfo.temp - 273.15).toFixed(2).toString() + "˚C"}</Text>
+                        <Text style={{ fontSize: 13, color: "white", alignSelf: "center", marginLeft: 10 }}>{this.state.weatherInfo.city + "." + parseFloat(this.state.weatherInfo.temp - 273.15).toFixed(0).toString() + "˚C"}</Text>
                       </View>
                       : null
                     }
 
                   </View>
                 </View>
+                {/* We recommend It! 로그인 했을때 나타나는 정보 */}
+                {this.state.isLogined ?
+                  <View style={[{ borderBottomLeftRadius: 20 }, MyStyles.bg_white]}>
+                    <View style={[MyStyles.seperate_line_e5e5e5, { marginRight: -15, marginTop: -5 }]} />
+                    <View style={[{ flexDirection: "row", flex: 1, marginTop: 10, justifyContent: "center" }]}>
+                      <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
+                      <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                        this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}
+                      >
+                        <Text style={MyStyles.txt_more}>more</Text>
+                        <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                      </TouchableOpacity>
+                    </View>
+                    <View style={{
+                      flex: 1,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginRight: -15,
+                      paddingBottom: 30
+                    }}>
+                      {
+                        this.renderRecommendingScroll()
+                      }
+                    </View>
+                  </View>
+                  : null}
               </View>
+
 
               {/* We can search it */}
               {this.state.refreshOneLineInfo ?
                 this.state.isLogined == false || global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0 ?
-                  <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress=
+                  <TouchableOpacity style={[MyStyles.container, { marginTop: 20 }]} onPress=
                     {() => {
                       if (this.state.isLogined == false) {
                         console.log("4");
@@ -410,10 +423,10 @@ export default class HomeScreen extends React.Component {
                     }
                     }
                   >
-                    <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+                    <View style={[MyStyles.we_can_search_it_cover, MyStyles.shadow_2]}>
                       <View style={{ flex: 1 }}>
                         <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
-                        <Text style={{ fontSize: 12, color: "#949393", marginTop: 3 }}>Please set up your skin type</Text>
+                        <Text style={{ fontSize: 12, color: "#949393" }}>Please set up your skin type</Text>
                       </View>
 
                       <Image source={require('../../assets/images/Home/ic_avatar_woman.png')} style={{ width: 30, height: 42, alignSelf: "center" }} />
@@ -422,7 +435,7 @@ export default class HomeScreen extends React.Component {
                   : null
                 :
                 this.state.isLogined == false || global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0 ?
-                  <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress=
+                  <TouchableOpacity style={[MyStyles.container, { marginTop: 20 }]} onPress=
                     {() => {
                       if (this.state.isLogined == false) {
                         console.log("5");
@@ -438,10 +451,10 @@ export default class HomeScreen extends React.Component {
                     }
                     }
                   >
-                    <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+                    <View style={[MyStyles.we_can_search_it_cover, MyStyles.shadow_2]}>
                       <View style={{ flex: 1 }}>
                         <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
-                        <Text style={{ fontSize: 12, color: "#949393", marginTop: 3 }}>Please set up your skin type</Text>
+                        <Text style={{ fontSize: 12, color: "#949393" }}>Please set up your skin type</Text>
                       </View>
 
                       <Image source={require('../../assets/images/Home/ic_avatar_woman.png')} style={{ width: 30, height: 42, alignSelf: "center" }} />
@@ -450,32 +463,13 @@ export default class HomeScreen extends React.Component {
                   : null
               }
 
-              {/* We recommend It! 로그인 했을때 나타나는 정보 */}
-              {this.state.isLogined ?
-                <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
-                  <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                    <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
-                    <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                      this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text>
-                  </View>
-                  <View style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    paddingLeft: 15,
-                    paddingRight: 15,
-                    paddingBottom: 30
-                  }}>
-                    {
-                      this.renderRecommendingScroll()
-                    }
-                  </View>
-                </View>
-                : null}
-
               {/* 배너 부분 */}
-              <View style={{ borderTopRightRadius: 20, overflow: "hidden", marginTop: 10 }}>
+              <View style={{ borderTopRightRadius: 20, overflow: "hidden", marginTop: 20 }}>
                 <Carousel
+                  pageIndicatorStyle={MyStyles.pageIndicatorStyle}
+                  activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
+                  indicatorColor={'#b2fe76ab'}
+                  inactiveIndicatorColor=''
                   autoplay={true}
                   autoplayTimeout={3000}
                   loop
@@ -490,13 +484,18 @@ export default class HomeScreen extends React.Component {
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Hi, It's New</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }}
-                    onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 0 }) }}>more ></Text>
+                  <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 0 }) }}>
+                    <Text style={MyStyles.txt_more}>more</Text>
+                    <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                  </TouchableOpacity>
+
                 </View>
                 <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, }}>
 
                   <View style={{ borderBottomRightRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
                     <Carousel
+                      pageIndicatorStyle={MyStyles.pageIndicatorStyle}
+                      activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
                       autoplay={true}
                       onPageChanged={(index) => {
                       }}
@@ -515,6 +514,8 @@ export default class HomeScreen extends React.Component {
 
                   <View style={{ flex: 1, justifyContent: "center" }}>
                     <Carousel
+                      pageIndicatorStyle={MyStyles.pageIndicatorStyle}
+                      activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
                       autoplay={false}
                       autoplayTimeout={3500}
                       showsPageIndicator={false}
@@ -543,11 +544,17 @@ export default class HomeScreen extends React.Component {
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Best Choice</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 1 }) }}>more ></Text>
+                  <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 1 }) }}
+                  >
+                    <Text style={MyStyles.txt_more}>more</Text>
+                    <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                  </TouchableOpacity>
                 </View>
                 <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30 }}>
                   <View style={{ flex: 1, justifyContent: "center" }}>
                     <Carousel
+                      pageIndicatorStyle={MyStyles.pageIndicatorStyle}
+                      activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
                       autoplay={false}
                       onPageChanged={(index) => {
                       }}
@@ -572,6 +579,8 @@ export default class HomeScreen extends React.Component {
 
                   <View style={{ borderBottomLeftRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
                     <Carousel
+                      pageIndicatorStyle={MyStyles.pageIndicatorStyle}
+                      activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
                       autoplay={true}
                       autoplayTimeout={2500}
                       showsPageIndicator={true}
@@ -594,11 +603,17 @@ export default class HomeScreen extends React.Component {
                 {/* Today's Article */}
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Today's Article</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { this.props.navigation.navigate("Article") }}>more ></Text>
+                  <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("Article") }}
+                  >
+                    <Text style={MyStyles.txt_more}>more</Text>
+                    <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                  </TouchableOpacity>
                 </View>
-                <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, justifyContent: "center", marginLeft: 15 }}>
+                <View style={{ flexDirection: "row", flex: 1, marginBottom: 30, justifyContent: "center", marginLeft: 15 }}>
                   <View style={{ flex: 1, justifyContent: "center" }}>
                     <Carousel
+                      pageIndicatorStyle={MyStyles.pageIndicatorStyle}
+                      activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
                       autoplay={true}
                       autoplayTimeout={3000}
                       loop
@@ -614,7 +629,11 @@ export default class HomeScreen extends React.Component {
                 {/* What's trending */}
                 <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>What's Trending</Text>
-                  <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => { this.props.navigation.navigate("Article") }}>more ></Text>
+                  <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("Article") }}
+                  >
+                    <Text style={MyStyles.txt_more}>more</Text>
+                    <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                  </TouchableOpacity>
                 </View>
                 <View style={{
                   flex: 1,

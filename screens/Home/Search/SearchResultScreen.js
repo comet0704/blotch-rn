@@ -193,8 +193,6 @@ export default class SearchResultScreen extends React.Component {
                     <View style={[MyStyles.bg_white]}>
                       <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                         <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Brands({this.state.result_data.brand_count})</Text>
-                        {/* <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                          this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>more ></Text> */}
                       </View>
                       <View style={{
                         flex: 1,
@@ -220,8 +218,11 @@ export default class SearchResultScreen extends React.Component {
                     <View style={[{ flex: 1, backgroundColor: "white" }]}>
                       <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                         <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Product({this.state.result_data.product_count})</Text>
-                        <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                          this.props.navigation.navigate("SearchResultProductMore", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })}>more ></Text>
+                        <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                          this.props.navigation.navigate("SearchResultProductMore", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })}>
+                          <Text style={MyStyles.txt_more}>more</Text>
+                          <Image source={require('../../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                        </TouchableOpacity>
                       </View>
                       <FlatGrid
                         itemDimension={this.ScreenWidth}
@@ -246,8 +247,11 @@ export default class SearchResultScreen extends React.Component {
                     <View style={[{ flex: 1, backgroundColor: "white" }]}>
                       <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                         <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Ingredients({this.state.result_data.ingredient_count})</Text>
-                        <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                          this.props.navigation.navigate("SearchResultIngredientMore", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })}>more ></Text>
+                        <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                          this.props.navigation.navigate("SearchResultIngredientMore", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })}>
+                          <Text style={MyStyles.txt_more}>more</Text>
+                          <Image source={require('../../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                        </TouchableOpacity>
                       </View>
                       <View style={[MyStyles.container]}>
                         {this.state.result_data.ingredient_list.map((item, index) => this.renderGoodNormalBadIngredientList(item, index))}

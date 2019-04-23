@@ -278,11 +278,11 @@ export default class IngredientScreen extends React.Component {
                 <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
                 {item.is_liked > 0
                   ?
-                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
                     <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                   :
-                  <TouchableOpacity style={[{ position: "absolute", right: 10, top: 10 }, MyStyles.heart]} onPress={() => { this.requestProductLike(item.id) }}>
+                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
                     <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                 }
@@ -412,8 +412,11 @@ export default class IngredientScreen extends React.Component {
                       <View style={[{ marginTop: 10 }, MyStyles.bg_white]}>
                         <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }]}>
                           <Text style={[{ fontSize: 14, flex: 1, alignSelf: "center", fontWeight: "bold" }]}>Ingredients that can cause Allergies</Text>
-                          <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                            this.props.navigation.navigate("PotentialAllergenProduct")}>more ></Text>
+                          <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                            this.props.navigation.navigate("PotentialAllergenProduct")}>
+                            <Text style={MyStyles.txt_more}>more</Text>
+                            <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                          </TouchableOpacity>
                         </View>
                         <View>
                           {
