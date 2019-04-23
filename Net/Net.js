@@ -62,6 +62,7 @@ export default {
         request: MyConstants.SERVER_URL + "/product/request",
         addToMyList: MyConstants.SERVER_URL + "/product/addToMyList",
         checkInMyList: MyConstants.SERVER_URL + "/product/checkInMyList",
+        deleteFromMyList: MyConstants.SERVER_URL + "/product/deleteFromMyList",
     },
     ingredient: {
         userIngredientList: MyConstants.SERVER_URL + "/ingredient/userIngredientList",

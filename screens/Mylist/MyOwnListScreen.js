@@ -31,6 +31,7 @@ export default class MyOwnListScreen extends React.Component {
 
   album_id = null
   album_title = null
+  deleteFromMyListCallback = null
   offset = 0;
   selectedSubCatName = "";
   constructor(props) {
@@ -39,7 +40,7 @@ export default class MyOwnListScreen extends React.Component {
       categoryItems: Common.getCategoryItems(),
       showDeleteModal: false,
       product_list_result_data: {
-        like_list: []
+        product_list: []
       },
 
       beforeCatIdx: 0,
@@ -49,6 +50,7 @@ export default class MyOwnListScreen extends React.Component {
   componentDidMount() {
     this.album_id = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.album_id)
     this.album_title = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.album_title)
+    this.deleteFromMyListCallback = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.deleteFromMyListCallback)
 
     this.requestMyOwnList(this.album_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
   }
@@ -113,7 +115,7 @@ export default class MyOwnListScreen extends React.Component {
                   <View style={{ flexDirection: "row" }}>
                     <TouchableHighlight onPress={() => {
                       this.setState({ showDeleteModal: false });
-                      this.requestDeleteMatch(this.state.delete_item_id);
+                      this.requestDeleteFromMyList(this.state.delete_item_id, this.album_id);
                     }}
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
                       <Text style={MyStyles.btn_primary}>Yes</Text>
@@ -216,17 +218,17 @@ export default class MyOwnListScreen extends React.Component {
 
             {/* product 나열 */}
             <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.like_list.length})</Text>
+              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.product_list.length})</Text>
               <FlatGrid
                 itemDimension={this.ScreenWidth}
-                items={this.state.product_list_result_data.like_list}
+                items={this.state.product_list_result_data.product_list}
                 style={MyStyles.gridView}
                 spacing={10}
                 // staticDimension={300}
                 // fixed
                 // spacing={20}
                 renderItem={({ item, index }) => (
-                  <ProductItem3 is_heart_list={true} item={item} index={index} this={this} />
+                  <ProductItem3 is_own_list={true} item={item} index={index} this={this} />
                 )}
               />
             </View>
@@ -273,8 +275,8 @@ export default class MyOwnListScreen extends React.Component {
         if (p_offset == 0) { // 카테고리 선택했을대 offset값을 0에서부터 검색해야 함.
           this.offset = 0;
         }
-        this.offset += responseJson.result_data.like_list.length
-        if (responseJson.result_data.like_list.length < MyConstants.ITEMS_PER_PAGE) {
+        this.offset += responseJson.result_data.product_list.length
+        if (responseJson.result_data.product_list.length < MyConstants.ITEMS_PER_PAGE) {
           this.setState({ loading_end: true })
         }
         if (p_offset == 0) {
@@ -283,8 +285,8 @@ export default class MyOwnListScreen extends React.Component {
           });
           return;
         }
-        const like_list = this.state.product_list_result_data.like_list
-        result = { like_list: [...like_list, ...responseJson.result_data.like_list] };
+        const product_list = this.state.product_list_result_data.product_list
+        result = { product_list: [...product_list, ...responseJson.result_data.product_list] };
         this.setState({ product_list_result_data: result })
       })
       .catch((error) => {
@@ -297,11 +299,11 @@ export default class MyOwnListScreen extends React.Component {
   }
 
 
-  requestDeleteMatch(p_product_id) {
+  requestDeleteFromMyList(p_product_id, p_album_id) {
     // this.setState({
     //   isLoading: true,
     // });
-    return fetch(Net.product.deleteMatch, {
+    return fetch(Net.product.deleteFromMyList, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -310,6 +312,7 @@ export default class MyOwnListScreen extends React.Component {
       },
       body: JSON.stringify({
         product_id: p_product_id.toString(),
+        album_id: p_album_id.toString(),
       }),
     })
       .then((response) => response.json())
@@ -322,11 +325,12 @@ export default class MyOwnListScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
-        const like_list = this.state.product_list_result_data.like_list
-        const index = like_list.findIndex(item => item.id === p_product_id)
-        like_list.splice(index, 1)
-        const result = { like_list: like_list };
+        const product_list = this.state.product_list_result_data.product_list
+        const index = product_list.findIndex(item => item.id === p_product_id)
+        product_list.splice(index, 1)
+        const result = { product_list: product_list };
         this.setState({ product_list_result_data: result })
+        this.deleteFromMyListCallback();
       })
       .catch((error) => {
         this.setState({

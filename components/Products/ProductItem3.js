@@ -92,18 +92,23 @@ export class ProductItem3 extends React.Component {
         </View>
 
         {this.props.is_match_list ?
-          <TouchableOpacity onPress={() => {_this.deleteFromList(item.id)}}>
+          <TouchableOpacity onPress={() => { _this.deleteFromList(item.id) }}>
             <Image source={require("../../assets/images/ic_match_on1.png")} style={[MyStyles.ic_match_on1, { marginLeft: 10 }]} />
           </TouchableOpacity>
           : null}
         {this.props.is_blotch_list ?
-          <TouchableOpacity onPress={() => {_this.deleteFromList(item.id)}}>
+          <TouchableOpacity onPress={() => { _this.deleteFromList(item.id) }}>
             <Image source={require("../../assets/images/ic_blotch_on1.png")} style={[MyStyles.ic_blotch_on1, { marginLeft: 10 }]} />
           </TouchableOpacity>
           : null}
         {this.props.is_heart_list ?
-          <TouchableOpacity onPress={() => {_this.deleteFromList(item.id)}}>
+          <TouchableOpacity onPress={() => { _this.deleteFromList(item.id) }}>
             <Image source={require("../../assets/images/ic_heart_big.png")} style={[MyStyles.ic_heart_big, { marginLeft: 10 }]} />
+          </TouchableOpacity>
+          : null}
+        {this.props.is_own_list ?
+          <TouchableOpacity onPress={() => { _this.deleteFromList(item.id) }}>
+            <Image source={require("../../assets/images/ic_delete1.png")} style={[MyStyles.ic_heart_big, { marginLeft: 10 }]} />
           </TouchableOpacity>
           : null}
       </View>
