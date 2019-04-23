@@ -313,7 +313,7 @@ export class FragmentProductDetailReviews extends React.Component {
               <Image source={require("../../assets/images/ic_blotch_prog.png")} style={[MyStyles.ic_blotch_prog]} />
               <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Blotch'd</Text>
               <Image style={{ flex: 1 }} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().blotch_count}%</Text>
+              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().blotch_count.toFixed(0)}%</Text>
             </View>
             <ProgressBarAnimated
               {...progressBlotchStyle}
@@ -328,7 +328,7 @@ export class FragmentProductDetailReviews extends React.Component {
               <Image source={require("../../assets/images/ic_watch_prog.png")} style={[MyStyles.ic_watch_prog]} />
               <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Watch List</Text>
               <Image style={{ flex: 1 }} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().like_count}%</Text>
+              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().like_count.toFixed(0)}%</Text>
             </View>
             <ProgressBarAnimated
               {...progressWatchStyle}
@@ -343,7 +343,7 @@ export class FragmentProductDetailReviews extends React.Component {
               <Image source={require("../../assets/images/ic_match_prog.png")} style={[MyStyles.ic_match_prog]} />
               <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Match'd</Text>
               <Image style={{ flex: 1 }} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().match_count}%</Text>
+              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().match_count.toFixed(0)}%</Text>
             </View>
             <ProgressBarAnimated
               {...progressMatchStyle}
@@ -358,7 +358,7 @@ export class FragmentProductDetailReviews extends React.Component {
               <Image source={require("../../assets/images/ic_save_prog.png")} style={[MyStyles.ic_save_prog]} />
               <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Save as Others</Text>
               <Image style={{ flex: 1 }} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().album_product_count}%</Text>
+              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().album_product_count.toFixed(0)}%</Text>
             </View>
             <ProgressBarAnimated
               {...progressSaveStyle}

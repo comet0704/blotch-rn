@@ -19,6 +19,7 @@ import { FragmentProductDetailIngredients } from './FragmentProductDetailIngredi
 import { FragmentProductDetailReviews } from './FragmentProductDetailReviews';
 import { Dropdown } from 'react-native-material-dropdown';
 import { Alert } from 'react-native';
+import Messages from '../../constants/Messages';
 
 export default class ProductDetailScreen extends React.Component {
 
@@ -107,7 +108,9 @@ export default class ProductDetailScreen extends React.Component {
       </View>
     );
   }
-
+  onAddBeautyBox = () => {
+    this.requestAddBeautyBox(item_id)
+  }
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
@@ -120,7 +123,7 @@ export default class ProductDetailScreen extends React.Component {
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
-        <TopbarWithBlackBack rightBtn="true" title="Product" onPress={() => { this.props.navigation.goBack(null) }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack has_beautybox_btn={true} rightBtn="true" title="Product" onPress={() => { this.props.navigation.goBack(null) }} onRightBtnPress={() => { this.onShare() }} onAddBeautyBox={() => { this.onAddBeautyBox() }}></TopbarWithBlackBack>
 
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
           <View style={[{ flex: 1 }]}>
@@ -635,6 +638,44 @@ export default class ProductDetailScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestAddBeautyBox(p_product_id) {
+    this.setState({
+      isLoading: true,
+      alreadyLoaded: true,
+    });
+    return fetch(Net.user.addBeautyBox, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString(),
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        this.refs.toast.showBottom(Messages.added_to_beautybox);
       })
       .catch((error) => {
         this.setState({

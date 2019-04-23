@@ -20,6 +20,7 @@ export class TopbarWithBlackBack extends React.Component {
           </TouchableOpacity>
         }
         <View style={{ flex: 1 }}></View>
+
         {this.props.rightBtn == "true" ?
           this.props.isTorch == true ? // 카메라 인식  페지이면
             <TouchableOpacity
@@ -31,7 +32,7 @@ export class TopbarWithBlackBack extends React.Component {
             :
             this.props.isEditProfile == true ? // editprofile 페지이면
               <TouchableOpacity
-                onPress={this.props.onRightBtnPress} activeOpacity={0.5} style={{marginTop:20, marginRight:15, width: 196/3 }}>
+                onPress={this.props.onRightBtnPress} activeOpacity={0.5} style={{ marginTop: 20, marginRight: 15, width: 196 / 3 }}>
                 <Image style={[MyStyles.ic_edit_pwd]}
                   source={require("../../assets/images/ic_edit_pwd.png")}
                 />
@@ -44,6 +45,17 @@ export class TopbarWithBlackBack extends React.Component {
                 />
               </TouchableOpacity>
           : null
+        }
+
+        {this.props.has_beautybox_btn == true ?
+          <TouchableOpacity
+            onPress={this.props.onAddBeautyBox} activeOpacity={0.5} style={{ paddingTop: 15, paddingBottom: 15, paddingRight: 15 }}>
+            <Image style={[MyStyles.ic_topbar_beautybox]}
+              source={require("../../assets/images/ic_topbar_beautybox.png")}
+            />
+          </TouchableOpacity>
+          :
+          null
         }
       </View>
     )

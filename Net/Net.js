@@ -92,6 +92,7 @@ export default {
         pointHistory: MyConstants.SERVER_URL + "/user/pointHistory",
         commentList: MyConstants.SERVER_URL + "/user/commentList",
         beautyBoxList: MyConstants.SERVER_URL + "/user/beautyBoxList",
+        addBeautyBox: MyConstants.SERVER_URL + "/user/addBeautyBox",
         editBeautyBox: MyConstants.SERVER_URL + "/user/editBeautyBox",
         deleteBeautyBox: MyConstants.SERVER_URL + "/user/deleteBeautyBox",
         questionnaireList: MyConstants.SERVER_URL + "/user/questionnaireList",

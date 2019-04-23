@@ -31,7 +31,7 @@ export class BeautyBoxItem extends React.Component {
     this.state = {
       date_changed: false,
       item: {
-        open_date: this.props.item.open_date.substring(0, 10)
+        open_date: this.props.item.open_date == null ? null : this.props.item.open_date.substring(0, 10)
       }
     }
   }

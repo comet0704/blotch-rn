@@ -1403,6 +1403,11 @@ export default StyleSheet.create({
     height: 54 / 3,
     marginTop: 20,
   },
+  ic_topbar_beautybox: {
+    width: 45 / 3,
+    height: 53 / 3,
+    marginTop: 20,
+  },
   ic_edit: {
     width: 44 / 3,
     height: 65 / 3,
