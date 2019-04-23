@@ -174,9 +174,6 @@ export default class BlotchdListScreen extends React.Component {
                 items={this.state.product_list_result_data.match_list}
                 style={MyStyles.gridView}
                 spacing={10}
-                // staticDimension={300}
-                // fixed
-                // spacing={20}
                 renderItem={({ item, index }) => (
                   <ProductItem3 is_blotch_list={true} item={item} index={index} this={this}/>
                 )}

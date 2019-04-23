@@ -139,10 +139,6 @@ export default class WeCanSearcnItScreen extends React.Component {
                     items={this.state.skin_types}
                     style={[MyStyles.gridView, { marginTop: 10 }]}
                     spacing={10}
-
-                    // staticDimension={300}
-                    // fixed
-                    // spacing={20}
                     renderItem={({ item, index }) => (
                       <TouchableOpacity onPress={() => {
                         // 여기서는 오직 하나만 선택되어야 함
@@ -186,10 +182,6 @@ export default class WeCanSearcnItScreen extends React.Component {
                     items={this.state.concern_types}
                     style={[MyStyles.gridView, { marginTop: 10 }]}
                     spacing={10}
-
-                    // staticDimension={300}
-                    // fixed
-                    // spacing={20}
                     renderItem={({ item, index }) => (
                       <TouchableOpacity onPress={() => {
                         const w_index = this.state.concern_types.findIndex(p_item => p_item.typeName == item.typeName)
@@ -228,10 +220,6 @@ export default class WeCanSearcnItScreen extends React.Component {
                     items={this.state.need_types}
                     style={[MyStyles.gridView, { marginTop: 10 }]}
                     spacing={10}
-
-                    // staticDimension={300}
-                    // fixed
-                    // spacing={20}
                     renderItem={({ item, index }) => (
                       <TouchableOpacity onPress={() => {
                         const w_index = this.state.need_types.findIndex(p_item => p_item.typeName == item.typeName)

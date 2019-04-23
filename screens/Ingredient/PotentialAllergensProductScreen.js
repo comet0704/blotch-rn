@@ -166,9 +166,6 @@ export default class PotentialAllergensProductScreen extends React.Component {
                 items={this.state.potentialAllergenProductList_result_data.list}
                 style={MyStyles.gridView}
                 spacing={10}
-                // staticDimension={300}
-                // fixed
-                // spacing={20}
                 renderItem={({ item, index }) => (
                   <ProductItem2 item={item} index={index} this={this}/>
                 )}

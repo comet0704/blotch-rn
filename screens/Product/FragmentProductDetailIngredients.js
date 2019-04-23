@@ -169,7 +169,7 @@ export class FragmentProductDetailIngredients extends React.Component {
   }
 
   onQuestionnaireSelected(value, index, data) {    
-    this.setState({ selected_questionnaire: value })
+    this.setState({ selected_questionnaire: data[index] })
     this.setState({ qlistModalVisible: false });
   }
   render() {
@@ -219,7 +219,7 @@ export class FragmentProductDetailIngredients extends React.Component {
               <TouchableOpacity style={[{ height: 30, width: 250 / 3, alignSelf: "flex-end" }, MyStyles.purple_round_btn]} onPress={() => {
                 this.setState({ qlistModalVisible: true })
               }}>
-                <Text style={{ fontSize: 13, color: "white" }}>{this.state.selected_questionnaire}</Text>
+                <Text style={{ fontSize: 13, color: "white" }}>{this.state.selected_questionnaire.value}</Text>
                 <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { position: "absolute", right: 10 }]} />
               </TouchableOpacity>
               :
@@ -493,7 +493,7 @@ export class FragmentProductDetailIngredients extends React.Component {
         });
 
         if (data.length > 0) {
-          this.setState({ selected_questionnaire: data[0].value })
+          this.setState({ selected_questionnaire: data[0] })
         }
         this.setState({ questionnaire_list: data })
       })

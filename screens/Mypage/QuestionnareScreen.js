@@ -580,9 +580,6 @@ export default class QuestionnareScreen extends React.Component {
                                   items={this.state.questionnaire_detail.skin_type.split(",")}
                                   style={[MyStyles.gridView, { marginLeft: -10 }]}
                                   spacing={10}
-
-                                  // staticDimension={300}
-                                  // fixed
                                   renderItem={({ item, index }) => {
                                     // this.state.skin_types 를 조회하여 매칭되는 아이템 현시
                                     const w_index = this.state.skin_types.findIndex(item1 => item1.typeName == item)
@@ -613,9 +610,6 @@ export default class QuestionnareScreen extends React.Component {
                                   items={this.state.questionnaire_detail.concern.split(",")}
                                   style={[MyStyles.gridView, { marginLeft: -10 }]}
                                   spacing={10}
-
-                                  // staticDimension={300}
-                                  // fixed
                                   renderItem={({ item, index }) => {
                                     // this.state.concern_types 를 조회하여 매칭되는 아이템 현시
                                     const w_index = this.state.concern_types.findIndex(item1 => item1.typeName == item)
@@ -646,9 +640,6 @@ export default class QuestionnareScreen extends React.Component {
                                   items={this.state.questionnaire_detail.needs.split(",")}
                                   style={[MyStyles.gridView, { marginLeft: -10 }]}
                                   spacing={10}
-
-                                  // staticDimension={300}
-                                  // fixed
                                   renderItem={({ item, index }) => {
                                     // this.state.need_types 를 조회하여 매칭되는 아이템 현시
                                     const w_index = this.state.need_types.findIndex(item1 => item1.typeName == item)

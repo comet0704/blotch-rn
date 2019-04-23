@@ -30,6 +30,7 @@ import { NavigationEvents } from 'react-navigation';
 import { LinearGradient } from 'expo';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 import { exitAlert } from '../../components/androidBackButton/exitAlert';
+import Messages from '../../constants/Messages';
 
 export default class IngredientScreen extends React.Component {
   offset = 0;
@@ -670,7 +671,7 @@ ingredients that can cause allergies.</Text>
                 </TouchableOpacity>
 
                 <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
-                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>You need to login</Text>
+                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>{Messages.you_need_to_login}</Text>
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight onPress={() => {

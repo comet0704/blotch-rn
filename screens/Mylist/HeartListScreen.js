@@ -216,9 +216,6 @@ export default class HeartListScreen extends React.Component {
                 items={this.state.product_list_result_data.like_list}
                 style={MyStyles.gridView}
                 spacing={10}
-                // staticDimension={300}
-                // fixed
-                // spacing={20}
                 renderItem={({ item, index }) => (
                   <ProductItem3 is_heart_list={true} item={item} index={index} this={this}/>
                 )}

@@ -93,6 +93,7 @@ HomeStack.navigationOptions = ({ navigation }) => {
 
 const ProductStack = createStackNavigator({
   ProductContainer: ProductContainerScreen,
+  WeCanSearchIt: WeCanSearchItScreen,
   ProductDetail: ProductDetailScreen,
   BannerDetail: BannerDetailScreen,
 },

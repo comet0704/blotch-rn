@@ -163,11 +163,11 @@ export default StyleSheet.create({
     backgroundColor: "white"
   },
   seperate_line_e5e5e5: {
-    height: 0.5,
+    height: 2 / 3,
     backgroundColor: "#e5e5e5"
   },
   seperate_v_line_e5e5e5: {
-    width: 0.5,
+    width: 2 / 3,
     backgroundColor: "#e5e5e5"
   },
   text_14: {
@@ -180,8 +180,8 @@ export default StyleSheet.create({
     color: "#949191", fontSize: 13
   },
   heart_in_item: {
-    width: 56 / 3,
-    height: 48 / 3,
+    width: 59 / 3,
+    height: 51 / 3,
     position: "absolute",
     right: 13,
     top: 13,
@@ -194,7 +194,7 @@ export default StyleSheet.create({
     width: 249 / 3,
     height: 173 / 3,
     alignSelf: "center",
-    marginTop: 40 ,
+    marginTop: 40,
   },
   ic_clock: {
     width: 32 / 3,

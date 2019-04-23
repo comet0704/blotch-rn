@@ -225,9 +225,6 @@ export default class MyBeautyBoxScreen extends React.Component {
                 items={this.state.beauty_box_result_data.beautybox_list}
                 style={[MyStyles.gridView,]}
                 spacing={10}
-                // staticDimension={300}
-                // fixed
-                // spacing={20}
                 renderItem={({ item, index }) => (
                   <BeautyBoxItem is_blotch_list={true} item={item} index={index} this={this}></BeautyBoxItem>
                 )}

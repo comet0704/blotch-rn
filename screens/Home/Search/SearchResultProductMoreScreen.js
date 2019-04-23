@@ -109,9 +109,6 @@ export default class SearchResultProductMoreScreen extends React.Component {
                   items={this.state.result_data.product_list}
                   style={[MyStyles.gridView, MyStyles.padding_h_5]}
                   spacing={10}
-                  // staticDimension={300}
-                  // fixed
-                  // spacing={20}
                   renderItem={({ item, index }) => (
                     <ProductItem2 item={item} index={index} this={this}/>
                   )}

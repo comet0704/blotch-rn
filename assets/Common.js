@@ -64,8 +64,17 @@ export default {
     return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
   },
 
-  getRandomColor() {
-    var ColorCode = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+  isNeedToAddQuestionnaire() {
+    return global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0;
+  },
+
+  // 아이디 카테고리 컬러 돌려줌
+  getCategoryColor(index) {
+    var ColorCode = 'rgb('
+      + Math.min(255, (index * (index + 16) % 256 + (index * 30 % 209))) + ','
+      + Math.min(255, (index * (index + 66) % 256 + (index * 30 % 177))) + ','
+      + Math.min(255, (index * (index + 98) % 256 + (index * 30 % 98))) + ')';
+    console.log(ColorCode);
     return ColorCode
   },
 

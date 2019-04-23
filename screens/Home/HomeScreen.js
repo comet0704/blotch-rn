@@ -68,7 +68,7 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.isLogined == false) {
+    if (global.login_info.token.length <= 0) {
       this.requestHomeList()
     }
     this.requestGetMyPosition();
@@ -153,8 +153,8 @@ export default class HomeScreen extends React.Component {
                 </TouchableOpacity>
             }
             <View style={{ position: "absolute", bottom: 0, maxWidth: 130, paddingBottom: 30, alignSelf: "center" }}>
-              <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }}>{item.brand_title}</Text>
-              <Text style={{ fontSize: 14, color: "black", marginTop: 5, textAlign: "center" }}>{item.title}</Text>
+              <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
+              <Text style={{ fontSize: 14, color: "black", textAlign: "center", lineHeight: 14, marginTop: 3 }} numberOfLines={2}>{item.title}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -180,8 +180,8 @@ export default class HomeScreen extends React.Component {
                 </TouchableOpacity>
             }
             <View style={{ position: "absolute", bottom: 0, maxWidth: 130, paddingBottom: 30, alignSelf: "center" }}>
-              <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }}>{item.brand_title}</Text>
-              <Text style={{ fontSize: 14, color: "black", marginTop: 5, textAlign: "center" }}>{item.title}</Text>
+              <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
+              <Text style={{ fontSize: 14, color: "black", textAlign: "center", lineHeight: 14, marginTop: 3 }} numberOfLines={2}>{item.title}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -258,11 +258,6 @@ export default class HomeScreen extends React.Component {
   onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
     // WecanSeachit에서 입력한 정보들로 메인 questionnaire를 만들어주자.
     this.requestAddQuestionnaireItem("Me", p_skin_type, p_concern, p_needs)
-    global.login_info.skin_type = p_skin_type
-    global.login_info.concern = p_concern
-    global.login_info.needs = p_needs
-    console.log("1");
-    this.setState({ refreshOneLineInfo: !this.state.refreshOneLineInfo });
   }
 
 
@@ -368,9 +363,12 @@ export default class HomeScreen extends React.Component {
                     {this.state.weatherInfo.icon.length > 0 ?
                       <View style={{ alignSelf: "center", marginLeft: 10, justifyContent: "center" }}>
                         <Image source={{ uri: this.state.weatherInfo.icon }} style={{ width: 50, height: 50, alignSelf: "center" }} />
-                        <Text style={{ fontSize: 13, color: "white", alignSelf: "center", marginLeft: 10 }}>{this.state.weatherInfo.city + "." + parseFloat(this.state.weatherInfo.temp - 273.15).toFixed(0).toString() + "˚C"}</Text>
+                        <Text style={{ fontSize: 13, color: "white", alignSelf: "center", marginTop: -15 }}>{this.state.weatherInfo.city + "." + parseFloat(this.state.weatherInfo.temp - 273.15).toFixed(0).toString() + "˚C"}</Text>
                       </View>
-                      : null
+                      :
+                      <View style={{ alignSelf: "center", marginLeft: 10, width: 50, justifyContent: "center" }}>
+                        <Image source={require('../../assets/images/weather_loading.gif')} style={{ width: 15, height: 15, alignSelf: "center" }} />
+                      </View>
                     }
 
                   </View>
@@ -406,7 +404,7 @@ export default class HomeScreen extends React.Component {
 
               {/* We can search it */}
               {this.state.refreshOneLineInfo ?
-                this.state.isLogined == false || global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0 ?
+                this.state.isLogined == false || Common.isNeedToAddQuestionnaire() ?
                   <TouchableOpacity style={[MyStyles.container, { marginTop: 20 }]} onPress=
                     {() => {
                       if (this.state.isLogined == false) {
@@ -434,11 +432,10 @@ export default class HomeScreen extends React.Component {
                   </TouchableOpacity>
                   : null
                 :
-                this.state.isLogined == false || global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0 ?
+                this.state.isLogined == false || Common.isNeedToAddQuestionnaire() ?
                   <TouchableOpacity style={[MyStyles.container, { marginTop: 20 }]} onPress=
                     {() => {
                       if (this.state.isLogined == false) {
-                        console.log("5");
                         this.setState({ showLoginModal: true })
                       } else {
                         this.props.navigation.navigate("WeCanSearchIt", {
@@ -629,11 +626,6 @@ export default class HomeScreen extends React.Component {
                 {/* What's trending */}
                 <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>What's Trending</Text>
-                  <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("Article") }}
-                  >
-                    <Text style={MyStyles.txt_more}>more</Text>
-                    <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
-                  </TouchableOpacity>
                 </View>
                 <View style={{
                   flex: 1,
@@ -650,10 +642,11 @@ export default class HomeScreen extends React.Component {
 
                 {/* FAQ, About 버튼 부분 */}
                 <View style={[MyStyles.seperate_line_e5e5e5]}></View>
-                <View style={{ flexDirection: "row", justifyContent: "center", flex: 1, height: 53 }}>
+                <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", flex: 1, height: 53 }}>
                   <TouchableOpacity style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("Faq") }}>
                     <Text style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>FAQ</Text>
                   </TouchableOpacity>
+                  <Image style={[MyStyles.seperate_v_line_e5e5e5, { height: 30 / 3 }]} />
                   <TouchableOpacity style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("AboutUs"); }}>
                     <Text style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>About Chemi</Text>
                   </TouchableOpacity>
@@ -924,7 +917,6 @@ export default class HomeScreen extends React.Component {
   }
 
   requestAddQuestionnaireItem(p_title, p_skin_type, p_concern, p_needs) {
-    console.log("16");
     this.setState({
       isLoading: true,
     });
@@ -945,7 +937,6 @@ export default class HomeScreen extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        console.log("17");
         this.setState({
           isLoading: false,
         });
@@ -955,13 +946,12 @@ export default class HomeScreen extends React.Component {
           return
         }
 
-        console.log("18");
-        this.setState({ edit_baby_id: responseJson.result_data.questionnaire_detail.id })
-        this.requestQuestionnaireList();
-
+        global.login_info.skin_type = p_skin_type
+        global.login_info.concern = p_concern
+        global.login_info.needs = p_needs
+        this.setState({ refreshOneLineInfo: !this.state.refreshOneLineInfo });
       })
       .catch((error) => {
-        console.log("19");
         this.setState({
           isLoading: false,
         });

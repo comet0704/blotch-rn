@@ -302,9 +302,6 @@ export default class SearchMainScreen extends React.Component {
                     items={this.state.product_list_result_data.best_list}
                     style={MyStyles.gridView}
                     spacing={10}
-                    // staticDimension={300}
-                    // fixed
-                    // spacing={20}
                     renderItem={({ item, index }) => (
                       <ProductBestItem item={item} index={index} this={this}></ProductBestItem>
                     )}

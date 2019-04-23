@@ -9,7 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
-
+import { NavigationEvents } from 'react-navigation';
 import Carousel from 'react-native-banner-carousel';
 import {
   KeyboardAvoidingView,
@@ -18,6 +18,7 @@ import {
   Modal,
   Dimensions,
   WebBrowser,
+  Alert,
   Text,
   ScrollView,
   TouchableOpacity,
@@ -26,6 +27,7 @@ import {
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
 import { QuestionnaireListModal } from '../../components/Modals/QuestionnaireListModal';
+import { LoginModal } from '../../components/Modals/LoginModal';
 
 export class FragmentRecommendProduct extends React.Component {
 
@@ -34,7 +36,8 @@ export class FragmentRecommendProduct extends React.Component {
     this.state = {
       qlistModalVisible: false,
       main_all_selected: false,
-      no_search_result: false,
+      showLoginModal: false,
+      isLogined: false,
       filterModalVisible: false,
 
       product_list_result_data: {
@@ -60,14 +63,14 @@ export class FragmentRecommendProduct extends React.Component {
   ScreenWidth = Dimensions.get('window').width;
 
   componentDidMount() {
-    this.getRecommendList(0);
-    this.requestQuestionnaireList();
+    this.onNavigationEvent()
   }
 
   getRecommendList = (p_offset) => {
     // 전체선택인 경우 All 올려보냄
     if (this.state.main_all_selected) {
-      this.requestRecommendList(JSON.stringify(category_array), p_offset)
+      this.requestRecommendList(this.state.selected_questionnaire.id, "All", p_offset)
+      return
     }
     // 먼저 p_category 값을 this.state.mainCategoryItems 를 조회하면서 얻어내야함.
     category_array = [];
@@ -88,7 +91,7 @@ export class FragmentRecommendProduct extends React.Component {
     })
     console.log(category_array);
     console.log(JSON.stringify(category_array));
-    this.requestRecommendList(JSON.stringify(category_array), p_offset)
+    this.requestRecommendList(this.state.selected_questionnaire.id, JSON.stringify(category_array), p_offset)
   }
 
   onCategorySelect = async (p_catName) => {
@@ -120,7 +123,7 @@ export class FragmentRecommendProduct extends React.Component {
           <TouchableOpacity style={[{ height: 20 }, MyStyles.purple_round_btn]} onPress={() => {
             this.setState({ qlistModalVisible: true })
           }}>
-            <Text style={{ fontSize: 13, color: "white" }}>{this.state.selected_questionnaire}</Text>
+            <Text style={{ fontSize: 13, color: "white" }}>{this.state.selected_questionnaire.value}</Text>
             <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { marginLeft: 5 }]} />
           </TouchableOpacity>
         </View>
@@ -174,12 +177,12 @@ export class FragmentRecommendProduct extends React.Component {
 
           {
             this.state.my_needs != null ?
-              <View style={[{ }, MyStyles.skin_info_container]}>
+              <View style={[{}, MyStyles.skin_info_container]}>
                 <Image source={this.state.my_needs.image_off} style={[{ alignSelf: "center" }, MyStyles.skin_info_image]} />
                 <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_needs.typeName}</Text>
               </View>
               :
-              <View style={[{ }, MyStyles.skin_info_container]}>
+              <View style={[{}, MyStyles.skin_info_container]}>
                 <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
                   <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</Text>
                 </View>
@@ -219,11 +222,37 @@ export class FragmentRecommendProduct extends React.Component {
     this.setState({ mainCategoryItems: this.state.mainCategoryItems })
   }
 
+  // QuestionnaireListModal 에서 돌아오는 콜백
   onQuestionnaireSelected(value, index, data) {
-    this.setState({ selected_questionnaire: value })
+    console.log(data[index])
+    this.state.selected_questionnaire = data[index]
+    this.setState({ selected_questionnaire: this.state.selected_questionnaire })
     this.setState({ qlistModalVisible: false });
-    this.requestQuestionnaireDetail(data[index].id)
+    this.requestQuestionnaireDetail(this.state.selected_questionnaire.id)
   }
+
+  onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
+    // WecanSeachit에서 입력한 정보들로 메인 questionnaire를 만들어주자.
+    this.requestAddQuestionnaireItem("Me", p_skin_type, p_concern, p_needs)
+  }
+
+  onNavigationEvent = () => {
+    const beforeLoginState = this.state.isLogined;
+    if (global.login_info == null || global.login_info.token == "") {
+      global.login_info = {
+        token: ""
+      }
+      this.state.isLogined = false
+      this.setState({ isLogined: this.state.isLogined })
+    } else {
+      this.state.isLogined = true
+      this.setState({ isLogined: this.state.isLogined })
+      if (Common.isNeedToAddQuestionnaire() == false) { // 이미 설문이 추가된 회원이면 설문목록 얻어오기
+        this.requestQuestionnaireList();
+      }
+    }
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -236,7 +265,34 @@ export class FragmentRecommendProduct extends React.Component {
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
-        {this.state.no_search_result == false ?
+        {this.state.isLogined == false || Common.isNeedToAddQuestionnaire() ?
+          <View>
+            <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+            <View style={{ height: "100%", justifyContent: "center", alignItems: "center" }}>
+              <View style={{ alignItems: "center" }}>
+                <Image source={require("../../assets/images/ic_search_big.png")} style={[MyStyles.ic_search_big,]} />
+                <Text style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</Text>
+                <Text style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Tell us about your skin and we'll show you some products that you might want to check out!</Text>
+                <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]} onPress=
+                  {() => {
+                    if (this.state.isLogined == false) {
+                      this.setState({ showLoginModal: true })
+                    } else {
+                      this.props.navigation.navigate("WeCanSearchIt", {
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                        [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                      })
+                    }
+                  }
+                  }>
+                  <Text style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Check Out!</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          :
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
             onScroll={({ nativeEvent }) => {
               if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
@@ -262,7 +318,7 @@ export class FragmentRecommendProduct extends React.Component {
               {/* product 나열 */}
               <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
                 <View style={{ flexDirection: "row", justifyContent: "center", width: "100%", alignItems: "center" }}>
-                  <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product(6)</Text>
+                  <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.recomment_list.length})</Text>
                   <View style={{ flex: 1 }}></View>
                   <TouchableOpacity style={[MyStyles.padding_h_main,]} onPress={() => { this.setState({ filterModalVisible: true }) }}>
                     <Image source={require("../../assets/images/ic_filter.png")} style={[MyStyles.ic_filter]} />
@@ -273,9 +329,6 @@ export class FragmentRecommendProduct extends React.Component {
                   items={this.state.product_list_result_data.recomment_list}
                   style={MyStyles.gridView}
                   spacing={10}
-                  // staticDimension={300}
-                  // fixed
-                  // spacing={20}
                   renderItem={({ item, index }) => (
                     <TouchableOpacity onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                       <View style={[MyStyles.productItemContainer]}>
@@ -291,11 +344,11 @@ export class FragmentRecommendProduct extends React.Component {
                           </TouchableOpacity>
                         }
                         {/* {index < 3 ?
-                        <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
-                          <Image source={require('../../assets/images/ic_best_ranking.png')} style={[MyStyles.background_image]} />
-                          <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>{index + 1}</Text>
-                        </View>
-                        : null} */}
+                       <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
+                         <Image source={require('../../assets/images/ic_best_ranking.png')} style={[MyStyles.background_image]} />
+                         <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>{index + 1}</Text>
+                       </View>
+                       : null} */}
                       </View>
                       <Text style={[MyStyles.productBrand]}>{item.brand_title}</Text>
                       <Text style={[MyStyles.productName]}>{item.title}</Text>
@@ -354,9 +407,6 @@ export class FragmentRecommendProduct extends React.Component {
                               items={this.state.mainCategoryItems}
                               style={MyStyles.gridView}
                               spacing={10}
-                              // staticDimension={300}
-                              // fixed
-                              // spacing={20}
                               renderItem={({ item, index }) => (
                                 <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={{ borderColor: item.is_selected == 1 ? "#d9b1db" : Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
                                   <View style={[{ height: 100 / 3, justifyContent: "center", alignItems: "center" }]}>
@@ -426,10 +476,6 @@ export class FragmentRecommendProduct extends React.Component {
                                       items={item.sub_category}
                                       style={[MyStyles.gridView, { marginTop: -20 }]}
                                       spacing={10}
-
-                                      // staticDimension={300}
-                                      // fixed
-                                      // spacing={20}
                                       renderItem={({ item: sub_item, index: sub_index }) => (
                                         <TouchableOpacity onPress={() => {
                                           this.state.mainCategoryItems[index].sub_category[sub_index].is_selected = !this.state.mainCategoryItems[index].sub_category[sub_index].is_selected
@@ -485,30 +531,17 @@ export class FragmentRecommendProduct extends React.Component {
               </View>
             </Modal>
 
-
             {/* 설문선택 모달 */}
             <QuestionnaireListModal this={this} />
           </ScrollView>
-          :
-          <View>
-            <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-            <View style={{ height: "100%", justifyContent: "center", alignItems: "center" }}>
-              <View style={{ alignItems: "center" }}>
-                <Image source={require("../../assets/images/ic_search_big.png")} style={[MyStyles.ic_search_big,]} />
-                <Text style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</Text>
-                <Text style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Tell us about your skin and we'll show you some products that you might want to check out!</Text>
-                <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]}>
-                  <Text style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Check Out!</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
         }
+
+        <LoginModal is_transparent={true} this={this} />
       </View>
     );
   }
 
-  requestRecommendList(p_category, p_offset) {
+  requestRecommendList(p_questionnaire_id, p_category, p_offset) {
     console.log("category= " + p_category);
     this.setState({
       isLoading: true,
@@ -521,6 +554,7 @@ export class FragmentRecommendProduct extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
+        questionnaire_id: p_questionnaire_id,
         category: p_category == null ? "All" : p_category,
         offset: p_offset.toString()
       }),
@@ -672,8 +706,9 @@ export class FragmentRecommendProduct extends React.Component {
         });
 
         if (data.length > 0) {
-          this.setState({ selected_questionnaire: data[0].value })
-          this.requestQuestionnaireDetail(data[0].id)
+          this.state.selected_questionnaire = data[0]
+          this.setState({ selected_questionnaire: this.state.selected_questionnaire })
+          this.requestQuestionnaireDetail(this.state.selected_questionnaire.id)
         }
         this.setState({ questionnaire_list: data })
       })
@@ -715,7 +750,7 @@ export class FragmentRecommendProduct extends React.Component {
 
         const questionnaireDetail = responseJson.result_data.questionnaire_detail
         this.state.my_age = Common.getAgeFromBirth(questionnaireDetail.birth)
-        console.log(this.state.my_age)
+        this.setState({my_age: this.state.my_age})
 
         if (questionnaireDetail.skin_type != null && questionnaireDetail.skin_type.length > 0) {
           const w_index = this.state.skin_types.findIndex(item1 => item1.typeName == questionnaireDetail.skin_type)
@@ -735,7 +770,55 @@ export class FragmentRecommendProduct extends React.Component {
           this.state.my_needs = w_item
           this.setState(this.state.my_needs)
         }
-        this.setState(this.state.my_age)
+        this.getRecommendList(0);
+
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestAddQuestionnaireItem(p_title, p_skin_type, p_concern, p_needs) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.user.addQuestionnaireItem, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        title: p_title,
+        skin_type: p_skin_type,
+        concern: p_concern,
+        needs: p_needs,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        global.login_info.skin_type = p_skin_type
+        global.login_info.concern = p_concern
+        global.login_info.needs = p_needs
+
+        this.requestQuestionnaireList();
+
 
       })
       .catch((error) => {

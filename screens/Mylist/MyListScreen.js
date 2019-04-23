@@ -40,6 +40,7 @@ import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../c
 import { exitAlert } from '../../components/androidBackButton/exitAlert';
 
 import 'prop-types';
+import Messages from '../../constants/Messages';
 
 class Row extends React.Component {
 
@@ -392,7 +393,7 @@ export default class MyListScreen extends React.Component {
                 </TouchableOpacity>
 
                 <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
-                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>You need to login</Text>
+                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>{Messages.you_need_to_login}</Text>
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight onPress={() => {

@@ -37,7 +37,7 @@ export class QuestionnaireListModal extends React.Component {
                                     itemColor={Colors.color_656565}
                                     selectedItemColor={Colors.color_656565}
                                     baseColor={Colors.primary_dark}
-                                    value={_this.state.selected_questionnaire}
+                                    value={_this.state.selected_questionnaire.value}
                                     label='Please select your baby item'
                                     onChangeText={(value, index, data) => {
                                         _this.onQuestionnaireSelected(value, index, data)

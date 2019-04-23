@@ -2,6 +2,7 @@
 import React from 'react';
 import { Image, Modal, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import MyStyles from '../../constants/MyStyles';
+import Messages from '../../constants/Messages';
 
 export class LoginModal extends React.Component {
     constructor(props) {
@@ -23,13 +24,12 @@ export class LoginModal extends React.Component {
                         <View style={MyStyles.modalContainer}>
                             <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
                                 _this.setState({ showLoginModal: false });
-                                _this.props.navigation.navigate('Home')
                             }}>
                                 <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                             </TouchableOpacity>
 
                             <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
-                            <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>You need to login</Text>
+                            <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>{Messages.you_need_to_login}</Text>
 
                             <View style={{ flexDirection: "row" }}>
                                 <TouchableHighlight onPress={() => {
@@ -44,7 +44,6 @@ export class LoginModal extends React.Component {
                                     style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
                                     onPress={() => {
                                         _this.setState({ showLoginModal: false });
-                                        _this.props.navigation.navigate('Home')
                                     }}>
                                     <Text style={MyStyles.btn_primary_white}>Not now</Text>
                                 </TouchableHighlight>

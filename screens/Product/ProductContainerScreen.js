@@ -48,6 +48,11 @@ export default class ProductContainerScreen extends React.Component {
           onWillFocus={payload => {
             const initialPage = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.product_container_initial_page)
             this.setState({initialPage, initialPage});
+            try {
+              this.refs.recommendationTAB.onNavigationEvent()
+            } catch (error) {
+
+            }
           }}
         />
         <TopbarWithBlackBack title="Product" isRootDepth={true} onPress={() => {
@@ -69,7 +74,7 @@ export default class ProductContainerScreen extends React.Component {
             <FragmentBestProduct navigation={this.props.navigation} ></FragmentBestProduct>
           </View>
           <View tabLabel="Recommendation" style={{ flex: 1 }}>
-            <FragmentRecommendProduct navigation={this.props.navigation} ></FragmentRecommendProduct>
+            <FragmentRecommendProduct ref='recommendationTAB' navigation={this.props.navigation} ></FragmentRecommendProduct>
           </View>
         </ScrollableTabView>
 
