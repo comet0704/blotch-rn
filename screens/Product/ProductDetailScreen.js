@@ -18,6 +18,7 @@ import StarRating from 'react-native-star-rating';
 import { FragmentProductDetailIngredients } from './FragmentProductDetailIngredients';
 import { FragmentProductDetailReviews } from './FragmentProductDetailReviews';
 import { Dropdown } from 'react-native-material-dropdown';
+import { Alert } from 'react-native';
 
 export default class ProductDetailScreen extends React.Component {
 
@@ -48,7 +49,7 @@ export default class ProductDetailScreen extends React.Component {
       tabbar: {
         Ingredients: true,
         Reviews: false,
-      }, 
+      },
       album_list: [
 
       ]
@@ -237,7 +238,7 @@ export default class ProductDetailScreen extends React.Component {
                       baseColor={Colors.primary_dark}
                       label='Please select your own list'
                       onChangeText={(value, index, data) => {
-                        this.requestAddToMyList(data[index].id, item_id)
+                        this.requestCheckInMyList(data[index].id, item_id)
                         this.setState({ saveAsModalVisible: false })
                       }}
                       data={this.state.album_list}
@@ -279,7 +280,7 @@ export default class ProductDetailScreen extends React.Component {
 
           <View style={{ flex: 1 }}>
             <TouchableOpacity style={[{ height: 30, width: 250 / 3, justifyContent: "center", alignSelf: "center", alignItems: "center" }, MyStyles.purple_round_btn]} onPress={() => {
-              this.setState({saveAsModalVisible : true})
+              this.setState({ saveAsModalVisible: true })
             }}>
               <Text style={{ fontSize: 13, color: "white" }}>Save as</Text>
               <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { position: "absolute", right: 10 }]} />
@@ -492,7 +493,7 @@ export default class ProductDetailScreen extends React.Component {
       })
       .done();
   }
-  
+
   requestMyList() {
     this.setState({
       isLoading: true,
@@ -538,6 +539,67 @@ export default class ProductDetailScreen extends React.Component {
       .done();
   }
 
+  requestCheckInMyList(p_album_id, p_product_id) {
+    // this.setState({
+    //   isLoading: true,
+    //   alreadyLoaded: true,
+    // });
+    return fetch(Net.product.checkInMyList, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        product_id: p_product_id.toString(),
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        const result_data = responseJson.result_data
+        if (result_data == null) { // 어느 앨범에도 등록되지 않은 제품이므로 부담없이 등록
+          this.requestAddToMyList(p_album_id, p_product_id)
+        } else { // 이미 등록한 alubum 이 있으므로 alert 띄우자
+          Alert.alert(
+            'Confirm Add',
+            'This product is already in your other list. Do you want to move it to a new list?',
+            [
+              {
+                text: 'No',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {
+                text: 'Yes', onPress: () => {
+                  this.requestAddToMyList(p_album_id, p_product_id)
+                }
+              },
+            ],
+            { cancelable: false },
+          );
+        }
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
   requestAddToMyList(p_album_id, p_product_id) {
     this.setState({
       isLoading: true,
@@ -566,15 +628,6 @@ export default class ProductDetailScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-
-
-        const data = [];
-
-        responseJson.result_data.album_list.forEach(element => {
-          data.push({ value: element.title, id: element.id })
-        });
-
-        this.setState({ album_list: data })
       })
       .catch((error) => {
         this.setState({

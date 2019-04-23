@@ -45,7 +45,6 @@ export default class App extends React.Component {
 
   async tryLogin() {
     result1 = await AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.login_info)
-    console.log("222222222" + result1)
     global.login_info = JSON.parse(result1);
     if (global.login_info == null) { // 로그인 정보가 없는경우는 아예 시도 안함.
       this.setState({ isLogined: false })

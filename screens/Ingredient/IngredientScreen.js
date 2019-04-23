@@ -330,18 +330,21 @@ export default class IngredientScreen extends React.Component {
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag">
 
           <View>
-            {/* 카테고리 나열 부분 */}
-            <View style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: Colors.color_f8f8f8,
-              padding: 15,
-              height: 400 / 3
-            }}>
-              {
-                this.renderMyBabies()
-              }
-            </View>
+            {this.state.questionnaire_list.length > 0 ?
+              // {/* 카테고리 나열 부분 */}
+              <View style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: Colors.color_f8f8f8,
+                padding: 15,
+                height: 400 / 3
+              }}>
+                {
+                  this.renderMyBabies()
+                }
+              </View>
+              :
+              null}
 
             {/* Allergic Ingredients(Dislikes) 부분 */}
             <View style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.ingredient_section]}>

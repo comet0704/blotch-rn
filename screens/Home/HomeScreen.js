@@ -39,6 +39,7 @@ export default class HomeScreen extends React.Component {
     this.state = {
       isLogined: false,
       showLoginModal: false,
+      refreshOneLineInfo: false,
       weatherInfo: {
         main: "",
         temp: "",
@@ -62,13 +63,13 @@ export default class HomeScreen extends React.Component {
       bestProductBanner: {
         image_list: "",
         title: "",
-      }
+      },
     };
   }
 
   componentDidMount() {
     // this.requestHomeList()
-    // this.requestGetMyPosition();
+    this.requestGetMyPosition();
     handleAndroidBackButton(this, exitAlert);
   }
 
@@ -273,6 +274,12 @@ export default class HomeScreen extends React.Component {
   }
 
   onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
+    // WecanSeachit에서 입력한 정보들로 메인 questionnaire를 만들어주자.
+    this.requestAddQuestionnaireItem("Me", p_skin_type, p_concern, p_needs)
+    global.login_info.skin_type = p_skin_type
+    global.login_info.concern = p_concern
+    global.login_info.needs = p_needs
+    this.setState({ refreshOneLineInfo: !this.state.refreshOneLineInfo });
   }
 
 
@@ -283,7 +290,7 @@ export default class HomeScreen extends React.Component {
         <NavigationEvents
           onWillFocus={payload => {
             const beforeLoginState = this.state.isLogined;
-            if (global.login_info == null) {
+            if (global.login_info == null || global.login_info.token == "") {
               global.login_info = {
                 token: ""
               }
@@ -342,18 +349,33 @@ export default class HomeScreen extends React.Component {
                         <Image source={require('../../assets/images/Home/ic_weather_type.png')} style={{ width: 13, height: 7, alignSelf: "center" }} />
                         <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {this.state.weatherInfo.main.toLowerCase()}</Text> today</Text>
                       </View>
-                      {this.state.isLogined ?
-                        <View>
-                          <View style={[{ flexDirection: "row", color: "white" }]}>
-                            <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
-                            <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs} </Text>your face</Text>
+                      {this.state.refreshOneLineInfo ?
+                        !(this.state.isLogined == false || global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0) ?
+                          <View>
+                            <View style={[{ flexDirection: "row", color: "white" }]}>
+                              <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
+                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs.split(",")[0]} </Text>your face</Text>
+                            </View>
+                            <View style={[{ flexDirection: "row", color: "white" }]}>
+                              <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
+                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern.split(",")[0]}</Text></Text>
+                            </View>
                           </View>
-                          <View style={[{ flexDirection: "row", color: "white" }]}>
-                            <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
-                            <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern}</Text></Text>
+                          : null
+                        :
+                        !(this.state.isLogined == false || global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0) ?
+                          <View>
+                            <View style={[{ flexDirection: "row", color: "white" }]}>
+                              <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
+                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs.split(",")[0]} </Text>your face</Text>
+                            </View>
+                            <View style={[{ flexDirection: "row", color: "white" }]}>
+                              <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
+                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern.split(",")[0]}</Text></Text>
+                            </View>
                           </View>
-                        </View>
-                        : null}
+                          : null
+                      }
                     </View>
                     {this.state.weatherInfo.icon.length > 0 ?
                       <View style={{ alignSelf: "center", marginLeft: 10, justifyContent: "center" }}>
@@ -368,32 +390,60 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* We can search it */}
-              {this.state.isLogined == false || global.login_info.needs == null || global.login_info.needs.length <= 0 ?
-                <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress=
-                  {() => {
-                    if (this.state.isLogined == false) {
-                      this.setState({ showLoginModal: true })
-                    } else {
-                      this.props.navigation.navigate("WeCanSearchIt", {
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
-                        [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
-                      })
+              {this.state.refreshOneLineInfo ?
+                this.state.isLogined == false || global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0 ?
+                  <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress=
+                    {() => {
+                      if (this.state.isLogined == false) {
+                        this.setState({ showLoginModal: true })
+                      } else {
+                        this.props.navigation.navigate("WeCanSearchIt", {
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                          [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                        })
+                      }
                     }
-                  }
-                  }
-                >
-                  <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, MyStyles.bg_white, MyStyles.shadow_2]}>
-                    <View style={{ flex: 1 }}>
-                      <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
-                      <Text style={{ fontSize: 12, color: "#949393", marginTop: 3 }}>Please set up your skin type</Text>
-                    </View>
+                    }
+                  >
+                    <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+                      <View style={{ flex: 1 }}>
+                        <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
+                        <Text style={{ fontSize: 12, color: "#949393", marginTop: 3 }}>Please set up your skin type</Text>
+                      </View>
 
-                    <Image source={require('../../assets/images/Home/ic_avatar_woman.png')} style={{ width: 30, height: 42, alignSelf: "center" }} />
-                  </View>
-                </TouchableOpacity>
-                : null
+                      <Image source={require('../../assets/images/Home/ic_avatar_woman.png')} style={{ width: 30, height: 42, alignSelf: "center" }} />
+                    </View>
+                  </TouchableOpacity>
+                  : null
+                :
+                this.state.isLogined == false || global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0 ?
+                  <TouchableOpacity style={[MyStyles.container, { marginTop: 23 }]} onPress=
+                    {() => {
+                      if (this.state.isLogined == false) {
+                        this.setState({ showLoginModal: true })
+                      } else {
+                        this.props.navigation.navigate("WeCanSearchIt", {
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                          [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                        })
+                      }
+                    }
+                    }
+                  >
+                    <View style={[{ paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+                      <View style={{ flex: 1 }}>
+                        <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
+                        <Text style={{ fontSize: 12, color: "#949393", marginTop: 3 }}>Please set up your skin type</Text>
+                      </View>
+
+                      <Image source={require('../../assets/images/Home/ic_avatar_woman.png')} style={{ width: 30, height: 42, alignSelf: "center" }} />
+                    </View>
+                  </TouchableOpacity>
+                  : null
               }
 
               {/* We recommend It! 로그인 했을때 나타나는 정보 */}
@@ -832,13 +882,55 @@ export default class HomeScreen extends React.Component {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${MyConstants.WEATHER_MAP_API_KET}`)
       .then(response => response.json()) // 응답값을 json으로 변환
       .then(json => {
-        console.log("1111111111" + JSON.stringify(json));
         this.state.weatherInfo.main = json.weather[0].main
         this.state.weatherInfo.temp = json.main.temp // 켈빈으로 내려옴
         this.state.weatherInfo.icon = "http://openweathermap.org/img/w/" + json.weather[0].icon + ".png"
         this.state.weatherInfo.city = json.name
         this.setState(this.state.weatherInfo)
       });
+  }
+
+  requestAddQuestionnaireItem(p_title, p_skin_type, p_concern, p_needs) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.user.addQuestionnaireItem, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        title: p_title,
+        skin_type: p_skin_type,
+        concern: p_concern,
+        needs: p_needs,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.setState({ edit_baby_id: responseJson.result_data.questionnaire_detail.id })
+        this.requestQuestionnaireList();
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
   }
 
 }

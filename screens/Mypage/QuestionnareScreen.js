@@ -174,12 +174,8 @@ export default class QuestionnareScreen extends React.Component {
       this.refs.modal_toast.showTop("Please input name");
       return;
     }
-    this.setState({ addBabyModalVisible: false });
-    if (this.state.edit_baby_id > 0) { // 편집이면      
-      this.requestEditQuestionnaire(this.state.edit_baby_id, this.state.request_list_name)
-    } else {
-      this.requestAddQuestionnaireItem(this.state.request_list_name)
-    }
+    this.setState({ addBabyModalVisible: false });    
+    this.requestAddQuestionnaireItem(this.state.request_list_name)    
   }
 
   checkCompleteStatus() {

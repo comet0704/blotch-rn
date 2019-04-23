@@ -51,17 +51,17 @@ export default class MyPageScreen extends React.Component {
     handleAndroidBackButton(this, exitAlert);
 
     if (global.login_info.skin_type != null && global.login_info.skin_type.length > 0) {
-      const w_index = this.state.skin_types.findIndex(item1 => item1.typeName == global.login_info.skin_type)
+      const w_index = this.state.skin_types.findIndex(item1 => item1.typeName == global.login_info.skin_type.split(",")[0])
       const w_item = this.state.skin_types[w_index]
       this.setState({ my_skin_type_img: w_item.image_on })
     }
     if (global.login_info.concern != null && global.login_info.concern.length > 0) {
-      const w_index = this.state.concern_types.findIndex(item1 => item1.typeName == global.login_info.concern)
+      const w_index = this.state.concern_types.findIndex(item1 => item1.typeName == global.login_info.concern.split(",")[0])
       const w_item = this.state.concern_types[w_index]
       this.setState({ my_concern_img: w_item.image_on })
     }
     if (global.login_info.needs != null && global.login_info.needs.length > 0) {
-      const w_index = this.state.need_types.findIndex(item1 => item1.typeName == global.login_info.needs)
+      const w_index = this.state.need_types.findIndex(item1 => item1.typeName == global.login_info.needs.split(",")[0])
       const w_item = this.state.need_types[w_index]
       this.setState({ my_needs_img: w_item.image_on })
     }

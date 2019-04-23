@@ -50,6 +50,7 @@ export class FragmentRecommendProduct extends React.Component {
       skin_types: Common.getSkinTypes(),
       concern_types: Common.getConcernTypes(),
       need_types: Common.getNeedTypes(),
+      my_age: null,
       my_skin_type: null,
       my_concern: null,
       my_needs: null,
@@ -59,28 +60,8 @@ export class FragmentRecommendProduct extends React.Component {
   ScreenWidth = Dimensions.get('window').width;
 
   componentDidMount() {
-    console.log("222222222222222222");
     this.getRecommendList(0);
     this.requestQuestionnaireList();
-
-    console.log("00000000");
-    if (global.login_info.skin_type != null && global.login_info.skin_type.length > 0) {
-      const w_index = this.state.skin_types.findIndex(item1 => item1.typeName == global.login_info.skin_type)
-      const w_item = this.state.skin_types[w_index]
-      this.state.my_skin_type = w_item
-      console.log("111111" + w_item);
-      this.setState(this.state.my_skin_type)
-    }
-    if (global.login_info.concern != null && global.login_info.concern.length > 0) {
-      const w_index = this.state.concern_types.findIndex(item1 => item1.typeName == global.login_info.concern)
-      const w_item = this.state.concern_types[w_index]
-      this.setState({ my_concern: w_item })
-    }
-    if (global.login_info.needs != null && global.login_info.needs.length > 0) {
-      const w_index = this.state.need_types.findIndex(item1 => item1.typeName == global.login_info.needs)
-      const w_item = this.state.need_types[w_index]
-      this.setState({ my_needs: w_item })
-    }
   }
 
   getRecommendList = (p_offset) => {
@@ -146,12 +127,12 @@ export class FragmentRecommendProduct extends React.Component {
         <View style={{ marginTop: 10, flexDirection: "row" }}>
 
           {
-            global.login_info.birth != null && global.login_info.birth.length > 0 ?
+            this.state.my_age != null && this.state.my_age.length > 0 ?
               <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
                 <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, backgroundColor: Colors.color_f8f8f8, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
-                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>{Common.getAgeFromBirth(global.login_info.birth)}</Text>
+                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>{this.state.my_age}</Text>
                 </View>
-                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{Common.getAgeFromBirth(global.login_info.birth)}</Text>
+                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_age}</Text>
               </View>
               :
               <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
@@ -193,12 +174,12 @@ export class FragmentRecommendProduct extends React.Component {
 
           {
             this.state.my_needs != null ?
-              <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
+              <View style={[{ }, MyStyles.skin_info_container]}>
                 <Image source={this.state.my_needs.image_off} style={[{ alignSelf: "center" }, MyStyles.skin_info_image]} />
                 <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_needs.typeName}</Text>
               </View>
               :
-              <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
+              <View style={[{ }, MyStyles.skin_info_container]}>
                 <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
                   <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</Text>
                 </View>
@@ -241,6 +222,7 @@ export class FragmentRecommendProduct extends React.Component {
   onQuestionnaireSelected(value, index, data) {
     this.setState({ selected_questionnaire: value })
     this.setState({ qlistModalVisible: false });
+    this.requestQuestionnaireDetail(data[index].id)
   }
   render() {
     return (
@@ -686,13 +668,75 @@ export class FragmentRecommendProduct extends React.Component {
         const data = [];
 
         responseJson.result_data.questionnaire_list.forEach(element => {
-          data.push({ value: element.title })
+          data.push({ value: element.title, id: element.id })
         });
 
         if (data.length > 0) {
           this.setState({ selected_questionnaire: data[0].value })
+          this.requestQuestionnaireDetail(data[0].id)
         }
         this.setState({ questionnaire_list: data })
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestQuestionnaireDetail(p_questionnaire_id) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.user.questionnaireDetail, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        questionnaire_id: p_questionnaire_id
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        const questionnaireDetail = responseJson.result_data.questionnaire_detail
+        this.state.my_age = Common.getAgeFromBirth(questionnaireDetail.birth)
+        console.log(this.state.my_age)
+
+        if (questionnaireDetail.skin_type != null && questionnaireDetail.skin_type.length > 0) {
+          const w_index = this.state.skin_types.findIndex(item1 => item1.typeName == questionnaireDetail.skin_type)
+          const w_item = this.state.skin_types[w_index]
+          this.state.my_skin_type = w_item
+          this.setState(this.state.my_skin_type)
+        }
+        if (questionnaireDetail.concern != null && questionnaireDetail.concern.length > 0) {
+          const w_index = this.state.concern_types.findIndex(item1 => item1.typeName == questionnaireDetail.concern.split(",")[0])
+          const w_item = this.state.concern_types[w_index]
+          this.state.my_concern = w_item
+          this.setState(this.state.my_concern)
+        }
+        if (questionnaireDetail.needs != null && questionnaireDetail.needs.length > 0) {
+          const w_index = this.state.need_types.findIndex(item1 => item1.typeName == questionnaireDetail.needs.split(",")[0])
+          const w_item = this.state.need_types[w_index]
+          this.state.my_needs = w_item
+          this.setState(this.state.my_needs)
+        }
+        this.setState(this.state.my_age)
+
       })
       .catch((error) => {
         this.setState({
