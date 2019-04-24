@@ -34,6 +34,9 @@ import { BrandItem } from '../../../components/Search/BrandItem';
 export default class SearchResultScreen extends React.Component {
   constructor(props) {
     super(props);
+    is_from_camera_search = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.is_from_camera_search) // 카메라 검색에서 넘어왓는지 체크
+    scanned_barcode = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.scanned_barcode)
+    w_searchWord = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.search_word)
     this.state = {
       searchWord: "",
       request_brand_name: "",
@@ -55,9 +58,6 @@ export default class SearchResultScreen extends React.Component {
   }
 
   componentDidMount() {
-    is_from_camera_search = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.is_from_camera_search) // 카메라 검색에서 넘어왓는지 체크
-    scanned_barcode = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.scanned_barcode)
-    w_searchWord = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.search_word)
     if (is_from_camera_search) { // 카메라 검색에서 넘어온 경우
       this.requestSearchCamera(scanned_barcode)
     } else {
@@ -147,7 +147,6 @@ export default class SearchResultScreen extends React.Component {
   }
 
   render() {
-    const { weatherType, weatherInfo } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
@@ -591,7 +590,7 @@ export default class SearchResultScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -601,6 +600,7 @@ export default class SearchResultScreen extends React.Component {
           return;
         }
 
+        this.props.navigation.pop(1);
         this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: responseJson.result_data.camera_product.id });
       })
       .catch((error) => {

@@ -93,6 +93,7 @@ HomeStack.navigationOptions = ({ navigation }) => {
 
 const ProductStack = createStackNavigator({
   ProductContainer: ProductContainerScreen,
+  WeCanSearchIt: WeCanSearchItScreen,
   ProductDetail: ProductDetailScreen,
   BannerDetail: BannerDetailScreen,
 },
@@ -251,14 +252,15 @@ LinksStack.navigationOptions = {
   ),
 };
 
+
 export default createBottomTabNavigator({
   HomeStack,
+  // LinksStack,  
   ProductStack,
   IngredientStack,
   MyListStack,
   LoginStack,
   // MyPageStack,
-  // LinksStack,  
 }, {
     backBehavior: "history",
     tabBarOptions: {

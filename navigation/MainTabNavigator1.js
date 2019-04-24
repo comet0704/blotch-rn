@@ -255,7 +255,7 @@ LinksStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
-  LinksStack,  
+  // LinksStack,  
   ProductStack,
   IngredientStack,
   MyListStack,
