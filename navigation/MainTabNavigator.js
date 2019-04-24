@@ -259,8 +259,8 @@ export default createBottomTabNavigator({
   ProductStack,
   IngredientStack,
   MyListStack,
-  // LoginStack,
-  MyPageStack,
+  LoginStack,
+  // MyPageStack,
 }, {
     backBehavior: "history",
     tabBarOptions: {
