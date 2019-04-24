@@ -54,7 +54,7 @@ export class ProductItem2 extends React.Component {
           </View>
         </TouchableOpacity>
         <View style={{ marginLeft: 10, flex: 1 }}>
-          <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]}>{item.brand_title}</Text>
+          <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]} numberOfLines={1}>{item.brand_title}</Text>
           <Text style={[MyStyles.productName, { textAlign: "left", height: 110 / 3 }]} numberOfLines={2}>{item.title}</Text>
           <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", height: 69 / 3 }}
             onPress={() => {

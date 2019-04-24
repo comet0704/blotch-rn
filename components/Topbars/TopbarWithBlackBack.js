@@ -22,9 +22,9 @@ export class TopbarWithBlackBack extends React.Component {
         <View style={{ flex: 1 }}></View>
 
         {this.props.rightBtn == "true" ?
-          this.props.isTorch == true ? // 카메라 인식  페지이면
+          this.props.isTorch == true ? // 카메라 검색  페지이면
             <TouchableOpacity
-              onPress={this.props.onRightBtnPress} activeOpacity={0.5} style={{ padding: 15, width: 45 }}>
+              onPress={this.props.onRightBtnPress} activeOpacity={0.5} style={{ padding: 15, width: 45, marginTop: 5 }}>
               <Image style={[MyStyles.flashBtn]}
                 source={require("../../assets/images/ic_flash_off.png")}
               />

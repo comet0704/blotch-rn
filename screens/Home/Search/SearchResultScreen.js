@@ -55,9 +55,15 @@ export default class SearchResultScreen extends React.Component {
   }
 
   componentDidMount() {
+    is_from_camera_search = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.is_from_camera_search) // 카메라 검색에서 넘어왓는지 체크
+    scanned_barcode = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.scanned_barcode)
     w_searchWord = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.search_word)
-    this.setState({ searchWord: w_searchWord })
-    this.requestSearchAll(w_searchWord)
+    if (is_from_camera_search) { // 카메라 검색에서 넘어온 경우
+      this.requestSearchCamera(scanned_barcode)
+    } else {
+      this.setState({ searchWord: w_searchWord })
+      this.requestSearchAll(w_searchWord)
+    }
   }
 
   static navigationOptions = {
@@ -563,5 +569,47 @@ export default class SearchResultScreen extends React.Component {
         this.refs.toast.showBottom(error);
       })
       .done();
+  }
+
+
+  requestSearchCamera(p_barcode) {
+    console.log(p_barcode);
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.camera.searchBarcode, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+
+      },
+      body: JSON.stringify({
+        barcode: p_barcode.toString()
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) { // 인지된 제품이 없는경우 Report US 현시
+          this.setState({ no_search_result: true })
+          return;
+        }
+
+        this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: responseJson.result_data.camera_product.id });
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+
   }
 }

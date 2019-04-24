@@ -45,7 +45,7 @@ export default class ArticlesScreen extends React.Component {
       showTime = true
     }
     return (
-      <TouchableOpacity key={item.id} style={[MyStyles.container, { flex: 1 }]} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+      <TouchableOpacity key={index} style={[MyStyles.container, { flex: 1 }]} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
         {showTime ?
           <View style={[{ position: "absolute", width: 275 / 3, height: 60 / 3, top: -10, right: 15, borderRadius: 10, flexDirection: "row", justifyContent: "center", alignItems: "center" }, MyStyles.shadow_2]}>
             <Image source={require('../../assets/images/ic_clock.png')} style={[MyStyles.ic_clock]} />
@@ -187,6 +187,9 @@ export default class ArticlesScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
+        if (p_offset == 0) { // 카테고리 선택했을대 offset값을 0에서부터 검색해야 함.
+          this.offset = 0;
+        }
         this.offset += responseJson.result_data.list.length
         if (responseJson.result_data.list.length < MyConstants.ITEMS_PER_PAGE) {
           this.setState({ loading_end: true })
@@ -195,6 +198,8 @@ export default class ArticlesScreen extends React.Component {
         const list = this.state.result_data.list
         if (p_offset == 0) {
           this.setState({ today_list: responseJson.result_data.today_list })
+          this.setState({ result_data: responseJson.result_data })
+          return
         }
         result = { list: [...list, ...responseJson.result_data.list] };
         this.setState({ result_data: result })
@@ -235,7 +240,9 @@ export default class ArticlesScreen extends React.Component {
           return
         }
 
-        this.requestArticleList(0);
+        const w_index = this.state.result_data.list.findIndex(item1 => item1.id == p_article_id)
+        this.state.result_data.list[w_index].is_liked = 100
+        this.setState({ result_data: this.state.result_data })
 
       })
       .catch((error) => {
@@ -274,7 +281,9 @@ export default class ArticlesScreen extends React.Component {
           return
         }
 
-        this.requestArticleList(0);
+        const w_index = this.state.result_data.list.findIndex(item1 => item1.id == p_article_id)
+        this.state.result_data.list[w_index].is_liked = null
+        this.setState({ result_data: this.state.result_data })
       })
       .catch((error) => {
         this.setState({

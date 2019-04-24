@@ -255,12 +255,12 @@ LinksStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
+  LinksStack,  
   ProductStack,
   IngredientStack,
   MyListStack,
   // LoginStack,
   MyPageStack,
-  // LinksStack,  
 }, {
     backBehavior: "history",
     tabBarOptions: {

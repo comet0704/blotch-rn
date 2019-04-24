@@ -12,9 +12,9 @@ export default {
   //
   ITEMS_PER_PAGE : 30,
   SERVER_URL :"http://192.168.0.74:3000",
-  // UPLOAD_SERVER_URL : "http://192.168.0.74:3001",
+  UPLOAD_SERVER_URL : "http://192.168.0.74:3001",
   // SERVER_URL : "http://chemi.rsad.kr",
-  UPLOAD_SERVER_URL : "http://upload.rsad.kr",
+  // UPLOAD_SERVER_URL : "http://upload.rsad.kr",
   SkinTypeName : {
     dry: "Dry",
     oily: "Oily",
@@ -93,6 +93,8 @@ export default {
   },
   NAVIGATION_PARAMS : {
     item_id: "item_id",
+    is_from_camera_search: "is_from_camera_search",
+    scanned_barcode: "scanned_barcode",
     album_id: "album_id",
     album_title: "album_title",
     deleteFromMyListCallback: "deleteFromMyListCallback",

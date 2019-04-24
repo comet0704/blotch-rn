@@ -27,6 +27,7 @@ export default class ProductDetailScreen extends React.Component {
 
   constructor(props) {
     super(props)
+    alert("b")
     item_id = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_id)
     this.state = {
       saveAsModalVisible: false,
