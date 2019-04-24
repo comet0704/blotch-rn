@@ -19,7 +19,7 @@ import Net from '../../Net/Net';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import MyConstants from '../../constants/MyConstants';
-import { LinearGradient } from 'expo';
+import { Updates, LinearGradient } from 'expo';
 import Colors from '../../constants/Colors';
 
 let pkg = require('../../app.json')
@@ -41,6 +41,7 @@ export default class SettingScreen extends React.Component {
     await AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, "");
 
     // 이제는 앱을 로그아웃 상태로 만들어야 하겠는데 그러자면 재기동하자.
+    Updates.reload()
   }
 
   render() {

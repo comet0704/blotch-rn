@@ -8,8 +8,10 @@ import MyStyles from '../../constants/MyStyles';
 import Models from '../../Net/Models';
 import Net from '../../Net/Net';
 import MyConstants from '../../constants/MyConstants';
-import { Facebook, Google } from "expo";
+import { Updates, Facebook, Google } from "expo";
 import Colors from '../../constants/Colors';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
+import { exitAlert } from '../../components/androidBackButton/exitAlert';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -20,6 +22,14 @@ export default class LoginScreen extends React.Component {
       email: null,
       password: null,
     };
+  }
+
+  componentDidMount() {
+    handleAndroidBackButton(this, exitAlert);
+  }
+
+  componentWillMount() {
+    removeAndroidBackButtonHandler()
   }
 
   checkValidation = (value, check_type) => {
@@ -275,7 +285,9 @@ export default class LoginScreen extends React.Component {
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.user_pwd, p_pwd);
-          this.props.navigation.navigate("Home")
+          // this.props.navigation.navigate("Home")
+          // 로그인 되었으면 앱을 리로딩
+          Updates.reload()
         }
 
       })
