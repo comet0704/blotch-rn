@@ -18,6 +18,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import MyConstants from '../../constants/MyConstants';
 import Colors from '../../constants/Colors';
+import Common from '../../assets/Common';
 
 export default class MyPointScreen extends React.Component {
 

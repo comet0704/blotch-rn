@@ -332,7 +332,8 @@ export default class LoginScreen extends React.Component {
           global.setting = responseJson.result_data.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
-          this.props.navigation.navigate("Home")
+          // 로그인 되었으면 앱을 리로딩
+          Updates.reload()
         }
 
       })
@@ -375,7 +376,8 @@ export default class LoginScreen extends React.Component {
           global.setting = responseJson.result_data.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
-          this.props.navigation.navigate("Home")
+          // 로그인 되었으면 앱을 리로딩
+          Updates.reload()
         }
 
       })

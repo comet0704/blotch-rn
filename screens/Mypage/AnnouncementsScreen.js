@@ -98,7 +98,7 @@ export default class AnnouncementsScreen extends React.Component {
                     <Image style={MyStyles.ic_announce_notice} source={require('../../assets/images/ic_announce_comment.png')} />
 
                     <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
-                      <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
+                      <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>There are {item.title} comments on my answer.</Text>
                       <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0,10)}</Text>
                     </View>
                     {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :

@@ -477,7 +477,7 @@ export default StyleSheet.create({
   },
   ic_announce_contact_us: {
     width: 56 / 3,
-    height: 52 / 3,
+    height: 62 / 3,
   },
   gridView: {
     flex: 1,

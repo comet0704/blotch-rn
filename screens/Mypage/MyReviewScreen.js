@@ -38,7 +38,7 @@ export default class MyReviewScreen extends React.Component {
   renderComment(item, index) {
     return (
       <View key={item.id} style={[{ marginLeft: 15, height: 140, flexDirection: "row", alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
-        <TouchableOpacity style={{ width: 258 / 3 }} onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.product_id }) }}>
+        <TouchableOpacity style={{ width: 258 / 3 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.product_id }) }}>
           <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[{ width: 258 / 3, height: 222 / 3 }]} />
           <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 3 }]} numberOfLines={1}>{item.brand_title}</Text>
           <Text style={[MyStyles.productName, { textAlign: "left", marginBottom: 0 }]} numberOfLines={1}>{item.title}</Text>
@@ -53,7 +53,7 @@ export default class MyReviewScreen extends React.Component {
               emptyStarColor={Colors.color_star_empty}
               rating={item.grade}
               onPress={() => {
-                _this.onStarPressed(item)
+                this.onStarPressed(item)
               }}
               selectedStar={(rating) => { }}
               fullStarColor={Colors.color_star_full}

@@ -33,11 +33,9 @@ export default class MatchdListScreen extends React.Component {
     }
   }
   componentDidMount() {
-    handleAndroidBackButton(this, exitAlert);
   }
 
   componentWillMount() {
-    removeAndroidBackButtonHandler()
   }
 
   render() {

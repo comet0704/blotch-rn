@@ -39,13 +39,13 @@ export class ProductItem3 extends React.Component {
     return (
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TouchableOpacity onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-          <View style={[MyStyles.productItemContainer1, { width: 302 / 3, height: 260 / 3 }]}>
+          <View style={[MyStyles.productItemContainer1, { width: 302 / 3, height: 270 / 3 }]}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
           </View>
         </TouchableOpacity>
         <View style={{ marginLeft: 10, flex: 1 }}>
           <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]}>{item.brand_title}</Text>
-          <Text style={[MyStyles.productName, { textAlign: "left", height: 40 / 3 }]} numberOfLines={1}>{item.title}</Text>
+          <Text style={[MyStyles.productName, { textAlign: "left", height: 50 / 3 }]} numberOfLines={1}>{item.title}</Text>
           <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", height: 69 / 3 }}
             onPress={() => {
               this.state.isStarPressed = !this.state.isStarPressed

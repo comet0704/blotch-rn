@@ -53,8 +53,12 @@ export default class App extends React.Component {
         token:""
       }
     } else { // 로그인 정보가 있을때는 로그인 해보자
-      result2 = await AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.user_pwd)
-      this.requestLogin(global.login_info.email, result2)
+      if(global.login_info.reg_type == "GOOGLE") { // 구글로그인인 경우 
+        this.requestLoginGoogle(global.login_info.email, global.login_info.user_id)
+      } else {
+        result2 = await AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.user_pwd)
+        this.requestLogin(global.login_info.email, result2)
+      }
     }
   }
 
@@ -156,6 +160,50 @@ export default class App extends React.Component {
       .done();
 
   }
+  
+  requestLoginGoogle(p_email, p_id, p_profile_image) {
+    console.log(p_email + "_" + p_id + "_ " + p_profile_image)
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.auth.loginGoogle, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        email: p_email,
+        id: p_id,
+        profile_image: p_profile_image,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        this.setState({
+          isLoading: false
+        });
+        if (responseJson.result_code < 0) {
+          return;
+        } else {
+          global.login_info = responseJson.result_data.login_user;
+          global.setting = responseJson.result_data.setting;
+          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
+          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
+          
+          this.setState({ isLogined: true })
+        }
+
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+      })
+      .done();
+  }
+
 }
 
 const styles = StyleSheet.create({

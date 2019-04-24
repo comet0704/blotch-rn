@@ -1,4 +1,4 @@
-import { ImagePicker, Permissions } from 'expo';
+import { Updates, ImagePicker, Permissions } from 'expo';
 import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -188,7 +188,8 @@ export default class SignupScreen extends React.Component {
               <View style={MyStyles.modalContainer}>
                 <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
                   this.setState({ askInputQueModal: false });
-                  this.props.navigation.navigate('Home')
+                  // 로그인 되었으면 앱을 리로딩
+                  Updates.reload()
                 }}>
                   <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                 </TouchableOpacity>
@@ -209,7 +210,8 @@ export default class SignupScreen extends React.Component {
                     style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
                     onPress={() => {
                       this.setState({ askInputQueModal: false });
-                      this.props.navigation.navigate('Home')
+                      // 로그인 되었으면 앱을 리로딩
+                      Updates.reload()
                     }}>
                     <Text style={MyStyles.btn_primary_white}>Not now</Text>
                   </TouchableHighlight>
