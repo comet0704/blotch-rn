@@ -65,7 +65,9 @@ export default {
   },
 
   isNeedToAddQuestionnaire() {
-    return global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0;
+    result = global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0;
+    console.log(result);
+    return result
   },
 
   // 아이디 카테고리 컬러 돌려줌

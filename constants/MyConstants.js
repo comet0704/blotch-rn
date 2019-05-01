@@ -11,10 +11,10 @@ export default {
   // 앱내 상수들  
   //
   ITEMS_PER_PAGE : 30,
-  // SERVER_URL :"http://192.168.0.74:3000",
-  // UPLOAD_SERVER_URL : "http://192.168.0.74:3001",
-  SERVER_URL : "http://chemi.rsad.kr",
-  UPLOAD_SERVER_URL : "http://upload.rsad.kr",
+  SERVER_URL :"http://192.168.0.74:3000",
+  UPLOAD_SERVER_URL : "http://192.168.0.74:3001",
+  // SERVER_URL : "http://chemi.rsad.kr",
+  // UPLOAD_SERVER_URL : "http://upload.rsad.kr",
   SkinTypeName : {
     dry: "Dry",
     oily: "Oily",

@@ -256,8 +256,17 @@ export default class HomeScreen extends React.Component {
   }
 
   onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
-    // WecanSeachit에서 입력한 정보들로 메인 questionnaire를 만들어주자.
-    this.requestAddQuestionnaireItem("Me", p_skin_type, p_concern, p_needs)
+
+    if (this.state.isLogined == false) { // 로그인 하지 않은 회원의 경우 임시로 보여주기만 하자.
+      global.login_info.skin_type = p_skin_type
+      global.login_info.concern = p_concern
+      global.login_info.needs = p_needs
+      this.setState({ refreshOneLineInfo: !this.state.refreshOneLineInfo });
+      return;
+    } else {
+      // WecanSeachit에서 입력한 정보들로 메인 questionnaire를 만들어주자.
+      this.requestAddQuestionnaireItem("Me", p_skin_type, p_concern, p_needs)
+    }
   }
 
 
@@ -268,14 +277,9 @@ export default class HomeScreen extends React.Component {
         <NavigationEvents
           onWillFocus={payload => {
             const beforeLoginState = this.state.isLogined;
-            if (global.login_info == null || global.login_info.token == "") {
-              global.login_info = {
-                token: ""
-              }
-              console.log("2");
+            if (global.login_info.token == "") {
               this.setState({ isLogined: false })
             } else {
-              console.log("3");
               this.setState({ isLogined: true })
             }
             if (beforeLoginState != this.state.isLogined) {
@@ -333,7 +337,7 @@ export default class HomeScreen extends React.Component {
                         <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {this.state.weatherInfo.main.toLowerCase()}</Text> today</Text>
                       </View>
                       {this.state.refreshOneLineInfo ?
-                        !(this.state.isLogined == false || global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0) ?
+                        !(Common.isNeedToAddQuestionnaire()) ?
                           <View>
                             <View style={[{ flexDirection: "row", color: "white" }]}>
                               <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
@@ -346,7 +350,7 @@ export default class HomeScreen extends React.Component {
                           </View>
                           : null
                         :
-                        !(this.state.isLogined == false || global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0) ?
+                        !(Common.isNeedToAddQuestionnaire()) ?
                           <View>
                             <View style={[{ flexDirection: "row", color: "white" }]}>
                               <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
@@ -407,17 +411,12 @@ export default class HomeScreen extends React.Component {
                 this.state.isLogined == false || Common.isNeedToAddQuestionnaire() ?
                   <TouchableOpacity style={[MyStyles.container, { marginTop: 20 }]} onPress=
                     {() => {
-                      if (this.state.isLogined == false) {
-                        console.log("4");
-                        this.setState({ showLoginModal: true })
-                      } else {
-                        this.props.navigation.navigate("WeCanSearchIt", {
-                          [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
-                          [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
-                          [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
-                          [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
-                        })
-                      }
+                      this.props.navigation.navigate("WeCanSearchIt", {
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                        [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                      })
                     }
                     }
                   >
@@ -435,16 +434,12 @@ export default class HomeScreen extends React.Component {
                 this.state.isLogined == false || Common.isNeedToAddQuestionnaire() ?
                   <TouchableOpacity style={[MyStyles.container, { marginTop: 20 }]} onPress=
                     {() => {
-                      if (this.state.isLogined == false) {
-                        this.setState({ showLoginModal: true })
-                      } else {
-                        this.props.navigation.navigate("WeCanSearchIt", {
-                          [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
-                          [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
-                          [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
-                          [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
-                        })
-                      }
+                      this.props.navigation.navigate("WeCanSearchIt", {
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                        [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                        [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                      })
                     }
                     }
                   >
@@ -911,7 +906,6 @@ export default class HomeScreen extends React.Component {
         this.state.weatherInfo.temp = json.main.temp // 켈빈으로 내려옴
         this.state.weatherInfo.icon = "http://openweathermap.org/img/w/" + json.weather[0].icon + ".png"
         this.state.weatherInfo.city = json.name
-        console.log("15");
         this.setState(this.state.weatherInfo)
       });
   }

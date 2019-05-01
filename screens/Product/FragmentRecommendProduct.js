@@ -238,10 +238,7 @@ export class FragmentRecommendProduct extends React.Component {
 
   onNavigationEvent = () => {
     const beforeLoginState = this.state.isLogined;
-    if (global.login_info == null || global.login_info.token == "") {
-      global.login_info = {
-        token: ""
-      }
+    if (global.login_info.token == "") {
       this.state.isLogined = false
       this.setState({ isLogined: this.state.isLogined })
     } else {
