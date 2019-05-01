@@ -3,8 +3,8 @@ import MyConstants from "../constants/MyConstants";
 export default {
     upload: {
         image: {
-            user: MyConstants.UPLOAD_SERVER_URL + "/upload/image/user",
-            product: MyConstants.UPLOAD_SERVER_URL + "/upload/image/product",
+            user: MyConstants.UPLOAD_SERVER_URL + "/upload/image/single/user",
+            product: MyConstants.UPLOAD_SERVER_URL + "/upload/image/single/product",
         }
     },
     auth: {

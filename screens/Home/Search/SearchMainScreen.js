@@ -39,9 +39,16 @@ export default class SearchMainScreen extends React.Component {
     this.currentRouteName = 'SearchMain';
     this.state = {
       searchBoxFocused: false,
-      recentSearchWords: [],
+      recentSearchWords: [], // Common.SEARCH_KEYWORD_SPLITTER 로 구분되는 배열
       query: '',
       searchWord: '',
+      autocompleteWords: [
+        "Product",
+        "Brand",
+        "Ingredient",
+        "inn",
+        "cat",
+      ],
       categoryItems: Common.getCategoryItems(),
       product_list_result_data: {
         best_list: []
@@ -94,7 +101,20 @@ export default class SearchMainScreen extends React.Component {
     }
     console.log("addingWord = " + p_keyword);
     AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.recent_search_words, (err, result) => {
-      const settingvalue = (result != null ? result : "") + (result != null ? Common.SEARCH_KEYWORD_SPLITTER : "") + p_keyword
+      w_keywordList = result.split(Common.SEARCH_KEYWORD_SPLITTER);
+      if (w_keywordList.length > 7) { // 최근검색어가 7개 이상이면 앞선검색어 삭제
+        w_keywordList.splice(0, 1)
+      }
+      w_keywordList.push(p_keyword);
+      settingvalue = "";
+      w_keywordList.forEach((element, index) => {
+        if (index == 0) {
+          settingvalue = element
+        } else {
+          settingvalue = settingvalue + Common.SEARCH_KEYWORD_SPLITTER + element
+        }
+      })
+
       console.log("settingvalue = " + settingvalue);
       AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.recent_search_words, settingvalue);
 
@@ -180,11 +200,15 @@ export default class SearchMainScreen extends React.Component {
       return []
     }
 
-    return this.state.recentSearchWords.filter(item => item.toLowerCase().indexOf(query == null ? "" : query.toLowerCase()) >= 0);
+    if (query == "") {
+      return this.state.recentSearchWords.filter(item => item.toLowerCase().indexOf(query == null ? "" : query.toLowerCase()) >= 0);
+    } else {
+      return this.state.autocompleteWords.filter(item => item.toLowerCase().indexOf(query == null ? "" : query.toLowerCase()) >= 0);
+    }
   }
 
   goSearchResultScreen() {
-    if(this.state.searchWord == "") {
+    if (this.state.searchWord == "") {
       this.refs.toast.showBottom("Please input search keyword.");
       return;
     }
@@ -194,7 +218,7 @@ export default class SearchMainScreen extends React.Component {
   render() {
 
     const { query } = this.state;
-    const recentSearchWords = this.findKeyword(query);
+    const w_recentSearchWords = this.findKeyword(query);
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
 
     return (
@@ -222,14 +246,14 @@ export default class SearchMainScreen extends React.Component {
 
           {this.state.searchBoxFocused ?
             <View style={[MyStyles.shadow_2, MyStyles.searchBoxCover, { marginRight: 15 }]}>
-              <Image style={{ flex: 1 }}/>
+              <Image style={{ flex: 1 }} />
               <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                 <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
               </TouchableOpacity>
             </View>
             :
             <View style={[MyStyles.searchBoxCover]}>
-              <Image style={{ flex: 1 }}/>
+              <Image style={{ flex: 1 }} />
               <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                 <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
               </TouchableOpacity>
@@ -246,7 +270,7 @@ export default class SearchMainScreen extends React.Component {
           onFocus={() => this.setState({ searchBoxFocused: true })}
           onBlur={() => this.setState({ searchBoxFocused: false, query: "" })}
           containerStyle={[{ position: "absolute", top: 27, zIndex: 100, right: 80, backgroundColor: "transparent" }, this.state.searchBoxFocused ? { left: 55 } : { left: 40 }]}
-          data={recentSearchWords.length === 1 && comp(query, recentSearchWords[0]) ? [] : recentSearchWords}
+          data={w_recentSearchWords.length === 1 && comp(query, w_recentSearchWords[0]) ? [] : w_recentSearchWords}
           defaultValue={query}
           onChangeText={async (text) => {
             await this.setState({ query: "!!!!!!!!!!!!!!!!", searchBoxFocused: true }) //최근 검색어들을 감추기 위한 조작.
@@ -259,7 +283,9 @@ export default class SearchMainScreen extends React.Component {
           renderItem={(keyword) => (
             <TouchableOpacity onPress={async () => { await this.setState({ query: keyword, searchWord: keyword, searchBoxFocused: false }); this.goSearchResultScreen() }}>
               <Text style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15 }}>
-                {keyword.substring(0, keyword.indexOf(query))}<Text style={{ color: Colors.primary_purple }}>{query}</Text>{keyword.substring(keyword.indexOf(query) + query.length)}
+                {
+                  keyword.substring(0, keyword.toLowerCase().indexOf(query.toLowerCase()))}<Text style={{ color: Colors.primary_purple }}>{query}</Text>{keyword.substring(keyword.toLowerCase().indexOf(query.toLowerCase()) + query.length)
+                }
               </Text>
               <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginRight: 15 }]}></View>
             </TouchableOpacity>
