@@ -180,7 +180,7 @@ export default StyleSheet.create({
     color: "#949191", fontSize: 13
   },
   heart_in_item: {
-    width: 59 / 3,
+    width: 61 / 3,
     height: 51 / 3,
     position: "absolute",
     right: 13,
@@ -505,6 +505,21 @@ export default StyleSheet.create({
     marginTop: 5,
     textAlign: "center",
     color: '#c2c1c1',
+  },
+  brandTitleCover: {
+    position: "absolute", top: 0, right: 0, bottom: 0, left: 0, justifyContent: "center", alignItems: "center",
+    backgroundColor: "white",
+    borderRadius: 1000,
+    overflow: "hidden",
+  },
+  brandTitle1: {
+    fontSize: 12, color: Colors.color_07401b, alignSelf: "center",
+    fontWeight: "bold",
+    fontStyle: "italic",
+    textAlign: "center",
+  },
+  brandImage: {
+    borderColor: Colors.color_e3e5e4, borderWidth: 0.5, borderRadius: 50, overflow: "hidden",
   },
   ic_skin_care: {
     width: 68 / 3,

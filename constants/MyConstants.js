@@ -107,5 +107,6 @@ export default {
     questionnaire_concern: "questionnaire_concern_type",
     questionnaire_needs: "questionnaire_needs",
     onWeCanSearchItCallback: "onWeCanSearchItCallback",
+    backCallbackfromSearchResult: "backCallbackfromSearchResult",
   },
 };

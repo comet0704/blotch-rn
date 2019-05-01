@@ -70,6 +70,11 @@ export default class SearchMainScreen extends React.Component {
     removeAndroidBackButtonHandler()
   }
 
+  backCallbackfromSearchResult = async () => {
+    await this.setState({ searchBoxFocused: true })
+    this.refs.searchBox.focus()
+  }
+
   componentDidMount() {
     this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
     this.getRecentSearchWords();
@@ -78,7 +83,7 @@ export default class SearchMainScreen extends React.Component {
 
   handleBackButtonClick() {
     if (this.state.searchBoxFocused) {
-      this.setState({ searchBoxFocused: false })
+      this.setState({ searchBoxFocused: false, query: "" })
       this.refs.searchBox.blur()
       return true
     }
@@ -212,7 +217,7 @@ export default class SearchMainScreen extends React.Component {
       this.refs.toast.showBottom("Please input search keyword.");
       return;
     }
-    this.props.navigation.navigate("SearchResult", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })
+    this.props.navigation.navigate("SearchResult", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord, [MyConstants.NAVIGATION_PARAMS.backCallbackfromSearchResult]: this.backCallbackfromSearchResult })
   }
 
   render() {
@@ -263,12 +268,12 @@ export default class SearchMainScreen extends React.Component {
         <Autocomplete
           ref='searchBox'
           returnKeyType="search"
-          onSubmitEditing={() => { this.addRecentSearchWords(this.state.query); this.setState({ searchBoxFocused: false }); this.goSearchResultScreen() }}
+          onSubmitEditing={() => { this.addRecentSearchWords(this.state.query); this.goSearchResultScreen() }}
           style={{ height: 36 }}
           autoCapitalize="none"
           autoCorrect={false}
-          onFocus={() => this.setState({ searchBoxFocused: true })}
-          onBlur={() => this.setState({ searchBoxFocused: false, query: "" })}
+          onFocus={() => { this.setState({ searchBoxFocused: true }) }}
+          onBlur={() => { this.setState({ searchBoxFocused: false }) }}
           containerStyle={[{ position: "absolute", top: 27, zIndex: 100, right: 80, backgroundColor: "transparent" }, this.state.searchBoxFocused ? { left: 55 } : { left: 40 }]}
           data={w_recentSearchWords.length === 1 && comp(query, w_recentSearchWords[0]) ? [] : w_recentSearchWords}
           defaultValue={query}
@@ -281,7 +286,7 @@ export default class SearchMainScreen extends React.Component {
           inputContainerStyle={{ borderColor: "transparent" }}
           placeholder="Enter keywords"
           renderItem={(keyword) => (
-            <TouchableOpacity onPress={async () => { await this.setState({ query: keyword, searchWord: keyword, searchBoxFocused: false }); this.goSearchResultScreen() }}>
+            <TouchableOpacity onPress={async () => { await this.setState({ query: keyword, searchWord: keyword }); this.goSearchResultScreen() }}>
               <Text style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15 }}>
                 {
                   keyword.substring(0, keyword.toLowerCase().indexOf(query.toLowerCase()))}<Text style={{ color: Colors.primary_purple }}>{query}</Text>{keyword.substring(keyword.toLowerCase().indexOf(query.toLowerCase()) + query.length)

@@ -34,9 +34,6 @@ import { BrandItem } from '../../../components/Search/BrandItem';
 export default class SearchResultScreen extends React.Component {
   constructor(props) {
     super(props);
-    is_from_camera_search = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.is_from_camera_search) // 카메라 검색에서 넘어왓는지 체크
-    scanned_barcode = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.scanned_barcode)
-    w_searchWord = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.search_word)
     this.state = {
       searchWord: "",
       request_brand_name: "",
@@ -57,10 +54,19 @@ export default class SearchResultScreen extends React.Component {
     };
   }
 
+  backCallbackToSearchMain = null
   componentDidMount() {
+    is_from_camera_search = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.is_from_camera_search) // 카메라 검색에서 넘어왓는지 체크
+
     if (is_from_camera_search) { // 카메라 검색에서 넘어온 경우
+      scanned_barcode = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.scanned_barcode)
+      this.backCallbackToSearchMain = () => { // 이때는 searchmain으로 가지 않으므로 빈함수.
+
+      }
       this.requestSearchCamera(scanned_barcode)
-    } else {
+    } else { // 키워드검색에서 넘어온 경우
+      w_searchWord = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.search_word)
+      this.backCallbackToSearchMain = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.backCallbackfromSearchResult)
       this.setState({ searchWord: w_searchWord })
       this.requestSearchAll(w_searchWord)
     }
@@ -164,19 +170,18 @@ export default class SearchResultScreen extends React.Component {
           <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white]}>
             <TouchableOpacity
               onPress={() => {
-                if (this.state.searchBoxFocused) {
-                  this.setState({ searchBoxFocused: false })
-                  this.refs.searchBox.blur()
-                  return
-                }
                 this.props.navigation.goBack(null)
+                this.backCallbackToSearchMain();
               }} activeOpacity={0.5} style={{ alignSelf: "center", alignItems: "center", padding: 15 }} >
               <Image style={[MyStyles.backButton, { marginTop: 0, alignSelf: "center" }]}
                 source={require("../../../assets/images/ic_back_black.png")}
               />
             </TouchableOpacity>
 
-            <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
+            <TouchableWithoutFeedback onPress={() => {
+                this.props.navigation.goBack(null)
+                this.backCallbackToSearchMain();
+            }}>
               <View style={[MyStyles.searchBoxCover, MyStyles.shadow_2]}>
                 <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
                 <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} value={this.state.searchWord}></TextInput>

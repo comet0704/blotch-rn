@@ -219,7 +219,18 @@ export default class SearchBrandDetailScreen extends React.Component {
           <View>
             <View style={{ height: 110, width: "100%", alignItems: "center" }}>
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ detailModalVisible: true }) }}>
-                <Image style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
+                <View>
+                  { // 이미지가 없을 경우 브랜드 명을 가운데 현시해주자
+                    this.state.brand_detail_result_data.detail.image == null || this.state.brand_detail_result_data.detail.image.length <= 0
+                      ?
+                      <View style={[MyStyles.brandTitleCover]}>
+                        <Text style={MyStyles.brandTitle1}>{this.state.brand_detail_result_data.detail.title}</Text>
+                      </View>
+                      :
+                      null
+                  }
+                  <Image style={[{ width: 85, height: 85 }, MyStyles.brandImage]} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
+                </View>
 
               </TouchableOpacity>
               <Text style={{ fontSize: 16, color: "white", bottom: -5, textAlign: "center", position: "absolute", width: "100%", textAlign: "center" }} numberOfLines={1}>{this.state.brand_detail_result_data.detail.title} ></Text>
@@ -301,6 +312,15 @@ export default class SearchBrandDetailScreen extends React.Component {
                       <View style={{ width: 85, height: 85 }}>
                         <TouchableOpacity style={[{ flex: 1, borderRadius: 50, }]}>
                           <View style={[MyStyles.shadow_5, { borderRadius: 50 }]}>
+                            { // 이미지가 없을 경우 브랜드 명을 가운데 현시해주자
+                              this.state.brand_detail_result_data.detail.image == null || this.state.brand_detail_result_data.detail.image.length <= 0
+                                ?
+                                <View style={[MyStyles.brandTitleCover]}>
+                                  <Text style={MyStyles.brandTitle1}>{this.state.brand_detail_result_data.detail.title}</Text>
+                                </View>
+                                :
+                                null
+                            }
                             <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
                           </View>
                         </TouchableOpacity>

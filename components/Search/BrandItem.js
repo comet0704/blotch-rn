@@ -34,16 +34,20 @@ export class BrandItem extends React.Component {
     const _this = this.props.this;
     return (
       <View key={item.id} style={[{ flex: 1, width: item_width }, is_match_list ? null : { marginRight: 20, }]}>
-        {is_add_modal ?
-          <TouchableOpacity style={{ flex: 1 }} onPress={() => { _this.onBrandSelect(item) }}>
-            <ImageLoad style={{ width: item_width, height: item_width, borderColor: Colors.color_e3e5e4, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
-          </TouchableOpacity>
-          :
-          <TouchableOpacity style={{ flex: 1 }} onPress={() => { _this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-            <ImageLoad style={{ width: item_width, height: item_width, borderColor: Colors.color_e3e5e4, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
-          </TouchableOpacity>
-        }
-        <Text style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + item.product_count}</Text>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { is_add_modal ? _this.onBrandSelect(item) : _this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+          { // 이미지가 없을 경우 브랜드 명을 가운데 현시해주자
+            item.image == null || item.image.length <= 0
+              ?
+              <View style={[MyStyles.brandTitleCover]}>
+                <Text style={MyStyles.brandTitle1}>{item.title}</Text>
+              </View>
+              :
+              null
+          }
+          <ImageLoad style={[{ width: item_width, height: item_width }, MyStyles.brandImage]} source={{ uri: Common.getImageUrl(item.image) }} />
+        </TouchableOpacity>
+
+        <Text style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + "(" + item.product_count + ")"}</Text>
         {
           is_match_list != true && is_add_modal != true ?
             item.is_liked > 0
