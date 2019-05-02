@@ -1493,5 +1493,37 @@ export default StyleSheet.create({
   },
   ic_one_line_desc_box: {
     flexDirection: "row", color: "white", marginTop: 7
-  }
+  },
+  dropdown_2: {
+    alignSelf: 'flex-end',
+    backgroundColor: Colors.primary_purple,
+    borderRadius: 30,
+  },
+  dropdown_2_text: {
+    marginVertical: 3,
+    marginHorizontal: 13,
+    fontSize: 13,
+    color: 'white',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  dropdown_2_dropdown: {
+    width: 150,
+    maxHeight: 300,
+    marginTop: -20,
+    borderColor: Colors.color_e3e5e4,
+    borderWidth: 2,
+    borderRadius: 3,
+  },
+  dropdown_2_row_text: {
+    marginHorizontal: 4,
+    marginVertical: 5,
+    fontSize: 16,
+    color: Colors.primary_dark,
+    textAlignVertical: 'center',
+  },
+  dropdown_2_separator: {
+    height: 1,
+    backgroundColor: Colors.color_e3e5e4,
+  },
 });

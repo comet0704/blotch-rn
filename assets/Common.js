@@ -1,5 +1,21 @@
 import MyConstants from "../constants/MyConstants";
 import MyStyles from "../constants/MyStyles";
+import MyStrings from "../constants/MyStrings";
+import Colors from '../constants/Colors';
+import React from 'react';
+import {
+  KeyboardAvoidingView,
+  View,
+  Image,
+  Modal,
+  Dimensions,
+  WebBrowser,
+  Alert,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  TouchableHighlight,
+} from 'react-native';
 
 export default {
   getImageUrl(image_list) {
@@ -759,5 +775,27 @@ export default {
       },
     ]
   },
+
+  _dropdown_2_renderButtonText(rowData) {
+    // rowData : {id:"", value:""}
+    return rowData.value + " " + MyStrings.uchar_down
+  },
+
+  _dropdown_2_renderRow(rowData, rowID, highlighted) {
+    // rowData : {id:"", value:""}
+    return (
+      <TouchableHighlight underlayColor='cornflowerblue'>
+        <View style={[MyStyles.dropdown_2_row, { backgroundColor: 'white' }]}>
+          <Text style={[MyStyles.dropdown_2_row_text, highlighted && { color: Colors.primary_purple }]}>
+            {rowData.value}
+          </Text>
+        </View>
+      </TouchableHighlight>
+    );
+  },
+
+  _dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
+    return (<View style={MyStyles.dropdown_2_separator} />);
+  }
 }
 

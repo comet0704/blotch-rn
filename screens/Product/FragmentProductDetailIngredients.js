@@ -27,7 +27,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
-import { QuestionnaireListModal } from '../../components/Modals/QuestionnaireListModal';
+import ModalDropdown from 'react-native-modal-dropdown'
 
 export class FragmentProductDetailIngredients extends React.Component {
   item_id = 0;
@@ -36,7 +36,6 @@ export class FragmentProductDetailIngredients extends React.Component {
     this.item_id = this.props.item_id
     this.state = {
       saveToModalVisible: false,
-      qlistModalVisible: false,
       isLoading: false,
       tabbar: {
         Good: true,
@@ -56,7 +55,10 @@ export class FragmentProductDetailIngredients extends React.Component {
       questionnaire_list: [
 
       ],
-      selected_questionnaire: "",
+      selected_questionnaire: {
+        id: "",
+        value: "Me",
+      },
     };
   }
 
@@ -168,9 +170,8 @@ export class FragmentProductDetailIngredients extends React.Component {
     return countTypes.length;
   }
 
-  onQuestionnaireSelected(value, index, data) {    
-    this.setState({ selected_questionnaire: data[index] })
-    this.setState({ qlistModalVisible: false });
+  onQuestionnaireSelected(idx, rowData) {
+    this.setState({ selected_questionnaire: rowData })
   }
   render() {
     return (
@@ -216,12 +217,20 @@ export class FragmentProductDetailIngredients extends React.Component {
         {global.login_info.token.length > 0 ?
           <View style={MyStyles.padding_main}>
             {this.state.questionnaire_list.length > 0 ?
-              <TouchableOpacity style={[{ height: 30, width: 250 / 3, alignSelf: "flex-end" }, MyStyles.purple_round_btn]} onPress={() => {
-                this.setState({ qlistModalVisible: true })
-              }}>
-                <Text style={{ fontSize: 13, color: "white" }}>{this.state.selected_questionnaire.value}</Text>
-                <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { position: "absolute", right: 10 }]} />
-              </TouchableOpacity>
+              <ModalDropdown ref="dropdown_2"
+                style={MyStyles.dropdown_2}
+                defaultIndex={0}
+                defaultValue={this.state.selected_questionnaire.value + " ▾"}
+                textStyle={MyStyles.dropdown_2_text}
+                dropdownStyle={MyStyles.dropdown_2_dropdown}
+                options={this.state.questionnaire_list}
+                renderButtonText={(rowData) => Common._dropdown_2_renderButtonText(rowData)}
+                renderRow={Common._dropdown_2_renderRow.bind(this)}
+                onSelect={(idx, rowData) => {
+                  this.onQuestionnaireSelected(idx, rowData)
+                }}
+                renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
+              />
               :
               null}
 
@@ -296,9 +305,7 @@ export class FragmentProductDetailIngredients extends React.Component {
             </View>
           </View>
         </Modal>
-        
-        {/* 설문선택 모달 */}
-        <QuestionnaireListModal this={this} />
+
       </View>
     );
   }

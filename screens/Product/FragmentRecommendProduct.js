@@ -26,15 +26,14 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
-import { QuestionnaireListModal } from '../../components/Modals/QuestionnaireListModal';
 import { LoginModal } from '../../components/Modals/LoginModal';
+import ModalDropdown from 'react-native-modal-dropdown'
 
 export class FragmentRecommendProduct extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      qlistModalVisible: false,
       main_all_selected: false,
       showLoginModal: false,
       isLogined: false,
@@ -45,10 +44,16 @@ export class FragmentRecommendProduct extends React.Component {
         ]
       },
       mainCategoryItems: Common.categoryItems_recom,
-      selected_questionnaire: "",
+      selected_questionnaire: {
+        id: "",
+        value: "Me",
+      },
 
       questionnaire_list: [
-
+        // {
+        //   id: "",
+        //   value: "",
+        // }
       ],
       skin_types: Common.getSkinTypes(),
       concern_types: Common.getConcernTypes(),
@@ -120,12 +125,22 @@ export class FragmentRecommendProduct extends React.Component {
         <View style={{ flexDirection: "row", justifyContent: "center", width: "100%" }}>
           <Text style={{ fontSize: 14, color: Colors.primary_dark, fontWeight: "bold" }}>My Skin Info</Text>
           <View style={{ flex: 1 }}></View>
-          <TouchableOpacity style={[{ height: 20 }, MyStyles.purple_round_btn]} onPress={() => {
-            this.setState({ qlistModalVisible: true })
-          }}>
-            <Text style={{ fontSize: 13, color: "white" }}>{this.state.selected_questionnaire.value}</Text>
-            <Image source={require("../../assets/images/ic_arrow_down_white_small.png")} style={[MyStyles.ic_arrow_down_white_small, { marginLeft: 5 }]} />
-          </TouchableOpacity>
+          <ModalDropdown ref="dropdown_2"
+            style={MyStyles.dropdown_2}
+            defaultIndex={0}
+            defaultValue={this.state.selected_questionnaire.value + " ▾"}
+            textStyle={MyStyles.dropdown_2_text}
+            dropdownStyle={MyStyles.dropdown_2_dropdown}
+            options={this.state.questionnaire_list}
+            renderButtonText={(rowData) => Common._dropdown_2_renderButtonText(rowData)}
+            renderRow={Common._dropdown_2_renderRow.bind(this)}
+            onSelect={(idx, rowData) => {
+              // rowData : {id:"", value:""}
+
+              this.onQuestionnaireSelected(idx, rowData)
+            }}
+            renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
+          />
         </View>
         <View style={{ marginTop: 10, flexDirection: "row" }}>
 
@@ -222,12 +237,9 @@ export class FragmentRecommendProduct extends React.Component {
     this.setState({ mainCategoryItems: this.state.mainCategoryItems })
   }
 
-  // QuestionnaireListModal 에서 돌아오는 콜백
-  onQuestionnaireSelected(value, index, data) {
-    console.log(data[index])
-    this.state.selected_questionnaire = data[index]
+  onQuestionnaireSelected(idx, rowData) {
+    this.state.selected_questionnaire = rowData
     this.setState({ selected_questionnaire: this.state.selected_questionnaire })
-    this.setState({ qlistModalVisible: false });
     this.requestQuestionnaireDetail(this.state.selected_questionnaire.id)
   }
 
@@ -528,8 +540,6 @@ export class FragmentRecommendProduct extends React.Component {
               </View>
             </Modal>
 
-            {/* 설문선택 모달 */}
-            <QuestionnaireListModal this={this} />
           </ScrollView>
         }
 
@@ -705,6 +715,7 @@ export class FragmentRecommendProduct extends React.Component {
         if (data.length > 0) {
           this.state.selected_questionnaire = data[0]
           this.setState({ selected_questionnaire: this.state.selected_questionnaire })
+          console.log("1111111111" + this.state.selected_questionnaire.value);
           this.requestQuestionnaireDetail(this.state.selected_questionnaire.id)
         }
         this.setState({ questionnaire_list: data })
@@ -747,7 +758,7 @@ export class FragmentRecommendProduct extends React.Component {
 
         const questionnaireDetail = responseJson.result_data.questionnaire_detail
         this.state.my_age = Common.getAgeFromBirth(questionnaireDetail.birth)
-        this.setState({my_age: this.state.my_age})
+        this.setState({ my_age: this.state.my_age })
 
         if (questionnaireDetail.skin_type != null && questionnaireDetail.skin_type.length > 0) {
           const w_index = this.state.skin_types.findIndex(item1 => item1.typeName == questionnaireDetail.skin_type)
