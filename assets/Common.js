@@ -363,7 +363,8 @@ export default {
           image_style: MyStyles.ic_cream,
           is_selected: false,
         },
-      ]
+      ],
+      click_order : 0
     },
     {
       categoryName: MyConstants.CategoryName.mask,
@@ -375,7 +376,8 @@ export default {
       is_selected: 0,
       sub_all_selected: false,
       sub_category: [
-      ]
+      ],
+      click_order : 1
     },
     {
       categoryName: MyConstants.CategoryName.sun_care,
@@ -401,7 +403,8 @@ export default {
           image_style: MyStyles.ic_after_care,
           is_selected: false,
         },
-      ]
+      ],
+      click_order : 2
     },
     {
       categoryName: MyConstants.CategoryName.make_up,
@@ -434,7 +437,8 @@ export default {
           image_style: MyStyles.ic_lip,
           is_selected: false,
         },
-      ]
+      ],
+      click_order : 3
     },
     {
       categoryName: MyConstants.CategoryName.cleansing,
@@ -467,7 +471,8 @@ export default {
           image_style: MyStyles.ic_peeling,
           is_selected: false,
         },
-      ]
+      ],
+      click_order : 4
     },
     {
       categoryName: MyConstants.CategoryName.body,
@@ -493,7 +498,8 @@ export default {
           image_style: MyStyles.ic_lotion,
           is_selected: false,
         },
-      ]
+      ],
+      click_order : 5
     },
     {
       categoryName: MyConstants.CategoryName.hair,
@@ -526,7 +532,8 @@ export default {
           image_style: MyStyles.ic_essense,
           is_selected: false,
         },
-      ]
+      ],
+      click_order : 6
     },
     {
       categoryName: MyConstants.CategoryName.nail,
@@ -552,7 +559,8 @@ export default {
           image_style: MyStyles.ic_nail_care,
           is_selected: false,
         },
-      ]
+      ],
+      click_order : 7
     },
     {
       categoryName: MyConstants.CategoryName.perfume,
@@ -564,7 +572,8 @@ export default {
       is_selected: 0,
       sub_all_selected: false,
       sub_category: [
-      ]
+      ],
+      click_order : 8
     },
     {
       categoryName: MyConstants.CategoryName.oral,
@@ -583,7 +592,8 @@ export default {
           image_style: MyStyles.ic_toothpaste,
           is_selected: false,
         },
-      ]
+      ],
+      click_order : 9
     },
     {
       categoryName: MyConstants.CategoryName.baby,
@@ -595,7 +605,8 @@ export default {
       is_selected: 0,
       sub_all_selected: false,
       sub_category: [
-      ]
+      ],
+      click_order : 10
     },
     {
       categoryName: MyConstants.CategoryName.men,
@@ -607,7 +618,8 @@ export default {
       is_selected: 0,
       sub_all_selected: false,
       sub_category: [
-      ]
+      ],
+      click_order : 11
     },
   ],
 

@@ -40,14 +40,14 @@ export default class ProductContainerScreen extends React.Component {
   componentWillMount() {
     removeAndroidBackButtonHandler()
   }
-  
+
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
         <NavigationEvents
           onWillFocus={payload => {
             const initialPage = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.product_container_initial_page)
-            this.setState({initialPage, initialPage});
+            this.setState({ initialPage, initialPage });
             try {
               this.refs.recommendationTAB.onNavigationEvent()
             } catch (error) {
@@ -56,7 +56,8 @@ export default class ProductContainerScreen extends React.Component {
           }}
         />
         <TopbarWithBlackBack title="Product" isRootDepth={true} onPress={() => {
-           this.props.navigation.goBack(null) }}></TopbarWithBlackBack>
+          this.props.navigation.goBack(null)
+        }}></TopbarWithBlackBack>
         <ScrollableTabView
           style={{ height: 20, borderBottomWidth: 0, marginTop: 10 }}
           initialPage={this.state.initialPage}
@@ -67,14 +68,14 @@ export default class ProductContainerScreen extends React.Component {
           tabBarUnderlineStyle={{ backgroundColor: Colors.primary_purple }}
           renderTabBar={() => <DefaultTabBar />}
         >
+          <View tabLabel="Recommendation" style={{ flex: 1 }}>
+            <FragmentRecommendProduct ref='recommendationTAB' navigation={this.props.navigation} ></FragmentRecommendProduct>
+          </View>
           <View tabLabel="New" style={{ flex: 1 }}>
             <FragmentNewProduct navigation={this.props.navigation} ></FragmentNewProduct>
           </View>
           <View tabLabel="Best" style={{ flex: 1 }}>
             <FragmentBestProduct navigation={this.props.navigation} ></FragmentBestProduct>
-          </View>
-          <View tabLabel="Recommendation" style={{ flex: 1 }}>
-            <FragmentRecommendProduct ref='recommendationTAB' navigation={this.props.navigation} ></FragmentRecommendProduct>
           </View>
         </ScrollableTabView>
 

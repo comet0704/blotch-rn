@@ -34,7 +34,7 @@ export class FragmentRecommendProduct extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      main_all_selected: false,
+      main_all_selected: 1, // 0 => 몇개만 선택, 1 => 전체선택, -1 => 전체 선택해제
       showLoginModal: false,
       isLogined: false,
       filterModalVisible: false,
@@ -64,43 +64,28 @@ export class FragmentRecommendProduct extends React.Component {
       my_concern: null,
       my_needs: null,
     };
+
+    this.category_array = []
   }
 
   ScreenWidth = Dimensions.get('window').width;
 
   componentDidMount() {
     this.onNavigationEvent()
+    this.selectAllCategories()
   }
 
   getRecommendList = (p_offset) => {
     // 전체선택인 경우 All 올려보냄
-    if (this.state.main_all_selected) {
+    if (this.state.main_all_selected > 0) {
       this.requestRecommendList(this.state.selected_questionnaire.id, "All", p_offset)
       return
     }
-    // 먼저 p_category 값을 this.state.mainCategoryItems 를 조회하면서 얻어내야함.
-    category_array = [];
-    this.state.mainCategoryItems.forEach(element => {
-      if (element.is_selected > 0) { // 메인카테고리 선택되었으면
-        if (element.sub_category.length > 0) { // 서브카테고리가 있는가
-          temp_array = [];
-          element.sub_category.forEach(sub_element => {
-            if (sub_element.is_selected) {
-              temp_array.push(sub_element.name)
-            }
-          })
-          category_array.push({ [element.categoryName]: temp_array })
-        } else { // 서브카테고리가 없으면
-          category_array.push({ [element.categoryName]: [] })
-        }
-      }
-    })
-    console.log(category_array);
-    console.log(JSON.stringify(category_array));
-    this.requestRecommendList(this.state.selected_questionnaire.id, JSON.stringify(category_array), p_offset)
+
+    this.requestRecommendList(this.state.selected_questionnaire.id, JSON.stringify(this.category_array), p_offset)
   }
 
-  onCategorySelect = async (p_catName) => {
+  onFilterMainCategorySelect = async (p_catName) => {
     const categoryItems = [...this.state.mainCategoryItems]
     const index = categoryItems.findIndex(item => item.categoryName === p_catName)
     if (categoryItems[index].is_selected > 0) {
@@ -112,8 +97,90 @@ export class FragmentRecommendProduct extends React.Component {
     }
 
     this.setState({ mainCategoryItems: categoryItems })
-    console.log(this.state.mainCategoryItems);
-    this.setState({ main_all_selected: false })
+    this.setCategorySelectStatus()
+  }
+
+  onFilterSubCategoryAllSelect = async (p_item) => {
+    const w_index = this.state.mainCategoryItems.findIndex(w_item => w_item.categoryName == p_item.categoryName)
+    this.state.mainCategoryItems[w_index].sub_all_selected = !this.state.mainCategoryItems[w_index].sub_all_selected
+    if (this.state.mainCategoryItems[w_index].sub_all_selected) {
+      this.state.mainCategoryItems[w_index].sub_category.forEach(element => {
+        element.is_selected = true
+      })
+    } else {
+      this.state.mainCategoryItems[w_index].sub_category.forEach(element => {
+        element.is_selected = false
+      })
+    }
+
+    if (this.state.mainCategoryItems[w_index].sub_all_selected == false) {
+      this.state.mainCategoryItems[w_index].is_selected = 1
+    } else {
+      this.state.mainCategoryItems[w_index].is_selected = 2
+    }
+    this.setState({ mainCategoryItems: this.state.mainCategoryItems })
+    this.setCategorySelectStatus()
+  }
+
+  onFilterSubCategorySelect = async (p_item, p_sub_item) => {
+    const w_main_index = this.state.mainCategoryItems.findIndex(w_item => w_item.categoryName == p_item.categoryName)
+    console.log("3333333" + w_main_index);
+    const w_sub_index = this.state.mainCategoryItems[w_main_index].sub_category.findIndex(w_item1 => w_item1.name == p_sub_item.name)
+    console.log("4444444" + w_sub_index);
+    this.state.mainCategoryItems[w_main_index].sub_category[w_sub_index].is_selected = !this.state.mainCategoryItems[w_main_index].sub_category[w_sub_index].is_selected
+    moreThanOneSelected = false;
+    sub_all_selected = true;
+    for (i = 0; i < this.state.mainCategoryItems[w_main_index].sub_category.length; i++) {
+      if (this.state.mainCategoryItems[w_main_index].sub_category[i].is_selected == true) {
+        moreThanOneSelected = true
+      } else {
+        sub_all_selected = false
+      }
+    }
+    if (moreThanOneSelected) {
+      this.state.mainCategoryItems[w_main_index].is_selected = 2
+    } else {
+      this.state.mainCategoryItems[w_main_index].is_selected = 1
+    }
+
+    this.state.mainCategoryItems[w_main_index].sub_all_selected = sub_all_selected
+
+    this.setState({ mainCategoryItems: this.state.mainCategoryItems })
+    this.setCategorySelectStatus()
+  }
+
+  setCategorySelectStatus = async () => {
+    this.state.main_all_selected = 1 // 0 => 몇개만 선택, 1 => 전체선택, -1 => 전체 선택해제
+    w_categorySelectCount = 0;
+    // p_category 값을 this.state.mainCategoryItems 를 조회하면서 얻어내야함.
+    this.category_array = []
+    this.state.mainCategoryItems.forEach(element => {
+      if (element.is_selected > 0) { // 메인카테고리 선택되었으면
+        w_categorySelectCount++ // 하나라도 선택되었는가를 판정하기 위한 값. 0이면 하나도 선택된것이 없으므로 main_all_selected 를 -1 로 만들어 주어야 함.
+        if (element.sub_category.length > 0) { // 서브카테고리가 있는가
+          temp_array = [];
+          element.sub_category.forEach(sub_element => {
+            if (sub_element.is_selected) {
+              temp_array.push(sub_element.name)
+            } else {
+              this.state.main_all_selected = 0
+            }
+          })
+          this.category_array.push({ [element.categoryName]: temp_array })
+        } else { // 서브카테고리가 없으면
+          this.category_array.push({ [element.categoryName]: [] })
+        }
+      } else {
+        this.state.main_all_selected = 0
+      }
+    })
+
+    if (w_categorySelectCount == 0) { // 실지 선택된 카테고리가 하나도 없으면
+      this.state.main_all_selected = -1
+    }
+
+    this.setState({ main_all_selected: this.state.main_all_selected })
+
     await this.setState({ showSubCategory: false })
     this.setState({ showSubCategory: true })
   }
@@ -226,16 +293,32 @@ export class FragmentRecommendProduct extends React.Component {
     this.setState({ product_list_result_data: result })
   }
 
-  resetFilterStatus = () => {
-    this.setState({ main_all_selected: true })
+  selectAllCategories = async () => {
     for (i = 0; i < this.state.mainCategoryItems.length; i++) {
-      this.state.mainCategoryItems[i].is_selected = 0
+      this.state.mainCategoryItems[i].is_selected = 2
+      this.state.mainCategoryItems[i].sub_all_selected = 1
       for (j = 0; j < this.state.mainCategoryItems[i].sub_category.length; j++) {
-        this.state.mainCategoryItems[i].sub_category[j].is_selected = false
+        this.state.mainCategoryItems[i].sub_category[j].is_selected = true
       }
     }
 
     this.setState({ mainCategoryItems: this.state.mainCategoryItems })
+
+    this.setCategorySelectStatus();
+  }
+
+  resetFilterStatus = async () => {
+    for (i = 0; i < this.state.mainCategoryItems.length; i++) {
+      this.state.mainCategoryItems[i].is_selected = 0
+      this.state.mainCategoryItems[i].sub_all_selected = 0
+      for (j = 0; j < this.state.mainCategoryItems[i].sub_category.length; j++) {
+        this.state.mainCategoryItems[i].sub_category[j].is_selected = 0
+      }
+    }
+
+    this.setState({ mainCategoryItems: this.state.mainCategoryItems })
+
+    this.setCategorySelectStatus()
   }
 
   onQuestionnaireSelected(idx, rowData) {
@@ -405,10 +488,9 @@ export class FragmentRecommendProduct extends React.Component {
                               <Text style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500" }, MyStyles.modal_close_btn]}>Main Category</Text>
                               <Text style={{ flex: 1, textAlign: "center" }}></Text>
                               <TouchableOpacity style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
-                                this.setState({ main_all_selected: true })
-                                this.resetFilterStatus();
+                                this.selectAllCategories();
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.main_all_selected ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.main_all_selected == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={{ marginLeft: 5 }}>All</Text>
                               </TouchableOpacity>
 
@@ -420,7 +502,7 @@ export class FragmentRecommendProduct extends React.Component {
                               style={MyStyles.gridView}
                               spacing={10}
                               renderItem={({ item, index }) => (
-                                <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={{ borderColor: item.is_selected == 1 ? "#d9b1db" : Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
+                                <TouchableOpacity onPress={() => { this.onFilterMainCategorySelect(item.categoryName) }} style={{ borderColor: item.is_selected == 1 ? "#d9b1db" : Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
                                   <View style={[{ height: 100 / 3, justifyContent: "center", alignItems: "center" }]}>
                                     {item.is_selected == 2 ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
 
@@ -448,7 +530,7 @@ export class FragmentRecommendProduct extends React.Component {
                           {this.state.showSubCategory ?
                             <View>
                               {/* Sub Categories */}
-                              {this.state.main_all_selected ? null :
+                              {this.state.main_all_selected == -1 ? null :
                                 <Text style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500", marginLeft: 15, marginBottom: 20 }]}>Sub Category</Text>
                               }
 
@@ -460,25 +542,10 @@ export class FragmentRecommendProduct extends React.Component {
                                       <Text style={[{ color: Colors.primary_purple, fontSize: 12, fontWeight: "400", marginLeft: 15 }]}>{item.categoryName}</Text>
                                       <Text style={{ flex: 1, textAlign: "center" }}></Text>
                                       <TouchableOpacity style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
-                                        this.state.mainCategoryItems[index].sub_all_selected = !this.state.mainCategoryItems[index].sub_all_selected
-                                        if (this.state.mainCategoryItems[index].sub_all_selected) {
-                                          this.state.mainCategoryItems[index].sub_category.forEach(element => {
-                                            element.is_selected = true
-                                          })
-                                        } else {
-                                          this.state.mainCategoryItems[index].sub_category.forEach(element => {
-                                            element.is_selected = false
-                                          })
-                                        }
 
-                                        if (this.state.mainCategoryItems[index].sub_all_selected == false) {
-                                          this.state.mainCategoryItems[index].is_selected = 1
-                                        } else {
-                                          this.state.mainCategoryItems[index].is_selected = 2
-                                        }
-                                        this.setState({ mainCategoryItems: this.state.mainCategoryItems })
+                                        this.onFilterSubCategoryAllSelect(item)
                                       }}>
-                                        <Image style={{ width: 14, height: 14 }} source={this.state.mainCategoryItems[index].sub_all_selected ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                        <Image style={{ width: 14, height: 14 }} source={item.sub_all_selected ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                         <Text style={{ marginLeft: 5 }}>All</Text>
                                       </TouchableOpacity>
                                     </View>
@@ -490,25 +557,10 @@ export class FragmentRecommendProduct extends React.Component {
                                       spacing={10}
                                       renderItem={({ item: sub_item, index: sub_index }) => (
                                         <TouchableOpacity onPress={() => {
-                                          this.state.mainCategoryItems[index].sub_category[sub_index].is_selected = !this.state.mainCategoryItems[index].sub_category[sub_index].is_selected
-                                          moreThanOneSelected = false;
-                                          sub_all_selected = true;
-                                          for (i = 0; i < this.state.mainCategoryItems[index].sub_category.length; i++) {
-                                            if (this.state.mainCategoryItems[index].sub_category[i].is_selected == true) {
-                                              moreThanOneSelected = true
-                                            } else {
-                                              sub_all_selected = false
-                                            }
-                                          }
-                                          if (moreThanOneSelected) {
-                                            this.state.mainCategoryItems[index].is_selected = 2
-                                          } else {
-                                            this.state.mainCategoryItems[index].is_selected = 1
-                                          }
+                                          console.log("1111111111" + JSON.stringify(item))
+                                          console.log("2222222222" + JSON.stringify(sub_item))
+                                          this.onFilterSubCategorySelect(item, sub_item)
 
-                                          this.state.mainCategoryItems[index].sub_all_selected = sub_all_selected
-
-                                          this.setState({ mainCategoryItems: this.state.mainCategoryItems })
                                         }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
                                           <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
                                             {sub_item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
@@ -571,7 +623,7 @@ export class FragmentRecommendProduct extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });

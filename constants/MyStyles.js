@@ -1387,7 +1387,7 @@ export default StyleSheet.create({
     height: 52 / 3,
   },
   ic_colors: {
-    width: 16 / 3,
+    width: 32 / 3,
     height: 52 / 3,
   },
   ic_nail_care: {
