@@ -40,12 +40,17 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
         ingredient_list: [
         ],
       },
+      selected_questionnaire: {
+        id: "",
+        value: "Me",
+      },
     };
   }
 
   componentDidMount() {
     w_searchWord = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.search_word)
     this.setState({ searchWord: w_searchWord })
+    this.requestQuestionnaireList();
     this.requestSearchIngredient(w_searchWord);
   }
 
@@ -175,7 +180,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                     <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                       this.setState({ saveToModalVisible: false })
                     }}>
-                      <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close.png")}/>
+                      <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close.png")} />
                     </TouchableOpacity>
                   </View>
 
@@ -185,32 +190,32 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                     {/* Allergic Ingredients(Dislike) */}
                     <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                       onPress={() => {
-                        this.requestAddUserIngredient(this.state.selectedIngredient_id, 0)
+                        this.requestAddUserIngredient(this.state.selectedIngredient_id, 0, this.state.selected_questionnaire.id)
                       }}>
-                      <Image style={MyStyles.ic_allergic_ingredient} source={require("../../../assets/images/ic_allergic_ingredient.png")}/>
+                      <Image style={MyStyles.ic_allergic_ingredient} source={require("../../../assets/images/ic_allergic_ingredient.png")} />
                       <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
-                      <Image style={{ flex: 1 }}/>
-                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")}/>
+                      <Image style={{ flex: 1 }} />
+                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")} />
                     </TouchableOpacity>
                     {/* Potential Allergens */}
                     <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                       onPress={() => {
-                        this.requestAddUserIngredient(this.state.selectedIngredient_id, 1)
+                        this.requestAddUserIngredient(this.state.selectedIngredient_id, 1, this.state.selected_questionnaire.id)
                       }}>
-                      <Image style={MyStyles.ic_potential_allergins} source={require("../../../assets/images/ic_potential_allergins.png")}/>
+                      <Image style={MyStyles.ic_potential_allergins} source={require("../../../assets/images/ic_potential_allergins.png")} />
                       <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
-                      <Image style={{ flex: 1 }}/>
-                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")}/>
+                      <Image style={{ flex: 1 }} />
+                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")} />
                     </TouchableOpacity>
                     {/* Preferred Ingredients */}
                     <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                       onPress={() => {
-                        this.requestAddUserIngredient(this.state.selectedIngredient_id, 2)
+                        this.requestAddUserIngredient(this.state.selectedIngredient_id, 2, this.state.selected_questionnaire.id)
                       }}>
-                      <Image style={MyStyles.ic_preferred_ingredient} source={require("../../../assets/images/ic_preferred_ingredient.png")}/>
+                      <Image style={MyStyles.ic_preferred_ingredient} source={require("../../../assets/images/ic_preferred_ingredient.png")} />
                       <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
-                      <Image style={{ flex: 1 }}/>
-                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")}/>
+                      <Image style={{ flex: 1 }} />
+                      <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")} />
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -262,8 +267,61 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
       })
       .done();
   }
-  
-  requestAddUserIngredient(p_ingredient_id, p_type) {
+
+  requestQuestionnaireList() {
+    // this.setState({
+    //   isLoading: true,
+    // });
+    return fetch(Net.user.questionnaireList, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        this.state.questionnaire_list = responseJson.result_data.questionnaire_list
+
+        if (this.state.questionnaire_list.length > 0) {
+          this.state.selected_questionnaire = this.state.questionnaire_list[0]
+          this.setState({ selected_questionnaire: this.state.selected_questionnaire })
+
+          this.state.questionnaire_list.forEach(element => {
+            element.is_selected = false
+          })
+          this.state.questionnaire_list[0].is_selected = true
+          this.setState({ questionnaire_list: this.state.questionnaire_list })
+
+          this.requestMyList(this.state.selected_questionnaire.id)
+        } else {
+          // TO DO 설문이 없으면 설문작성페지로 유도.
+        }
+
+      })
+      .catch((error) => {
+        // this.setState({
+        //   isLoading: false,
+        // });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
+
+  requestAddUserIngredient(p_ingredient_id, p_type, p_questionnaire_id) {
     this.setState({
       isLoading: true,
     });
@@ -277,6 +335,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
       body: JSON.stringify({
         ingredient_id: p_ingredient_id.toString(),
         type: p_type.toString(),
+        questionnaire_id: p_questionnaire_id,
       }),
     })
       .then((response) => response.json())

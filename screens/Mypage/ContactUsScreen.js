@@ -137,7 +137,7 @@ export default class ContactUsScreen extends React.Component {
         const data = [];
 
         responseJson.result_data.contact_us_category.forEach(element => {
-          data.push({ value: element.title })
+          data.push({ value: element.title, id: element.id })
         });
 
         // data.push({ value: "Other" }) // 나중에 직접입력 항목 추가해주어야 함

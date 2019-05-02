@@ -59,6 +59,10 @@ export default class IngredientScreen extends React.Component {
         "ingredient_list": [
         ]
       },
+      selected_questionnaire: {
+        id: "",
+        value: "Me",
+      },
     }
   }
   componentDidMount() {
@@ -79,6 +83,7 @@ export default class IngredientScreen extends React.Component {
     this.setState({ questionnaire_list: questionnaire_list })
 
     this.setState({ loading_end: false })
+    this.requestMyList(this.state.selected_questionnaire.id)
   }
 
   renderMyBabies() {
@@ -179,7 +184,7 @@ export default class IngredientScreen extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => { this.requestAddUserIngredient(item.id, this.state.ingredient_add_type) }}>
+          <TouchableOpacity onPress={() => { this.requestAddUserIngredient(item.id, this.state.ingredient_add_type, this.state.selected_questionnaire.id) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -204,7 +209,7 @@ export default class IngredientScreen extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id) }}>
+          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -229,7 +234,7 @@ export default class IngredientScreen extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id) }}>
+          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -254,7 +259,7 @@ export default class IngredientScreen extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id) }}>
+          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -312,7 +317,6 @@ export default class IngredientScreen extends React.Component {
               return;
             }
             if (this.state.alreadyLoaded == false) {
-              this.requestMyList();
               this.requestQuestionnaireList();
             }
           }}
@@ -595,7 +599,7 @@ export default class IngredientScreen extends React.Component {
                   {/* Allergic Ingredients(Dislike) */}
                   <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
-                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 0)
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 0, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
@@ -605,7 +609,7 @@ export default class IngredientScreen extends React.Component {
                   {/* Potential Allergens */}
                   <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
-                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 1)
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 1, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
@@ -615,7 +619,7 @@ export default class IngredientScreen extends React.Component {
                   {/* Preferred Ingredients */}
                   <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
-                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 2)
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 2, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
@@ -702,7 +706,7 @@ ingredients that can cause allergies.</Text>
   }
 
 
-  requestMyList() {
+  requestMyList(p_questionnaire_id) {
     this.setState({
       isLoading: true,
       alreadyLoaded: true,
@@ -715,6 +719,7 @@ ingredients that can cause allergies.</Text>
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
+        questionnaire_id: p_questionnaire_id
       }),
     })
       .then((response) => response.json())
@@ -741,7 +746,7 @@ ingredients that can cause allergies.</Text>
       .done();
   }
 
-  requestDeleteUserIngredient(p_ingredient_id) {
+  requestDeleteUserIngredient(p_ingredient_id, p_questionnaire_id) {
     this.setState({
       isLoading: true,
     });
@@ -753,7 +758,8 @@ ingredients that can cause allergies.</Text>
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        ingredient_id: p_ingredient_id.toString()
+        ingredient_id: p_ingredient_id.toString(),
+        questionnaire_id: p_questionnaire_id
       }),
     })
       .then((response) => response.json())
@@ -768,7 +774,7 @@ ingredients that can cause allergies.</Text>
           return
         }
 
-        this.requestMyList();
+        this.requestMyList(this.state.selected_questionnaire.id);
       })
       .catch((error) => {
         this.setState({
@@ -837,7 +843,7 @@ ingredients that can cause allergies.</Text>
       .done();
   }
 
-  requestAddUserIngredient(p_ingredient_id, p_type) {
+  requestAddUserIngredient(p_ingredient_id, p_type, p_questionnaire_id) {
     this.setState({
       isLoading: true,
     });
@@ -851,6 +857,7 @@ ingredients that can cause allergies.</Text>
       body: JSON.stringify({
         ingredient_id: p_ingredient_id.toString(),
         type: p_type.toString(),
+        questionnaire_id: p_questionnaire_id,
       }),
     })
       .then((response) => response.json())
@@ -868,7 +875,7 @@ ingredients that can cause allergies.</Text>
         this.setState({ searchResultModalVisible: false })
         this.setState({ saveToModalVisible: false });
 
-        this.requestMyList();
+        this.requestMyList(this.state.selected_questionnaire.id);
       })
       .catch((error) => {
         this.setState({
@@ -905,7 +912,7 @@ ingredients that can cause allergies.</Text>
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-        this.requestMyList();
+        this.requestMyList(this.state.selected_questionnaire.id);
 
       })
       .catch((error) => {
@@ -943,7 +950,7 @@ ingredients that can cause allergies.</Text>
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-        this.requestMyList();
+        this.requestMyList(this.state.selected_questionnaire.id);
       })
       .catch((error) => {
         this.setState({
@@ -956,9 +963,9 @@ ingredients that can cause allergies.</Text>
 
 
   requestQuestionnaireList() {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.user.questionnaireList, {
       method: 'POST',
       headers: {
@@ -972,9 +979,9 @@ ingredients that can cause allergies.</Text>
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -984,18 +991,23 @@ ingredients that can cause allergies.</Text>
         this.state.questionnaire_list = responseJson.result_data.questionnaire_list
 
         if (this.state.questionnaire_list.length > 0) {
+          this.state.selected_questionnaire = this.state.questionnaire_list[0]
+          this.setState({ selected_questionnaire: this.state.selected_questionnaire })
+
           this.state.questionnaire_list.forEach(element => {
             element.is_selected = false
           })
           this.state.questionnaire_list[0].is_selected = true
+          this.setState({ questionnaire_list: this.state.questionnaire_list })
+
+          this.requestMyList(this.state.selected_questionnaire.id)
         }
 
-        this.setState({ questionnaire_list: this.state.questionnaire_list })
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
         this.refs.toast.showBottom(error);
       })
       .done();

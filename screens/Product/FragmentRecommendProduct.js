@@ -38,6 +38,7 @@ export class FragmentRecommendProduct extends React.Component {
       showLoginModal: false,
       isLogined: false,
       filterModalVisible: false,
+      alreadyLoadedData: false,
 
       product_list_result_data: {
         recomment_list: [
@@ -256,7 +257,9 @@ export class FragmentRecommendProduct extends React.Component {
     } else {
       this.state.isLogined = true
       this.setState({ isLogined: this.state.isLogined })
-      if (Common.isNeedToAddQuestionnaire() == false) { // 이미 설문이 추가된 회원이면 설문목록 얻어오기
+      if (Common.isNeedToAddQuestionnaire() == false && this.state.alreadyLoadedData == false) { // 이미 설문이 추가된 회원이면 설문목록 얻어오기
+        this.state.alreadyLoadedData = true
+        this.setState({ alreadyLoadedData: this.state.alreadyLoadedData })
         this.requestQuestionnaireList();
       }
     }
@@ -681,9 +684,9 @@ export class FragmentRecommendProduct extends React.Component {
   }
 
   requestQuestionnaireList() {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.user.questionnaireList, {
       method: 'POST',
       headers: {
@@ -697,9 +700,9 @@ export class FragmentRecommendProduct extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -730,9 +733,9 @@ export class FragmentRecommendProduct extends React.Component {
   }
 
   requestQuestionnaireDetail(p_questionnaire_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.user.questionnaireDetail, {
       method: 'POST',
       headers: {
@@ -747,9 +750,9 @@ export class FragmentRecommendProduct extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);

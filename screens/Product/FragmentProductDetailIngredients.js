@@ -64,8 +64,7 @@ export class FragmentProductDetailIngredients extends React.Component {
 
   componentDidMount() {
     this.requestIngredientList(this.item_id)
-    if (global.login_info.token.length > 0) { // 로그인 한 회원일때만 회원성분정보 및 설문목록 불러옴.
-      this.requestUserIngredientList()
+    if (global.login_info.token.length > 0) { // 로그인 한 회원일때만 회원성분정보 및 설문목록 불러옴.      
       this.requestQuestionnaireList()
     }
   }
@@ -129,7 +128,7 @@ export class FragmentProductDetailIngredients extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id) }}>
+          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -154,7 +153,7 @@ export class FragmentProductDetailIngredients extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id) }}>
+          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -171,7 +170,9 @@ export class FragmentProductDetailIngredients extends React.Component {
   }
 
   onQuestionnaireSelected(idx, rowData) {
-    this.setState({ selected_questionnaire: rowData })
+    this.state.selected_questionnaire = rowData
+    this.setState({ selected_questionnaire: this.state.selected_questionnaire })
+    this.requestUserIngredientList(this.state.selected_questionnaire.id);
   }
   render() {
     return (
@@ -251,6 +252,7 @@ export class FragmentProductDetailIngredients extends React.Component {
           visible={this.state.saveToModalVisible}
           onRequestClose={() => {
           }}>
+          <Toast ref='modalToast' />
           <View style={{ flex: 1 }}>
             <View style={MyStyles.modal_bg}>
               <View style={MyStyles.modalContainer}>
@@ -272,7 +274,7 @@ export class FragmentProductDetailIngredients extends React.Component {
                   {/* Allergic Ingredients(Dislike) */}
                   <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
-                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 0)
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 0, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
@@ -282,7 +284,7 @@ export class FragmentProductDetailIngredients extends React.Component {
                   {/* Potential Allergens */}
                   <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
-                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 1)
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 1, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
@@ -292,7 +294,7 @@ export class FragmentProductDetailIngredients extends React.Component {
                   {/* Preferred Ingredients */}
                   <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
-                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 2)
+                      this.requestAddUserIngredient(this.state.selectedIngredient_id, 2, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")} />
                     <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
@@ -350,7 +352,8 @@ export class FragmentProductDetailIngredients extends React.Component {
       .done();
   }
 
-  requestUserIngredientList() {
+  requestUserIngredientList(p_questionnaire_id) {
+    console.log(p_questionnaire_id);
     this.setState({
       isLoading: true,
     });
@@ -361,6 +364,9 @@ export class FragmentProductDetailIngredients extends React.Component {
         'Accept': 'application/json',
         'x-access-token': global.login_info.token
       },
+      body: JSON.stringify({
+        questionnaire_id: p_questionnaire_id,
+      }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
@@ -380,6 +386,7 @@ export class FragmentProductDetailIngredients extends React.Component {
 
       })
       .catch((error) => {
+        console.log("22222222")
         this.setState({
           isLoading: false,
         });
@@ -388,7 +395,7 @@ export class FragmentProductDetailIngredients extends React.Component {
       .done();
   }
 
-  requestDeleteUserIngredient(p_ingredient_id) {
+  requestDeleteUserIngredient(p_ingredient_id, p_questionnaire_id) {
     this.setState({
       isLoading: true,
     });
@@ -400,7 +407,8 @@ export class FragmentProductDetailIngredients extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        ingredient_id: p_ingredient_id.toString()
+        ingredient_id: p_ingredient_id.toString(),
+        questionnaire_id: p_questionnaire_id,
       }),
     })
       .then((response) => response.json())
@@ -411,22 +419,23 @@ export class FragmentProductDetailIngredients extends React.Component {
         });
 
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
+          this.refs.modalToast.showBottom(responseJson.result_msg);
           return
         }
 
-        this.requestUserIngredientList();
+        this.requestUserIngredientList(this.state.selected_questionnaire.id);
       })
       .catch((error) => {
         this.setState({
           isLoading: false,
         });
-        this.refs.toast.showBottom(error);
+        this.refs.modalToast.showBottom(error);
       })
       .done();
   }
 
-  requestAddUserIngredient(p_ingredient_id, p_type) {
+  requestAddUserIngredient(p_ingredient_id, p_type, p_questionnaire_id) {
+    console.log(p_questionnaire_id);
     this.setState({
       isLoading: true,
     });
@@ -440,6 +449,7 @@ export class FragmentProductDetailIngredients extends React.Component {
       body: JSON.stringify({
         ingredient_id: p_ingredient_id.toString(),
         type: p_type.toString(),
+        questionnaire_id: p_questionnaire_id,
       }),
     })
       .then((response) => response.json())
@@ -450,19 +460,19 @@ export class FragmentProductDetailIngredients extends React.Component {
         });
 
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
+          this.refs.modalToast.showBottom(responseJson.result_msg);
           return
         }
 
         this.setState({ saveToModalVisible: false });
 
-        this.requestUserIngredientList();
+        this.requestUserIngredientList(this.state.selected_questionnaire.id);
       })
       .catch((error) => {
         this.setState({
           isLoading: false,
         });
-        this.refs.toast.showBottom(error);
+        this.refs.modalToast.showBottom(error);
       })
       .done();
   }
@@ -489,26 +499,29 @@ export class FragmentProductDetailIngredients extends React.Component {
         });
 
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
+          this.props.toast.showBottom(responseJson.result_msg);
           return
         }
 
         const data = [];
 
         responseJson.result_data.questionnaire_list.forEach(element => {
-          data.push({ value: element.title })
+          data.push({ value: element.title, id: element.id })
         });
 
         if (data.length > 0) {
-          this.setState({ selected_questionnaire: data[0] })
+          this.state.selected_questionnaire = data[0]
+          this.setState({ selected_questionnaire: this.state.selected_questionnaire })
+          this.requestUserIngredientList(this.state.selected_questionnaire.id);
         }
         this.setState({ questionnaire_list: data })
+
       })
       .catch((error) => {
         this.setState({
           isLoading: false,
         });
-        this.refs.toast.showBottom(error);
+        this.props.toast.showBottom(error);
       })
       .done();
   }

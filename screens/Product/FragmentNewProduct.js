@@ -201,7 +201,7 @@ export class FragmentNewProduct extends React.Component {
                 style={MyStyles.gridView}
                 spacing={10}
                 renderItem={({ item, index }) => (
-                  <ProductItem item={item} index={index} this={this}></ProductItem>
+                  <ProductItem is_new_tab = {true} item={item} index={index} this={this}></ProductItem>
                 )}
               />
             </View>
