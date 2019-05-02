@@ -527,7 +527,7 @@ export default StyleSheet.create({
   },
   ic_skin_care_small: {
     width: 43 / 3,
-    height: 52 / 3,
+    height: 52.5 / 3,
   },
   ic_mask: {
     width: 78 / 3,
@@ -543,7 +543,7 @@ export default StyleSheet.create({
   },
   ic_sun_care_small: {
     width: 27 / 3,
-    height: 52 / 3,
+    height: 53 / 3,
   },
   ic_make_up: {
     width: 66 / 3,
@@ -591,7 +591,7 @@ export default StyleSheet.create({
   },
   ic_perfume_small: {
     width: 38 / 3,
-    height: 52 / 3,
+    height: 53 / 3,
   },
   ic_oral: {
     width: 69 / 3,
@@ -607,7 +607,7 @@ export default StyleSheet.create({
   },
   ic_baby_small: {
     width: 24 / 3,
-    height: 52 / 3,
+    height: 53 / 3,
   },
   ic_men: {
     width: 69 / 3,
@@ -615,7 +615,7 @@ export default StyleSheet.create({
   },
   ic_men_small: {
     width: 44 / 3,
-    height: 52 / 3,
+    height: 54 / 3,
   },
   ic_all: {
     width: 40 / 3,

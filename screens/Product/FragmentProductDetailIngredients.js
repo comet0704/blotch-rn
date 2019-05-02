@@ -29,6 +29,7 @@ import {
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
 import ModalDropdown from 'react-native-modal-dropdown'
+import Messages from '../../constants/Messages';
 
 export class FragmentProductDetailIngredients extends React.Component {
   item_id = 0;
