@@ -796,6 +796,19 @@ export default {
 
   _dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
     return (<View style={MyStyles.dropdown_2_separator} />);
-  }
+  },
+  
+  _dropdown_3_renderRow(rowData, rowID, highlighted) {
+    // rowData : {id:"", value:""}
+    return (
+      <TouchableHighlight underlayColor='cornflowerblue'>
+        <View style={[MyStyles.dropdown_2_row, { backgroundColor: 'white' }]}>
+          <Text style={[MyStyles.dropdown_2_row_text]}>
+            {rowData.value}
+          </Text>
+        </View>
+      </TouchableHighlight>
+    );
+  },
 }
 

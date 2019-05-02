@@ -1498,6 +1498,8 @@ export default StyleSheet.create({
     alignSelf: 'flex-end',
     backgroundColor: Colors.primary_purple,
     borderRadius: 30,
+    justifyContent:"center",
+    alignItems:"center",
   },
   dropdown_2_text: {
     marginVertical: 3,
