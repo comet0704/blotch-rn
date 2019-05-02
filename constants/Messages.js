@@ -4,4 +4,5 @@ export default {
   this_comment_was_reported : "This comment was reported",
   this_comment_requires_the_administrator : "This comment requires the administrator",
   this_user_was_suspended : "This user was suspended",
+  would_you_like_to_delete_it : "Would you like to delete it?",
 };

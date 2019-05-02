@@ -14,6 +14,7 @@ import StarRating from 'react-native-star-rating';
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
 import {
   TouchableWithoutFeedback,
+  Alert,
   KeyboardAvoidingView,
   View,
   Modal,
@@ -191,7 +192,25 @@ export class FragmentProductDetailReviews extends React.Component {
                 </TouchableOpacity>
                 : null}
               {item.user_id == global.login_info.user_id ?
-                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.requestDeleteComment(item.id, index) }}>
+                <TouchableOpacity style={{ padding: 5 }} onPress={() => {
+                  Alert.alert(
+                    '',
+                    Messages.would_you_like_to_delete_it,
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'OK', onPress: () => {
+                          this.requestDeleteComment(item.id, index)
+                        }
+                      },
+                    ],
+                    { cancelable: false },
+                  );
+                }}>
                   <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]} />
                 </TouchableOpacity>
                 :
@@ -747,9 +766,9 @@ export class FragmentProductDetailReviews extends React.Component {
 
   requestDeleteComment(p_comment_id, p_index) {
     console.log(p_comment_id);
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.product.deleteComment, {
       method: 'POST',
       headers: {
@@ -763,10 +782,10 @@ export class FragmentProductDetailReviews extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // console.log(responseJson);
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.props.toast.showBottom(responseJson.result_msg);
@@ -778,9 +797,9 @@ export class FragmentProductDetailReviews extends React.Component {
         this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data, comment_count: this.state.comment_count });
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
         this.props.toast.showBottom(error);
       })
       .done();

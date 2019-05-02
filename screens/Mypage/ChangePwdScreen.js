@@ -10,6 +10,7 @@ import {
   Button,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import { ImagePicker } from 'expo';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';

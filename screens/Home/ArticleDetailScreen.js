@@ -10,7 +10,7 @@ import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
 
-import { Image, Share, TouchableHighlight, Modal, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
+import { Image, Alert, Share, TouchableHighlight, Modal, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import { LinearGradient } from 'expo';
 import Messages from '../../constants/Messages';
@@ -113,7 +113,26 @@ export default class ArticleDetailScreen extends React.Component {
                 </TouchableOpacity>
                 : null}
               {item.user_id == global.login_info.user_id ?
-                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.requestDeleteComment(item.id, index) }}>
+                <TouchableOpacity style={{ padding: 5 }} onPress={() => {
+                  Alert.alert(
+                    '',
+                    Messages.would_you_like_to_delete_it,
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'OK', onPress: () => {
+                          this.requestDeleteComment(item.id, index)
+                        }
+                      },
+                    ],
+                    { cancelable: false },
+                  );
+                }
+                }>
                   <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]} />
                 </TouchableOpacity>
                 :
@@ -551,9 +570,9 @@ export default class ArticleDetailScreen extends React.Component {
   }
 
   requestDeleteComment(p_comment_id, p_index) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.article.deleteComment, {
       method: 'POST',
       headers: {
@@ -567,9 +586,9 @@ export default class ArticleDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -580,9 +599,9 @@ export default class ArticleDetailScreen extends React.Component {
         this.setState({ article_comment_list_result_data: this.state.article_comment_list_result_data });
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
         this.refs.toast.showBottom(error);
       })
       .done();
