@@ -104,7 +104,6 @@ export default class SearchMainScreen extends React.Component {
     if (p_keyword == "" || this.state.recentSearchWords.indexOf(p_keyword) > 0) {
       return;
     }
-    console.log("addingWord = " + p_keyword);
     AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.recent_search_words, (err, result) => {
       w_keywordList = result.split(Common.SEARCH_KEYWORD_SPLITTER);
       if (w_keywordList.length > 7) { // 최근검색어가 7개 이상이면 앞선검색어 삭제
@@ -120,7 +119,6 @@ export default class SearchMainScreen extends React.Component {
         }
       })
 
-      console.log("settingvalue = " + settingvalue);
       AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.recent_search_words, settingvalue);
 
       // 설정후 새 값을 얻어야 함.
@@ -381,7 +379,6 @@ export default class SearchMainScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -433,7 +430,6 @@ export default class SearchMainScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -471,7 +467,6 @@ export default class SearchMainScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });

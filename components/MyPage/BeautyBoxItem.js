@@ -159,7 +159,6 @@ export class BeautyBoxItem extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
 
         if (responseJson.result_code < 0) {
           this.props.this.refs.toast.showBottom(responseJson.result_msg);

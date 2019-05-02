@@ -146,7 +146,6 @@ export default class FaqScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -193,7 +192,6 @@ export default class FaqScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });

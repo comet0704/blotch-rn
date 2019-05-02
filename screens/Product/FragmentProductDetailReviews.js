@@ -28,6 +28,7 @@ import {
 } from 'react-native';
 import { LinearGradient, ImagePicker, Permissions } from 'expo';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import Messages from '../../constants/Messages';
 
 export class FragmentProductDetailReviews extends React.Component {
   item_id = 0;
@@ -131,7 +132,7 @@ export class FragmentProductDetailReviews extends React.Component {
 
   renderComment(item, index) {
     const item_review_photos = item.image_list == null ? "" : item.image_list.split(Common.IMAGE_SPLITTER);
-    
+
     return (
       <View key={index}>
         <View style={MyStyles.comment_item}>
@@ -142,7 +143,20 @@ export class FragmentProductDetailReviews extends React.Component {
               <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
               {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 50 / 3 }]}>Me</Text> : null}
             </View>
-            <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{item.comment}</Text>
+            {
+              item.user_status == 1 ? // user_status=1 이면 "This user was suspended."
+                (<Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_user_was_suspended}</Text>)
+                :
+                (
+                  item.status == 0 ? // (approved): 정상노출
+                    <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{item.comment}</Text>
+                    : item.status == 1 ? // (pending): 앱에서 'This comment requires the administrator' 로 텍스트 표시
+                      <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_requires_the_administrator}</Text>
+                      : item.status == 2 ? // (reported): 앱에서 'This comment was reported.' 로 표시
+                        <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_was_reported}</Text>
+                        : null
+                )
+            }
 
             {/* 포토 부분 */}
             {item_review_photos.length > 0 && item_review_photos[0] != "" ?

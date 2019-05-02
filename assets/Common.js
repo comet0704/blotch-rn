@@ -66,7 +66,6 @@ export default {
 
   isNeedToAddQuestionnaire() {
     result = global.login_info.concern == null || global.login_info.concern.length <= 0 || global.login_info.needs == null || global.login_info.needs.length <= 0;
-    console.log(result);
     return result
   },
 
@@ -76,7 +75,6 @@ export default {
       + Math.min(255, (index * (index + 16) % 256 + (index * 30 % 209))) + ','
       + Math.min(255, (index * (index + 66) % 256 + (index * 30 % 177))) + ','
       + Math.min(255, (index * (index + 98) % 256 + (index * 30 % 98))) + ')';
-    console.log(ColorCode);
     return ColorCode
   },
 

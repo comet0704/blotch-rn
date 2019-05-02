@@ -658,7 +658,6 @@ export default class HomeScreen extends React.Component {
   }
 
   requestHomeList() {
-    console.log("6");
     this.setState({
       isLoading: true,
     });
@@ -675,8 +674,6 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
-        console.log("7");
         this.setState({
           isLoading: false,
           result_data: responseJson.result_data
@@ -688,7 +685,6 @@ export default class HomeScreen extends React.Component {
         }
 
         try {
-          console.log("8");
           this.setState({
             'newProductBanner': {
               'image_list': this.state.result_data.new_product_list[0].image_list,
@@ -699,7 +695,6 @@ export default class HomeScreen extends React.Component {
 
         }
         try {
-          console.log("9");
           this.setState({
             'bestProductBanner': {
               'image_list': this.state.result_data.best_product_list[0].image_list,
@@ -717,7 +712,6 @@ export default class HomeScreen extends React.Component {
         // this.props.navigation.navigate("SearchResult", { [MyConstants.NAVIGATION_PARAMS.search_word]: "pro" }) 
       })
       .catch((error) => {
-        console.log("10");
         this.setState({
           isLoading: false,
         });
@@ -744,7 +738,6 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -757,7 +750,6 @@ export default class HomeScreen extends React.Component {
 
       })
       .catch((error) => {
-        console.log("11");
         this.setState({
           isLoading: false,
         });
@@ -783,7 +775,6 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -795,7 +786,6 @@ export default class HomeScreen extends React.Component {
         this.requestHomeList();
       })
       .catch((error) => {
-        console.log("12");
         this.setState({
           isLoading: false,
         });
@@ -821,7 +811,6 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -834,7 +823,6 @@ export default class HomeScreen extends React.Component {
 
       })
       .catch((error) => {
-        console.log("13");
         this.setState({
           isLoading: false,
         });
@@ -860,7 +848,6 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -872,7 +859,6 @@ export default class HomeScreen extends React.Component {
         this.requestHomeList();
       })
       .catch((error) => {
-        console.log("14");
         this.setState({
           isLoading: false,
         });
@@ -930,7 +916,6 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });

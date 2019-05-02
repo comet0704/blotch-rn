@@ -7,7 +7,6 @@ import { BackHandler } from 'react-native';
  */
 const handleAndroidBackButton = (_this, callback) => {
   BackHandler.addEventListener('hardwareBackPress', () => {
-    console.log(_this.props.navigation.isFocused());
     if (_this.props.navigation.isFocused()) {
       callback();
       return true;

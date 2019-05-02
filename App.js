@@ -133,7 +133,6 @@ export default class App extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
         this.setState({
           isLoading: false
         });
@@ -162,7 +161,6 @@ export default class App extends React.Component {
   }
   
   requestLoginGoogle(p_email, p_id, p_profile_image) {
-    console.log(p_email + "_" + p_id + "_ " + p_profile_image)
     this.setState({
       isLoading: true,
     });
@@ -180,7 +178,6 @@ export default class App extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
         this.setState({
           isLoading: false
         });

@@ -70,10 +70,8 @@ export default class SearchBrandDetailScreen extends React.Component {
     if (p_keyword == "" || this.state.recentSearchWords.indexOf(p_keyword) > 0) {
       return;
     }
-    console.log("addingWord = " + p_keyword);
     AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.recent_search_words, (err, result) => {
       const settingvalue = result + (result != null ? Common.SEARCH_KEYWORD_SPLITTER : "") + p_keyword
-      console.log("settingvalue = " + settingvalue);
       AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.recent_search_words, settingvalue);
 
       // 설정후 새 값을 얻어야 함.
@@ -404,7 +402,6 @@ export default class SearchBrandDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -447,7 +444,6 @@ export default class SearchBrandDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -499,7 +495,6 @@ export default class SearchBrandDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -537,7 +532,6 @@ export default class SearchBrandDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -575,7 +569,6 @@ export default class SearchBrandDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -612,7 +605,6 @@ export default class SearchBrandDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });

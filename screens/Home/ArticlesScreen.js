@@ -39,10 +39,17 @@ export default class ArticlesScreen extends React.Component {
 
   renderArticle(item, index) {
     const articleTime = Common.getFormattedTime(item.create_date) // 기사 올린 날짜 : 이전날짜와 비교하여 
-    showTime = false;
+    var showTime = false;
+    console.log(index + ":" + articleTime + ":" + this.beforeArticleTime);
     if (this.beforeArticleTime != articleTime) {
-      this.beforeArticleTime = articleTime
       showTime = true
+    }
+    this.beforeArticleTime = articleTime
+    if (index == this.state.result_data.list.length - 1) {
+      // 렌더가 다 된다음에는 아래 값을 꼭 초기화 해주어야 함.
+      // 그래야지 만일 30개(현재 한번에 목록 30개 내려보냄) 이상의 기사들이 같은날에 
+      // 오른 것들이라면 다음번 loadmore 시에 beforeArticleTime이 제일 첫 아이템과 같게되는것이로 해서 첨에 현시되어야 할 날짜가 현시되지 않는 현상이 발생
+      this.beforeArticleTime = ""
     }
     return (
       <TouchableOpacity key={index} style={[MyStyles.container, { flex: 1 }]} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
@@ -77,9 +84,12 @@ export default class ArticlesScreen extends React.Component {
           <View style={{ flex: 1 }}>
             <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>
               {item.title} </Text>
-            <Text onPress={() => { Linking.openURL(Common.getLinkUrl(item.url)) }} style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
-              {item.url}
-            </Text>
+
+            {item.is_direct_link > 0 ?
+              <Text onPress={() => { Linking.openURL(Common.getLinkUrl(item.url)) }} style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
+                {item.url}
+              </Text>
+              : null}
           </View>
 
 
@@ -133,6 +143,7 @@ export default class ArticlesScreen extends React.Component {
         <ScrollView
           onScroll={({ nativeEvent }) => {
             if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+              console.log("hehehe")
               this.requestArticleList(this.offset)
             }
           }}
@@ -179,7 +190,6 @@ export default class ArticlesScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -230,7 +240,6 @@ export default class ArticlesScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -271,7 +280,6 @@ export default class ArticlesScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });

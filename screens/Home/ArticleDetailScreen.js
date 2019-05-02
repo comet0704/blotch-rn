@@ -13,6 +13,7 @@ import Colors from '../../constants/Colors';
 import { Image, Share, TouchableHighlight, Modal, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import { LinearGradient } from 'expo';
+import Messages from '../../constants/Messages';
 
 export default class ArticleDetailScreen extends React.Component {
 
@@ -88,7 +89,21 @@ export default class ArticleDetailScreen extends React.Component {
               <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
               {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 50 / 3 }]}>Me</Text> : null}
             </View>
-            <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{item.comment}</Text>
+            {
+              item.user_status == 1 ? // user_status=1 이면 "This user was suspended."
+                (<Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_user_was_suspended}</Text>)
+                :
+                (
+                  item.status == 0 ? // (approved): 정상노출
+                    <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{item.comment}</Text>
+                    : item.status == 1 ? // (pending): 앱에서 'This comment requires the administrator' 로 텍스트 표시
+                      <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_requires_the_administrator}</Text>
+                      : item.status == 2 ? // (reported): 앱에서 'This comment was reported.' 로 표시
+                        <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_was_reported}</Text>
+                        : null
+                )
+            }
+
             <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
               <Text style={MyStyles.text_date}>{item.create_date}</Text>
               {item.parent == 0 ?
@@ -212,10 +227,14 @@ export default class ArticleDetailScreen extends React.Component {
             </View>
 
             <View style={[{ marginTop: 5 }, MyStyles.padding_main]}>
-              <View style={[{ marginTop: 5, flexDirection: "row", flex: 1 }]}>
-                <Text style={{ color: Colors.color_949191, paddingLeft: 5, paddingRight: 5, borderWidth: 0.5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }}>Link</Text>
-                <Text onPress={() => { Linking.openURL(Common.getLinkUrl(this.state.article_detail_result_data.detail.url)) }} style={[MyStyles.link, { marginLeft: 5 }]}>{this.state.article_detail_result_data.detail.url}</Text>
-              </View>
+              {this.state.article_detail_result_data.detail.is_direct_link > 0 ?
+                <View style={[{ marginTop: 5, flexDirection: "row", flex: 1 }]}>
+                  <Text style={{ color: Colors.color_949191, paddingLeft: 5, paddingRight: 5, borderWidth: 0.5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }}>Link</Text>
+                  <Text onPress={() => { Linking.openURL(Common.getLinkUrl(this.state.article_detail_result_data.detail.url)) }} style={[MyStyles.link, { marginLeft: 5 }]}>{this.state.article_detail_result_data.detail.url}</Text>
+                </View>
+                :
+                null
+              }
               <Text style={{ fontSize: 13, color: Colors.primary_dark, marginTop: 10, marginBottom: 5 }}>{this.state.article_detail_result_data.detail.content}</Text>
             </View>
             <View style={MyStyles.seperate_line_e5e5e5}></View>
@@ -305,7 +324,6 @@ export default class ArticleDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
           article_detail_result_data: responseJson.result_data
@@ -344,7 +362,6 @@ export default class ArticleDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -399,7 +416,6 @@ export default class ArticleDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -436,7 +452,6 @@ export default class ArticleDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -477,7 +492,6 @@ export default class ArticleDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -516,7 +530,6 @@ export default class ArticleDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -554,7 +567,6 @@ export default class ArticleDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });
