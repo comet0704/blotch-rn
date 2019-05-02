@@ -43,11 +43,6 @@ export default class SearchMainScreen extends React.Component {
       query: '',
       searchWord: '',
       autocompleteWords: [
-        "Product",
-        "Brand",
-        "Ingredient",
-        "inn",
-        "cat",
       ],
       categoryItems: Common.getCategoryItems(),
       product_list_result_data: {
@@ -277,6 +272,7 @@ export default class SearchMainScreen extends React.Component {
           defaultValue={query}
           onChangeText={async (text) => {
             await this.setState({ query: "!!!!!!!!!!!!!!!!", searchBoxFocused: true }) //최근 검색어들을 감추기 위한 조작.
+            this.requestSuggestionList(text);
             await this.setState({ query: text, searchWord: text, searchBoxFocused: true })
           }
           }
@@ -487,4 +483,40 @@ export default class SearchMainScreen extends React.Component {
       .done();
   }
 
+  // 자동완성목록 얻어옴.
+  requestSuggestionList(p_keyword) {
+    return fetch(Net.home.suggestion, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        keyword: p_keyword.toString(),
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return;
+        }
+
+        w_result_array = []
+        responseJson.result_data.suggestion_list.forEach(element => {
+          w_result_array.push(element.title)
+        })
+        this.state.autocompleteWords = w_result_array
+        
+        this.setState({ autocompleteWords: this.state.autocompleteWords })
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+  }
 };

@@ -23,6 +23,7 @@ export default {
         searchIngredient: MyConstants.SERVER_URL + "/home/searchIngredient",
         searchCamera: MyConstants.SERVER_URL + "/home/searchCamera",
         searchBrand: MyConstants.SERVER_URL + "/home/searchBrand",
+        suggestion: MyConstants.SERVER_URL + "/home/suggestion",
     },
     article: {
         list: MyConstants.SERVER_URL + "/article/list",
