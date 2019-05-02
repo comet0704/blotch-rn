@@ -24,6 +24,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TouchableHighlight,
+  Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
@@ -128,7 +129,25 @@ export class FragmentProductDetailIngredients extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id) }}>
+          <TouchableOpacity onPress={() => {
+            Alert.alert(
+              '',
+              Messages.would_you_like_to_delete_it,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'OK', onPress: () => {
+                    this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id)
+                  }
+                },
+              ],
+              { cancelable: false },
+            );
+          }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -153,7 +172,25 @@ export class FragmentProductDetailIngredients extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id) }}>
+          <TouchableOpacity onPress={() => {
+            Alert.alert(
+              '',
+              Messages.would_you_like_to_delete_it,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'OK', onPress: () => {
+                    this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id)
+                  }
+                },
+              ],
+              { cancelable: false },
+            );
+          }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -396,9 +433,9 @@ export class FragmentProductDetailIngredients extends React.Component {
   }
 
   requestDeleteUserIngredient(p_ingredient_id, p_questionnaire_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.ingredient.deleteUserIngredient, {
       method: 'POST',
       headers: {
@@ -414,9 +451,9 @@ export class FragmentProductDetailIngredients extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.modalToast.showBottom(responseJson.result_msg);

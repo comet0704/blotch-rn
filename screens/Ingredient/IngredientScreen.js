@@ -22,6 +22,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Dimensions,
+  Alert,
   TouchableHighlight,
 } from 'react-native';
 
@@ -83,6 +84,9 @@ export default class IngredientScreen extends React.Component {
     this.setState({ questionnaire_list: questionnaire_list })
 
     this.setState({ loading_end: false })
+
+    this.state.selected_questionnaire = questionnaire_list[index]
+    this.setState({ selected_questionnaire: this.state.selected_questionnaire })
     this.requestMyList(this.state.selected_questionnaire.id)
   }
 
@@ -209,7 +213,26 @@ export default class IngredientScreen extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id) }}>
+          <TouchableOpacity onPress={() => {
+            Alert.alert(
+              '',
+              Messages.would_you_like_to_delete_it,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'OK', onPress: () => {
+                    this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id)
+                  }
+                },
+              ],
+              { cancelable: false },
+            );
+          }}
+          >
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -234,7 +257,26 @@ export default class IngredientScreen extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id) }}>
+          <TouchableOpacity onPress={() => {
+            Alert.alert(
+              '',
+              Messages.would_you_like_to_delete_it,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'OK', onPress: () => {
+                    this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id)
+                  }
+                },
+              ],
+              { cancelable: false },
+            );
+
+          }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -259,7 +301,25 @@ export default class IngredientScreen extends React.Component {
         <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => { this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id) }}>
+          <TouchableOpacity onPress={() => {
+            Alert.alert(
+              '',
+              Messages.would_you_like_to_delete_it,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'OK', onPress: () => {
+                    this.requestDeleteUserIngredient(item.id, this.state.selected_questionnaire.id)
+                  }
+                },
+              ],
+              { cancelable: false },
+            );
+          }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -747,9 +807,9 @@ ingredients that can cause allergies.</Text>
   }
 
   requestDeleteUserIngredient(p_ingredient_id, p_questionnaire_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.ingredient.deleteUserIngredient, {
       method: 'POST',
       headers: {
@@ -765,9 +825,9 @@ ingredients that can cause allergies.</Text>
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
