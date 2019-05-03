@@ -14,6 +14,12 @@ global.setting = null;
 global.user_pwd = null;
 global.noti_setting = null;
 
+// 이 값으로 모든 root 페지들이 refresh 가 필요한가를 판정함
+// 현재는 mylist 만 판정, 다른 페지들은 필요할때 추가.
+global.refreshStatus = {
+  mylist: true,
+}
+
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,

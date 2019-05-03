@@ -700,6 +700,7 @@ export class FragmentRecommendProduct extends React.Component {
           return
         }
         this.onProductLiked(p_product_id)
+        global.refreshStatus.mylist = true
 
       })
       .catch((error) => {
@@ -738,6 +739,7 @@ export class FragmentRecommendProduct extends React.Component {
           return
         }
         this.onProductUnliked(p_product_id)
+        global.refreshStatus.mylist = true
 
       })
       .catch((error) => {

@@ -161,6 +161,7 @@ export default class FavoriteArticlesScreen extends React.Component {
         }
 
         this.requestArticleLikeList(0);
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({

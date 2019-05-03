@@ -30,7 +30,6 @@ import {
   Animated,
   TouchableHighlight,
   Easing,
-  RefreshControl,
 } from 'react-native';
 
 import { NavigationEvents } from 'react-navigation';
@@ -123,9 +122,7 @@ export default class MyListScreen extends React.Component {
       onMoveShouldSetPanResponder: (evt, gestureState) => false,
     })
     this.state = {
-      refreshing: false,
       scroll_enabled: true,
-      alreadyLoaded: false,
       showLoginModal: false,
       addAlbumModalVisible: false,
       edit_album_id: 0, // 0  이면 add_album, > 0 이면 edit_album
@@ -237,11 +234,7 @@ export default class MyListScreen extends React.Component {
   deleteFromMyListCallback = () => {
     this.requestMyList()
   }
-  _onRefresh = () => {
-    this.setState({ refreshing: true });
-    this.requestMyList();
-    this.setState({ refreshing: false });
-  }
+  
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: Colors.color_f8f8f8 }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
@@ -251,7 +244,9 @@ export default class MyListScreen extends React.Component {
               this.setState({ showLoginModal: true });
               return;
             }
-            if (this.state.alreadyLoaded == false) {
+            console.log("22222222222" + global.refreshStatus.mylist)
+            if(global.refreshStatus.mylist == true) {
+              global.refreshStatus.mylist = false
               this.requestMyList();
             }
           }}
@@ -267,13 +262,7 @@ export default class MyListScreen extends React.Component {
         />
         <Toast ref='toast' />
 
-        <ScrollView ref='_scrollview' scrollEnabled={this.state.scroll_enabled} style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh}
-            />
-          }>
+        <ScrollView ref='_scrollview' scrollEnabled={this.state.scroll_enabled} style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag">
 
           <View style={{ justifyContent: "center" }}>
 
@@ -497,7 +486,6 @@ export default class MyListScreen extends React.Component {
   requestMyList() {
     this.setState({
       isLoading: true,
-      alreadyLoaded: true,
     });
     return fetch(Net.user.myList, {
       method: 'POST',

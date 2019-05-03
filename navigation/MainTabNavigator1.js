@@ -168,6 +168,8 @@ LoginStack.navigationOptions = {
 const MyListStack = createStackNavigator({
   MyList: MyListScreen,
   FavoriteArticles: FavoriteArticlesScreen,
+  Article: ArticlesScreen,
+  ArticleDetail: ArticleDetailScreen,
   HeartList: HeartListScreen,
   BlotchdList: BlotchdListScreen,
   MatchdList: MatchdListScreen,

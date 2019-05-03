@@ -437,12 +437,14 @@ export default class IngredientScreen extends React.Component {
                     : <Image source={require("../../assets/images/ic_polygon_down.png")} style={[MyStyles.ic_polygon_down]} />
                 }
               </TouchableOpacity>
-              <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
 
               {
                 this.state.section_allergic_show ?
-                  <View style={[MyStyles.padding_main]}>
-                    {this.state.mylist_result_data.my_list.map((item, index) => this.renderAllergicIngredients(item, index))}
+                  <View>
+                    <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
+                    <View style={[MyStyles.padding_main]}>
+                      {this.state.mylist_result_data.my_list.map((item, index) => this.renderAllergicIngredients(item, index))}
+                    </View>
                   </View>
                   : null
               }
@@ -476,36 +478,38 @@ export default class IngredientScreen extends React.Component {
                     : <Image source={require("../../assets/images/ic_polygon_down.png")} style={[MyStyles.ic_polygon_down]} />
                 }
               </TouchableOpacity>
-              <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
 
               {
                 this.state.section_potential_show ?
-                  <View style={[MyStyles.padding_main]}>
-                    {this.state.mylist_result_data.my_list.map((item, index) => this.renderPotentialAllergenIngredients(item, index))}
+                  <View>
+                    <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
+                    <View style={[MyStyles.padding_main]}>
+                      {this.state.mylist_result_data.my_list.map((item, index) => this.renderPotentialAllergenIngredients(item, index))}
 
-                    {/* Ingredients that can cause Allergies */}
-                    {this.state.mylist_result_data.potential_allergen_ingredient_list != null && this.state.mylist_result_data.potential_allergen_ingredient_list.length > 0 ?
-                      <View style={[{ marginTop: 10 }, MyStyles.bg_white]}>
-                        <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }]}>
-                          <Text style={[{ fontSize: 14, flex: 1, alignSelf: "center", fontWeight: "bold" }]}>Ingredients that can cause Allergies</Text>
-                          <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
-                            this.props.navigation.navigate("PotentialAllergenProduct")}>
-                            <Text style={MyStyles.txt_more}>more</Text>
-                            <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
-                          </TouchableOpacity>
-                        </View>
-                        <View>
-                          {
-                            this.renderPotentialAllergenProductScroll()
-                          }
+                      {/* Ingredients that can cause Allergies */}
+                      {this.state.mylist_result_data.potential_allergen_ingredient_list != null && this.state.mylist_result_data.potential_allergen_ingredient_list.length > 0 ?
+                        <View style={[{ marginTop: 10 }, MyStyles.bg_white]}>
+                          <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }]}>
+                            <Text style={[{ fontSize: 14, flex: 1, alignSelf: "center", fontWeight: "bold" }]}>Ingredients that can cause Allergies</Text>
+                            <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                              this.props.navigation.navigate("PotentialAllergenProduct")}>
+                              <Text style={MyStyles.txt_more}>more</Text>
+                              <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                            </TouchableOpacity>
+                          </View>
+                          <View>
+                            {
+                              this.renderPotentialAllergenProductScroll()
+                            }
 
-                          <View style={{ marginTop: 20 }}>
-                            {this.state.mylist_result_data.potential_allergen_ingredient_list.map((item, index) => this.renderGoodNormalBadIngredientList(item, index))}
+                            <View style={{ marginTop: 20 }}>
+                              {this.state.mylist_result_data.potential_allergen_ingredient_list.map((item, index) => this.renderGoodNormalBadIngredientList(item, index))}
+                            </View>
                           </View>
                         </View>
-                      </View>
-                      : null
-                    }
+                        : null
+                      }
+                    </View>
                   </View>
                   : null
               }
@@ -531,12 +535,14 @@ export default class IngredientScreen extends React.Component {
                     : <Image source={require("../../assets/images/ic_polygon_down.png")} style={[MyStyles.ic_polygon_down]} />
                 }
               </TouchableOpacity>
-              <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
 
               {
                 this.state.section_preferred_show ?
-                  <View style={[MyStyles.padding_main]}>
-                    {this.state.mylist_result_data.my_list.map((item, index) => this.renderPreferedIngredients(item, index))}
+                  <View>
+                    <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
+                    <View style={[MyStyles.padding_main]}>
+                      {this.state.mylist_result_data.my_list.map((item, index) => this.renderPreferedIngredients(item, index))}
+                    </View>
                   </View>
                   : null
               }
@@ -968,6 +974,7 @@ ingredients that can cause allergies.</Text>
           return
         }
         this.requestMyList(this.state.selected_questionnaire.id);
+        global.refreshStatus.mylist = true
 
       })
       .catch((error) => {
@@ -1006,6 +1013,7 @@ ingredients that can cause allergies.</Text>
           return
         }
         this.requestMyList(this.state.selected_questionnaire.id);
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({

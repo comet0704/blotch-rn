@@ -33,7 +33,6 @@ export class FragmentMatchdProduct extends React.Component {
     super(props);
   }
   componentDidMount() {
-    this.requestMatchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
   }
   state = {
     categoryItems: Common.getCategoryItems(),
@@ -47,6 +46,9 @@ export class FragmentMatchdProduct extends React.Component {
     loading_end: false,
   };
 
+  onNavigationEvent = () => {
+    this.requestMatchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+  }
 
   ScreenWidth = Dimensions.get('window').width;
 
@@ -170,14 +172,14 @@ export class FragmentMatchdProduct extends React.Component {
                 style={MyStyles.gridView}
                 spacing={10}
                 renderItem={({ item, index }) => (
-                  <ProductItem3 is_match_list={true} item={item} index={index} this={this}/>
+                  <ProductItem3 is_match_list={true} item={item} index={index} this={this} />
                 )}
               />
             </View>
 
             <Modal
               animationType="slide"
-              transparent={false}
+              transparent={true}
               visible={this.state.showDeleteModal}
               onRequestClose={() => {
               }}>
@@ -224,8 +226,7 @@ export class FragmentMatchdProduct extends React.Component {
   }
 
   requestMatchList(p_category, p_sub_category, p_offset) {
-    console.log("category= " + p_category);
-    console.log("p_sub_category = " + p_sub_category)
+    console.log("000000000" + global.login_info.token);
     this.setState({
       isLoading: true,
     });
@@ -311,6 +312,7 @@ export class FragmentMatchdProduct extends React.Component {
         match_list.splice(index, 1)
         const result = { match_list: match_list };
         this.setState({ product_list_result_data: result })
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({

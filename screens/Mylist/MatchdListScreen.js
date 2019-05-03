@@ -29,33 +29,33 @@ export default class MatchdListScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      initialPage: 0
     }
   }
   componentDidMount() {
   }
 
-  componentWillMount() {
-  }
 
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
+        <NavigationEvents
+          onWillFocus={payload => {
+            this.refs.MatchdProductTab.onNavigationEvent()
+          }}
+        />
         <TopbarWithBlackBack title="Match'd List" onPress={() => {
           this.props.navigation.goBack(null)
         }}></TopbarWithBlackBack>
         <ScrollableTabView
           style={{ height: 20, borderBottomWidth: 0, marginTop: 10 }}
-          initialPage={this.state.initialPage}
           tabBarInactiveTextColor={Colors.color_dcdedd}
-          page={this.state.initialPage}
           tabBarActiveTextColor={Colors.primary_dark}
           tabBarTextStyle={{ fontWeight: "400", fontSize: 14 }}
           tabBarUnderlineStyle={{ backgroundColor: Colors.primary_purple }}
           renderTabBar={() => <DefaultTabBar />}
         >
           <View tabLabel="Product" style={{ flex: 1 }}>
-            <FragmentMatchdProduct navigation={this.props.navigation} ></FragmentMatchdProduct>
+            <FragmentMatchdProduct ref="MatchdProductTab" navigation={this.props.navigation} ></FragmentMatchdProduct>
           </View>
           <View tabLabel="Brand" style={{ flex: 1 }}>
             <FragmentMatchdBrand navigation={this.props.navigation} ></FragmentMatchdBrand>

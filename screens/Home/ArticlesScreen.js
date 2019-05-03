@@ -252,6 +252,7 @@ export default class ArticlesScreen extends React.Component {
         const w_index = this.state.result_data.list.findIndex(item1 => item1.id == p_article_id)
         this.state.result_data.list[w_index].is_liked = 100
         this.setState({ result_data: this.state.result_data })
+        global.refreshStatus.mylist = true
 
       })
       .catch((error) => {
@@ -292,6 +293,7 @@ export default class ArticlesScreen extends React.Component {
         const w_index = this.state.result_data.list.findIndex(item1 => item1.id == p_article_id)
         this.state.result_data.list[w_index].is_liked = null
         this.setState({ result_data: this.state.result_data })
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({

@@ -96,7 +96,7 @@ export default class MyOwnListScreen extends React.Component {
 
           <Modal
             animationType="slide"
-            transparent={false}
+            transparent={true}
             visible={this.state.showDeleteModal}
             onRequestClose={() => {
             }}>
@@ -328,6 +328,7 @@ export default class MyOwnListScreen extends React.Component {
         const result = { product_list: product_list };
         this.setState({ product_list_result_data: result })
         this.deleteFromMyListCallback();
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({

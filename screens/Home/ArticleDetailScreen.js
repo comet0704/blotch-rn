@@ -471,6 +471,7 @@ export default class ArticleDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log("aaaaa")
         // this.setState({
         //   isLoading: false,
         // });
@@ -479,10 +480,10 @@ export default class ArticleDetailScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-
         this.state.article_detail_result_data.detail.is_liked = 100
         this.state.article_detail_result_data.detail.like_count++
-        this.setState(article_detail_result_data)
+        this.setState({ article_detail_result_data: this.state.article_detail_result_data })
+        global.refreshStatus.mylist = true
 
       })
       .catch((error) => {
@@ -522,6 +523,7 @@ export default class ArticleDetailScreen extends React.Component {
         this.state.article_detail_result_data.detail.is_liked = -1
         this.state.article_detail_result_data.detail.like_count--
         this.setState(article_detail_result_data)
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({

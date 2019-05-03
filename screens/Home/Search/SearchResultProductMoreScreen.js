@@ -191,6 +191,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
           return
         }
         this.requestSearchProduct(this.state.searchWord);
+        global.refreshStatus.mylist = true
 
       })
       .catch((error) => {
@@ -229,6 +230,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
           return
         }
         this.requestSearchProduct(this.state.searchWord);
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({

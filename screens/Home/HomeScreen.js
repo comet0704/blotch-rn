@@ -759,7 +759,7 @@ export default class HomeScreen extends React.Component {
           return
         }
         this.requestHomeList();
-
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({
@@ -796,79 +796,7 @@ export default class HomeScreen extends React.Component {
           return
         }
         this.requestHomeList();
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-  }
-
-  requestArticleLike(p_article_id) {
-    // this.setState({
-    //   isLoading: true,
-    // });
-    return fetch(Net.article.like, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-access-token': global.login_info.token
-      },
-      body: JSON.stringify({
-        article_id: p_article_id.toString()
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        // this.setState({
-        //   isLoading: false,
-        // });
-
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return
-        }
-        this.requestHomeList();
-
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-  }
-
-  requestArticleUnlike(p_article_id) {
-    // this.setState({
-    //   isLoading: true,
-    // });
-    return fetch(Net.article.unlike, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'x-access-token': global.login_info.token
-      },
-      body: JSON.stringify({
-        article_id: p_article_id.toString()
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        // this.setState({
-        //   isLoading: false,
-        // });
-
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return
-        }
-        this.requestHomeList();
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({

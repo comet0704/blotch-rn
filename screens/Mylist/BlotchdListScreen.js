@@ -26,27 +26,28 @@ import {
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
 import { ProductItem3 } from '../../components/Products/ProductItem3';
+import { NavigationEvents } from 'react-navigation';
 
 export default class BlotchdListScreen extends React.Component {
   offset = 0;
   selectedSubCatName = "";
   constructor(props) {
     super(props);
+    this.state = {
+      categoryItems: Common.getCategoryItems(),
+      showDeleteModal: false,
+      product_list_result_data: {
+        match_list: []
+      },
+
+      beforeCatIdx: 0,
+      loading_end: false,
+    };
+
   }
+
   componentDidMount() {
-    this.requestBlotchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
   }
-  state = {
-    categoryItems: Common.getCategoryItems(),
-    showDeleteModal: false,
-    product_list_result_data: {
-      match_list: []
-    },
-
-    beforeCatIdx: 0,
-    loading_end: false,
-  };
-
 
   ScreenWidth = Dimensions.get('window').width;
 
@@ -125,7 +126,11 @@ export default class BlotchdListScreen extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
-
+        <NavigationEvents
+          onWillFocus={payload => {
+            this.requestBlotchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+          }}
+        />
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -175,7 +180,7 @@ export default class BlotchdListScreen extends React.Component {
                 style={MyStyles.gridView}
                 spacing={10}
                 renderItem={({ item, index }) => (
-                  <ProductItem3 is_blotch_list={true} item={item} index={index} this={this}/>
+                  <ProductItem3 is_blotch_list={true} item={item} index={index} this={this} />
                 )}
               />
             </View>
@@ -183,7 +188,7 @@ export default class BlotchdListScreen extends React.Component {
           </View>
           <Modal
             animationType="slide"
-            transparent={false}
+            transparent={true}
             visible={this.state.showDeleteModal}
             onRequestClose={() => {
             }}>
@@ -317,6 +322,7 @@ export default class BlotchdListScreen extends React.Component {
         match_list.splice(index, 1)
         const result = { match_list: match_list };
         this.setState({ product_list_result_data: result })
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({

@@ -415,6 +415,7 @@ export default class SearchResultScreen extends React.Component {
           return
         }
         this.requestSearchAll(this.state.searchWord);
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({
@@ -452,6 +453,7 @@ export default class SearchResultScreen extends React.Component {
           return
         }
         this.requestSearchAll(this.state.searchWord);
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({

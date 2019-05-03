@@ -143,7 +143,12 @@ export class FragmentProductDetailReviews extends React.Component {
       <View key={index}>
         <View style={MyStyles.comment_item}>
           {item.parent == 0 ? null : <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 13, marginTop: 5, marginRight: 10 }]} />}
-          <Image source={item.profile_image ? { uri: Common.getImageUrl(item.profile_image) } : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]} />
+          <View>
+            <Image source={item.profile_image ? { uri: Common.getImageUrl(item.profile_image) } : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]} />
+            {item.user_score > 1000 ?
+              <Text style={{ fontSize: 10, color: Colors.primary_purple, textAlign: "center", fontWeight: "500", marginTop: 20 / 3 }}>Best</Text>
+              : null}
+          </View>
           <View style={{ flex: 1, marginLeft: 10 }}>
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
               <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>

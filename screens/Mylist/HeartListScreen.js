@@ -26,6 +26,7 @@ import {
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
 import { ProductItem3 } from '../../components/Products/ProductItem3';
+import { NavigationEvents } from 'react-navigation';
 
 export default class HeartListScreen extends React.Component {
   offset = 0;
@@ -34,7 +35,7 @@ export default class HeartListScreen extends React.Component {
     super(props);
   }
   componentDidMount() {
-    this.requestHeartList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+      // NavigationEvents 에서 처리해주면 됨.
   }
   state = {
     categoryItems: Common.getCategoryItems(),
@@ -88,7 +89,7 @@ export default class HeartListScreen extends React.Component {
 
           <Modal
             animationType="slide"
-            transparent={false}
+            transparent={true}
             visible={this.state.showDeleteModal}
             onRequestClose={() => {
             }}>
@@ -107,7 +108,7 @@ export default class HeartListScreen extends React.Component {
                   <View style={{ flexDirection: "row" }}>
                     <TouchableHighlight onPress={() => {
                       this.setState({ showDeleteModal: false });
-                      this.requestDeleteMatch(this.state.delete_item_id);
+                      this.requestProductUnlike(this.state.delete_item_id);
                     }}
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
                       <Text style={MyStyles.btn_primary}>Yes</Text>
@@ -167,7 +168,11 @@ export default class HeartListScreen extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
-
+        <NavigationEvents
+          onWillFocus={payload => {
+            this.requestHeartList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+          }}
+        />
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -217,7 +222,7 @@ export default class HeartListScreen extends React.Component {
                 style={MyStyles.gridView}
                 spacing={10}
                 renderItem={({ item, index }) => (
-                  <ProductItem3 is_heart_list={true} item={item} index={index} this={this}/>
+                  <ProductItem3 is_heart_list={true} item={item} index={index} this={this} />
                 )}
               />
             </View>
@@ -287,11 +292,11 @@ export default class HeartListScreen extends React.Component {
   }
 
 
-  requestDeleteMatch(p_product_id) {
+  requestProductUnlike(p_product_id) {
     // this.setState({
     //   isLoading: true,
     // });
-    return fetch(Net.product.deleteMatch, {
+    return fetch(Net.product.unlike, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -317,6 +322,7 @@ export default class HeartListScreen extends React.Component {
         like_list.splice(index, 1)
         const result = { like_list: like_list };
         this.setState({ product_list_result_data: result })
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({

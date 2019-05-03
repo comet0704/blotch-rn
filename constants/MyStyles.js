@@ -686,8 +686,8 @@ export default StyleSheet.create({
     backgroundColor: "white",
     borderColor: "#e3e5e4",
     borderWidth: 1,
-    borderRadius: 240 / 6,
-    width: 240 / 3,
+    borderRadius: 180 / 6,
+    width: 180 / 3,
     aspectRatio: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -1506,8 +1506,8 @@ export default StyleSheet.create({
     alignSelf: 'flex-end',
     backgroundColor: Colors.primary_purple,
     borderRadius: 30,
-    justifyContent:"center",
-    alignItems:"center",
+    justifyContent: "center",
+    alignItems: "center",
   },
   dropdown_2_text: {
     marginVertical: 3,
@@ -1536,7 +1536,7 @@ export default StyleSheet.create({
     height: 1,
     backgroundColor: Colors.color_e3e5e4,
   },
-  category_tag : {
+  category_tag: {
     borderRadius: 30, backgroundColor: Colors.color_f6f6f6, paddingHorizontal: 5, marginRight: 5
   }
 });

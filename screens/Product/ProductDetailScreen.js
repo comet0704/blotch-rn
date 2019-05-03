@@ -372,7 +372,8 @@ export default class ProductDetailScreen extends React.Component {
         } else {
           this.state.product_detail_result_data.detail.user_match = "B"
         }
-        this.setState(product_detail_result_data)
+        this.setState({ product_detail_result_data: this.state.product_detail_result_data })
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({
@@ -412,7 +413,8 @@ export default class ProductDetailScreen extends React.Component {
         }
 
         this.state.product_detail_result_data.detail.user_match = ""
-        this.setState(product_detail_result_data)
+        this.setState({ product_detail_result_data: this.state.product_detail_result_data })
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({
@@ -452,7 +454,8 @@ export default class ProductDetailScreen extends React.Component {
         }
         this.state.product_detail_result_data.detail.is_liked = 100
         this.state.product_detail_result_data.detail.like_count++
-        this.setState(product_detail_result_data)
+        this.setState({ product_detail_result_data: this.state.product_detail_result_data })
+        global.refreshStatus.mylist = true
 
       })
       .catch((error) => {
@@ -492,7 +495,8 @@ export default class ProductDetailScreen extends React.Component {
         }
         this.state.product_detail_result_data.detail.is_liked = -1
         this.state.product_detail_result_data.detail.like_count--
-        this.setState(product_detail_result_data)
+        this.setState({ product_detail_result_data: this.state.product_detail_result_data })
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({
@@ -634,6 +638,7 @@ export default class ProductDetailScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
+        global.refreshStatus.mylist = true
       })
       .catch((error) => {
         this.setState({
