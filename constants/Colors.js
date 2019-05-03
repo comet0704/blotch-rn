@@ -28,6 +28,7 @@ export default {
   color_primary_pink: '#ccaee3',
   color_dcdedd: '#dcdedd',
   color_f691a1: '#f691a1',
+  color_f6f6f6: '#f6f6f6',
   color_f2f2f2: '#f2f2f2',
   color_6bd5be: '#6bd5be',
   color_656565: '#656565',

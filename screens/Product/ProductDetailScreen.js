@@ -41,7 +41,10 @@ export default class ProductDetailScreen extends React.Component {
           "grade": 0,
           "is_liked": null,
           "brand_title": ""
-        }
+        },
+        product_category: [
+
+        ]
       },
       matched: false,
       blotched: false,
@@ -129,7 +132,7 @@ export default class ProductDetailScreen extends React.Component {
           <View style={[{ flex: 1 }]}>
 
             {/* 이미지 부분 */}
-            <View style={{ overflow: "hidden", justifyContent: "center", alignSelf: "center", width: this.BannerWidth, height: this.BannerHeight, borderBottomLeftRadius: 10, borderBottomRightRadius: 10, borderLeftColor: Colors.color_f9f9f9, borderRightColor: Colors.color_f9f9f9, borderWidth: 1, borderBottomColor: Colors.color_f3f3f3, borderBottomWidth: 2, borderTopWidth: 0 }}>
+            <View style={[{ overflow: "hidden", justifyContent: "center", alignSelf: "center", width: this.BannerWidth, height: this.BannerHeight, borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }, MyStyles.shadow_5]}>
               {this.state.product_detail_result_data.detail.image_list.length > 0 ?
                 <Carousel
                   pageIndicatorStyle={MyStyles.pageIndicatorStyle}
@@ -163,12 +166,26 @@ export default class ProductDetailScreen extends React.Component {
             {/* Description */}
             <View style={[{ marginTop: 5 }, MyStyles.padding_main]}>
               <View style={[{ marginTop: 5, flexDirection: "row", flex: 1 }]}>
-                <View style={[{ marginTop: 5, flexDirection: "row", alignItems: "center", borderWidth: 0.5, paddingLeft: 5, paddingRight: 5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }]}>
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS]: this.state.product_detail_result_data.detail.brand_id }) }} style={[{ flexDirection: "row", alignItems: "center", borderWidth: 0.5, paddingLeft: 5, paddingRight: 5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }]}>
                   <Text style={{ color: Colors.color_949191 }}>{this.state.product_detail_result_data.detail.brand_title} </Text>
                   <Image source={require("../../assets/images/ic_arrow_right_gray.png")} style={MyStyles.ic_arrow_right_gray} />
-                </View>
+                </TouchableOpacity>
+
+                <ScrollView
+                  style={{ marginLeft: 70 / 3, flex: 1 }}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}>
+                  {this.state.product_detail_result_data.product_category.map(item => {
+                    return (
+                      <View style={[MyStyles.category_tag]}>
+                        <Text style={{ fontSize: 13, color: Colors.color_949292 }}>#{item.main_category.toUpperCase()}{item.sub_category ? " > " + item.sub_category.toUpperCase() : ""}</Text>
+                      </View>
+                    )
+                  })
+                  }
+                </ScrollView>
               </View>
-              <Text style={{ fontSize: 63 / 3, color: Colors.primary_dark, marginTop: 5, marginBottom: 25 }}>{this.state.product_detail_result_data.detail.title}
+              <Text style={{ fontSize: 63 / 3, color: Colors.primary_dark, marginTop: 30 / 3, marginBottom: 25 }}>{this.state.product_detail_result_data.detail.title}
               </Text>
               <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", marginBottom: 5 }}>
                 <Image style={{ flex: 1 }} />
@@ -221,7 +238,7 @@ export default class ProductDetailScreen extends React.Component {
               </View>
             </View>
           </View>
-          
+
         </ScrollView>
 
         {/* 하단바 */}
@@ -278,7 +295,7 @@ export default class ProductDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log("999999999" + responseJson.result_data.detail.image_list);
+        console.log("999999999" + JSON.stringify(responseJson.result_data));
         this.setState({
           isLoading: false,
         });

@@ -1528,4 +1528,7 @@ export default StyleSheet.create({
     height: 1,
     backgroundColor: Colors.color_e3e5e4,
   },
+  category_tag : {
+    borderRadius: 30, backgroundColor: Colors.color_f6f6f6, paddingHorizontal: 5, marginRight: 5
+  }
 });
