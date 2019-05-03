@@ -23,6 +23,7 @@ import {
   Dimensions,
   TouchableHighlight,
   TouchableWithoutFeedback,
+  Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { NavigationEvents } from 'react-navigation';
@@ -321,7 +322,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
       .done();
   }
 
-  requestAddUserIngredient(p_ingredient_id, p_type, p_questionnaire_id) {
+  requestAddUserIngredient(p_ingredient_id, p_type, p_questionnaire_id, p_force) {
     this.setState({
       isLoading: true,
     });
@@ -336,6 +337,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
         ingredient_id: p_ingredient_id.toString(),
         type: p_type.toString(),
         questionnaire_id: p_questionnaire_id,
+        force: p_force,
       }),
     })
       .then((response) => response.json())
@@ -343,14 +345,31 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
         console.log(responseJson);
         this.setState({
           isLoading: false,
+          saveToModalVisible: false,
         });
 
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return
+          if (responseJson.result_code == -10) {
+            Alert.alert(
+              '',
+              responseJson.result_msg,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                { text: 'OK', onPress: () => this.requestAddUserIngredient(p_ingredient_id, p_type, p_questionnaire_id, 1) },
+              ],
+              { cancelable: false },
+            );
+            return
+          } else {
+            this.refs.toast.showBottom(responseJson.result_msg);
+            return
+          }
         }
 
-        this.setState({ saveToModalVisible: false });
 
         this.requestSearchIngredient(this.state.searchWord);
       })
