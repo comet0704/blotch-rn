@@ -22,6 +22,10 @@ export default StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
   },
+  padding_v_20: {
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
   padding_v_25: {
     paddingTop: 25,
     paddingBottom: 25,
@@ -1306,6 +1310,10 @@ export default StyleSheet.create({
   ic_star_rate_bg: {
     width: 141 / 3,
     height: 69 / 3,
+  },
+  ic_beauty_box: {
+    width: 65 / 3,
+    height: 53 / 3,
   },
   review_photo: {
     flex: 1, backgroundColor: "transparent", borderWidth: 1, aspectRatio: 1.2, margin: 5,

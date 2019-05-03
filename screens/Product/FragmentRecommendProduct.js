@@ -42,7 +42,8 @@ export class FragmentRecommendProduct extends React.Component {
 
       product_list_result_data: {
         recomment_list: [
-        ]
+        ],
+        recomment_count: 0
       },
       mainCategoryItems: Common.categoryItems_recom,
       selected_questionnaire: {
@@ -413,7 +414,7 @@ export class FragmentRecommendProduct extends React.Component {
               {/* product 나열 */}
               <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
                 <View style={{ flexDirection: "row", justifyContent: "center", width: "100%", alignItems: "center" }}>
-                  <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.recomment_list.length})</Text>
+                  <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.recomment_count})</Text>
                   <View style={{ flex: 1 }}></View>
                   <TouchableOpacity style={[MyStyles.padding_h_main,]} onPress={() => { this.setState({ filterModalVisible: true }) }}>
                     <Image source={require("../../assets/images/ic_filter.png")} style={[MyStyles.ic_filter]} />
@@ -623,7 +624,7 @@ export class FragmentRecommendProduct extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
+        console.log(JSON.stringify(responseJson));
         this.setState({
           isLoading: false,
         });

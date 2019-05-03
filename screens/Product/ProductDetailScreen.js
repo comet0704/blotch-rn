@@ -50,6 +50,7 @@ export default class ProductDetailScreen extends React.Component {
       blotched: false,
       starCount: 3.5,
       modalVisible: false,
+      curImageIdx: 1,
       tabbar: {
         Ingredients: true,
         Reviews: false,
@@ -97,15 +98,11 @@ export default class ProductDetailScreen extends React.Component {
   BannerHeight = 760 / 3;
   BannerWidth = Dimensions.get('window').width - 30;
   renderImages(image, index) {
-    console.log("1111111" + image)
     return (
       <View key={index}>
         <TouchableHighlight>
           <View>
             <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(image) }} />
-            <View style={{ position: "absolute", bottom: 10, justifyContent: "center", width: "100%", flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ backgroundColor: Colors.color_636364, paddingLeft: 10, paddingRight: 10, borderRadius: 10, color: "white", textAlign: "center" }}>{(index + 1) + "/" + this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).length}</Text>
-            </View>
           </View>
         </TouchableHighlight>
       </View>
@@ -126,26 +123,35 @@ export default class ProductDetailScreen extends React.Component {
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
-        <TopbarWithBlackBack has_beautybox_btn={true} rightBtn="true" title="Product" onPress={() => { this.props.navigation.goBack(null) }} onRightBtnPress={() => { this.onShare() }} onAddBeautyBox={() => { this.onAddBeautyBox() }}></TopbarWithBlackBack>
+        <TopbarWithBlackBack rightBtn="true" title="Product" onPress={() => { this.props.navigation.goBack(null) }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
 
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
           <View style={[{ flex: 1 }]}>
 
             {/* 이미지 부분 */}
-            <View style={[{ overflow: "hidden", justifyContent: "center", alignSelf: "center", width: this.BannerWidth, height: this.BannerHeight, borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }, MyStyles.shadow_5]}>
+            <View style={[{ overflow: "hidden", justifyContent: "center", alignSelf: "center", width: this.BannerWidth, height: this.BannerHeight, borderRadius: 10 }, MyStyles.shadow_5]}>
               {this.state.product_detail_result_data.detail.image_list.length > 0 ?
-                <Carousel
-                  pageIndicatorStyle={MyStyles.pageIndicatorStyle}
-                  activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
-                  autoplay
-                  autoplayTimeout={3000}
-                  loop
-                  index={0}
-                  showsPageIndicator={false}
-                  pageSize={this.BannerWidth}
-                >
-                  {this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).map((image, index) => this.renderImages(image, index))}
-                </Carousel>
+                <View>
+                  <Carousel
+                    pageIndicatorStyle={MyStyles.pageIndicatorStyle}
+                    activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
+                    autoplay
+                    autoplayTimeout={3000}
+                    onPageChanged={(index) => {
+                      this.state.curImageIdx = index + 1;
+                      this.setState({ curImageIdx: this.state.curImageIdx })
+                    }}
+                    loop
+                    index={0}
+                    showsPageIndicator={false}
+                    pageSize={this.BannerWidth}
+                  >
+                    {this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).map((image, index) => this.renderImages(image, index))}
+                  </Carousel>
+                  <View style={{ position: "absolute", bottom: 10, justifyContent: "center", width: "100%", flexDirection: "row", alignItems: "center" }}>
+                    <Text style={{ backgroundColor: Colors.color_636364, paddingLeft: 10, paddingRight: 10, borderRadius: 10, color: "white", textAlign: "center" }}>{(this.state.curImageIdx) + "/" + this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).length}</Text>
+                  </View>
+                </View>
                 :
                 null
               }
@@ -177,7 +183,7 @@ export default class ProductDetailScreen extends React.Component {
                   showsHorizontalScrollIndicator={false}>
                   {this.state.product_detail_result_data.product_category.map(item => {
                     return (
-                      <View style={[MyStyles.category_tag]}>
+                      <View key={item.id} style={[MyStyles.category_tag]}>
                         <Text style={{ fontSize: 13, color: Colors.color_949292 }}>#{item.main_category.toUpperCase()}{item.sub_category ? " > " + item.sub_category.toUpperCase() : ""}</Text>
                       </View>
                     )
@@ -187,13 +193,13 @@ export default class ProductDetailScreen extends React.Component {
               </View>
               <Text style={{ fontSize: 63 / 3, color: Colors.primary_dark, marginTop: 30 / 3, marginBottom: 25 }}>{this.state.product_detail_result_data.detail.title}
               </Text>
-              <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", marginBottom: 5 }}>
+              <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", height: 69 / 3, }}>
                 <Image style={{ flex: 1 }} />
                 <Image source={require("../../assets/images/ic_heart_gray.png")} style={MyStyles.ic_heart_gray} />
                 <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.product_detail_result_data.detail.like_count}</Text>
                 <TouchableOpacity onPress={() => {
                   this.setState({
-                    gradeVisible: true
+                    gradeVisible: !this.state.gradeVisible
                   });
                 }}>
                   <StarRating
@@ -208,9 +214,24 @@ export default class ProductDetailScreen extends React.Component {
                   />
                 </TouchableOpacity>
                 {this.state.gradeVisible ?
-                  <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.product_detail_result_data.detail.grade}</Text>
+                  <View style={[{ justifyContent: "center", alignItems: "center", marginLeft: 5 }, MyStyles.ic_star_rate_bg]}>
+                    <Image source={require("../../assets/images/ic_star_rate_bg.png")} style={[MyStyles.background_image]} />
+                    <Text style={{ color: Colors.color_star_full, alignSelf: "center", marginTop: -2, fontSize: 12 }}>{parseFloat(this.state.product_detail_result_data.detail.grade).toFixed(1)}</Text>
+                  </View>
                   : null}
               </View>
+            </View>
+            <View style={MyStyles.seperate_line_e5e5e5}></View>
+
+            <View style={[MyStyles.padding_h_main, MyStyles.padding_v_20]}>
+              <TouchableOpacity style={{ borderRadius: 4, backgroundColor: Colors.primary_purple, flex: 1, height: 115 / 3, flexDirection: "row", alignItems: "center", justifyContent: "center" }} onPress={() => {
+                this.onAddBeautyBox()
+              }}>
+                <Image source={require("../../assets/images/ic_beauty_box.png")} style={[MyStyles.ic_beauty_box]} />
+                <Text style={{ marginLeft: 10, fontSize: 13, color: "white" }}>
+                  Add to My Beauty Box
+              </Text>
+              </TouchableOpacity>
             </View>
             <View style={MyStyles.seperate_line_e5e5e5}></View>
 
@@ -239,49 +260,50 @@ export default class ProductDetailScreen extends React.Component {
             </View>
           </View>
 
+          {/* 하단바 */}
+          {/* <LinearGradient colors={['#fefefe', '#f8f8f8']} style={{ height: 3 }} ></LinearGradient> */}
+          <View style={[{ height: 215 / 3, flexDirection: "row", alignItems: "center" }, MyStyles.shadow_5]}>
+            <View style={{ flex: 1 }}>
+              <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "M" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 0) }}>
+                {this.state.product_detail_result_data.detail.user_match == "M" ? <Image source={require('../../assets/images/ic_match_on.png')} style={[MyStyles.ic_match]} /> : <Image source={require('../../assets/images/ic_match_off.png')} style={[MyStyles.ic_match]} />}
+                {this.state.product_detail_result_data.detail.user_match == "M" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_6bd5be }}>Match'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Match'd</Text>}
+              </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1 }}>
+              <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "B" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 1) }}>
+                {this.state.product_detail_result_data.detail.user_match == "B" ? <Image source={require('../../assets/images/ic_blotch_on.png')} style={[MyStyles.ic_blotch]} /> : <Image source={require('../../assets/images/ic_blotch_off.png')} style={[MyStyles.ic_blotch]} />}
+                {this.state.product_detail_result_data.detail.user_match == "B" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_f691a1 }}>Blotch'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Blotch'd</Text>}
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <ModalDropdown ref="dropdown_2"
+                style={[MyStyles.dropdown_2, { height: 30, width: 250 / 3, marginRight: 15 }]}
+                defaultIndex={0}
+                defaultValue="Save as ▾"
+                textStyle={MyStyles.dropdown_2_text}
+                dropdownStyle={MyStyles.dropdown_2_dropdown}
+                options={this.state.album_list}
+                renderButtonText={(rowData) => "Save as ▾"}
+                renderRow={Common._dropdown_3_renderRow.bind(this)}
+                onSelect={(idx, rowData) => {
+                  // this.requestCheckInMyList(rowData.id, item_id)
+                  this.requestAddToMyList(rowData.id, item_id)
+                }}
+                renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
+              />
+            </View>
+          </View>
         </ScrollView>
 
-        {/* 하단바 */}
-        <LinearGradient colors={['#fefefe', '#f8f8f8']} style={{ height: 3 }} ></LinearGradient>
-        <View style={{ height: 215 / 3, flexDirection: "row", alignItems: "center" }}>
-          <View style={{ flex: 1 }}>
-            <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "M" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 0) }}>
-              {this.state.product_detail_result_data.detail.user_match == "M" ? <Image source={require('../../assets/images/ic_match_on.png')} style={[MyStyles.ic_match]} /> : <Image source={require('../../assets/images/ic_match_off.png')} style={[MyStyles.ic_match]} />}
-              {this.state.product_detail_result_data.detail.user_match == "M" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_6bd5be }}>Match'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Match'd</Text>}
-            </TouchableOpacity>
-          </View>
-          <View style={{ flex: 1 }}>
-            <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "B" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 1) }}>
-              {this.state.product_detail_result_data.detail.user_match == "B" ? <Image source={require('../../assets/images/ic_blotch_on.png')} style={[MyStyles.ic_blotch]} /> : <Image source={require('../../assets/images/ic_blotch_off.png')} style={[MyStyles.ic_blotch]} />}
-              {this.state.product_detail_result_data.detail.user_match == "B" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_f691a1 }}>Blotch'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Blotch'd</Text>}
-            </TouchableOpacity>
-          </View>
-
-          <View style={{ flex: 1 }}>
-            <ModalDropdown ref="dropdown_2"
-              style={[MyStyles.dropdown_2, { height: 30, width: 250 / 3, marginRight: 15 }]}
-              defaultIndex={0}
-              defaultValue="Save as ▾"
-              textStyle={MyStyles.dropdown_2_text}
-              dropdownStyle={MyStyles.dropdown_2_dropdown}
-              options={this.state.album_list}
-              renderButtonText={(rowData) => Common._dropdown_2_renderButtonText(rowData)}
-              renderRow={Common._dropdown_3_renderRow.bind(this)}
-              onSelect={(idx, rowData) => {
-                this.requestCheckInMyList(rowData.id, item_id)
-              }}
-              renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
-            />
-          </View>
-        </View>
       </KeyboardAvoidingView >
     );
   }
 
   requestProductDetail(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.product.detail, {
       method: 'POST',
       headers: {
@@ -296,9 +318,9 @@ export default class ProductDetailScreen extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log("999999999" + JSON.stringify(responseJson.result_data));
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
@@ -482,10 +504,9 @@ export default class ProductDetailScreen extends React.Component {
   }
 
   requestMyList() {
-    this.setState({
-      isLoading: true,
-      alreadyLoaded: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.user.myList, {
       method: 'POST',
       headers: {
@@ -499,9 +520,9 @@ export default class ProductDetailScreen extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         // console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -529,7 +550,6 @@ export default class ProductDetailScreen extends React.Component {
   requestCheckInMyList(p_album_id, p_product_id) {
     // this.setState({
     //   isLoading: true,
-    //   alreadyLoaded: true,
     // });
     return fetch(Net.product.checkInMyList, {
       method: 'POST',
@@ -590,7 +610,6 @@ export default class ProductDetailScreen extends React.Component {
   requestAddToMyList(p_album_id, p_product_id) {
     this.setState({
       isLoading: true,
-      alreadyLoaded: true,
     });
     return fetch(Net.product.addToMyList, {
       method: 'POST',
@@ -628,7 +647,6 @@ export default class ProductDetailScreen extends React.Component {
   requestAddBeautyBox(p_product_id) {
     this.setState({
       isLoading: true,
-      alreadyLoaded: true,
     });
     return fetch(Net.user.addBeautyBox, {
       method: 'POST',

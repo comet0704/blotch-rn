@@ -57,13 +57,15 @@ export class FragmentProductDetailReviews extends React.Component {
           {
             "match_count": 0,
             "blotch_count": 0,
-            "like_count": 3,
+            "like_count": 0,
             "album_product_count": 0
           }
         ],
         user_comment: {
         }
       },
+      comment_text: null,
+      selected_star: 3,
     };
   }
 
@@ -101,11 +103,14 @@ export class FragmentProductDetailReviews extends React.Component {
   }
 
   onPostSend = async () => {
-    if (this.state.product_comment_list_result_data.user_comment.comment == "") {
+    // if (this.state.product_comment_list_result_data.user_comment.comment == "") {
+    if (this.state.comment_text == "") {
       this.props.toast.showBottom("Please input your comment");
       return;
     }
-    if (this.state.product_comment_list_result_data.user_comment.grade == 0) {
+
+    // if (this.state.product_comment_list_result_data.user_comment.grade == 0) {
+    if (this.state.selected_star == 0) {
       this.props.toast.showBottom("Please select star");
       return;
     }
@@ -116,7 +121,7 @@ export class FragmentProductDetailReviews extends React.Component {
     }
 
     // 위까지 호출되면 this.uploadedImagePaths에 이미지 목록이 현시됨.
-    this.requestPostProductComment(item_id, this.state.product_comment_list_result_data.user_comment.comment, 0, this.state.product_comment_list_result_data.user_comment.grade, this.uploadedImagePaths)
+    this.requestPostProductComment(item_id, this.state.comment_text, 0, this.state.selected_star, this.uploadedImagePaths)
   }
 
   showImageZoomViewer(imageList, index) {
@@ -143,6 +148,20 @@ export class FragmentProductDetailReviews extends React.Component {
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
               <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
               {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 50 / 3 }]}>Me</Text> : null}
+              <StarRating
+                disabled={false}
+                maxStars={5}
+                containerStyle={{ width: 180 / 3, marginLeft: 10 }}
+                starSize={30 / 3}
+                emptyStarColor={Colors.color_star_empty}
+                rating={item.grade}
+                selectedStar={(rating) => {
+                  this.state.product_comment_list_result_data.user_comment.grade = rating
+                  this.state.selected_star = rating
+                  this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data, selectedStar: this.state.selected_star });
+                }}
+                fullStarColor={Colors.color_star_full}
+              />
             </View>
             {
               item.user_status == 1 ? // user_status=1 이면 "This user was suspended."
@@ -312,7 +331,7 @@ export class FragmentProductDetailReviews extends React.Component {
       backgroundColor: Colors.ingredient_allergic_dark,
       height: 6,
     };
-    const progressWatchStyle = {
+    const progressHeartStyle = {
       backgroundColor: Colors.color_c2c1c1,
       height: 6,
     };
@@ -341,35 +360,6 @@ export class FragmentProductDetailReviews extends React.Component {
 
         {/* Progress Bars */}
         <View style={[MyStyles.margin_h_main, MyStyles.padding_v_25, MyStyles.border_bottom_e5e5e5]}>
-          {/* Blotch'd */}
-          <View>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
-              <Image source={require("../../assets/images/ic_blotch_prog.png")} style={[MyStyles.ic_blotch_prog]} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Blotch'd</Text>
-              <Image style={{ flex: 1 }} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().blotch_count.toFixed(0)}%</Text>
-            </View>
-            <ProgressBarAnimated
-              {...progressBlotchStyle}
-              width={barWidth}
-              value={this.getProgress().blotch_count}
-            />
-          </View>
-
-          {/* Watch List */}
-          <View style={{ marginTop: 10 }}>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
-              <Image source={require("../../assets/images/ic_watch_prog.png")} style={[MyStyles.ic_watch_prog]} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Watch List</Text>
-              <Image style={{ flex: 1 }} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().like_count.toFixed(0)}%</Text>
-            </View>
-            <ProgressBarAnimated
-              {...progressWatchStyle}
-              width={barWidth}
-              value={this.getProgress().like_count}
-            />
-          </View>
 
           {/* Match'd */}
           <View style={{ marginTop: 10 }}>
@@ -379,11 +369,50 @@ export class FragmentProductDetailReviews extends React.Component {
               <Image style={{ flex: 1 }} />
               <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().match_count.toFixed(0)}%</Text>
             </View>
-            <ProgressBarAnimated
-              {...progressMatchStyle}
-              width={barWidth}
-              value={this.getProgress().match_count}
-            />
+            <View style={{ backgroundColor: "#e6e5e5", borderRadius: 100 }}>
+              <ProgressBarAnimated
+                borderWidth={0}
+                {...progressMatchStyle}
+                width={barWidth}
+                value={this.getProgress().match_count}
+              />
+            </View>
+          </View>
+
+          {/* Blotch'd */}
+          <View>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
+              <Image source={require("../../assets/images/ic_blotch_prog.png")} style={[MyStyles.ic_blotch_prog]} />
+              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Blotch'd</Text>
+              <Image style={{ flex: 1 }} />
+              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().blotch_count.toFixed(0)}%</Text>
+            </View>
+            <View style={{ backgroundColor: "#e6e5e5", borderRadius: 100 }}>
+              <ProgressBarAnimated
+                borderWidth={0}
+                {...progressBlotchStyle}
+                width={barWidth}
+                value={this.getProgress().blotch_count}
+              />
+            </View>
+          </View>
+
+          {/* Heart List */}
+          <View style={{ marginTop: 10 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
+              <Image source={require("../../assets/images/ic_watch_prog.png")} style={[MyStyles.ic_watch_prog]} />
+              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Heart List</Text>
+              <Image style={{ flex: 1 }} />
+              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().like_count.toFixed(0)}%</Text>
+            </View>
+            <View style={{ backgroundColor: "#e6e5e5", borderRadius: 100 }}>
+              <ProgressBarAnimated
+                borderWidth={0}
+                {...progressHeartStyle}
+                width={barWidth}
+                value={this.getProgress().like_count}
+              />
+            </View>
           </View>
 
           {/* Save as Others */}
@@ -394,29 +423,32 @@ export class FragmentProductDetailReviews extends React.Component {
               <Image style={{ flex: 1 }} />
               <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().album_product_count.toFixed(0)}%</Text>
             </View>
-            <ProgressBarAnimated
-              {...progressSaveStyle}
-              width={barWidth}
-              value={this.getProgress().album_product_count}
-            />
+            <View style={{ backgroundColor: "#e6e5e5", borderRadius: 100 }}>
+              <ProgressBarAnimated
+                borderWidth={0}
+                {...progressSaveStyle}
+                width={barWidth}
+                value={this.getProgress().album_product_count}
+              />
+            </View>
           </View>
         </View>
 
-        {/* Comments */}
 
         {/* Comments */}
-        <View style={[MyStyles.bg_f8f8f8, { marginTop: 5 }]}>
+        <View style={[{ marginTop: 5 }]}>
           {/* Comments Header */}
-          <View style={[MyStyles.bg_white, MyStyles.container, { paddingTop: 5 }]}>
+          <View style={[MyStyles.bg_white, MyStyles.container, { paddingTop: 10 }]}>
             <Text style={{ color: Colors.primary_dark, fontSize: 13, fontWeight: "bold" }}>Comments <Text style={{ fontSize: 13, color: Colors.color_949292 }}>{this.state.comment_count}</Text></Text>
             <View style={{ marginTop: 10, flexDirection: "row" }}>
               <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1]} />
               <TextInput placeholder="Add a Comment"
                 returnKeyType="go"
-                value={this.state.product_comment_list_result_data.user_comment == null ? "" : this.state.product_comment_list_result_data.user_comment.comment}
+                // value={this.state.product_comment_list_result_data.user_comment == null ? "" : this.state.product_comment_list_result_data.user_comment.comment}
                 onChangeText={(text) => {
                   this.state.product_comment_list_result_data.user_comment.comment = text
-                  this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data })
+                  this.state.comment_text = text
+                  this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data, comment_text: this.state.comment_text })
                 }}
                 multiline={true}
                 style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
@@ -435,18 +467,21 @@ export class FragmentProductDetailReviews extends React.Component {
                 containerStyle={{ width: 273 / 3 }}
                 starSize={50 / 3}
                 emptyStarColor={Colors.color_star_empty}
-                rating={this.state.product_comment_list_result_data.user_comment.grade}
+                // rating={this.state.product_comment_list_result_data.user_comment.grade} // 리뷰작성후 다시 페지 진입시 원래 작성내용 보여주는 기능 막음
+                rating={this.state.selected_star}
                 selectedStar={(rating) => {
                   this.state.product_comment_list_result_data.user_comment.grade = rating
-                  this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data });
+                  this.state.selected_star = rating
+                  this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data, selectedStar: this.state.selected_star });
                 }}
                 fullStarColor={Colors.color_star_full}
               />
-              <Image source={require("../../assets/images/ic_arrow_down_gray_small.png")} style={[MyStyles.ic_arrow_down_gray_small, { position: "absolute", right: 10 }]} />
+              {/* <Image source={require("../../assets/images/ic_arrow_down_gray_small.png")} style={[MyStyles.ic_arrow_down_gray_small, { position: "absolute", right: 10 }]} /> */}
             </View>
 
-            {/* 회원이 올린 리뷰사진은 새로 올리는 사진이 없는 경우에만 현시 */}
-            {(this.state.review_photos.length < 1 && this.state.user_review_photo_list.length > 0 && this.state.user_review_photo_list[0] != "") ?
+            {/* // 리뷰작성후 다시 페지 진입시 원래 작성내용 보여주는 기능 막음
+            회원이 올린 리뷰사진은 새로 올리는 사진이 없는 경우에만 현시 */}
+            {/* {(this.state.review_photos.length < 1 && this.state.user_review_photo_list.length > 0 && this.state.user_review_photo_list[0] != "") ?
               <View style={{ flexDirection: "row", flex: 1 }}>
                 <TouchableWithoutFeedback onPress={() => { this.showImageZoomViewer(this.state.user_review_photo_list, 0) }}>
                   <Image source={{ uri: this.state.user_review_photo_list.length > 0 ? Common.getImageUrl(this.state.user_review_photo_list[0]) : null }} style={[MyStyles.review_photo]} />
@@ -464,7 +499,7 @@ export class FragmentProductDetailReviews extends React.Component {
                   <Image source={{ uri: this.state.user_review_photo_list.length > 4 ? Common.getImageUrl(this.state.user_review_photo_list[4]) : null }} style={[MyStyles.review_photo]} />
                 </TouchableWithoutFeedback>
               </View>
-              : null}
+              : null} */}
 
             {this.state.review_photos.length > 0 && this.state.review_photos[0] != "" ?
               <View style={{ flexDirection: "row", flex: 1 }}>
@@ -564,6 +599,7 @@ export class FragmentProductDetailReviews extends React.Component {
   }
 
   requestProductCommentList(p_product_id, p_offset) {
+    console.log("0000000" + global.login_info.user_id);
     this.setState({
       isLoading: true,
     });

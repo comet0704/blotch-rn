@@ -473,7 +473,7 @@ export class FragmentProductDetailIngredients extends React.Component {
   }
 
   requestAddUserIngredient(p_ingredient_id, p_type, p_questionnaire_id) {
-    console.log(p_questionnaire_id);
+    console.log(p_ingredient_id + ":" + p_type + ":" + p_questionnaire_id);
     this.setState({
       isLoading: true,
     });

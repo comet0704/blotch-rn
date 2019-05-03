@@ -46,17 +46,6 @@ export class TopbarWithBlackBack extends React.Component {
               </TouchableOpacity>
           : null
         }
-
-        {this.props.has_beautybox_btn == true ?
-          <TouchableOpacity
-            onPress={this.props.onAddBeautyBox} activeOpacity={0.5} style={{ paddingTop: 15, paddingBottom: 15, paddingRight: 15 }}>
-            <Image style={[MyStyles.ic_topbar_beautybox]}
-              source={require("../../assets/images/ic_topbar_beautybox.png")}
-            />
-          </TouchableOpacity>
-          :
-          null
-        }
       </View>
     )
   }
