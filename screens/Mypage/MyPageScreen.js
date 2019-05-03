@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
-import { TouchableWithoutFeedback, Keyboard, AsyncStorage, Button, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard, AsyncStorage, Button, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View, RefreshControl } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import { TopbarWithWhiteBack } from '../../components/Topbars/TopbarWithWhiteBack';
@@ -18,6 +18,7 @@ export default class MyPageScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
+      refreshing: false,
       profileEdited: false,
       weatherInfo: {
         main: "",
@@ -114,7 +115,13 @@ export default class MyPageScreen extends React.Component {
         />
         <Toast ref='toast' />
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled keyboardDismissMode="on-press"  /*keyboardVerticalOffset={100}*/>
-          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" onPress={() => { Keyboard.dismiss() }} >
+          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" onPress={() => { Keyboard.dismiss() }}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }>
             <View style={{ flex: 1, backgroundColor: Colors.color_f8f8f8 }}>
               {/* 사진, 텍스트 */}
               <View style={[MyStyles.profile_back, MyStyles.padding_h_main, { justifyContent: "center" }]}>
@@ -326,6 +333,13 @@ export default class MyPageScreen extends React.Component {
       </View>
     );
   }
+
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.requestMyPage();
+    this.setState({ refreshing: false });
+  }
+
   render() {
     if (this.state.profileEdited) {
       return this.renderTrack()

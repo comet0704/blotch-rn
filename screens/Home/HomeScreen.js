@@ -23,7 +23,8 @@ import {
   Dimensions,
   TouchableHighlight,
   TouchableWithoutFeedback,
-  BackHandler
+  BackHandler,
+  RefreshControl,
 } from 'react-native';
 
 import { WebBrowser } from 'expo';
@@ -36,7 +37,8 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.currentRouteName = 'Main';
-    this.state = {
+    this.state = {      
+      refreshing: false,
       isLogined: false,
       showLoginModal: false,
       refreshOneLineInfo: false,
@@ -269,6 +271,11 @@ export default class HomeScreen extends React.Component {
     }
   }
 
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.requestHomeList()
+    this.setState({ refreshing: false });
+  }
 
   render() {
 
@@ -298,7 +305,12 @@ export default class HomeScreen extends React.Component {
         <Toast ref='toast' />
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
-          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
+          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />} >
             <View style={{ backgroundColor: "#f8f8f8" }}>
               {/* Search bar */}
               <View style={[MyStyles.searchBoxCommon, MyStyles.container, MyStyles.bg_white]}>

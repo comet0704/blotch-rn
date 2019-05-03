@@ -30,6 +30,7 @@ import {
   Animated,
   TouchableHighlight,
   Easing,
+  RefreshControl,
 } from 'react-native';
 
 import { NavigationEvents } from 'react-navigation';
@@ -122,6 +123,7 @@ export default class MyListScreen extends React.Component {
       onMoveShouldSetPanResponder: (evt, gestureState) => false,
     })
     this.state = {
+      refreshing: false,
       scroll_enabled: true,
       alreadyLoaded: false,
       showLoginModal: false,
@@ -235,6 +237,11 @@ export default class MyListScreen extends React.Component {
   deleteFromMyListCallback = () => {
     this.requestMyList()
   }
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.requestMyList();
+    this.setState({ refreshing: false });
+  }
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: Colors.color_f8f8f8 }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
@@ -260,7 +267,13 @@ export default class MyListScreen extends React.Component {
         />
         <Toast ref='toast' />
 
-        <ScrollView ref='_scrollview' scrollEnabled={this.state.scroll_enabled} style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag">
+        <ScrollView ref='_scrollview' scrollEnabled={this.state.scroll_enabled} style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }>
 
           <View style={{ justifyContent: "center" }}>
 

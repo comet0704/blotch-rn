@@ -24,6 +24,7 @@ import {
   Dimensions,
   Alert,
   TouchableHighlight,
+  RefreshControl,
 } from 'react-native';
 
 import { WebBrowser } from 'expo';
@@ -38,6 +39,7 @@ export default class IngredientScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      refreshing: false,
       alreadyLoaded: false,
       showLoginModal: false,
       searchKeyword: null,
@@ -367,6 +369,10 @@ export default class IngredientScreen extends React.Component {
     return countTypes.length;
   }
 
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.requestQuestionnaireList();
+  }
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: Colors.color_f8f8f8 }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
@@ -392,7 +398,13 @@ export default class IngredientScreen extends React.Component {
         />
         <Toast ref='toast' />
 
-        <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag">
+        <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }>
 
           <View>
             {this.state.questionnaire_list.length > 0 ?
@@ -1060,6 +1072,7 @@ ingredients that can cause allergies.</Text>
           this.state.questionnaire_list[0].is_selected = true
           this.setState({ questionnaire_list: this.state.questionnaire_list })
 
+          this.setState({ refreshing: false });
           this.requestMyList(this.state.selected_questionnaire.id)
         }
 

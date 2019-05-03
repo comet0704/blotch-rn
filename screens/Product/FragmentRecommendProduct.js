@@ -23,6 +23,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TouchableHighlight,
+  RefreshControl,
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
@@ -35,6 +36,7 @@ export class FragmentRecommendProduct extends React.Component {
     super(props)
     this.state = {
       main_all_selected: 1, // 0 => 몇개만 선택, 1 => 전체선택, -1 => 전체 선택해제
+      refreshing: false,
       showLoginModal: false,
       isLogined: false,
       filterModalVisible: false,
@@ -348,6 +350,10 @@ export class FragmentRecommendProduct extends React.Component {
       }
     }
   }
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.requestQuestionnaireList()
+  }
 
   render() {
     return (
@@ -394,7 +400,14 @@ export class FragmentRecommendProduct extends React.Component {
               if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
                 this.getRecommendList(this.offset)
               }
-            }}>
+            }}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }
+          >
 
             <View>
               <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
@@ -834,9 +847,8 @@ export class FragmentRecommendProduct extends React.Component {
           this.state.my_needs = w_item
           this.setState(this.state.my_needs)
         }
+        this.setState({ refreshing: false });
         this.getRecommendList(0);
-
-
       })
       .catch((error) => {
         this.setState({
