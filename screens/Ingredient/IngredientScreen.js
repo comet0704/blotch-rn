@@ -49,7 +49,6 @@ export default class IngredientScreen extends React.Component {
       section_potential_show: false,
       section_preferred_show: false,
       searchModalVisible: false,
-      searchResultModalVisible: false,
       saveToModalVisible: false,
       potentialInfoModal: false,
       questionnaire_list: [
@@ -558,6 +557,7 @@ export default class IngredientScreen extends React.Component {
           visible={this.state.searchModalVisible}
           onRequestClose={() => {
           }}>
+          <Toast ref='modalToast' />
           <View style={{ flex: 1 }}>
             <View style={MyStyles.modal_bg1}>
               <View style={MyStyles.modalContainer}>
@@ -573,75 +573,61 @@ export default class IngredientScreen extends React.Component {
                 <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
                 {/* body */}
-                <View style={[MyStyles.padding_h_main, { paddingTop: 70 / 3, paddingBottom: 120 / 3 }]}>
+                <View style={[MyStyles.padding_h_main, { paddingTop: 70 / 3, paddingBottom: 75 / 3 }]}>
                   <Text style={[MyStyles.text_13_primary_dark, { fontWeight: "500" }]}>Ingredient Name</Text>
                   <TextInput
+                    returnKeyType="search"
+                    onSubmitEditing={() => {
+                      this.setState({ loading_end: false })
+                      if (this.state.searchKeyword == null) {
+                        this.refs.modalToast.showBottom("Please input search keyword");
+                        return;
+                      }
+                      this.requestSearchIngredient(this.state.searchKeyword, 0)
+                    }}
                     onChangeText={(text) => { this.setState({ searchKeyword: text }) }}
                     value={this.state.searchKeyword}
                     style={[{ borderWidth: 0.5, marginTop: 10, borderColor: Colors.color_e5e6e5, color: Colors.color_656565, fontSize: 13, padding: 10 }]}>
                   </TextInput>
                 </View>
 
-                <View style={{ flexDirection: "row" }}>
-                  <TouchableHighlight onPress={() => {
-                    this.setState({ loading_end: false })
-                    if (this.state.searchKeyword == null) {
-                      this.refs.toast.showBottom("Please input search keyword");
-                      return;
+                <View style={{ flexDirection: "row", marginBottom: 75 / 3, alignItems: "center", justifyContent: "center" }}>
+                  <TouchableOpacity
+                    style={[MyStyles.btn_primary_cover, { width: 450 / 3, flex: 0, height: 100 / 3 }]}
+                    onPress={
+                      () => {
+                        this.setState({ loading_end: false })
+                        if (this.state.searchKeyword == null) {
+                          this.refs.modalToast.showBottom("Please input search keyword");
+                          return;
+                        }
+                        this.requestSearchIngredient(this.state.searchKeyword, 0)
+                      }
                     }
-                    this.requestSearchIngredient(this.state.searchKeyword, 0)
-                  }
-                  }
-                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                  >
                     <Text style={MyStyles.btn_primary}>Search</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </View>
-          </View>
-        </Modal>
-
-        {/* 성분검색결과 팝업 */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.searchResultModalVisible}
-          onRequestClose={() => {
-          }}>
-          <View style={{ flex: 1 }}>
-            <View style={MyStyles.modal_bg1}>
-              <View style={MyStyles.modalContainer}>
-                {/* modal header */}
-                <View style={MyStyles.modal_header}>
-                  <Text style={MyStyles.modal_title}>Ingredient</Text>
-                  <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
-                    this.setState({ searchResultModalVisible: false });
-                  }}>
-                    <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                   </TouchableOpacity>
                 </View>
-                <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
-                {/* body */}
-                <View style={[MyStyles.padding_h_main, { paddingTop: 70 / 3, paddingBottom: 120 / 3, }]}>
-                  {this.state.searchIngredient_result_data.ingredient_list.length > 0 ? null : <Text style={[MyStyles.text_normal, { textAlign: "center" }]}>Sorry, no result found</Text>}
-                  <ScrollView style={{ width: "100%", maxHeight: 200, }}
-                    onScroll={({ nativeEvent }) => {
-                      if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-                        this.requestSearchIngredient(this.state.searchKeyword, this.offset);
-                      }
-                    }}>
-                    <View>
-                      {this.state.searchIngredient_result_data.ingredient_list.map((item, index) => this.renderSearchModalGoodNormalBadIngredientList(item, index))}
-                    </View>
-                  </ScrollView>
-                </View>
-
+                {
+                  this.state.searchIngredient_result_data.ingredient_list.length > 0 ?
+                    <ScrollView style={{ width: "100%", maxHeight: 200, marginBottom: 120 / 3 }}
+                      onScroll={({ nativeEvent }) => {
+                        if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+                          this.requestSearchIngredient(this.state.searchKeyword, this.offset);
+                        }
+                      }}>
+                      <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginBottom: 75 / 3 }]} />
+                      <View style={[MyStyles.margin_h_main]}>
+                        {this.state.searchIngredient_result_data.ingredient_list.map((item, index) => this.renderSearchModalGoodNormalBadIngredientList(item, index))}
+                      </View>
+                    </ScrollView>
+                    : null
+                }
               </View>
             </View>
           </View>
         </Modal>
-
 
         {/* Save to modal */}
         <Modal
@@ -720,7 +706,7 @@ export default class IngredientScreen extends React.Component {
                 <View>
                   <Image source={require('../../assets/images/ic_white_polygon.png')} style={[MyStyles.ic_white_polygon, { marginLeft: "55%" }]} />
                   <Text style={[MyStyles.padding_main, MyStyles.text_13_primary_dark, { width: "100%", marginTop: -3, borderRadius: 10, backgroundColor: "white" }]}>We will analyze the common ingredients of
-two or more products and inform you of the
+    two or more products and inform you of the
 ingredients that can cause allergies.</Text>
                 </View>
 
@@ -773,7 +759,7 @@ ingredients that can cause allergies.</Text>
           </View>
         </Modal>
 
-      </KeyboardAvoidingView>
+      </KeyboardAvoidingView >
     );
   }
 
@@ -897,13 +883,11 @@ ingredients that can cause allergies.</Text>
           this.setState({
             searchIngredient_result_data: responseJson.result_data
           });
-          this.setState({ searchResultModalVisible: true, searchModalVisible: false })
           return;
         }
         const ingredient_list = this.state.searchIngredient_result_data.ingredient_list
         result = { ingredient_list: [...ingredient_list, ...responseJson.result_data.ingredient_list] };
         this.setState({ searchIngredient_result_data: result })
-        this.setState({ searchResultModalVisible: true, searchModalVisible: false })
       })
       .catch((error) => {
         console.log(error);
@@ -916,9 +900,9 @@ ingredients that can cause allergies.</Text>
   }
 
   requestAddUserIngredient(p_ingredient_id, p_type, p_questionnaire_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.ingredient.addUserIngredient, {
       method: 'POST',
       headers: {
@@ -935,17 +919,16 @@ ingredients that can cause allergies.</Text>
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
 
-        this.setState({ searchResultModalVisible: false })
-        this.setState({ saveToModalVisible: false });
+        this.setState({ saveToModalVisible: false, searchModalVisible: false });
 
         this.requestMyList(this.state.selected_questionnaire.id);
       })
