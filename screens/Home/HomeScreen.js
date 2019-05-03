@@ -26,7 +26,7 @@ import {
   BackHandler,
   RefreshControl,
 } from 'react-native';
-import { Notifications , Permissions } from 'expo';
+import { Notifications, Permissions } from 'expo';
 import { WebBrowser } from 'expo';
 import { NavigationEvents } from 'react-navigation';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
@@ -107,8 +107,46 @@ export default class HomeScreen extends React.Component {
     })
   }
 
-  componentDidMount() {    
-    if(global.login_info.token.length > 0) { // 회원이면 expo 토큰 등록
+  _handleNotification = (p_notification) => {
+    console.log(p_notification);
+    // p_notification 의 구조
+
+    // Object {
+    //   "actionId": null,
+    //   "data": Object {
+    //     "custom_data": "{\"type\":\"article\",\"id\":\"1\"}",
+    //     "type": "1",
+    //   },
+    //   "isMultiple": false,
+    //   "notificationId": -472762171,
+    //   "origin": "received", // 선택하면 'selected'
+    //   "remote": true,
+    //   "userText": null,
+    // }
+
+    if (p_notification.origin == "selected") {
+      if (p_notification.data.type == MyConstants.FCM_TYPES.FCM_TYPE_COMMENT) { // 댓글알림이면 
+        custom_data = JSON.parse(p_notification.data.custom_data)
+        if (custom_data.type == 'article') {
+          this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: custom_data.id })
+        } else if (custom_data.type == 'banner') {
+          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: custom_data.id })
+        } else if (custom_data.type == 'product') {
+          this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: custom_data.id })
+        }
+      }
+
+      if (p_notification.data.type == MyConstants.FCM_TYPES.FCM_TYPE_CONTACTUS ||
+        p_notification.data.type == MyConstants.FCM_TYPES.FCM_TYPE_NOTICE) { // 문의답변알림, 공지알림이면 공지페지로 이행
+        this.props.navigation.navigate("Announcements")
+      }
+    }
+  }
+  componentDidMount() {
+    // 여기서 Notification을 조종해 주겠음    
+    Notifications.addListener(this._handleNotification);
+
+    if (global.login_info.token.length > 0) { // 회원이면 expo 토큰 등록
       this.registerForPushNotificationsAsync()
     }
 
