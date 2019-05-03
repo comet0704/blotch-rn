@@ -26,7 +26,7 @@ import {
   BackHandler,
   RefreshControl,
 } from 'react-native';
-
+import { Notifications , Permissions } from 'expo';
 import { WebBrowser } from 'expo';
 import { NavigationEvents } from 'react-navigation';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
@@ -37,9 +37,8 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.currentRouteName = 'Main';
-    this.state = {      
+    this.state = {
       refreshing: false,
-      isLogined: false,
       showLoginModal: false,
       refreshOneLineInfo: false,
       weatherInfo: {
@@ -69,10 +68,51 @@ export default class HomeScreen extends React.Component {
     };
   }
 
-  componentDidMount() {
-    if (global.login_info.token.length <= 0) {
-      this.requestHomeList()
+  async registerForPushNotificationsAsync() {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+
+    // only ask if permissions have not already been determined, because
+    // iOS won't necessarily prompt the user a second time.
+    if (existingStatus !== 'granted') {
+      // Android remote notification permissions are granted during the app
+      // install, so this will only ask on iOS
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
     }
+
+    // Stop here if the user did not grant permissions
+    if (finalStatus !== 'granted') {
+      return;
+    }
+
+    // Get the token that uniquely identifies this device
+    let token = await Notifications.getExpoPushTokenAsync();
+
+    console.log("token : " + token)
+    // POST the token to your backend server from where you can retrieve it to send push notifications.
+
+    return fetch(Net.user.updateFcmToken, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        fcm_token: token,
+      }),
+    })
+  }
+
+  componentDidMount() {    
+    if(global.login_info.token.length > 0) { // 회원이면 expo 토큰 등록
+      this.registerForPushNotificationsAsync()
+    }
+
+    this.requestHomeList()
     this.requestGetMyPosition();
     handleAndroidBackButton(this, exitAlert);
   }
@@ -259,7 +299,7 @@ export default class HomeScreen extends React.Component {
 
   onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
 
-    if (this.state.isLogined == false) { // 로그인 하지 않은 회원의 경우 임시로 보여주기만 하자.
+    if (global.login_info.token.length <= 0) { // 로그인 하지 않은 회원의 경우 임시로 보여주기만 하자.
       global.login_info.skin_type = p_skin_type
       global.login_info.concern = p_concern
       global.login_info.needs = p_needs
@@ -281,19 +321,6 @@ export default class HomeScreen extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <NavigationEvents
-          onWillFocus={payload => {
-            const beforeLoginState = this.state.isLogined;
-            if (global.login_info.token == "") {
-              this.setState({ isLogined: false })
-            } else {
-              this.setState({ isLogined: true })
-            }
-            if (beforeLoginState != this.state.isLogined) {
-              this.requestHomeList()
-            }
-          }}
-        />
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -390,7 +417,7 @@ export default class HomeScreen extends React.Component {
                   </View>
                 </View>
                 {/* We recommend It! 로그인 했을때 나타나는 정보 */}
-                {this.state.isLogined ?
+                {global.login_info.token.length <= 0 ?
                   <View style={[{ borderBottomLeftRadius: 20 }, MyStyles.bg_white]}>
                     <View style={[MyStyles.seperate_line_e5e5e5, { marginRight: -15, marginTop: -5 }]} />
                     <View style={[{ flexDirection: "row", flex: 1, marginTop: 10, justifyContent: "center" }]}>
@@ -420,7 +447,7 @@ export default class HomeScreen extends React.Component {
 
               {/* We can search it */}
               {this.state.refreshOneLineInfo ?
-                this.state.isLogined == false || Common.isNeedToAddQuestionnaire() ?
+                global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
                   <TouchableOpacity style={[MyStyles.container, { marginTop: 20 }]} onPress=
                     {() => {
                       this.props.navigation.navigate("WeCanSearchIt", {
@@ -443,7 +470,7 @@ export default class HomeScreen extends React.Component {
                   </TouchableOpacity>
                   : null
                 :
-                this.state.isLogined == false || Common.isNeedToAddQuestionnaire() ?
+                global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
                   <TouchableOpacity style={[MyStyles.container, { marginTop: 20 }]} onPress=
                     {() => {
                       this.props.navigation.navigate("WeCanSearchIt", {

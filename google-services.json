@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "921753193053",
+    "firebase_url": "https://winged-scout-237201.firebaseio.com",
+    "project_id": "winged-scout-237201",
+    "storage_bucket": "winged-scout-237201.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921753193053:android:761fa0ade9ba0e32",
+        "android_client_info": {
+          "package_name": "com.blotch.chemi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "921753193053-g107th71g6kbungcnlorq0rlajsi7k72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvu0G6f4iDBhZTqOkLu2Eg11qSVncDzKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "921753193053-g107th71g6kbungcnlorq0rlajsi7k72.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "921753193053-edfubitfhjom9qjul66c1k50pceukqr8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.blotch.chemi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

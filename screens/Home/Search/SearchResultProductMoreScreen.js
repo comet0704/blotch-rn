@@ -32,7 +32,6 @@ export default class SearchResultProductMoreScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogined: false,
       result_data: {
         product_count: 30,
         product_list: [

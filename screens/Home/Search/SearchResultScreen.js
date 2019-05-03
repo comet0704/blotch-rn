@@ -39,7 +39,6 @@ export default class SearchResultScreen extends React.Component {
       request_brand_name: "",
       request_product_name: "",
       no_search_result: false,
-      isLogined: false,
       requestProductModalVisible: false,
       result_data: {
         "product_count": 0,

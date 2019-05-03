@@ -38,7 +38,6 @@ export class FragmentRecommendProduct extends React.Component {
       main_all_selected: 1, // 0 => 몇개만 선택, 1 => 전체선택, -1 => 전체 선택해제
       refreshing: false,
       showLoginModal: false,
-      isLogined: false,
       filterModalVisible: false,
       alreadyLoadedData: false,
 
@@ -336,13 +335,8 @@ export class FragmentRecommendProduct extends React.Component {
   }
 
   onNavigationEvent = () => {
-    const beforeLoginState = this.state.isLogined;
     if (global.login_info.token == "") {
-      this.state.isLogined = false
-      this.setState({ isLogined: this.state.isLogined })
     } else {
-      this.state.isLogined = true
-      this.setState({ isLogined: this.state.isLogined })
       if (Common.isNeedToAddQuestionnaire() == false && this.state.alreadyLoadedData == false) { // 이미 설문이 추가된 회원이면 설문목록 얻어오기
         this.state.alreadyLoadedData = true
         this.setState({ alreadyLoadedData: this.state.alreadyLoadedData })
@@ -367,7 +361,7 @@ export class FragmentRecommendProduct extends React.Component {
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
-        {this.state.isLogined == false || Common.isNeedToAddQuestionnaire() ?
+        {global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
           <View>
             <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
             <View style={{ height: "100%", justifyContent: "center", alignItems: "center" }}>
@@ -377,7 +371,7 @@ export class FragmentRecommendProduct extends React.Component {
                 <Text style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Tell us about your skin and we'll show you some products that you might want to check out!</Text>
                 <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]} onPress=
                   {() => {
-                    if (this.state.isLogined == false) {
+                    if (global.login_info.token.length <= 0) {
                       this.setState({ showLoginModal: true })
                     } else {
                       this.props.navigation.navigate("WeCanSearchIt", {

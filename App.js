@@ -3,7 +3,7 @@ import MyConstants from './constants/MyConstants'
 import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { Notifications, AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import AppNavigator1 from './navigation/AppNavigator1';
 import Net from './Net/Net'
@@ -26,7 +26,15 @@ export default class App extends React.Component {
     isLogined: false,
   };
 
+  
+  _handleNotification = (p_notification) => {
+    console.log(p_notification);
+  }
+
   componentWillMount() {
+    // 여기서 Notification을 조종해 주겠음    
+    Notifications.addListener(this._handleNotification);
+
     // 저장해둔 async 값들 받아오기
     this.getAsyncData()
 
