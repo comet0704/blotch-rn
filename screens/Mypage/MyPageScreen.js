@@ -13,6 +13,8 @@ import Common from '../../assets/Common';
 
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 import { exitAlert } from '../../components/androidBackButton/exitAlert';
+import { NavigationEvents } from 'react-navigation';
+
 export default class MyPageScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -115,6 +117,18 @@ export default class MyPageScreen extends React.Component {
         />
         <Toast ref='toast' />
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled keyboardDismissMode="on-press"  /*keyboardVerticalOffset={100}*/>
+          <NavigationEvents
+            onWillFocus={payload => {
+              if (global.login_info.token == null || global.login_info.token.length < 1) {
+                this.setState({ showLoginModal: true });
+                return;
+              }
+              if (global.refreshStatus.mypage == true) {
+                global.refreshStatus.mypage = false
+                this.requestMyPage();
+              }
+            }}
+          />
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" onPress={() => { Keyboard.dismiss() }}
             refreshControl={
               <RefreshControl
@@ -336,7 +350,6 @@ export default class MyPageScreen extends React.Component {
 
   _onRefresh = () => {
     this.setState({ refreshing: true });
-    this.requestMyPage();
     this.setState({ refreshing: false });
   }
 

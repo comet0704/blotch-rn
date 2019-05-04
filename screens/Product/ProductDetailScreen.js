@@ -676,6 +676,7 @@ export default class ProductDetailScreen extends React.Component {
           return
         }
         this.refs.toast.showBottom(Messages.added_to_beautybox);
+        global.refreshStatus.mypage = true
       })
       .catch((error) => {
         this.setState({

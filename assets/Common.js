@@ -46,6 +46,10 @@ export default {
       returnValue = p_use_period
     }
 
+    if(p_opened_date == 0) { // 아직 사용하지 않았다는 의미
+      returnValue = p_use_period
+    }
+
     if (returnValue < 0) { // 유효기간이 지났으면 0 돌림.
       returnValue = 0;
     }

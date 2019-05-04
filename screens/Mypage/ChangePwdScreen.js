@@ -19,6 +19,7 @@ import Net from '../../Net/Net';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import MyConstants from '../../constants/MyConstants';
+import Messages from '../../constants/Messages';
 
 export default class ChangePwdScreen extends React.Component {
 
@@ -58,7 +59,34 @@ export default class ChangePwdScreen extends React.Component {
   onResetPwd = (old_pwd, pwd1, pwd2) => {
     this.setState({ sendPressed: true });
     if (this.checkValidation(old_pwd, "empty") && this.checkValidation(pwd1, "password") && this.checkValidation(pwd1, "password_confirm")) { // 이메일, 패스워드 모두 유효한 값이면
-      this.requestChangePassword(old_pwd, pwd1, pwd2)
+      if (pwd1 != pwd2) {
+        Alert.alert(
+          '',
+          Messages.password_confirm_do_not_match,
+          [
+            {
+              text: 'OK', onPress: () => {
+              }
+            },
+          ],
+          { cancelable: false },
+        );
+      } else if (old_pwd == pwd1) {
+        Alert.alert(
+          '',
+          Messages.new_password_matches_current_password,
+          [
+            {
+              text: 'OK', onPress: () => {
+              }
+            },
+          ],
+          { cancelable: false },
+        );
+      }
+      else {
+        this.requestChangePassword(old_pwd, pwd1, pwd2)
+      }
     }
   }
 

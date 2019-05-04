@@ -38,6 +38,7 @@ export default class MyBeautyBoxScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showDeleteModal: false,
       post_comment: "",
       selectedProductId: 0,
       myRatingModalVisible: false,
@@ -145,6 +146,9 @@ export default class MyBeautyBoxScreen extends React.Component {
     // 먼저 상품상세정보를 얻어온다음 현시되는 dialog에 적용해주어야 하므로 
     this.setState({ selectedProductId: p_product_id })
     this.requestProductDetail(p_product_id)
+  }
+  deleteFromList(p_item_id) {
+    this.setState({ delete_item_id: p_item_id, showDeleteModal: true })
   }
 
   render() {
@@ -299,8 +303,11 @@ export default class MyBeautyBoxScreen extends React.Component {
                       <TextInput
                         textAlignVertical="top"
                         multiline={true}
+                        value={this.state.post_comment}
                         returnKeyType="go"
-                        onChangeText={(text) => { this.setState({ post_comment: text }) }}
+                        onChangeText={(text) => {
+                          this.setState({ post_comment: text })
+                        }}
                         style={[MyStyles.text_input_with_border, { height: 100 }]}>
                       </TextInput>
                     </View>
@@ -327,6 +334,47 @@ export default class MyBeautyBoxScreen extends React.Component {
               </View>
             </View>
           </TouchableWithoutFeedback>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.showDeleteModal}
+          onRequestClose={() => {
+          }}>
+          <View style={{ flex: 1 }}>
+            <View style={MyStyles.modal_bg}>
+              <View style={MyStyles.modalContainer}>
+                <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                  this.setState({ showDeleteModal: false });
+                }}>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                </TouchableOpacity>
+
+                <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
+                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", textAlign: "center", marginLeft: 10, marginRight: 10, fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Are you sure you want to delete this product from the list?</Text>
+
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableHighlight onPress={() => {
+                    this.setState({ showDeleteModal: false });
+                    this.requestDeleteBeautyBox(this.state.delete_item_id);
+                  }}
+                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                  </TouchableHighlight>
+
+                  <TouchableHighlight
+                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    onPress={() => {
+                      this.setState({ showDeleteModal: false });
+                    }}>
+                    <Text style={MyStyles.btn_primary_white}>No</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+
+            </View>
+          </View>
         </Modal>
       </KeyboardAvoidingView>
     );
@@ -417,6 +465,7 @@ export default class MyBeautyBoxScreen extends React.Component {
         beautybox_list.splice(index, 1)
         const result = { beautybox_list: beautybox_list };
         this.setState({ beauty_box_result_data: result })
+        global.refreshStatus.mypage = true;
       })
       .catch((error) => {
         this.refs.toast.showBottom(error);
@@ -510,7 +559,7 @@ export default class MyBeautyBoxScreen extends React.Component {
         }
         // 댓글 추가해주자.
         this.onCommentPosted(p_product_id, responseJson.result_data.grade, p_grade)
-        this.setState({ myRatingModalVisible: false, post_comment: "" })
+        this.setState({ myRatingModalVisible: false })
       })
       .catch((error) => {
         this.setState({

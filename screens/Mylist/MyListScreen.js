@@ -244,7 +244,6 @@ export default class MyListScreen extends React.Component {
               this.setState({ showLoginModal: true });
               return;
             }
-            console.log("22222222222" + global.refreshStatus.mylist)
             if(global.refreshStatus.mylist == true) {
               global.refreshStatus.mylist = false
               this.requestMyList();

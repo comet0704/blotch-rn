@@ -100,7 +100,7 @@ export class BeautyBoxItem extends React.Component {
               </View>
             </View>
 
-            <TouchableOpacity onPress={() => { _this.requestDeleteBeautyBox(item.beautybox_id) }}>
+            <TouchableOpacity onPress={() => { _this.deleteFromList(item.beautybox_id) }}>
               <Image source={require("../../assets/images/ic_remove_beautybox.png")} style={[MyStyles.ic_remove_beautybox, { marginLeft: 10 }]} />
             </TouchableOpacity>
           </View>
@@ -117,11 +117,15 @@ export class BeautyBoxItem extends React.Component {
 
                 <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
               </TouchableOpacity>
+              <View style={{flex:1}}></View>
               {item.open_date != null ?
-                <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
+                <View style={{ justifyContent: "center", marginLeft: 10, paddingHorizontal:10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
                   <Text style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>{Common.getRestUsePeriod(item.open_date.substring(0, 10), 180)}</Text>
                 </View>
-                : null
+                :
+                <View style={{ justifyContent: "center", marginLeft: 10, paddingHorizontal:10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
+                  <Text style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>{Common.getRestUsePeriod(0, 180)}</Text>
+                </View>
               }
 
             </View>

@@ -18,6 +18,7 @@ global.noti_setting = null;
 // 현재는 mylist 만 판정, 다른 페지들은 필요할때 추가.
 global.refreshStatus = {
   mylist: true,
+  mypage: true,
 }
 
 export default class App extends React.Component {
