@@ -55,7 +55,7 @@ export class BeautyBoxItem extends React.Component {
     const _this = this.props.this;
     return (
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TouchableOpacity style={[MyStyles.productItemContainer1, { width: 295 / 3, height: 270 / 3 }]} onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={[MyStyles.productItemContainer1, { width: 295 / 3, height: 270 / 3 }]} onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
         </TouchableOpacity>
         <View style={{ marginLeft: 10, flex: 1 }}>
@@ -76,7 +76,7 @@ export class BeautyBoxItem extends React.Component {
                   fullStarColor={Colors.color_star_full}
                 />
                 <View style={{ height: 15, marginLeft: 10, marginRight: 10, borderWidth: 0.5, borderColor: Colors.color_e3e5e4 }} />
-                <TouchableOpacity style={[{ padding: 5, borderRadius: 3 }, MyStyles.shadow_2]}
+                <TouchableOpacity activeOpacity={0.8} style={[{ padding: 5, borderRadius: 3 }, MyStyles.shadow_2]}
                   onPress={() => {
                     _this.onStarPressed(item.id)
                   }}>
@@ -100,7 +100,7 @@ export class BeautyBoxItem extends React.Component {
               </View>
             </View>
 
-            <TouchableOpacity onPress={() => { _this.deleteFromList(item.beautybox_id) }}>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => { _this.deleteFromList(item.beautybox_id) }}>
               <Image source={require("../../assets/images/ic_remove_beautybox.png")} style={[MyStyles.ic_remove_beautybox, { marginLeft: 10 }]} />
             </TouchableOpacity>
           </View>
@@ -108,7 +108,7 @@ export class BeautyBoxItem extends React.Component {
           {this.state.date_changed == false ? // 초기자료이면 item.open_date로 현시, open_date설정하였으면 this.state.item.open_date 현시, 원래 this.state.item.open_date로 했으면 좋겟으나 잘 안되는 문제가 있음.
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5 }}>
               <Text style={{ color: Colors.color_949292, fontSize: 13, }}>Opened: </Text>
-              <TouchableOpacity style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
+              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
                 {item.open_date != null ?
                   <Text style={{ paddingLeft: 5, paddingRight: 10 }}>{item.open_date.substring(0, 10)}</Text>
                   :
@@ -132,7 +132,7 @@ export class BeautyBoxItem extends React.Component {
             :
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5 }}>
               <Text style={{ color: Colors.color_949292, fontSize: 13, }}>Opened: </Text>
-              <TouchableOpacity style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
+              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
                 <Text style={{ paddingLeft: 5, paddingRight: 10 }}>{this.state.item.open_date}</Text>
                 <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
               </TouchableOpacity>

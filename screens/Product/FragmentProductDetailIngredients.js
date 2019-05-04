@@ -99,10 +99,10 @@ export class FragmentProductDetailIngredients extends React.Component {
       }
       return (
         <View key={item.id}>
-          <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
+          <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
             <Image style={{ flex: 1 }} />
-            <TouchableOpacity onPress={() => {
+            <TouchableOpacity activeOpacity={0.8} onPress={() => {
               this.setState({ saveToModalVisible: true, selectedIngredient_id: item.id })
             }}>
               <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</Text>
@@ -127,10 +127,10 @@ export class FragmentProductDetailIngredients extends React.Component {
     style_content_text = MyStyles.ingredient_allergic_content_text;
     return (
       <View key={item.id}>
-        <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => {
+          <TouchableOpacity activeOpacity={0.8} onPress={() => {
             Alert.alert(
               '',
               Messages.would_you_like_to_delete_it,
@@ -170,10 +170,10 @@ export class FragmentProductDetailIngredients extends React.Component {
     style_content_text = MyStyles.ingredient_potential_allergen_content_text;
     return (
       <View key={item.id}>
-        <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => {
+          <TouchableOpacity activeOpacity={0.8} onPress={() => {
             Alert.alert(
               '',
               Messages.would_you_like_to_delete_it,
@@ -226,19 +226,19 @@ export class FragmentProductDetailIngredients extends React.Component {
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <View style={[MyStyles.padding_h_main, MyStyles.padding_v_25]}>
           <View style={MyStyles.tabbar_button_container1}>
-            <TouchableOpacity style={this.state.tabbar.Good ? MyStyles.ingredient_good_button_selected : MyStyles.tabbar_button1} onPress={() => {
+            <TouchableOpacity activeOpacity={0.8} style={this.state.tabbar.Good ? MyStyles.ingredient_good_button_selected : MyStyles.tabbar_button1} onPress={() => {
               this.setState({
                 tabbar: { Good: true, Normal: false, Bad: false, }, selectedIngredientType: 1
               })
             }}>
               <Text style={this.state.tabbar.Good ? MyStyles.tabbar_text_selected1 : MyStyles.tabbar_text1} >{"Good(" + this.countType(1) + ")"}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={this.state.tabbar.Normal ? MyStyles.ingredient_normal_button_selected : MyStyles.tabbar_button1} onPress={() => {
+            <TouchableOpacity activeOpacity={0.8} style={this.state.tabbar.Normal ? MyStyles.ingredient_normal_button_selected : MyStyles.tabbar_button1} onPress={() => {
               this.setState({ tabbar: { Good: false, Normal: true, Bad: false, }, selectedIngredientType: 0 })
             }}>
               <Text style={this.state.tabbar.Normal ? MyStyles.tabbar_text_selected1 : MyStyles.tabbar_text1} >{"Normal(" + this.countType(0) + ")"}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={this.state.tabbar.Bad ? MyStyles.ingredient_bad_button_selected : MyStyles.tabbar_button1} onPress={() => {
+            <TouchableOpacity activeOpacity={0.8} style={this.state.tabbar.Bad ? MyStyles.ingredient_bad_button_selected : MyStyles.tabbar_button1} onPress={() => {
               this.setState({ tabbar: { Good: false, Normal: false, Bad: true, }, selectedIngredientType: 2 })
             }}>
               <Text style={this.state.tabbar.Bad ? MyStyles.tabbar_text_selected1 : MyStyles.tabbar_text1} >{"Bad(" + this.countType(2) + ")"}</Text>
@@ -299,7 +299,7 @@ export class FragmentProductDetailIngredients extends React.Component {
                   <View style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute" }]}>
                     <Text style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</Text>
                   </View>
-                  <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                     this.setState({ saveToModalVisible: false })
                   }}>
                     <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
@@ -310,7 +310,7 @@ export class FragmentProductDetailIngredients extends React.Component {
 
                 <View style={[MyStyles.padding_h_main, { height: 130 }]}>
                   {/* Allergic Ingredients(Dislike) */}
-                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                  <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 0, this.state.selected_questionnaire.id)
                     }}>
@@ -320,7 +320,7 @@ export class FragmentProductDetailIngredients extends React.Component {
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
                   {/* Potential Allergens */}
-                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                  <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 1, this.state.selected_questionnaire.id)
                     }}>
@@ -330,7 +330,7 @@ export class FragmentProductDetailIngredients extends React.Component {
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
                   {/* Preferred Ingredients */}
-                  <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                  <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 2, this.state.selected_questionnaire.id)
                     }}>

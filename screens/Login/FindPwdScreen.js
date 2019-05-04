@@ -106,10 +106,10 @@ export default class FindPwdScreen extends React.Component {
               }
 
               <View style={{ flex: 1, marginTop: 35, flexDirection: "row" }}>
-                <TouchableOpacity style={[MyStyles.btn_primary_cover]} onPress={() => { this.onPressSend(this.state.email) }}>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_primary_cover]} onPress={() => { this.onPressSend(this.state.email) }}>
                   <Text style={MyStyles.btn_primary}>Send</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[MyStyles.btn_primary_white_cover, { marginLeft: 20 }]} onPress={() => {this.props.navigation.goBack()}}>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_primary_white_cover, { marginLeft: 20 }]} onPress={() => {this.props.navigation.goBack()}}>
                   <Text style={MyStyles.btn_primary_white}>Back to Login</Text>
                 </TouchableOpacity>
               </View>

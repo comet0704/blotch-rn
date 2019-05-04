@@ -105,13 +105,13 @@ export default class BannerDetailScreen extends React.Component {
             <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
               <Text style={MyStyles.text_date}>{item.create_date}</Text>
               {item.parent == 0 ?
-                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.onAddCommentSelected(index) }}>
-                  {/* <TouchableOpacity style={{ padding: 5 }}> */}
+                <TouchableOpacity activeOpacity={0.8} style={{ padding: 5 }} onPress={() => { this.onAddCommentSelected(index) }}>
+                  {/* <TouchableOpacity activeOpacity={0.8} style={{ padding: 5 }}> */}
                   <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]} />
                 </TouchableOpacity>
                 : null}
               {item.user_id == global.login_info.user_id ?
-                <TouchableOpacity style={{ padding: 5 }} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={{ padding: 5 }} onPress={() => {
                   Alert.alert(
                     '',
                     Messages.would_you_like_to_delete_it,
@@ -133,7 +133,7 @@ export default class BannerDetailScreen extends React.Component {
                   <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]} />
                 </TouchableOpacity>
                 :
-                <TouchableOpacity style={{ padding: 5 }} onPress={() => { this.setState({ reportModalVisible: true, selected_comment_id: item.id }) }}>
+                <TouchableOpacity activeOpacity={0.8} style={{ padding: 5 }} onPress={() => { this.setState({ reportModalVisible: true, selected_comment_id: item.id }) }}>
                   <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]} />
                 </TouchableOpacity>
               }
@@ -151,7 +151,7 @@ export default class BannerDetailScreen extends React.Component {
               onChangeText={(text) => { this.setState({ post_sub_comment: text }) }}
               placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
             </TextInput>
-            <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostBannerComment(item_id, this.state.post_sub_comment, item.id) }}>
+            <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostBannerComment(item_id, this.state.post_sub_comment, item.id) }}>
               <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
             </TouchableOpacity>
           </View> : null
@@ -232,11 +232,11 @@ export default class BannerDetailScreen extends React.Component {
               {
                 this.state.banner_detail_result_data.detail.is_liked > 0
                   ?
-                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestBannerUnlike(this.state.banner_detail_result_data.detail.id) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestBannerUnlike(this.state.banner_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                   :
-                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestBannerLike(this.state.banner_detail_result_data.detail.id) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestBannerLike(this.state.banner_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
               }
@@ -268,7 +268,7 @@ export default class BannerDetailScreen extends React.Component {
                     onChangeText={(text) => { this.setState({ post_comment: text }) }}
                     multiline={true}
                     style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
-                  <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostBannerComment(item_id, this.state.post_comment, 0) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostBannerComment(item_id, this.state.post_comment, 0) }}>
                     <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
                   </TouchableOpacity>
                 </View>
@@ -291,7 +291,7 @@ export default class BannerDetailScreen extends React.Component {
           <View style={{ flex: 1 }}>
             <View style={MyStyles.modal_bg}>
               <View style={MyStyles.modalContainer}>
-                <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={MyStyles.modal_close_btn} onPress={() => {
                   this.setState({ reportModalVisible: false });
                 }}>
                   <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />

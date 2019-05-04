@@ -82,7 +82,7 @@ export default class AnnouncementsScreen extends React.Component {
           {this.state.result_data.announce_list.map((item, index) => (
             <View key={index}>
               {item.type == 0 ? // notice 일때
-                <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.onAnnounceItemSelected(index) }}>
+                <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.onAnnounceItemSelected(index) }}>
                   <Image style={MyStyles.ic_announce_comment} source={require('../../assets/images/ic_announce_notice.png')} />
                   <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
                     <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
@@ -94,7 +94,7 @@ export default class AnnouncementsScreen extends React.Component {
 
                 :
                 item.type == 1 ? // comment_alert 일때
-                  <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                     <Image style={MyStyles.ic_announce_notice} source={require('../../assets/images/ic_announce_comment.png')} />
 
                     <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
@@ -106,7 +106,7 @@ export default class AnnouncementsScreen extends React.Component {
                   </TouchableOpacity>
 
                   : // contact us 답변내용일때
-                  <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.onAnnounceItemSelected(index) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.onAnnounceItemSelected(index) }}>
                     <Image style={MyStyles.ic_announce_contact_us} source={require('../../assets/images/ic_announce_contact_us.png')} />
 
                     <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>

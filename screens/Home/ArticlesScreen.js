@@ -52,7 +52,7 @@ export default class ArticlesScreen extends React.Component {
       this.beforeArticleTime = ""
     }
     return (
-      <TouchableOpacity key={index} style={[MyStyles.container, { flex: 1 }]} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+      <TouchableOpacity activeOpacity={0.8} key={index} style={[MyStyles.container, { flex: 1 }]} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
         {showTime ?
           <View style={[{ position: "absolute", width: 275 / 3, height: 60 / 3, top: -10, right: 15, borderRadius: 10, flexDirection: "row", justifyContent: "center", alignItems: "center" }, MyStyles.shadow_2]}>
             <Image source={require('../../assets/images/ic_clock.png')} style={[MyStyles.ic_clock]} />
@@ -68,11 +68,11 @@ export default class ArticlesScreen extends React.Component {
               {
                 item.is_liked > 0
                   ?
-                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestArticleUnlike(item.id) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestArticleUnlike(item.id) }}>
                     <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                   :
-                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestArticleLike(item.id) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestArticleLike(item.id) }}>
                     <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
               }
@@ -102,7 +102,7 @@ export default class ArticlesScreen extends React.Component {
   renderTodayArticleBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 550 / 3, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1, overflow: "hidden" }}>
             <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
             {

@@ -61,7 +61,7 @@ export default class FaqScreen extends React.Component {
 
   renderCategoryTabbars(item, index) {
     return (
-      <TouchableOpacity key={item.category} style={item.is_selected ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
+      <TouchableOpacity activeOpacity={0.8} key={item.category} style={item.is_selected ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
         faq_category_list = this.state.faq_category_result_data.faq_category;
         faq_category_list.map((item) => (item.is_selected = false))
         faq_category_list[index].is_selected = true;
@@ -109,7 +109,7 @@ export default class FaqScreen extends React.Component {
           }}>
           {this.state.faq_list_result_data.faq_list.map((item, index) => (
             <View key={item.id}>
-              <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => {this.onFaqItemSelected(index)}}>
+              <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => {this.onFaqItemSelected(index)}}>
                 <Text style={{ backgroundColor: [Common.getCategoryColor(item.id)], fontSize: 12, borderRadius: 2, paddingLeft: 5, paddingRight: 5, color: "white" }}>{item.category}</Text>
                 <Text style={{ flex: 1, marginLeft: 10, marginRight: 10, color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
                 {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')}/> :

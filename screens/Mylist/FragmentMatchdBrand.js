@@ -105,7 +105,7 @@ export class FragmentMatchdBrand extends React.Component {
             <View style={{ flex: 1 }}>
               <View style={MyStyles.modal_bg}>
                 <View style={MyStyles.modalContainer}>
-                  <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                  <TouchableOpacity activeOpacity={0.8} style={MyStyles.modal_close_btn} onPress={() => {
                     this.setState({ showDeleteModal: false });
                   }}>
                     <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />

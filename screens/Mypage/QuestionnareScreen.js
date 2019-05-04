@@ -148,7 +148,7 @@ export default class QuestionnareScreen extends React.Component {
 
           {this.state.questionnaire_list.map(item => (
             <View key={item.id} style={{ marginRight: 10, flex: 1, alignItems: "center", justifyContent: "center" }}>
-              <TouchableOpacity onPress={() => { this.onBabySelected(item.title) }} style={[item.is_selected ? MyStyles.baby_container_selected1 : MyStyles.baby_container]}>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => { this.onBabySelected(item.title) }} style={[item.is_selected ? MyStyles.baby_container_selected1 : MyStyles.baby_container]}>
                 {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <Text style={MyStyles.baby_text_selected} numberOfLines={1}>{item.title}</Text> : <Text style={MyStyles.baby_text} numberOfLines={1}>{item.title}</Text>}
               </TouchableOpacity>
@@ -157,7 +157,7 @@ export default class QuestionnareScreen extends React.Component {
 
           {/* 목록 다 돌린 후에는  추가버튼 추가*/}
           <View style={{ marginRight: 10, flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <TouchableOpacity onPress={() => {
+            <TouchableOpacity activeOpacity={0.8} onPress={() => {
               this.setState({ edit_baby_id: 0, request_list_name: "", addBabyModalVisible: true })
             }
             } style={[MyStyles.baby_container]}>
@@ -363,7 +363,7 @@ export default class QuestionnareScreen extends React.Component {
                 <View>
                   {/* Step 01 : Basic Info */}
                   <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
-                    <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+                    <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                       this.setState({ section_basic_info: !this.state.section_basic_info })
                     }}>
                       <View style={[{ flex: 1 }]}>
@@ -395,7 +395,7 @@ export default class QuestionnareScreen extends React.Component {
                           {/* Day of Birth */}
                           <View style={{ marginBottom: 65 / 3 }}>
                             <Text style={[MyStyles.question_sub_text1]}>Date of Birth</Text>
-                            <TouchableOpacity style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
+                            <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
                               <TextInput value={this.state.questionnaire_detail.birth} editable={false} style={{ fontSize: 12, paddingRight: 10, flex: 1 }} placeholder="YYYY - MM - DD" />
                               <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
                             </TouchableOpacity>
@@ -406,7 +406,7 @@ export default class QuestionnareScreen extends React.Component {
                             <View style={{ marginTop: 10, flexDirection: "row" }}>
 
                               {this.state.questionnaire_detail.gender == "F" ?
-                                <TouchableOpacity style={MyStyles.question_gender_on}
+                                <TouchableOpacity activeOpacity={0.8} style={MyStyles.question_gender_on}
                                   onPress={() => {
                                     this.state.questionnaire_detail.gender = "F"
                                     this.setState(this.state.questionnaire_detail)
@@ -417,7 +417,7 @@ export default class QuestionnareScreen extends React.Component {
                                   <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_primary_pink }}>Female</Text>
                                 </TouchableOpacity>
                                 :
-                                <TouchableOpacity style={MyStyles.question_gender_off}
+                                <TouchableOpacity activeOpacity={0.8} style={MyStyles.question_gender_off}
                                   onPress={() => {
                                     this.state.questionnaire_detail.gender = "F"
                                     this.setState(this.state.questionnaire_detail)
@@ -433,7 +433,7 @@ export default class QuestionnareScreen extends React.Component {
                               <View style={{ flex: 1 }} />
 
                               {this.state.questionnaire_detail.gender == "M" ?
-                                <TouchableOpacity style={MyStyles.question_gender_on}
+                                <TouchableOpacity activeOpacity={0.8} style={MyStyles.question_gender_on}
                                   onPress={() => {
                                     this.state.questionnaire_detail.gender = "M"
                                     this.setState(this.state.questionnaire_detail)
@@ -443,7 +443,7 @@ export default class QuestionnareScreen extends React.Component {
                                   <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_primary_pink }}>Male</Text>
                                 </TouchableOpacity>
                                 :
-                                <TouchableOpacity style={MyStyles.question_gender_off}
+                                <TouchableOpacity activeOpacity={0.8} style={MyStyles.question_gender_off}
                                   onPress={() => {
                                     this.state.questionnaire_detail.gender = "M"
                                     this.setState(this.state.questionnaire_detail)
@@ -458,7 +458,7 @@ export default class QuestionnareScreen extends React.Component {
                               <View style={{ flex: 1 }} />
 
                               {this.state.questionnaire_detail.gender == "U" ?
-                                <TouchableOpacity style={MyStyles.question_gender_on}
+                                <TouchableOpacity activeOpacity={0.8} style={MyStyles.question_gender_on}
                                   onPress={() => {
                                     this.state.questionnaire_detail.gender = "U"
                                     this.setState(this.state.questionnaire_detail)
@@ -469,7 +469,7 @@ export default class QuestionnareScreen extends React.Component {
                                   <Text style={{ fontSize: 12, marginTop: 5 + 31 / 6, color: Colors.color_primary_pink }}>Unspecitied</Text>
                                 </TouchableOpacity>
                                 :
-                                <TouchableOpacity style={MyStyles.question_gender_off}
+                                <TouchableOpacity activeOpacity={0.8} style={MyStyles.question_gender_off}
                                   onPress={() => {
                                     this.state.questionnaire_detail.gender = "U"
                                     this.setState(this.state.questionnaire_detail)
@@ -485,7 +485,7 @@ export default class QuestionnareScreen extends React.Component {
                           {/* Area */}
                           <View style={{ marginBottom: 65 / 3 }}>
                             <Text style={[MyStyles.question_sub_text1]}>Area</Text>
-                            <TouchableOpacity style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ countrySelectModalVisible: true }) }}>
+                            <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ countrySelectModalVisible: true }) }}>
                               <TextInput value={this.state.questionnaire_detail.location} editable={false} style={{ fontSize: 12, paddingRight: 10, flex: 1 }} placeholder="Seoul, Kor" />
                               <Image source={require("../../assets/images/ic_search_medium.png")} style={[MyStyles.ic_search_medium]} />
                             </TouchableOpacity>
@@ -495,14 +495,14 @@ export default class QuestionnareScreen extends React.Component {
                           <View style={{ marginBottom: 65 / 3 }}>
                             <Text style={[MyStyles.question_sub_text1]}>Marriage status</Text>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.marital_status = "Y",
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.marital_status == "Y" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Yes</Text>
                               </TouchableOpacity>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.marital_status = "N",
                                   this.setState(this.state.questionnaire_detail)
                               }}>
@@ -516,14 +516,14 @@ export default class QuestionnareScreen extends React.Component {
                           <View style={{ marginBottom: 65 / 3 }}>
                             <Text style={[MyStyles.question_sub_text1]}>Descendant</Text>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.is_kids = "Y",
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.is_kids == "Y" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Yes</Text>
                               </TouchableOpacity>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.is_kids = "N",
                                   this.setState(this.state.questionnaire_detail)
                               }}>
@@ -541,7 +541,7 @@ export default class QuestionnareScreen extends React.Component {
 
                   {/* Step 02 : My Skin Type */}
                   <View style={[{ borderLeftColor: Colors.primary_purple, }, MyStyles.ingredient_section, { marginTop: 5, }]}>
-                    <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+                    <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                       this.setState({ section_skin_type: !this.state.section_skin_type })
                     }}>
                       <View style={[{ flex: 1 }]}>
@@ -661,7 +661,7 @@ export default class QuestionnareScreen extends React.Component {
 
 
                           <View style={{ position: "absolute", overflow: "hidden", top: 0, bottom: 0, right: 0, justifyContent: "center" }}>
-                            <TouchableOpacity style={{ marginRight: -190 / 6, width: 190 / 3, height: 190 / 3, justifyContent: "center", backgroundColor: Colors.primary_purple, borderRadius: 190 }}
+                            <TouchableOpacity activeOpacity={0.8} style={{ marginRight: -190 / 6, width: 190 / 3, height: 190 / 3, justifyContent: "center", backgroundColor: Colors.primary_purple, borderRadius: 190 }}
                               onPress={() => {
                                 this.props.navigation.navigate("WeCanSearchIt", {
                                   [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: this.state.questionnaire_detail.skin_type,
@@ -681,7 +681,7 @@ export default class QuestionnareScreen extends React.Component {
 
                   {/* Step 03 : My Skin Type */}
                   <View style={[{ borderLeftColor: Colors.primary_purple, }, MyStyles.ingredient_section, { marginTop: 5, }]}>
-                    <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+                    <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                       this.setState({ section_product_reference: !this.state.section_product_reference })
                     }}>
                       <View style={[{ flex: 1 }]}>
@@ -724,7 +724,7 @@ export default class QuestionnareScreen extends React.Component {
                                 (
                                   <View key={item.id} style={[{ marginRight: 15 }, MyStyles.padding_v_5]}>
                                     <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
-                                    <TouchableOpacity style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}
+                                    <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}
                                       onPress={() => {
                                         const brand_favourite_list = this.state.questionnaire_detail.brand_favourite_list
                                         const index = brand_favourite_list.findIndex(item1 => item1.id === item.id)
@@ -756,7 +756,7 @@ export default class QuestionnareScreen extends React.Component {
                               )}
 
                               {/* 목록 다 돌린 후에는  추가버튼 추가*/}
-                              <TouchableOpacity style={{ marginRight: 15, marginTop: 7, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
+                              <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 15, marginTop: 7, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
                                 onPress={() => {
                                   this.setState({ searchBrandForFavorite: true })
                                   this.setState({ searchBrandModalVisible: true })
@@ -779,7 +779,7 @@ export default class QuestionnareScreen extends React.Component {
                                 (
                                   <View key={item.id} style={[{ marginRight: 15 }, MyStyles.padding_v_5]}>
                                     <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
-                                    <TouchableOpacity style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}
+                                    <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}
                                       onPress={() => {
                                         const brand_mostly_list = this.state.questionnaire_detail.brand_mostly_list
                                         const index = brand_mostly_list.findIndex(item1 => item1.id === item.id)
@@ -811,7 +811,7 @@ export default class QuestionnareScreen extends React.Component {
                               )}
 
                               {/* 목록 다 돌린 후에는  추가버튼 추가*/}
-                              <TouchableOpacity style={{ marginRight: 15, marginTop: 7, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
+                              <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 15, marginTop: 7, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
                                 onPress={() => {
                                   this.setState({ searchBrandForFavorite: false })
                                   this.setState({ searchBrandModalVisible: true })
@@ -825,14 +825,14 @@ export default class QuestionnareScreen extends React.Component {
                           <View style={{ marginBottom: 65 / 3 }}>
                             <Text style={[MyStyles.question_sub_text1]}>I buy products from</Text>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.buy_products_from = 1,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Shopping mall</Text>
                               </TouchableOpacity>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.buy_products_from = 2,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
@@ -841,14 +841,14 @@ export default class QuestionnareScreen extends React.Component {
                               </TouchableOpacity>
                             </View>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 3 }]}>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.buy_products_from = 3,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 3 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Permanent shop</Text>
                               </TouchableOpacity>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.buy_products_from = 4,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
@@ -863,14 +863,14 @@ export default class QuestionnareScreen extends React.Component {
                           <View style={{ marginBottom: 65 / 3 }}>
                             <Text style={[MyStyles.question_sub_text1]}>I use ___ skincare products in one day</Text>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.product_count_in_day = 1,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>None</Text>
                               </TouchableOpacity>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.product_count_in_day = 2,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
@@ -879,14 +879,14 @@ export default class QuestionnareScreen extends React.Component {
                               </TouchableOpacity>
                             </View>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 3 }]}>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.product_count_in_day = 3,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 3 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>3~4</Text>
                               </TouchableOpacity>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.product_count_in_day = 4,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
@@ -901,14 +901,14 @@ export default class QuestionnareScreen extends React.Component {
                           <View style={{ marginBottom: 65 / 3 }}>
                             <Text style={[MyStyles.question_sub_text1]}>Time I spend in caring for my skin</Text>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.time_for_care = 1,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.time_for_care == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Less than 1 hour</Text>
                               </TouchableOpacity>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.time_for_care = 2,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
@@ -917,14 +917,14 @@ export default class QuestionnareScreen extends React.Component {
                               </TouchableOpacity>
                             </View>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 3 }]}>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.time_for_care = 3,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.time_for_care == 3 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Between 3~5 hour</Text>
                               </TouchableOpacity>
-                              <TouchableOpacity style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.time_for_care = 4,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
@@ -941,7 +941,7 @@ export default class QuestionnareScreen extends React.Component {
 
                   {/* Step 04 : My daily skincare routine */}
                   <View style={[{ borderLeftColor: Colors.primary_purple, }, MyStyles.ingredient_section, { marginTop: 5, }]}>
-                    <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+                    <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                       this.setState({ section_skin_routine: !this.state.section_skin_routine })
                     }}>
                       <View style={[{ flex: 1 }]}>
@@ -969,7 +969,7 @@ export default class QuestionnareScreen extends React.Component {
                           {/* My daily skincare routine */}
                           <View style={[{ marginBottom: 20 / 3, marginTop: 50 / 3 }, MyStyles.padding_h_main]}>
                             <View style={{ flexDirection: "row" }}>
-                              <TouchableOpacity style={[MyStyles.question_routine_Type, this.state.morningRoutineSelected ? null : { borderColor: Colors.color_e3e5e4 }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.question_routine_Type, this.state.morningRoutineSelected ? null : { borderColor: Colors.color_e3e5e4 }]} onPress={() => {
                                 this.setState({ morningRoutineSelected: true })
                               }}>
                                 {this.state.morningRoutineSelected ?
@@ -979,7 +979,7 @@ export default class QuestionnareScreen extends React.Component {
                                 }
                               </TouchableOpacity>
                               <View style={{ width: 10 }} />
-                              <TouchableOpacity style={[MyStyles.question_routine_Type, , this.state.morningRoutineSelected ? { borderColor: Colors.color_e3e5e4 } : null]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.question_routine_Type, , this.state.morningRoutineSelected ? { borderColor: Colors.color_e3e5e4 } : null]} onPress={() => {
                                 this.setState({ morningRoutineSelected: false })
                               }}>
                                 {this.state.morningRoutineSelected ?
@@ -1005,7 +1005,7 @@ export default class QuestionnareScreen extends React.Component {
                                       showsHorizontalScrollIndicator={false}>
 
                                       {this.state.morning_cleansing_types.map(item => (
-                                        <TouchableOpacity key={item.typeName} onPress={() => {
+                                        <TouchableOpacity activeOpacity={0.8} key={item.typeName} onPress={() => {
                                           const w_index = this.state.morning_cleansing_types.findIndex(p_item => p_item.typeName == item.typeName)
                                           this.state.morning_cleansing_types[w_index].is_selected = !this.state.morning_cleansing_types[w_index].is_selected
                                           this.setState(this.state.morning_cleansing_types)
@@ -1036,7 +1036,7 @@ export default class QuestionnareScreen extends React.Component {
                                       spacing={5}
                                       style={[MyStyles.gridView,]}
                                       renderItem={({ item, index }) => (
-                                        <TouchableOpacity key={index} onPress={() => {
+                                        <TouchableOpacity activeOpacity={0.8} key={index} onPress={() => {
                                           const w_index = this.state.morning_care_types.findIndex(p_item => p_item.typeName == item.typeName)
                                           this.state.morning_care_types[w_index].is_selected = !this.state.morning_care_types[w_index].is_selected
                                           this.setState(this.state.morning_care_types)
@@ -1068,7 +1068,7 @@ export default class QuestionnareScreen extends React.Component {
                                       showsHorizontalScrollIndicator={false}>
 
                                       {this.state.night_cleansing_types.map(item => (
-                                        <TouchableOpacity key={item.typeName} onPress={() => {
+                                        <TouchableOpacity activeOpacity={0.8} key={item.typeName} onPress={() => {
                                           const w_index = this.state.night_cleansing_types.findIndex(p_item => p_item.typeName == item.typeName)
                                           this.state.night_cleansing_types[w_index].is_selected = !this.state.night_cleansing_types[w_index].is_selected
                                           this.setState(this.state.night_cleansing_types)
@@ -1099,7 +1099,7 @@ export default class QuestionnareScreen extends React.Component {
                                       spacing={5}
                                       style={[MyStyles.gridView,]}
                                       renderItem={({ item, index }) => (
-                                        <TouchableOpacity key={index} onPress={() => {
+                                        <TouchableOpacity activeOpacity={0.8} key={index} onPress={() => {
                                           const w_index = this.state.night_care_types.findIndex(p_item => p_item.typeName == item.typeName)
                                           this.state.night_care_types[w_index].is_selected = !this.state.night_care_types[w_index].is_selected
                                           this.setState(this.state.night_care_types)
@@ -1125,7 +1125,7 @@ export default class QuestionnareScreen extends React.Component {
                     }
                   </View>
 
-                  <TouchableOpacity onPress={() => { this.checkCompleteStatus() }} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginTop: 30, marginBottom: 40, marginLeft: 15, marginRight: 15 }]}>
+                  <TouchableOpacity activeOpacity={0.8} onPress={() => { this.checkCompleteStatus() }} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginTop: 30, marginBottom: 40, marginLeft: 15, marginRight: 15 }]}>
                     <Text style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</Text>
                   </TouchableOpacity>
                 </View>
@@ -1152,7 +1152,7 @@ export default class QuestionnareScreen extends React.Component {
                         :
                         <Text style={MyStyles.modal_title}>Add User</Text>
                       }
-                      <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                      <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ addBabyModalVisible: false });
                       }}>
                         <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
@@ -1227,7 +1227,7 @@ export default class QuestionnareScreen extends React.Component {
             <View style={{ flex: 1 }}>
               <View style={MyStyles.modal_bg}>
                 <View style={MyStyles.modalContainer}>
-                  <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                  <TouchableOpacity activeOpacity={0.8} style={MyStyles.modal_close_btn} onPress={() => {
                     this.setState({ countrySelectModalVisible: false });
                   }}>
                     <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
@@ -1280,7 +1280,7 @@ export default class QuestionnareScreen extends React.Component {
                     {/* modal header */}
                     <View style={MyStyles.modal_header}>
                       <Text style={MyStyles.modal_title}>Brand</Text>
-                      <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                      <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ searchBrandModalVisible: false });
                       }}>
                         <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
@@ -1307,7 +1307,7 @@ export default class QuestionnareScreen extends React.Component {
                       </TextInput>
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 25 }}>
-                      <TouchableOpacity style={[MyStyles.btn_primary_cover1, { borderRadius: 3, width: 444 / 3, height: 30 }]}
+                      <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_primary_cover1, { borderRadius: 3, width: 444 / 3, height: 30 }]}
                         onPress={() => {
                           this.setState({ loading_end: false })
                           if (this.state.searchKeyword == null) {
@@ -1392,7 +1392,7 @@ export default class QuestionnareScreen extends React.Component {
             <View style={{ flex: 1 }}>
               <View style={MyStyles.modal_bg}>
                 <View style={MyStyles.modalContainer}>
-                  <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                  <TouchableOpacity activeOpacity={0.8} style={MyStyles.modal_close_btn} onPress={() => {
                     this.setState({ noCompletedQuestionnaireModalVisible: false });
                   }}>
                     <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />

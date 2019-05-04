@@ -171,7 +171,7 @@ export default class HomeScreen extends React.Component {
   renderBanner(item, index) {
     return (
       <View key={index}>
-        <TouchableOpacity onPress={() => {
+        <TouchableOpacity activeOpacity={0.8} onPress={() => {
           this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View>
@@ -189,7 +189,7 @@ export default class HomeScreen extends React.Component {
   renderBanner2(item, index) {
     return (
       <View key={index}>
-        <TouchableOpacity onPress={() => {
+        <TouchableOpacity activeOpacity={0.8} onPress={() => {
           this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
@@ -203,7 +203,7 @@ export default class HomeScreen extends React.Component {
   renderBanner3(item, index) {
     return (
       <View key={index}>
-        <TouchableOpacity onPress={() => {
+        <TouchableOpacity activeOpacity={0.8} onPress={() => {
           this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
@@ -218,17 +218,17 @@ export default class HomeScreen extends React.Component {
   renderNewProductBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1 }}>
             <ImageLoad style={MyStyles.product_thumbnail1} source={{ uri: Common.getImageUrl(item.image_list) }} />
             {
               item.is_liked > 0
                 ?
-                <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
                 :
-                <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
             }
@@ -245,17 +245,17 @@ export default class HomeScreen extends React.Component {
   renderBestProductBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1 }}>
             <ImageLoad style={MyStyles.product_thumbnail1} source={{ uri: Common.getImageUrl(item.image_list) }} />
             {
               item.is_liked > 0
                 ?
-                <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
                 :
-                <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
             }
@@ -273,7 +273,7 @@ export default class HomeScreen extends React.Component {
   renderTodayArticleBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 166, flex: 1 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
             <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
@@ -296,7 +296,7 @@ export default class HomeScreen extends React.Component {
         >
           {this.state.result_data.trend_article_list.map(item => (
             <View key={item.id} style={{ width: 150, height: 75, flex: 1, marginRight: 10 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
                   <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
                   <View style={{ position: "absolute", bottom: 5, left: 5, maxWidth: 120 }}>
@@ -322,7 +322,7 @@ export default class HomeScreen extends React.Component {
         >
           {this.state.result_data.recommend_product_list.map(item => (
             <View key={item.id} style={{ flex: 1, marginRight: 10, width: 85 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                 <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image_list) }} />
               </TouchableOpacity>
               <Text style={{ fontSize: 12, color: "#949393", marginTop: 5, textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
@@ -384,7 +384,7 @@ export default class HomeScreen extends React.Component {
                   <View style={[{ marginLeft: 12, }, MyStyles.searchBoxCover, MyStyles.shadow_2]}>
                     <Image source={require('../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
                     <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
-                    <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
+                    <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                       <Image source={require('../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                     </TouchableOpacity>
                   </View>
@@ -460,7 +460,7 @@ export default class HomeScreen extends React.Component {
                     <View style={[MyStyles.seperate_line_e5e5e5, { marginRight: -15, marginTop: -5 }]} />
                     <View style={[{ flexDirection: "row", flex: 1, marginTop: 10, justifyContent: "center" }]}>
                       <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
-                      <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                      <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() =>
                         this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}
                       >
                         <Text style={MyStyles.txt_more}>more</Text>
@@ -486,7 +486,7 @@ export default class HomeScreen extends React.Component {
               {/* We can search it */}
               {this.state.refreshOneLineInfo ?
                 global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
-                  <TouchableOpacity style={[MyStyles.container, { marginTop: 20 }]} onPress=
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.container, { marginTop: 20 }]} onPress=
                     {() => {
                       this.props.navigation.navigate("WeCanSearchIt", {
                         [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
@@ -509,7 +509,7 @@ export default class HomeScreen extends React.Component {
                   : null
                 :
                 global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
-                  <TouchableOpacity style={[MyStyles.container, { marginTop: 20 }]} onPress=
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.container, { marginTop: 20 }]} onPress=
                     {() => {
                       this.props.navigation.navigate("WeCanSearchIt", {
                         [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
@@ -553,7 +553,7 @@ export default class HomeScreen extends React.Component {
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Hi, It's New</Text>
-                  <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 0 }) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 0 }) }}>
                     <Text style={MyStyles.txt_more}>more</Text>
                     <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
                   </TouchableOpacity>
@@ -596,11 +596,11 @@ export default class HomeScreen extends React.Component {
                       {this.state.result_data.new_product_list.map((item, index) => this.renderNewProductBanner(item, index))}
                     </Carousel>
                     <View style={{ flex: 1, width: "100%", justifyContent: "center", flexDirection: "row", position: "absolute", marginTop: 90 }}>
-                      <TouchableOpacity style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.newCarouselIndicator.gotoPage(this.newCarouselIndicator.currentIndex - 1); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.newCarouselIndicator.gotoPage(this.newCarouselIndicator.currentIndex - 1); }}>
                         <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                       <View style={{ flex: 1 }}></View>
-                      <TouchableOpacity style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.newCarouselIndicator.gotoNextPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.newCarouselIndicator.gotoNextPage(); }}>
                         <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                     </View>
@@ -613,7 +613,7 @@ export default class HomeScreen extends React.Component {
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Best Choice</Text>
-                  <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 1 }) }}
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 1 }) }}
                   >
                     <Text style={MyStyles.txt_more}>more</Text>
                     <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
@@ -636,11 +636,11 @@ export default class HomeScreen extends React.Component {
                       {this.state.result_data.best_product_list.map((item, index) => this.renderBestProductBanner(item, index))}
                     </Carousel>
                     <View style={{ flex: 1, width: "100%", justifyContent: "center", flexDirection: "row", position: "absolute", marginTop: 90 }}>
-                      <TouchableOpacity style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.bestCarouselIndicator.gotoPage(this.bestCarouselIndicator.currentIndex - 1); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.bestCarouselIndicator.gotoPage(this.bestCarouselIndicator.currentIndex - 1); }}>
                         <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                       <View style={{ flex: 1 }}></View>
-                      <TouchableOpacity style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.bestCarouselIndicator.gotoNextPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.bestCarouselIndicator.gotoNextPage(); }}>
                         <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                     </View>
@@ -672,7 +672,7 @@ export default class HomeScreen extends React.Component {
                 {/* Today's Article */}
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Today's Article</Text>
-                  <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("Article") }}
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("Article") }}
                   >
                     <Text style={MyStyles.txt_more}>more</Text>
                     <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
@@ -715,11 +715,11 @@ export default class HomeScreen extends React.Component {
                 {/* FAQ, About 버튼 부분 */}
                 <View style={[MyStyles.seperate_line_e5e5e5]}></View>
                 <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", flex: 1, height: 53 }}>
-                  <TouchableOpacity style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("Faq") }}>
+                  <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("Faq") }}>
                     <Text style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>FAQ</Text>
                   </TouchableOpacity>
                   <Image style={[MyStyles.seperate_v_line_e5e5e5, { height: 30 / 3 }]} />
-                  <TouchableOpacity style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("AboutUs"); }}>
+                  <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("AboutUs"); }}>
                     <Text style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>About Chemi</Text>
                   </TouchableOpacity>
                 </View>

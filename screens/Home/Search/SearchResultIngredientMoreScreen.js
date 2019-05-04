@@ -89,10 +89,10 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
 
     return (
       <View key={item.id} style={{ flex: 1 }}>
-        <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => {
+          <TouchableOpacity activeOpacity={0.8} onPress={() => {
             this.setState({ saveToModalVisible: true, selectedIngredient_id: item.id })
           }}>
             <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</Text>
@@ -137,7 +137,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                 <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
                   <View style={[MyStyles.searchBoxCover, { paddingLeft: 0 }]}>
                     <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingRight: 5 }} value={this.state.searchWord}></TextInput>
-                    <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
+                    <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                       <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                     </TouchableOpacity>
                   </View>
@@ -150,7 +150,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
               {/* Ingredients 검색결과 나열 */}
               <View style={[{ flex: 1, backgroundColor: "white" }]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                  <TouchableOpacity style={{ marginRight: 10, alignSelf: "center", }} onPress={() => { this.props.navigation.goBack() }}>
+                  <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 10, alignSelf: "center", }} onPress={() => { this.props.navigation.goBack() }}>
                     <Image source={require("../../../assets/images/ic_back3.png")} style={[MyStyles.ic_back3,]} />
                   </TouchableOpacity>
                   <Text style={[MyStyles.text_14, { flex: 1, textAlignVertical: "center", marginTop: -8 }]}>Ingredient({this.state.result_data.ingredient_count})</Text>
@@ -178,7 +178,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                     <View style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute" }]}>
                       <Text style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</Text>
                     </View>
-                    <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                    <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                       this.setState({ saveToModalVisible: false })
                     }}>
                       <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close.png")} />
@@ -189,7 +189,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
 
                   <View style={[MyStyles.padding_h_main, { height: 130 }]}>
                     {/* Allergic Ingredients(Dislike) */}
-                    <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                    <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                       onPress={() => {
                         this.requestAddUserIngredient(this.state.selectedIngredient_id, 0, this.state.selected_questionnaire.id)
                       }}>
@@ -199,7 +199,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                       <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")} />
                     </TouchableOpacity>
                     {/* Potential Allergens */}
-                    <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                    <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                       onPress={() => {
                         this.requestAddUserIngredient(this.state.selectedIngredient_id, 1, this.state.selected_questionnaire.id)
                       }}>
@@ -209,7 +209,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                       <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")} />
                     </TouchableOpacity>
                     {/* Preferred Ingredients */}
-                    <TouchableOpacity style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
+                    <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, flexDirection: "row", borderBottomColor: Colors.color_dcdedd, borderBottomWidth: 0.5, justifyContent: "center", alignItems: "center" }}
                       onPress={() => {
                         this.requestAddUserIngredient(this.state.selectedIngredient_id, 2, this.state.selected_questionnaire.id)
                       }}>

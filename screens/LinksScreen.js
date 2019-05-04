@@ -64,7 +64,7 @@ export default class CameraExample extends React.Component {
     return (
       <View style={{ width: "100%", height: "100%", backgroundColor: "red" }} >
         <Animated.View style={imageStyle} {...this._panResponder.panHandlers} onPress={() => {alert("A");}}>
-          <TouchableOpacity style={{ width: 100, height: 100, backgroundColor: Colors.primary_purple }}>
+          <TouchableOpacity activeOpacity={0.8} style={{ width: 100, height: 100, backgroundColor: Colors.primary_purple }}>
           </TouchableOpacity>
         </Animated.View>
       </View>

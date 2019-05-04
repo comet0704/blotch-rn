@@ -34,7 +34,7 @@ export class BrandItem extends React.Component {
     const _this = this.props.this;
     return (
       <View key={item.id} style={[{ flex: 1, width: item_width }, is_match_list ? null : { marginRight: 20, }]}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { is_add_modal ? _this.onBrandSelect(item) : _this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { is_add_modal ? _this.onBrandSelect(item) : _this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           { // 이미지가 없을 경우 브랜드 명을 가운데 현시해주자
             item.image == null || item.image.length <= 0
               ?
@@ -52,7 +52,7 @@ export class BrandItem extends React.Component {
           is_add_modal != true ?
             item.is_liked > 0
               ?
-              <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => {
+              <TouchableOpacity activeOpacity={0.8} style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => {
                 if (is_match_list) {
                   _this.deleteFromList(item.id)
                 } else {
@@ -63,7 +63,7 @@ export class BrandItem extends React.Component {
                 <Image source={require('../../assets/images/ic_heart2_on.png')} style={[MyStyles.background_image]} />
               </TouchableOpacity>
               :
-              <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { _this.requestBrandLike(item.id) }}>
+              <TouchableOpacity activeOpacity={0.8} style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { _this.requestBrandLike(item.id) }}>
                 <Image source={require('../../assets/images/ic_heart2_off.png')} style={[MyStyles.background_image]} />
               </TouchableOpacity>
             :

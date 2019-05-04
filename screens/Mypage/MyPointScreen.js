@@ -47,7 +47,7 @@ export default class MyPointScreen extends React.Component {
     if (item.type == 1) {
       {/* 리뷰작성으로 인한 지급 */ }
       <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: -3 }]}>
-        <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+        <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
           this.setState({ section_allergic_show: !this.state.section_allergic_show })
         }}>
           <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
@@ -61,7 +61,7 @@ export default class MyPointScreen extends React.Component {
     } else if (item.type == 2) { // 미등록 제품스캔, 사진 업로드로 인한  인한 지급
       return (
         <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
-          <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+          <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
             this.setState({ section_allergic_show: !this.state.section_allergic_show })
           }}>
             <Image source={require("../../assets/images/ic_product_approval.png")} style={[MyStyles.ic_product_approval]} />
@@ -81,7 +81,7 @@ export default class MyPointScreen extends React.Component {
       {/* Questionnaire 완료시 지급 */ }
       return (
         <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
-          <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+          <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
             this.setState({ section_allergic_show: !this.state.section_allergic_show })
           }}>
             <Image source={require("../../assets/images/ic_questionnare_big.png")} style={[MyStyles.ic_questionnare_big]} />

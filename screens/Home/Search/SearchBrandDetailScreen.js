@@ -111,7 +111,7 @@ export default class SearchBrandDetailScreen extends React.Component {
 
           {this.state.categoryItems.map(item => (
             <View key={item.categoryName} style={{ marginRight: 10 }}>
-              <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={[MyStyles.category_image_container]}>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => { this.onCategorySelect(item.categoryName) }} style={[MyStyles.category_image_container]}>
                 {item.is_selected ? <Image source={require("../../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
               </TouchableOpacity>
@@ -131,7 +131,7 @@ export default class SearchBrandDetailScreen extends React.Component {
             <View style={MyStyles.tabbar_button_container}>
               {
                 this.state.categoryItems[p_categoryIndex].sub_category.map((item, index) => (
-                  <TouchableOpacity key={item.name} style={item.is_selected ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
+                  <TouchableOpacity activeOpacity={0.8} key={item.name} style={item.is_selected ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
                     this.selectedSubCatName = item.name
                     categoryItems = this.state.categoryItems;
                     categoryItems[p_categoryIndex].sub_category.map((item) => (item.is_selected = false))
@@ -197,7 +197,7 @@ export default class SearchBrandDetailScreen extends React.Component {
           <View style={[MyStyles.searchBoxCover, { paddingLeft: 0 }]}>
             {/* <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} /> */}
             <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} value={this.state.brand_detail_result_data.detail.title} placeholder="Search keyword"></TextInput>
-            <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
+            <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
               <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
             </TouchableOpacity>
           </View>
@@ -208,7 +208,7 @@ export default class SearchBrandDetailScreen extends React.Component {
         {/* 브랜디 아이템 */}
         <View style={[MyStyles.padding_h_main, MyStyles.padding_v_25, { alignItems: "center" }]}>
           <Image source={require("../../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} />
-          <TouchableOpacity style={{ position: "absolute", top: 10, left: 0, padding: 15 }}
+          <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", top: 10, left: 0, padding: 15 }}
             onPress={() => {
               this.props.navigation.goBack()
             }} >
@@ -216,7 +216,7 @@ export default class SearchBrandDetailScreen extends React.Component {
           </TouchableOpacity>
           <View>
             <View style={{ height: 110, width: "100%", alignItems: "center" }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ detailModalVisible: true }) }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.setState({ detailModalVisible: true }) }}>
                 <View>
                   { // 이미지가 없을 경우 브랜드 명을 가운데 현시해주자
                     this.state.brand_detail_result_data.detail.image == null || this.state.brand_detail_result_data.detail.image.length <= 0
@@ -235,11 +235,11 @@ export default class SearchBrandDetailScreen extends React.Component {
               {
                 this.state.brand_detail_result_data.detail.is_liked > 0
                   ?
-                  <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestBrandUnlike(this.state.brand_detail_result_data.detail.id) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestBrandUnlike(this.state.brand_detail_result_data.detail.id) }}>
                     <Image source={require('../../../assets/images/ic_heart2_on.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                   :
-                  <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestBrandLike(this.state.brand_detail_result_data.detail.id) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestBrandLike(this.state.brand_detail_result_data.detail.id) }}>
                     <Image source={require('../../../assets/images/ic_heart2_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
               }
@@ -308,7 +308,7 @@ export default class SearchBrandDetailScreen extends React.Component {
 
                     <View style={{ position: "absolute", bottom: -85 / 2 }}>
                       <View style={{ width: 85, height: 85 }}>
-                        <TouchableOpacity style={[{ flex: 1, borderRadius: 50, }]}>
+                        <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, borderRadius: 50, }]}>
                           <View style={[MyStyles.shadow_5, { borderRadius: 50 }]}>
                             { // 이미지가 없을 경우 브랜드 명을 가운데 현시해주자
                               this.state.brand_detail_result_data.detail.image == null || this.state.brand_detail_result_data.detail.image.length <= 0
@@ -325,11 +325,11 @@ export default class SearchBrandDetailScreen extends React.Component {
                         {
                           this.state.brand_detail_result_data.detail.is_liked > 0
                             ?
-                            <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0, zIndex: 100 }, MyStyles.heart2]} onPress={() => { this.requestBrandUnlike(this.state.brand_detail_result_data.detail.id) }}>
+                            <TouchableOpacity activeOpacity={0.8} style={[{ position: "absolute", right: 0, top: 0, zIndex: 100 }, MyStyles.heart2]} onPress={() => { this.requestBrandUnlike(this.state.brand_detail_result_data.detail.id) }}>
                               <Image source={require('../../../assets/images/ic_heart2_on.png')} style={[MyStyles.background_image]} />
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestBrandLike(this.state.brand_detail_result_data.detail.id) }}>
+                            <TouchableOpacity activeOpacity={0.8} style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { this.requestBrandLike(this.state.brand_detail_result_data.detail.id) }}>
                               <Image source={require('../../../assets/images/ic_heart2_off.png')} style={[MyStyles.background_image]} />
                             </TouchableOpacity>
                         }
@@ -338,7 +338,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                   </View>
 
                   {/* close 버튼 */}
-                  <TouchableOpacity style={[MyStyles.modal_close_btn, { position: "absolute", top: 0, right: 0 }]} onPress={() => {
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.modal_close_btn, { position: "absolute", top: 0, right: 0 }]} onPress={() => {
                     this.setState({ detailModalVisible: false });
                   }}>
                     <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close2.png")} />

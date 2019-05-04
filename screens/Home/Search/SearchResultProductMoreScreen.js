@@ -85,7 +85,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
                 <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
                   <View style={[MyStyles.searchBoxCover, {paddingLeft:0}]}>
                     <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingRight: 5 }} value={this.state.searchWord}></TextInput>
-                    <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
+                    <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                       <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                     </TouchableOpacity>
                   </View>
@@ -98,7 +98,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
               {/* product 검색결과 나열 */}
               <View style={[{ flex: 1, backgroundColor: "white" }]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent:"center" }, MyStyles.container]}>
-                  <TouchableOpacity style={{ marginRight: 10, alignSelf:"center",  }} onPress={() => { this.props.navigation.goBack() }}>
+                  <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 10, alignSelf:"center",  }} onPress={() => { this.props.navigation.goBack() }}>
                     <Image source={require("../../../assets/images/ic_back3.png")} style={[MyStyles.ic_back3,]} />
                   </TouchableOpacity>
                   <Text style={[MyStyles.text_14, { flex: 1, textAlignVertical:"center", marginTop:-8 }]}>Product({this.state.result_data.product_count})</Text>

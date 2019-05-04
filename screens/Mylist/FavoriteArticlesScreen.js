@@ -35,7 +35,7 @@ export default class FavoriteArticlesScreen extends React.Component {
 
   renderArticle(item, index) {
     return (
-      <TouchableOpacity key={item.id} style={[MyStyles.container, { flex: 1 }]} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+      <TouchableOpacity activeOpacity={0.8} key={item.id} style={[MyStyles.container, { flex: 1 }]} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
         <View style={[{ marginTop: 15, flex: 1, flexDirection: "row", alignItems: "center" }]}>
           {item.image != "" ?
             <View style={{ width: 316 / 3, height: 230 / 3, borderRadius: 5, overflow: "hidden", marginRight: 10 }}>
@@ -51,7 +51,7 @@ export default class FavoriteArticlesScreen extends React.Component {
             </Text>
           </View>
 
-          <TouchableOpacity onPress={() => { this.requestArticleUnlike(item.id) }}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => { this.requestArticleUnlike(item.id) }}>
             <Image source={require("../../assets/images/ic_heart_big.png")} style={[MyStyles.ic_heart_big, { marginLeft: 10 }]} />
           </TouchableOpacity>
         </View>

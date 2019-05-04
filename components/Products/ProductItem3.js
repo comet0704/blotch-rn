@@ -38,7 +38,7 @@ export class ProductItem3 extends React.Component {
     const _this = this.props.this;
     return (
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TouchableOpacity onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={[MyStyles.productItemContainer1, { width: 302 / 3, height: 270 / 3 }]}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
           </View>
@@ -46,7 +46,7 @@ export class ProductItem3 extends React.Component {
         <View style={{ marginLeft: 10, flex: 1 }}>
           <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]}>{item.brand_title}</Text>
           <Text style={[MyStyles.productName, { textAlign: "left", height: 50 / 3 }]} numberOfLines={1}>{item.title}</Text>
-          <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", height: 69 / 3 }}
+          <TouchableOpacity activeOpacity={0.8} style={{ flexDirection: "row", alignItems: "center", height: 69 / 3 }}
             onPress={() => {
               this.state.isStarPressed = !this.state.isStarPressed
               this.setState({ isStarPressed: this.state.isStarPressed })
@@ -92,22 +92,22 @@ export class ProductItem3 extends React.Component {
         </View>
 
         {this.props.is_match_list ?
-          <TouchableOpacity onPress={() => { _this.deleteFromList(item.id) }}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => { _this.deleteFromList(item.id) }}>
             <Image source={require("../../assets/images/ic_match_on1.png")} style={[MyStyles.ic_match_on1, { marginLeft: 10 }]} />
           </TouchableOpacity>
           : null}
         {this.props.is_blotch_list ?
-          <TouchableOpacity onPress={() => { _this.deleteFromList(item.id) }}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => { _this.deleteFromList(item.id) }}>
             <Image source={require("../../assets/images/ic_blotch_on1.png")} style={[MyStyles.ic_blotch_on1, { marginLeft: 10 }]} />
           </TouchableOpacity>
           : null}
         {this.props.is_heart_list ?
-          <TouchableOpacity onPress={() => { _this.deleteFromList(item.id) }}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => { _this.deleteFromList(item.id) }}>
             <Image source={require("../../assets/images/ic_heart_big.png")} style={[MyStyles.ic_heart_big, { marginLeft: 10 }]} />
           </TouchableOpacity>
           : null}
         {this.props.is_own_list ?
-          <TouchableOpacity onPress={() => { _this.deleteFromList(item.id) }}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => { _this.deleteFromList(item.id) }}>
             <Image source={require("../../assets/images/ic_delete1.png")} style={[MyStyles.ic_heart_big, { marginLeft: 10 }]} />
           </TouchableOpacity>
           : null}

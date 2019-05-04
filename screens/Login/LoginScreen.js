@@ -181,7 +181,7 @@ export default class LoginScreen extends React.Component {
                   Forget Password
                 </Text>
 
-                <TouchableOpacity style={{ marginTop: 27, backgroundColor: Colors.primary_purple, borderRadius: 5, height: 135 / 3, justifyContent: "center" }} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={{ marginTop: 27, backgroundColor: Colors.primary_purple, borderRadius: 5, height: 135 / 3, justifyContent: "center" }} onPress={() => {
                   this.onPressLogin(this.state.email, this.state.password)
                 }}>
                   <Text style={{ color: "white", fontSize: 15, textAlign: "center", fontWeight: "500" }}>LOGIN</Text>
@@ -214,7 +214,7 @@ export default class LoginScreen extends React.Component {
                 </View>
 
                 <View style={{ flex: 1, flexDirection: "row", marginTop: 20, marginBottom: 40 }}>
-                  <TouchableOpacity style={MyStyles.FacebookStyle} activeOpacity={0.5} onPress={() => { this.onLoginWithFacebook() }}>
+                  <TouchableOpacity activeOpacity={0.8} style={MyStyles.FacebookStyle} activeOpacity={0.5} onPress={() => { this.onLoginWithFacebook() }}>
                     {/*We can use any component which is used to shows something inside 
                   TouchableOpacity. It shows the item inside in horizontal orientation */}
                     <Image
@@ -227,7 +227,7 @@ export default class LoginScreen extends React.Component {
                     />
                     <Text style={MyStyles.TextStyle}>Facebook</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={MyStyles.GooglePlusStyle} activeOpacity={0.5} onPress={() => { this.onLoginWithGoogle() }}>
+                  <TouchableOpacity activeOpacity={0.8} style={MyStyles.GooglePlusStyle} activeOpacity={0.5} onPress={() => { this.onLoginWithGoogle() }}>
                     {/*We can use any component which is used to shows something inside 
                   TouchableOpacity. It shows the item inside in horizontal orientation */}
                     <Image

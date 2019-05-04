@@ -38,7 +38,7 @@ export class TopbarWithBlackBack extends React.Component {
                 />
               </TouchableOpacity>
               :
-              <TouchableOpacity // 공유버튼일때
+              <TouchableOpacity activeOpacity={0.8} // 공유버튼일때
                 onPress={this.props.onRightBtnPress} activeOpacity={0.5} style={{ padding: 15, width: 45 }}>
                 <Image style={[MyStyles.shareBtn]}
                   source={require("../../assets/images/ic_share.png")}

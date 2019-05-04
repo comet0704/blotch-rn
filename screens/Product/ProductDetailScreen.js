@@ -158,11 +158,11 @@ export default class ProductDetailScreen extends React.Component {
               {
                 this.state.product_detail_result_data.detail.is_liked > 0
                   ?
-                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(this.state.product_detail_result_data.detail.id) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(this.state.product_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                   :
-                  <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(this.state.product_detail_result_data.detail.id) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(this.state.product_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
               }
@@ -172,7 +172,7 @@ export default class ProductDetailScreen extends React.Component {
             {/* Description */}
             <View style={[{ marginTop: 5 }, MyStyles.padding_main]}>
               <View style={[{ marginTop: 5, flexDirection: "row", flex: 1 }]}>
-                <TouchableOpacity onPress={() => { this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS]: this.state.product_detail_result_data.detail.brand_id }) }} style={[{ flexDirection: "row", alignItems: "center", borderWidth: 0.5, paddingLeft: 5, paddingRight: 5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }]}>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => { this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS]: this.state.product_detail_result_data.detail.brand_id }) }} style={[{ flexDirection: "row", alignItems: "center", borderWidth: 0.5, paddingLeft: 5, paddingRight: 5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }]}>
                   <Text style={{ color: Colors.color_949191 }}>{this.state.product_detail_result_data.detail.brand_title} </Text>
                   <Image source={require("../../assets/images/ic_arrow_right_gray.png")} style={MyStyles.ic_arrow_right_gray} />
                 </TouchableOpacity>
@@ -197,7 +197,7 @@ export default class ProductDetailScreen extends React.Component {
                 <Image style={{ flex: 1 }} />
                 <Image source={require("../../assets/images/ic_heart_gray.png")} style={MyStyles.ic_heart_gray} />
                 <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.product_detail_result_data.detail.like_count}</Text>
-                <TouchableOpacity onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} onPress={() => {
                   this.setState({
                     gradeVisible: !this.state.gradeVisible
                   });
@@ -224,7 +224,7 @@ export default class ProductDetailScreen extends React.Component {
             <View style={MyStyles.seperate_line_e5e5e5}></View>
 
             <View style={[MyStyles.padding_h_main, MyStyles.padding_v_20]}>
-              <TouchableOpacity style={{ borderRadius: 4, backgroundColor: Colors.primary_purple, flex: 1, height: 115 / 3, flexDirection: "row", alignItems: "center", justifyContent: "center" }} onPress={() => {
+              <TouchableOpacity activeOpacity={0.8} style={{ borderRadius: 4, backgroundColor: Colors.primary_purple, flex: 1, height: 115 / 3, flexDirection: "row", alignItems: "center", justifyContent: "center" }} onPress={() => {
                 this.onAddBeautyBox()
               }}>
                 <Image source={require("../../assets/images/ic_beauty_box.png")} style={[MyStyles.ic_beauty_box]} />
@@ -238,12 +238,12 @@ export default class ProductDetailScreen extends React.Component {
             {/* Ingredients and Reviews */}
             <View style={{}}>
               <View style={MyStyles.tabbar_button_container}>
-                <TouchableOpacity style={this.state.tabbar.Ingredients ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={this.state.tabbar.Ingredients ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
                   this.setState({ tabbar: { Ingredients: true, Reviews: false } })
                 }}>
                   <Text style={this.state.tabbar.Ingredients ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >Ingredients</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={this.state.tabbar.Reviews ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={this.state.tabbar.Reviews ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
                   this.setState({ tabbar: { Ingredients: false, Reviews: true } })
                 }}>
                   <Text style={this.state.tabbar.Reviews ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >Reviews</Text>
@@ -264,13 +264,13 @@ export default class ProductDetailScreen extends React.Component {
           {/* <LinearGradient colors={['#fefefe', '#f8f8f8']} style={{ height: 3 }} ></LinearGradient> */}
           <View style={[{ height: 215 / 3, flexDirection: "row", alignItems: "center" }, MyStyles.shadow_5]}>
             <View style={{ flex: 1 }}>
-              <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "M" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 0) }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "M" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 0) }}>
                 {this.state.product_detail_result_data.detail.user_match == "M" ? <Image source={require('../../assets/images/ic_match_on.png')} style={[MyStyles.ic_match]} /> : <Image source={require('../../assets/images/ic_match_off.png')} style={[MyStyles.ic_match]} />}
                 {this.state.product_detail_result_data.detail.user_match == "M" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_6bd5be }}>Match'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Match'd</Text>}
               </TouchableOpacity>
             </View>
             <View style={{ flex: 1 }}>
-              <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "B" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 1) }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "B" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 1) }}>
                 {this.state.product_detail_result_data.detail.user_match == "B" ? <Image source={require('../../assets/images/ic_blotch_on.png')} style={[MyStyles.ic_blotch]} /> : <Image source={require('../../assets/images/ic_blotch_off.png')} style={[MyStyles.ic_blotch]} />}
                 {this.state.product_detail_result_data.detail.user_match == "B" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_f691a1 }}>Blotch'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Blotch'd</Text>}
               </TouchableOpacity>

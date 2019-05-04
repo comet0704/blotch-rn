@@ -122,10 +122,10 @@ export default class SearchResultScreen extends React.Component {
 
     return (
       <View key={item.id} style={{ flex: 1 }}>
-        <TouchableOpacity style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
           <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
           <Image style={{ flex: 1 }} />
-          <TouchableOpacity onPress={() => {
+          <TouchableOpacity activeOpacity={0.8} onPress={() => {
           }}>
             <Icon.Ionicons
               name={Platform.OS === 'ios' ? 'ios-arrow-dropdown' : 'md-arrow-dropdown'}
@@ -184,7 +184,7 @@ export default class SearchResultScreen extends React.Component {
               <View style={[MyStyles.searchBoxCover, MyStyles.shadow_2]}>
                 <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
                 <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} value={this.state.searchWord}></TextInput>
-                <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
+                <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                   <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                 </TouchableOpacity>
               </View>
@@ -227,7 +227,7 @@ export default class SearchResultScreen extends React.Component {
                     <View style={[{ flex: 1, backgroundColor: "white" }]}>
                       <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                         <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Product({this.state.result_data.product_count})</Text>
-                        <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                        <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() =>
                           this.props.navigation.navigate("SearchResultProductMore", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })}>
                           <Text style={MyStyles.txt_more}>more</Text>
                           <Image source={require('../../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
@@ -253,7 +253,7 @@ export default class SearchResultScreen extends React.Component {
                     <View style={[{ flex: 1, backgroundColor: "white" }]}>
                       <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                         <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Ingredients({this.state.result_data.ingredient_count})</Text>
-                        <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                        <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() =>
                           this.props.navigation.navigate("SearchResultIngredientMore", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })}>
                           <Text style={MyStyles.txt_more}>more</Text>
                           <Image source={require('../../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
@@ -275,7 +275,7 @@ export default class SearchResultScreen extends React.Component {
                   <Image source={require("../../../assets/images/ic_search_big.png")} style={[MyStyles.ic_search_big,]} />
                   <Text style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</Text>
                   <Text style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Not finding what you are looking for?{"\n"}Let us know and we'll do the search for you.</Text>
-                  <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]} onPress={() => { this.setState({ requestProductModalVisible: true }) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]} onPress={() => { this.setState({ requestProductModalVisible: true }) }}>
                     <Text style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Report us</Text>
                   </TouchableOpacity>
                 </View>
@@ -296,7 +296,7 @@ export default class SearchResultScreen extends React.Component {
                     {/* modal header */}
                     <View style={MyStyles.modal_header}>
                       <Text style={MyStyles.modal_title}>Product Registeration Request</Text>
-                      <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                      <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ requestProductModalVisible: false });
                       }}>
                         <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close.png")} />

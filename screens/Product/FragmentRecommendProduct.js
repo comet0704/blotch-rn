@@ -369,7 +369,7 @@ export class FragmentRecommendProduct extends React.Component {
                 <Image source={require("../../assets/images/ic_search_big.png")} style={[MyStyles.ic_search_big,]} />
                 <Text style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</Text>
                 <Text style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Tell us about your skin and we'll show you some products that you might want to check out!</Text>
-                <TouchableOpacity style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]} onPress=
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]} onPress=
                   {() => {
                     if (global.login_info.token.length <= 0) {
                       this.setState({ showLoginModal: true })
@@ -423,7 +423,7 @@ export class FragmentRecommendProduct extends React.Component {
                 <View style={{ flexDirection: "row", justifyContent: "center", width: "100%", alignItems: "center" }}>
                   <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.recomment_count})</Text>
                   <View style={{ flex: 1 }}></View>
-                  <TouchableOpacity style={[MyStyles.padding_h_main,]} onPress={() => { this.setState({ filterModalVisible: true }) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main,]} onPress={() => { this.setState({ filterModalVisible: true }) }}>
                     <Image source={require("../../assets/images/ic_filter.png")} style={[MyStyles.ic_filter]} />
                   </TouchableOpacity>
                 </View>
@@ -433,16 +433,16 @@ export class FragmentRecommendProduct extends React.Component {
                   style={MyStyles.gridView}
                   spacing={10}
                   renderItem={({ item, index }) => (
-                    <TouchableOpacity onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                       <View style={[MyStyles.productItemContainer]}>
                         <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
                         {item.is_liked > 0
                           ?
-                          <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                          <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
                             <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                           </TouchableOpacity>
                           :
-                          <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
+                          <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
                             <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                           </TouchableOpacity>
                         }
@@ -474,12 +474,12 @@ export class FragmentRecommendProduct extends React.Component {
                     {/* modal header */}
                     <View style={MyStyles.modal_header}>
                       <Text style={MyStyles.modal_title}>Filter</Text>
-                      <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", width: 70 }]} onPress={() => {
+                      <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", width: 70 }]} onPress={() => {
                         this.resetFilterStatus();
                       }}>
                         <Text style={{ color: Colors.color_dfdfdf, fontSize: 13, fontWeight: "500", }}>reset</Text>
                       </TouchableOpacity>
-                      <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                      <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ filterModalVisible: false });
                       }}>
                         <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
@@ -495,7 +495,7 @@ export class FragmentRecommendProduct extends React.Component {
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
                               <Text style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500" }, MyStyles.modal_close_btn]}>Main Category</Text>
                               <Text style={{ flex: 1, textAlign: "center" }}></Text>
-                              <TouchableOpacity style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
                                 this.selectAllCategories();
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.main_all_selected == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
@@ -510,7 +510,7 @@ export class FragmentRecommendProduct extends React.Component {
                               style={MyStyles.gridView}
                               spacing={10}
                               renderItem={({ item, index }) => (
-                                <TouchableOpacity onPress={() => { this.onFilterMainCategorySelect(item.categoryName) }} style={{ borderColor: item.is_selected == 1 ? "#d9b1db" : Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
+                                <TouchableOpacity activeOpacity={0.8} onPress={() => { this.onFilterMainCategorySelect(item.categoryName) }} style={{ borderColor: item.is_selected == 1 ? "#d9b1db" : Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
                                   <View style={[{ height: 100 / 3, justifyContent: "center", alignItems: "center" }]}>
                                     {item.is_selected == 2 ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
 
@@ -549,7 +549,7 @@ export class FragmentRecommendProduct extends React.Component {
                                     <View style={{ flexDirection: "row", alignItems: "center" }}>
                                       <Text style={[{ color: Colors.primary_purple, fontSize: 12, fontWeight: "400", marginLeft: 15 }]}>{item.categoryName}</Text>
                                       <Text style={{ flex: 1, textAlign: "center" }}></Text>
-                                      <TouchableOpacity style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
+                                      <TouchableOpacity activeOpacity={0.8} style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
 
                                         this.onFilterSubCategoryAllSelect(item)
                                       }}>
@@ -564,7 +564,7 @@ export class FragmentRecommendProduct extends React.Component {
                                       style={[MyStyles.gridView, { marginTop: -20 }]}
                                       spacing={10}
                                       renderItem={({ item: sub_item, index: sub_index }) => (
-                                        <TouchableOpacity onPress={() => {
+                                        <TouchableOpacity activeOpacity={0.8} onPress={() => {
                                           console.log("1111111111" + JSON.stringify(item))
                                           console.log("2222222222" + JSON.stringify(sub_item))
                                           this.onFilterSubCategorySelect(item, sub_item)

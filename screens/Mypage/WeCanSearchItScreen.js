@@ -118,7 +118,7 @@ export default class WeCanSearcnItScreen extends React.Component {
 
             {/* Step1 */}
             <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
-              <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+              <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                 this.setState({ section_step1_show: !this.state.section_step1_show })
               }}>
                 <View style={[{ flex: 1 }]}>
@@ -140,7 +140,7 @@ export default class WeCanSearcnItScreen extends React.Component {
                     style={[MyStyles.gridView, { marginTop: 10 }]}
                     spacing={10}
                     renderItem={({ item, index }) => (
-                      <TouchableOpacity onPress={() => {
+                      <TouchableOpacity activeOpacity={0.8} onPress={() => {
                         // 여기서는 오직 하나만 선택되어야 함
                         this.state.skin_types.forEach(element => {
                           element.is_selected = false
@@ -161,7 +161,7 @@ export default class WeCanSearcnItScreen extends React.Component {
 
             {/* Step2 */}
             <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 3 }]}>
-              <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+              <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                 this.setState({ section_step2_show: !this.state.section_step2_show })
               }}>
                 <View style={[{ flex: 1 }]}>
@@ -183,7 +183,7 @@ export default class WeCanSearcnItScreen extends React.Component {
                     style={[MyStyles.gridView, { marginTop: 10 }]}
                     spacing={10}
                     renderItem={({ item, index }) => (
-                      <TouchableOpacity onPress={() => {
+                      <TouchableOpacity activeOpacity={0.8} onPress={() => {
                         const w_index = this.state.concern_types.findIndex(p_item => p_item.typeName == item.typeName)
                         this.state.concern_types[w_index].is_selected = !this.state.concern_types[w_index].is_selected
                         this.setState(this.state.concern_types)
@@ -199,7 +199,7 @@ export default class WeCanSearcnItScreen extends React.Component {
 
             {/* Step3 */}
             <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 3 }]}>
-              <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+              <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                 this.setState({ section_step3_show: !this.state.section_step3_show })
               }}>
                 <View style={[{ flex: 1 }]}>
@@ -221,7 +221,7 @@ export default class WeCanSearcnItScreen extends React.Component {
                     style={[MyStyles.gridView, { marginTop: 10 }]}
                     spacing={10}
                     renderItem={({ item, index }) => (
-                      <TouchableOpacity onPress={() => {
+                      <TouchableOpacity activeOpacity={0.8} onPress={() => {
                         const w_index = this.state.need_types.findIndex(p_item => p_item.typeName == item.typeName)
                         this.state.need_types[w_index].is_selected = !this.state.need_types[w_index].is_selected
                         this.setState(this.state.need_types)
@@ -237,7 +237,7 @@ export default class WeCanSearcnItScreen extends React.Component {
 
 
             <View style={[MyStyles.padding_main, { flexDirection: "row", marginBottom: 30 }]}>
-              <TouchableOpacity style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginRight: 10 }]}
+              <TouchableOpacity activeOpacity={0.8} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginRight: 10 }]}
                 onPress={() => {
                   // 반점으로 구분하여 돌려줘야 하는 값들
                   returnSkinType = ""
@@ -277,7 +277,7 @@ export default class WeCanSearcnItScreen extends React.Component {
                 }}>
                 <Text style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[{ borderColor: Colors.primary_purple, height: 135 / 3, borderWidth: 1, borderRadius: 2, justifyContent: "center", flex: 1, marginLeft: 10 }]}
+              <TouchableOpacity activeOpacity={0.8} style={[{ borderColor: Colors.primary_purple, height: 135 / 3, borderWidth: 1, borderRadius: 2, justifyContent: "center", flex: 1, marginLeft: 10 }]}
                 onPress={() => {
                   this.state.skin_types.forEach(element => {
                     element.is_selected = false

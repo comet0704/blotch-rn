@@ -38,16 +38,16 @@ export class ProductItem2 extends React.Component {
     const _this = this.props.this;
     return (
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TouchableOpacity onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => { _this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
           <View style={[MyStyles.productItemContainer, { width: 418 / 3, aspectRatio: 1.2 }]}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
             {item.is_liked > 0
               ?
-              <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { _this.requestProductUnlike(item.id) }}>
+              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { _this.requestProductUnlike(item.id) }}>
                 <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
               </TouchableOpacity>
               :
-              <TouchableOpacity style={[MyStyles.heart_in_item]} onPress={() => { _this.requestProductLike(item.id) }}>
+              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { _this.requestProductLike(item.id) }}>
                 <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
               </TouchableOpacity>
             }
@@ -56,7 +56,7 @@ export class ProductItem2 extends React.Component {
         <View style={{ marginLeft: 10, flex: 1 }}>
           <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]} numberOfLines={1}>{item.brand_title}</Text>
           <Text style={[MyStyles.productName, { textAlign: "left", height: 110 / 3 }]} numberOfLines={2}>{item.title}</Text>
-          <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", height: 69 / 3 }}
+          <TouchableOpacity activeOpacity={0.8} style={{ flexDirection: "row", alignItems: "center", height: 69 / 3 }}
             onPress={() => {
               this.state.isStarPressed = !this.state.isStarPressed
               this.setState({ isStarPressed: this.state.isStarPressed })

@@ -92,7 +92,7 @@ export default class MyPageScreen extends React.Component {
         >
           {this.state.result_data.recommend_list.map(item => (
             <View key={item.id} style={{ flex: 1, marginRight: 10, width: 85 }}>
-              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                 <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image_list) }} />
               </TouchableOpacity>
               <Text style={{ fontSize: 12, color: "#949393", marginTop: 5, textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
@@ -147,14 +147,14 @@ export default class MyPageScreen extends React.Component {
                     null
                 }
 
-                <TouchableOpacity style={{ position: "absolute", padding: 15, top: 5, right: 0 }} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", padding: 15, top: 5, right: 0 }} onPress={() => {
                   this.props.navigation.navigate("EditProfile", { [MyConstants.NAVIGATION_PARAMS.onProfileEdited]: this.onProfileEdited })
                 }}>
                   <Image source={require('../../assets/images/ic_edit.png')} style={MyStyles.ic_edit} />
                 </TouchableOpacity>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <View style={[MyStyles.profile_box1]}>
-                    {/* <TouchableOpacity onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
+                    {/* <TouchableOpacity activeOpacity={0.8} onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
                 <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={[{ alignSelf: "center" }, MyStyles.ic_camera]} />
                   </TouchableOpacity> */}
                     <Image source={global.login_info.profile_image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: Common.getImageUrl(global.login_info.profile_image) }} style={global.login_info.profile_image == null ? { width: 117 / 3, height: 166 / 3, alignSelf: "center" } : { width: 315 / 3, height: 315 / 3, borderRadius: 100, }} />
@@ -175,7 +175,7 @@ export default class MyPageScreen extends React.Component {
                     null
                   }
                   <Text style={[MyStyles.meta_text]}>Weather</Text>
-                  <TouchableOpacity style={{ position: "absolute", top: 0, right: 0, padding: 5 }} onPress={() => { this.requestGetMyPosition() }}>
+                  <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", top: 0, right: 0, padding: 5 }} onPress={() => { this.requestGetMyPosition() }}>
                     <Image source={(require('../../assets/images/ic_weather_sync.png'))} style={[MyStyles.ic_weather_sync]} />
                   </TouchableOpacity>
                 </View>
@@ -232,7 +232,7 @@ export default class MyPageScreen extends React.Component {
               <View style={[{ marginTop: 20 }]}>
                 <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
-                  <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() =>
                     this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>
                     <Text style={MyStyles.txt_more}>more</Text>
                     <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
@@ -262,7 +262,7 @@ export default class MyPageScreen extends React.Component {
 
               {/* My Point 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
-                <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                   this.props.navigation.navigate("MyPoint")
                 }}>
                   <Image source={require("../../assets/images/ic_point_big.png")} style={[MyStyles.ic_point_big]} />
@@ -276,7 +276,7 @@ export default class MyPageScreen extends React.Component {
 
               {/* My Review 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
-                <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                   this.props.navigation.navigate("MyReview")
                 }}>
                   <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
@@ -294,7 +294,7 @@ export default class MyPageScreen extends React.Component {
 
               {/* My Beauty Box 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
-                <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                   this.props.navigation.navigate("MyBeautyBox")
                 }}>
                   <Image source={require("../../assets/images/ic_beauty_box_big.png")} style={[MyStyles.ic_beauty_box_big]} />
@@ -312,7 +312,7 @@ export default class MyPageScreen extends React.Component {
 
               {/* Questionnaire 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0, marginBottom: 40 }]}>
-                <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                   this.props.navigation.navigate("Questionnare")
                 }}>
                   <Image source={require("../../assets/images/ic_questionnare_big.png")} style={[MyStyles.ic_questionnare_big]} />
@@ -341,7 +341,7 @@ export default class MyPageScreen extends React.Component {
           </ScrollView>
         </KeyboardAvoidingView>
 
-        <TouchableOpacity style={{ position: "absolute", bottom: 30, right: 0 }} onPress={() => { this.props.navigation.navigate("Setting") }}>
+        <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", bottom: 30, right: 0 }} onPress={() => { this.props.navigation.navigate("Setting") }}>
           <Image source={require('../../assets/images/ic_setting.png')} style={MyStyles.ic_setting} />
         </TouchableOpacity>
       </View>

@@ -102,7 +102,7 @@ export default class MyBeautyBoxScreen extends React.Component {
 
           {this.state.categoryItems.map(item => (
             <View key={item.categoryName} style={{ marginRight: 10 }}>
-              <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={[MyStyles.category_image_container]}>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => { this.onCategorySelect(item.categoryName) }} style={[MyStyles.category_image_container]}>
                 {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
               </TouchableOpacity>
@@ -122,7 +122,7 @@ export default class MyBeautyBoxScreen extends React.Component {
             <View style={MyStyles.tabbar_button_container}>
               {
                 this.state.categoryItems[p_categoryIndex].sub_category.map((item, index) => (
-                  <TouchableOpacity key={item.name} style={item.is_selected ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
+                  <TouchableOpacity activeOpacity={0.8} key={item.name} style={item.is_selected ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
                     this.selectedSubCatName = item.name
                     categoryItems = this.state.categoryItems;
                     categoryItems[p_categoryIndex].sub_category.map((item) => (item.is_selected = false))
@@ -252,7 +252,7 @@ export default class MyBeautyBoxScreen extends React.Component {
                   {/* modal header */}
                   <View style={MyStyles.modal_header}>
                     <Text style={MyStyles.modal_title}>My Rating</Text>
-                    <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                    <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                       this.setState({ myRatingModalVisible: false });
                     }}>
                       <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
@@ -343,7 +343,7 @@ export default class MyBeautyBoxScreen extends React.Component {
           <View style={{ flex: 1 }}>
             <View style={MyStyles.modal_bg}>
               <View style={MyStyles.modalContainer}>
-                <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={MyStyles.modal_close_btn} onPress={() => {
                   this.setState({ showDeleteModal: false });
                 }}>
                   <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />

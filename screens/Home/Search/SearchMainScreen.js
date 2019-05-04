@@ -156,7 +156,7 @@ export default class SearchMainScreen extends React.Component {
 
           {this.state.categoryItems.map(item => (
             <View key={item.categoryName} style={{ marginRight: 10 }}>
-              <TouchableOpacity onPress={() => { this.onCategorySelect(item.categoryName) }} style={[MyStyles.category_image_container]}>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => { this.onCategorySelect(item.categoryName) }} style={[MyStyles.category_image_container]}>
                 {item.is_selected ? <Image source={require("../../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
               </TouchableOpacity>
@@ -176,7 +176,7 @@ export default class SearchMainScreen extends React.Component {
             <View style={MyStyles.tabbar_button_container}>
               {
                 this.state.categoryItems[p_categoryIndex].sub_category.map((item, index) => (
-                  <TouchableOpacity key={item.name} style={item.is_selected ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
+                  <TouchableOpacity activeOpacity={0.8} key={item.name} style={item.is_selected ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
                     this.selectedSubCatName = item.name
                     categoryItems = this.state.categoryItems;
                     categoryItems[p_categoryIndex].sub_category.map((item) => (item.is_selected = false))
@@ -248,14 +248,14 @@ export default class SearchMainScreen extends React.Component {
           {this.state.searchBoxFocused ?
             <View style={[MyStyles.shadow_2, MyStyles.searchBoxCover, { marginRight: 15 }]}>
               <Image style={{ flex: 1 }} />
-              <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                 <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
               </TouchableOpacity>
             </View>
             :
             <View style={[MyStyles.searchBoxCover]}>
               <Image style={{ flex: 1 }} />
-              <TouchableOpacity style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                 <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
               </TouchableOpacity>
             </View>}
@@ -283,7 +283,7 @@ export default class SearchMainScreen extends React.Component {
           inputContainerStyle={{ borderColor: "transparent" }}
           placeholder="Enter keywords"
           renderItem={(keyword) => (
-            <TouchableOpacity onPress={async () => { await this.setState({ query: keyword, searchWord: keyword }); this.goSearchResultScreen() }}>
+            <TouchableOpacity activeOpacity={0.8} onPress={async () => { await this.setState({ query: keyword, searchWord: keyword }); this.goSearchResultScreen() }}>
               <Text style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15 }}>
                 {
                   keyword.substring(0, keyword.toLowerCase().indexOf(query.toLowerCase()))}<Text style={{ color: Colors.primary_purple }}>{query}</Text>{keyword.substring(keyword.toLowerCase().indexOf(query.toLowerCase()) + query.length)

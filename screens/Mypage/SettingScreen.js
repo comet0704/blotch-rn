@@ -68,23 +68,23 @@ export default class SettingScreen extends React.Component {
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Version</Text>
                 <Text style={{ fontSize: 12, color: Colors.primary_purple }}>Ver {pkg.expo.version} {pkg.expo.version == global.setting.version_name ? "(Latest Version)" : null}</Text>
               </View>
-              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("Policy") }}>
+              <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("Policy") }}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Privacy Policy</Text>
                 <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")} />
               </TouchableOpacity>
-              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("Notification") }}>
+              <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("Notification") }}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Notification</Text>
                 <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")} />
               </TouchableOpacity>
-              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("Announcements") }}>
+              <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("Announcements") }}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Announcements</Text>
                 <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")} />
               </TouchableOpacity>
-              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("ContactUs") }}>
+              <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("ContactUs") }}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Contact Us</Text>
                 <Image style={MyStyles.ic_arrow_right_gray2} source={require("../../assets/images/ic_arrow_right_gray2.png")} />
               </TouchableOpacity>
-              <TouchableOpacity style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => {
+              <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]} onPress={() => {
                 Alert.alert(
                   'Logout',
                   'Are you sure?',

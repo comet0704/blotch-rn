@@ -97,7 +97,7 @@ class Row extends React.Component {
           <View style={MyStyles.ingredient_section_header}>
             <Image source={require("../../assets/images/ic_dice.png")} style={[MyStyles.ic_dice, { position: "absolute", left: -11 }]} />
             <Image source={data.image} style={[data.img_style]} />
-            <TouchableOpacity style={[MyStyles.padding_h_main, { flex: 1 }]} onPress={() => {
+            <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, { flex: 1 }]} onPress={() => {
               _this.props.navigation.navigate(data.screen);
             }}>
               <Text style={[MyStyles.ingredient_section_header_text1]}>{data.desc}</Text>
@@ -340,7 +340,7 @@ export default class MyListScreen extends React.Component {
                     </View>
                     <View style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.my_own_list_section, data.rowOpened ? { marginLeft: 60 } : null]}>
                       <View style={MyStyles.ingredient_section_header}>
-                        <TouchableOpacity style={[{ flex: 1 }]} onPress={() => {
+                        <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1 }]} onPress={() => {
                           this.props.navigation.navigate("MyOwnList", {
                             [MyConstants.NAVIGATION_PARAMS.album_id]: data.id,
                             [MyConstants.NAVIGATION_PARAMS.album_title]: data.title,
@@ -351,7 +351,7 @@ export default class MyListScreen extends React.Component {
                           <View style={{ flexDirection: "row" }}>
                             <Text style={[MyStyles.ingredient_section_header_text1, { alignSelf: "center" }]}>{data.title}</Text>
                             {data.rowOpened ?
-                              <TouchableOpacity style={{ paddingLeft: 5, paddingRight: 5, alignSelf: "center" }} onPress={() => {
+                              <TouchableOpacity activeOpacity={0.8} style={{ paddingLeft: 5, paddingRight: 5, alignSelf: "center" }} onPress={() => {
                                 this.setState({ edit_album_id: data.id, request_list_name: data.title, addAlbumModalVisible: true })
                               }}>
                                 <Image source={require("../../assets/images/ic_pencil.png")} style={[MyStyles.ic_pencil]} />
@@ -368,7 +368,7 @@ export default class MyListScreen extends React.Component {
               />
               : null}
 
-            <TouchableOpacity style={{ flexDirection: "row", width: 100, alignSelf: "center", justifyContent: "center", marginTop: 15, marginBottom: 30 }}
+            <TouchableOpacity activeOpacity={0.8} style={{ flexDirection: "row", width: 100, alignSelf: "center", justifyContent: "center", marginTop: 15, marginBottom: 30 }}
               onPress={() => { this.setState({ edit_album_id: 0, request_list_name: "", addAlbumModalVisible: true }) }}>
               <Image style={[MyStyles.ic_plus_btn_big, { alignSelf: "center" }]} source={require("../../assets/images/ic_plus_btn_big.png")} />
               <Text style={{ marginLeft: 10, marginTop: 4, fontSize: 13, color: Colors.color_949292 }}>Add My List</Text>
@@ -386,7 +386,7 @@ export default class MyListScreen extends React.Component {
           <View style={{ flex: 1 }}>
             <View style={MyStyles.modal_bg}>
               <View style={MyStyles.modalContainer}>
-                <TouchableOpacity style={MyStyles.modal_close_btn} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={MyStyles.modal_close_btn} onPress={() => {
                   this.setState({ showLoginModal: false });
                   this.props.navigation.navigate('Home')
                 }}>
@@ -439,7 +439,7 @@ export default class MyListScreen extends React.Component {
                       :
                       <Text style={MyStyles.modal_title}>Add My List</Text>
                     }
-                    <TouchableOpacity style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                    <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                       this.setState({ addAlbumModalVisible: false });
                     }}>
                       <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />

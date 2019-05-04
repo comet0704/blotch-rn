@@ -157,7 +157,7 @@ export default class ChangePwdScreen extends React.Component {
               }
 
               <View style={{ flex: 1, marginTop: 35, flexDirection: "row" }}>
-                <TouchableOpacity style={[MyStyles.btn_primary_cover]} onPress={() => { this.onResetPwd(this.state.cur_password, this.state.password, this.state.password_confirm) }}>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_primary_cover]} onPress={() => { this.onResetPwd(this.state.cur_password, this.state.password, this.state.password_confirm) }}>
                   <Text style={MyStyles.btn_primary}>Reset Password</Text>
                 </TouchableOpacity>
               </View>
