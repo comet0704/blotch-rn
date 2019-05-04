@@ -41,6 +41,9 @@ export default class MatchdListScreen extends React.Component {
         <NavigationEvents
           onWillFocus={payload => {
             this.refs.MatchdProductTab.onNavigationEvent()
+            if (this.refs.MatchdBrandTab != null) {
+              this.refs.MatchdBrandTab.onNavigationEvent()
+            }
           }}
         />
         <TopbarWithBlackBack title="Match'd List" onPress={() => {
@@ -58,7 +61,7 @@ export default class MatchdListScreen extends React.Component {
             <FragmentMatchdProduct ref="MatchdProductTab" navigation={this.props.navigation} ></FragmentMatchdProduct>
           </View>
           <View tabLabel="Brand" style={{ flex: 1 }}>
-            <FragmentMatchdBrand navigation={this.props.navigation} ></FragmentMatchdBrand>
+            <FragmentMatchdBrand ref="MatchdBrandTab" navigation={this.props.navigation} ></FragmentMatchdBrand>
           </View>
         </ScrollableTabView>
 

@@ -100,9 +100,12 @@ export default class SearchMainScreen extends React.Component {
       return;
     }
     AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.recent_search_words, (err, result) => {
-      w_keywordList = result.split(Common.SEARCH_KEYWORD_SPLITTER);
-      if (w_keywordList.length > 7) { // 최근검색어가 7개 이상이면 앞선검색어 삭제
-        w_keywordList.splice(0, 1)
+      w_keywordList = []
+      if (result != null) {
+        w_keywordList = result.split(Common.SEARCH_KEYWORD_SPLITTER);
+        if (w_keywordList.length > 7) { // 최근검색어가 7개 이상이면 앞선검색어 삭제
+          w_keywordList.splice(0, 1)
+        }
       }
       w_keywordList.push(p_keyword);
       settingvalue = "";
@@ -510,7 +513,7 @@ export default class SearchMainScreen extends React.Component {
           w_result_array.push(element.title)
         })
         this.state.autocompleteWords = w_result_array
-        
+
         this.setState({ autocompleteWords: this.state.autocompleteWords })
       })
       .catch((error) => {

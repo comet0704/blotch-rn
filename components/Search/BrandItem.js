@@ -49,10 +49,17 @@ export class BrandItem extends React.Component {
 
         <Text style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + "(" + item.product_count + ")"}</Text>
         {
-          is_match_list != true && is_add_modal != true ?
+          is_add_modal != true ?
             item.is_liked > 0
               ?
-              <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { _this.requestBrandUnlike(item.id) }}>
+              <TouchableOpacity style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => {
+                if (is_match_list) {
+                  _this.deleteFromList(item.id)
+                } else {
+                  _this.requestBrandUnlike(item.id)
+                }
+              }
+              }>
                 <Image source={require('../../assets/images/ic_heart2_on.png')} style={[MyStyles.background_image]} />
               </TouchableOpacity>
               :
@@ -66,7 +73,7 @@ export class BrandItem extends React.Component {
           is_add_modal ?
             item.is_selected > 0
               ?
-              <View style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]} onPress={() => { _this.requestBrandUnlike(item.id) }}>
+              <View style={[{ position: "absolute", right: 0, top: 0 }, MyStyles.heart2]}>
                 <Image source={require('../../assets/images/ic_question_checked.png')} style={[MyStyles.background_image]} />
               </View>
               :

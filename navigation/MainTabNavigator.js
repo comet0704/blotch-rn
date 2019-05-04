@@ -59,7 +59,7 @@ const HomeStack = createStackNavigator({
   SearchBrandDetail: SearchBrandDetailScreen,
   SearchResultProductMore: SearchResultProductMoreScreen,
   SearchResultIngredientMore: SearchResultIngredientMoreScreen,
-  SearchCamera:SearchCameraScreen,
+  SearchCamera: SearchCameraScreen,
   AboutUs: AboutUsScreen,
 },
   {
@@ -174,7 +174,7 @@ const MyListStack = createStackNavigator({
   BlotchdList: BlotchdListScreen,
   MatchdList: MatchdListScreen,
   SearchBrandDetail: SearchBrandDetailScreen,
-  SearchCamera:SearchCameraScreen,
+  SearchCamera: SearchCameraScreen,
   ProductDetail: ProductDetailScreen,
   MyOwnList: MyOwnListScreen,
 },
@@ -208,7 +208,7 @@ const MyPageStack = createStackNavigator({
   MyBeautyBox: MyBeautyBoxScreen,
   Calendar: CalendarScreen,
   ContactUs: ContactUsScreen,
-  Announcements : AnnouncementsScreen,
+  Announcements: AnnouncementsScreen,
   Notification: NotificationScreen,
   Policy: PolicyScreen,
   Setting: SettingScreen,
@@ -256,8 +256,8 @@ LinksStack.navigationOptions = {
 
 
 export default createBottomTabNavigator({
-  HomeStack,
-  // LinksStack,  
+  // HomeStack,
+  LinksStack,
   ProductStack,
   IngredientStack,
   MyListStack,
@@ -266,6 +266,7 @@ export default createBottomTabNavigator({
 }, {
     backBehavior: "history",
     tabBarOptions: {
-      activeTintColor: "#a695fe"
+      activeTintColor: "#a695fe",
+      style: { borderTopLeftRadius: 50 / 3, borderTopRightRadius: 50 / 3 }
     }
   });
