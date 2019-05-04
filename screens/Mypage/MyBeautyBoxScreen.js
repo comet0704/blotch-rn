@@ -40,6 +40,7 @@ export default class MyBeautyBoxScreen extends React.Component {
     this.state = {
       showDeleteModal: false,
       post_comment: "",
+      post_grade: 3,
       selectedProductId: 0,
       myRatingModalVisible: false,
       categoryItems: Common.getCategoryItems(),
@@ -285,10 +286,10 @@ export default class MyBeautyBoxScreen extends React.Component {
                           containerStyle={[{ width: 200 / 3, },]}
                           starSize={40 / 3}
                           emptyStarColor={Colors.color_star_empty}
-                          rating={this.state.product_detail_result_data.detail.grade}
+                          rating={this.state.post_grade}
                           selectedStar={(rating) => {
-                            this.state.product_detail_result_data.detail.grade = rating
-                            this.setState({ product_detail_result_data: this.state.product_detail_result_data });
+                            this.state.post_grade = rating
+                            this.setState({ post_grade: this.state.post_grade })
                           }}
                           fullStarColor={Colors.primary_purple}
                         />
@@ -305,19 +306,16 @@ export default class MyBeautyBoxScreen extends React.Component {
                         multiline={true}
                         value={this.state.post_comment}
                         returnKeyType="go"
-                        onChangeText={(text) => {
-                          this.setState({ post_comment: text })
-                        }}
+                        onChangeText={(text) => { this.setState({ post_comment: text }) }}
                         style={[MyStyles.text_input_with_border, { height: 100 }]}>
                       </TextInput>
                     </View>
 
                   </View>
                   <View style={{ flexDirection: "row" }}>
-                    <TouchableHighlight
+                    <TouchableOpacity
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
-                        console.log(this.state.product_detail_result_data.grade);
-                        if (this.state.product_detail_result_data.detail.grade == null || this.state.product_detail_result_data.detail.grade == 0) {
+                        if (this.state.post_grade == null || this.state.post_grade == 0) {
                           this.refs.modal_toast.showBottom("Please select star");
                           return
                         }
@@ -325,10 +323,10 @@ export default class MyBeautyBoxScreen extends React.Component {
                           this.refs.modal_toast.showBottom("Please input comment");
                           return
                         }
-                        this.requestPostProductComment(this.state.selectedProductId, this.state.post_comment, 0, this.state.product_detail_result_data.detail.grade, null)
+                        this.requestPostProductComment(this.state.selectedProductId, this.state.post_comment, 0, this.state.post_grade, null)
                       }}>
                       <Text style={MyStyles.btn_primary}>Save</Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>
@@ -491,7 +489,7 @@ export default class MyBeautyBoxScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
+        console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -503,6 +501,13 @@ export default class MyBeautyBoxScreen extends React.Component {
           product_detail_result_data: responseJson.result_data
         });
 
+        if (this.state.product_detail_result_data.comment != null) {
+          this.state.post_grade = this.state.product_detail_result_data.comment.grade
+          this.state.post_comment = this.state.product_detail_result_data.comment.comment
+        } else {
+          this.state.post_grade = 3
+          this.state.post_comment = ""
+        }
         // 제품정보 얻어왔으니 모달을 띄워주자
         this.setState({ myRatingModalVisible: true })
 
@@ -559,7 +564,7 @@ export default class MyBeautyBoxScreen extends React.Component {
         }
         // 댓글 추가해주자.
         this.onCommentPosted(p_product_id, responseJson.result_data.grade, p_grade)
-        this.setState({ myRatingModalVisible: false })
+        this.setState({ myRatingModalVisible: false, post_comment: "" })
       })
       .catch((error) => {
         this.setState({

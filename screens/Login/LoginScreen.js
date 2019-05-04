@@ -10,8 +10,6 @@ import Net from '../../Net/Net';
 import MyConstants from '../../constants/MyConstants';
 import { Updates, Facebook, Google } from "expo";
 import Colors from '../../constants/Colors';
-import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
-import { exitAlert } from '../../components/androidBackButton/exitAlert';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -25,11 +23,9 @@ export default class LoginScreen extends React.Component {
   }
 
   componentDidMount() {
-    handleAndroidBackButton(this, exitAlert);
   }
 
   componentWillMount() {
-    removeAndroidBackButtonHandler()
   }
 
   checkValidation = (value, check_type) => {
