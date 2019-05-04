@@ -102,6 +102,8 @@ export default {
         deleteQuestionnaireItem: MyConstants.SERVER_URL + "/user/deleteQuestionnaireItem",
         updateQuestionnaireItem: MyConstants.SERVER_URL + "/user/updateQuestionnaireItem",
         questionnaireDetail: MyConstants.SERVER_URL + "/user/questionnaireDetail",
+        updateAlarm: MyConstants.SERVER_URL + "/user/updateAlarm",
+        getAlarm: MyConstants.SERVER_URL + "/user/getAlarm",
         terms_privacy: MyConstants.SERVER_URL + "/terms/usage.html",
     },
     brand: {

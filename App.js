@@ -12,7 +12,6 @@ import Net from './Net/Net'
 global.login_info = null
 global.setting = null;
 global.user_pwd = null;
-global.noti_setting = null;
 
 // 이 값으로 모든 root 페지들이 refresh 가 필요한가를 판정함
 // 현재는 mylist 만 판정, 다른 페지들은 필요할때 추가.
@@ -38,18 +37,7 @@ export default class App extends React.Component {
   }
 
   async getAsyncData() {
-    result = await AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.noti_setting)
-    if (result != null) {
-      global.noti_setting = JSON.parse(result)
-    } else {
-      global.noti_setting = {
-        all: false,
-        reply: false,
-        ask_answer: false,
-        event: false,
-        point: false,
-      }
-    }
+    
   }
 
   async tryLogin() {

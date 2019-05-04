@@ -85,42 +85,4 @@ export default class CalendarScreen extends React.Component {
       </View>
     );
   }
-
-  requestForgetPassword(p_email) {
-    this.setState({
-      isLoading: true,
-    });
-    return fetch(Net.auth.forgotPassword, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        email: p_email,
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson)
-        this.setState({
-          isLoading: false
-        });
-        if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
-          return;
-        }
-
-
-
-      })
-      .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
-        this.refs.toast.showBottom(error);
-      })
-      .done();
-
-  }
 }
