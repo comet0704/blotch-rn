@@ -29,7 +29,7 @@ export default class NotificationScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: false,
-      alarm_all_selected: 1,
+      alarm_all_selected: 0,
       alarm_result_data: {
         alarm_reply: 0,
         alarm_answer: 0,
@@ -110,23 +110,23 @@ export default class NotificationScreen extends React.Component {
             <View style={MyStyles.container}>
               <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>All</Text>
-                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("all") }} value={this.state.alarm_all_selected == 1 ? true : false} />
+                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("all") }} value={this.state.alarm_all_selected == 0 ? true : false} />
               </View>
               <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Reply</Text>
-                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("reply") }} value={this.state.alarm_result_data.alarm_reply == 1 ? true : false} />
+                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("reply") }} value={this.state.alarm_result_data.alarm_reply == 0 ? true : false} />
               </View>
               <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Ask Answer</Text>
-                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("alarm_answer") }} value={this.state.alarm_result_data.alarm_answer == 1 ? true : false} />
+                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("alarm_answer") }} value={this.state.alarm_result_data.alarm_answer == 0 ? true : false} />
               </View>
               <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Event</Text>
-                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("event") }} value={this.state.alarm_result_data.alarm_event == 1 ? true : false} />
+                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("event") }} value={this.state.alarm_result_data.alarm_event == 0 ? true : false} />
               </View>
               <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
                 <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Point</Text>
-                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("point") }} value={this.state.alarm_result_data.alarm_point == 1 ? true : false} />
+                <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("point") }} value={this.state.alarm_result_data.alarm_point == 0 ? true : false} />
               </View>
             </View>
           </ScrollView>
