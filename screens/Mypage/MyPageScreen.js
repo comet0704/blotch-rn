@@ -21,10 +21,12 @@ export default class MyPageScreen extends React.Component {
     this.state = {
       isLoading: false,
       refreshing: false,
+      oneline_review_ko: "",
+      oneline_review_en: "",
       profileEdited: false,
       refreshOneLineInfo: false,
       weatherInfo: {
-        main: "",
+        main: "_____",
         temp: "",
         icon: "",
         city: "",
@@ -241,7 +243,7 @@ export default class MyPageScreen extends React.Component {
                     <View>
                       <View style={[MyStyles.ic_one_line_desc_box]}>
                         <Image source={require('../../assets/images/ic_face_type1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_weather_type1]} />
-                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs} </Text>your face</Text>
+                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{this.state.oneline_review_en} </Text></Text>
                       </View>
                       <View style={[MyStyles.ic_one_line_desc_box]}>
                         <Image source={require('../../assets/images/ic_snow1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_snow1]} />
@@ -254,7 +256,7 @@ export default class MyPageScreen extends React.Component {
                     <View>
                       <View style={[MyStyles.ic_one_line_desc_box]}>
                         <Image source={require('../../assets/images/ic_face_type1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_weather_type1]} />
-                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs} </Text>your face</Text>
+                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{this.state.oneline_review_en} </Text></Text>
                       </View>
                       <View style={[MyStyles.ic_one_line_desc_box]}>
                         <Image source={require('../../assets/images/ic_snow1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_snow1]} />
@@ -485,6 +487,7 @@ export default class MyPageScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
+        this.requestOnelineReview(global.login_info.skin_type, global.login_info.concern, global.login_info.needs, this.state.weatherInfo.main)
 
         global.login_info.point = responseJson.result_data.mypage.my_point // 포인트만은 여기서 건사했다 저장시켜야 함.
         AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(global.login_info));
@@ -527,6 +530,9 @@ export default class MyPageScreen extends React.Component {
         this.state.weatherInfo.icon = "http://openweathermap.org/img/w/" + json.weather[0].icon + ".png"
         this.state.weatherInfo.city = json.name
         this.setState(this.state.weatherInfo)
+        if (Common.isNeedToAddQuestionnaire() == false) {
+          this.requestOnelineReview(global.login_info.skin_type, global.login_info.concern, global.login_info.needs, this.state.weatherInfo.main)
+        }
       });
   }
 
@@ -575,4 +581,44 @@ export default class MyPageScreen extends React.Component {
       })
       .done();
   }
+
+  requestOnelineReview(p_skin_type, p_concerns, p_needs, p_weather) {
+    return fetch(Net.user.onelineReview, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+
+      },
+      body: JSON.stringify({
+        skin_type: p_skin_type,
+        concerns: p_concerns,
+        needs: p_needs,
+        weather: p_weather,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return;
+        }
+
+        this.setState({
+          oneline_review_en: responseJson.result_data.oneline_review.comment_en,
+          oneline_review_ko: responseJson.result_data.oneline_review.comment_ko
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+
+  }
+
 }

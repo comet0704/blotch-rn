@@ -41,8 +41,10 @@ export default class HomeScreen extends React.Component {
       refreshing: false,
       showLoginModal: false,
       refreshOneLineInfo: false,
+      oneline_review_ko: "",
+      oneline_review_en: "",
       weatherInfo: {
-        main: "",
+        main: "_____",
         temp: "",
         icon: "",
         city: "",
@@ -346,6 +348,7 @@ export default class HomeScreen extends React.Component {
     } else {
       // WecanSeachit에서 입력한 정보들로 메인 questionnaire를 만들어주자.
       this.requestUpdateQuestionnaireItem(global.login_info.questionnaire_id, p_skin_type, p_concern, p_needs)
+      global.refreshStatus.mylist = true
     }
   }
 
@@ -398,13 +401,8 @@ export default class HomeScreen extends React.Component {
 
                 <Text style={[{ color: "#949393", fontSize: 12 }]}>Today's counselor</Text>
                 <Text style={[MyStyles.text_20, { marginTop: 5 }]}>Today's Beauty Information</Text>
-                <View style={[{ borderRadius: 3, overflow: "hidden", width: "100%", height: 125, marginTop: 20, padding: 15, marginBottom: 23 }]}>
+                <View style={[{ borderRadius: 3, overflow: "hidden", width: "100%", marginTop: 20, padding: 15, marginBottom: 23 }]}>
                   <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} />
-                  {/* <Spinner
-                    size={"small"}
-                    //visibility of Overlay Loading Spinner
-                    visible={this.state.weatherInfo.icon.length <= 0}
-                  /> */}
                   <View style={{ flexDirection: "row", flex: 1 }}>
                     <View style={{ flex: 1 }}>
                       <Text style={[{ fontSize: 15, fontWeight: "500", color: "white" }]}>Beauty Advice</Text>
@@ -418,7 +416,7 @@ export default class HomeScreen extends React.Component {
                           <View>
                             <View style={[{ flexDirection: "row", color: "white" }]}>
                               <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
-                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs.split(",")[0]} </Text>your face</Text>
+                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{this.state.oneline_review_en} </Text></Text>
                             </View>
                             <View style={[{ flexDirection: "row", color: "white" }]}>
                               <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
@@ -431,7 +429,7 @@ export default class HomeScreen extends React.Component {
                           <View>
                             <View style={[{ flexDirection: "row", color: "white" }]}>
                               <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
-                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs.split(",")[0]} </Text>your face</Text>
+                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{this.state.oneline_review_en} </Text></Text>
                             </View>
                             <View style={[{ flexDirection: "row", color: "white" }]}>
                               <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
@@ -760,6 +758,9 @@ export default class HomeScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
+        if (Common.isNeedToAddQuestionnaire() == false) {
+          this.requestOnelineReview(global.login_info.skin_type, global.login_info.concern, global.login_info.needs, this.state.weatherInfo.main)
+        }
 
         try {
           this.setState({
@@ -781,12 +782,6 @@ export default class HomeScreen extends React.Component {
         } catch (error) {
 
         }
-        // this.props.navigation.navigate("BannerDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1}) 
-        // this.props.navigation.navigate("Article");
-        // this.props.navigation.navigate("ProductContainer") 
-        // this.props.navigation.navigate("ProductDetail", {[MyConstants.NAVIGATION_PARAMS.item_id]: 1}) 
-        // this.props.navigation.navigate("SearchMain") 
-        // this.props.navigation.navigate("SearchResult", { [MyConstants.NAVIGATION_PARAMS.search_word]: "pro" }) 
       })
       .catch((error) => {
         this.setState({
@@ -893,11 +888,15 @@ export default class HomeScreen extends React.Component {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${MyConstants.WEATHER_MAP_API_KET}`)
       .then(response => response.json()) // 응답값을 json으로 변환
       .then(json => {
+        console.log(json)
         this.state.weatherInfo.main = json.weather[0].main
         this.state.weatherInfo.temp = json.main.temp // 켈빈으로 내려옴
         this.state.weatherInfo.icon = "http://openweathermap.org/img/w/" + json.weather[0].icon + ".png"
         this.state.weatherInfo.city = json.name
         this.setState(this.state.weatherInfo)
+        if (Common.isNeedToAddQuestionnaire() == false) {
+          this.requestOnelineReview(global.login_info.skin_type, global.login_info.concern, global.login_info.needs, this.state.weatherInfo.main)
+        }
       });
   }
 
@@ -945,6 +944,44 @@ export default class HomeScreen extends React.Component {
         this.refs.toast.showBottom(error);
       })
       .done();
+  }
+
+  requestOnelineReview(p_skin_type, p_concerns, p_needs, p_weather) {
+    return fetch(Net.user.onelineReview, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+
+      },
+      body: JSON.stringify({
+        skin_type: p_skin_type,
+        concerns: p_concerns,
+        needs: p_needs,
+        weather: p_weather,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return;
+        }
+        this.setState({
+          oneline_review_en: responseJson.result_data.oneline_review.comment_en,
+          oneline_review_ko: responseJson.result_data.oneline_review.comment_ko
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+
   }
 
 }

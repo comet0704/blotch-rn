@@ -75,6 +75,7 @@ export default {
     },
     user: {
         myList: MyConstants.SERVER_URL + "/user/myList",
+        onelineReview: MyConstants.SERVER_URL + "/user/onelineReview",
         updateFcmToken: MyConstants.SERVER_URL + "/user/updateFcmToken",
         addAlbum: MyConstants.SERVER_URL + "/user/addAlbum",
         editAlbum: MyConstants.SERVER_URL + "/user/editAlbum",

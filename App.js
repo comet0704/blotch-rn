@@ -146,6 +146,7 @@ export default class App extends React.Component {
           global.login_info = {
             token:""
           }
+          this.setState({ isLogined: -1 })
           return;
         } else {
           global.login_info = responseJson.result_data.login_user;
@@ -194,6 +195,7 @@ export default class App extends React.Component {
           global.login_info = {
             token:""
           }
+          this.setState({ isLogined: -1 })
           return;
         } else {
           global.login_info = responseJson.result_data.login_user;
