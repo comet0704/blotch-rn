@@ -220,6 +220,7 @@ const MyPageStack = createStackNavigator({
   ChangePwd: ChangePwdScreen,
   EditProfile: EditProfileScreen,
   ProductDetail: ProductDetailScreen,
+  SearchBrandDetail: SearchBrandDetailScreen,
 },
   {
     headerMode: 'screen ',
@@ -271,7 +272,7 @@ export default createBottomTabNavigator({
     tabBarOptions: {
       activeTintColor: "#a695fe",
       // tabStyle: { backgroundColor:"blue" },
-      style: { borderTopLeftRadius: 50 / 3, borderTopRightRadius: 50 / 3, backgroundColor: "white", overflow:"hidden" },
+      style: { borderTopLeftRadius: 50 / 3, borderTopRightRadius: 50 / 3, backgroundColor: "white", overflow: "hidden" },
       // inactiveBackgroundColor:"red",
     }
   });
