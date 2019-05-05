@@ -5,16 +5,16 @@ export default {
   FACEBOOK_APP_ID: "377170089537556", // 페북 로그인
   ANDROID_CLIENT_ID: "921753193053-0paacaalh9idjhu84p0ssmjmdkqs11m3.apps.googleusercontent.com", // 구글로그인 (android)
   IOS_CLIENT_ID: "921753193053-edfubitfhjom9qjul66c1k50pceukqr8.apps.googleusercontent.com", // 구글로그인 (ios)
-  WEATHER_MAP_API_KET: "1bfa546600bd6d04c9d9b05a65a3ead4", // 날씨 api 키
+  WEATHER_MAP_API_KET: "06999111912d83ff69309736b1e00c4b", // 날씨 api 키
 
   //
   // 앱내 상수들  
   //
   ITEMS_PER_PAGE: 30,
-  // SERVER_URL: "http://192.168.0.74:3000",
-  // UPLOAD_SERVER_URL: "http://192.168.0.74:3001",
-  SERVER_URL : "http://chemi.rsad.kr",
-  UPLOAD_SERVER_URL : "http://upload.rsad.kr",
+  SERVER_URL: "http://192.168.0.74:3000",
+  UPLOAD_SERVER_URL: "http://192.168.0.74:3001",
+  // SERVER_URL : "http://chemi.rsad.kr",
+  // UPLOAD_SERVER_URL : "http://upload.rsad.kr",
   SkinTypeName: {
     dry: "Dry",
     oily: "Oily",
