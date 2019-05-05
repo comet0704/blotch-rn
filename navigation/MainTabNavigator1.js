@@ -220,6 +220,7 @@ const MyPageStack = createStackNavigator({
   ChangePwd: ChangePwdScreen,
   EditProfile: EditProfileScreen,
   ProductDetail: ProductDetailScreen,
+  SearchBrandDetail: SearchBrandDetailScreen,
 },
   {
     headerMode: 'screen ',

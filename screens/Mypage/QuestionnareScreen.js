@@ -745,7 +745,7 @@ export default class QuestionnareScreen extends React.Component {
                               <View style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_v_5]}>
                                 {this.state.questionnaire_detail.brand_favourite_list.map((item) =>
                                   (
-                                    <View key={item.id} style={[{ marginRight: 15 }]}>
+                                    <TouchableOpacity key={item.id} style={[{ marginRight: 15 }]} onPress={() => {this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                                       <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
                                       <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}
                                         onPress={() => {
@@ -774,19 +774,21 @@ export default class QuestionnareScreen extends React.Component {
                                         }}>
                                         <Image source={require("../../assets/images/ic_close2.png")} style={{ width: 10 / 3, height: 10 / 3, }} />
                                       </TouchableOpacity>
-                                    </View>
+                                    </TouchableOpacity>
                                   )
                                 )}
 
-                                {/* 목록 다 돌린 후에는  추가버튼 추가*/}
-                                <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 15, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
-                                  onPress={() => {
-                                    this.setState({ searchBrandForFavorite: true })
-                                    this.setState({ searchBrandModalVisible: true })
-                                  }}
-                                >
-                                  <Text style={{ fontSize: 46 / 3, color: "white" }}>+</Text>
-                                </TouchableOpacity>
+                                <View style={{ width: 30, height: 30, justifyContent: "center" }}>
+                                  {/* 목록 다 돌린 후에는  추가버튼 추가*/}
+                                  <TouchableOpacity activeOpacity={0.8} style={{ width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
+                                    onPress={() => {
+                                      this.setState({ searchBrandForFavorite: true })
+                                      this.setState({ searchBrandModalVisible: true })
+                                    }}
+                                  >
+                                    <Text style={{ fontSize: 46 / 3, color: "white" }}>+</Text>
+                                  </TouchableOpacity>
+                                </View>
                               </View>
                             </ScrollView>
                           </View>
@@ -802,7 +804,7 @@ export default class QuestionnareScreen extends React.Component {
                               <View style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_v_5]}>
                                 {this.state.questionnaire_detail.brand_mostly_list.map((item) =>
                                   (
-                                    <View key={item.id} style={[{ marginRight: 15 }]}>
+                                    <TouchableOpacity key={item.id} style={[{ marginRight: 15 }]} onPress={() => {this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                                       <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
                                       <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}
                                         onPress={() => {
@@ -831,18 +833,20 @@ export default class QuestionnareScreen extends React.Component {
                                         }}>
                                         <Image source={require("../../assets/images/ic_close2.png")} style={{ width: 10 / 3, height: 10 / 3, }} />
                                       </TouchableOpacity>
-                                    </View>
+                                    </TouchableOpacity>
                                   )
                                 )}
 
                                 {/* 목록 다 돌린 후에는  추가버튼 추가*/}
-                                <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 15, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
-                                  onPress={() => {
-                                    this.setState({ searchBrandForFavorite: false })
-                                    this.setState({ searchBrandModalVisible: true })
-                                  }}>
-                                  <Text style={{ fontSize: 46 / 3, color: "white" }}>+</Text>
-                                </TouchableOpacity>
+                                <View style={{ width: 30, height: 30, justifyContent: "center" }}>
+                                  <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 15, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
+                                    onPress={() => {
+                                      this.setState({ searchBrandForFavorite: false })
+                                      this.setState({ searchBrandModalVisible: true })
+                                    }}>
+                                    <Text style={{ fontSize: 46 / 3, color: "white" }}>+</Text>
+                                  </TouchableOpacity>
+                                </View>
                               </View>
                             </ScrollView>
                           </View>

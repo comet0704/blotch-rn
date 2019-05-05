@@ -970,8 +970,8 @@ export default class HomeScreen extends React.Component {
           return;
         }
         this.setState({
-          oneline_review_en: responseJson.result_data.oneline_review.comment_en,
-          oneline_review_ko: responseJson.result_data.oneline_review.comment_ko
+          oneline_review_en: responseJson.result_data.online_review.comment_en,
+          oneline_review_ko: responseJson.result_data.online_review.comment_ko
         });
       })
       .catch((error) => {
