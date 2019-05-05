@@ -36,11 +36,6 @@ export default class SignupScreen extends React.Component {
     </Text>
   );
 
-  showAskInputQueModal = (visible) => {
-    this.setState({ askInputQueModal: visible });
-  }
-
-
   checkValidation = (value, check_type) => {
     if (value == null || value.length == 0) {
       return false
@@ -200,7 +195,8 @@ export default class SignupScreen extends React.Component {
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight onPress={() => {
                     this.setState({ askInputQueModal: false });
-                    this.props.navigation.navigate("Questionnare")
+                    this.props.navigation.pop(1);
+                    this.props.navigation.navigate("Questionnare", {[MyConstants.NAVIGATION_PARAMS.is_from_sign_up] : true})
                   }}
                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
                     <Text style={MyStyles.btn_primary}>Yes</Text>
@@ -363,7 +359,8 @@ export default class SignupScreen extends React.Component {
         } else {
           global.login_info = responseJson.result_data.login_user;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
-          this.showAskInputQueModal();
+          
+          this.setState({ askInputQueModal: true });
         }
 
       })

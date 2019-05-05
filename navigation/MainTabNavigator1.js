@@ -150,6 +150,9 @@ const LoginStack = createStackNavigator({
   Login: LoginScreen,
   Signup: SignupScreen,
   FindPwd: FindPwdScreen,
+  WeCanSearchIt: WeCanSearchItScreen,
+  Questionnare: QuestionnareScreen,
+  Calendar: CalendarScreen,
 },
   {
     headerMode: 'screen ',
@@ -268,7 +271,7 @@ export default createBottomTabNavigator({
     tabBarOptions: {
       activeTintColor: "#a695fe",
       // tabStyle: { backgroundColor:"blue" },
-      style: { borderTopLeftRadius: 50 / 3, borderTopRightRadius: 50 / 3, backgroundColor: "white", overflow:"hidden" },
+      style: { borderTopLeftRadius: 50 / 3, borderTopRightRadius: 50 / 3, backgroundColor: "white", overflow: "hidden" },
       // inactiveBackgroundColor:"red",
     }
   });

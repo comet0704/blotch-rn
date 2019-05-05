@@ -401,7 +401,7 @@ export default class HomeScreen extends React.Component {
 
                 <Text style={[{ color: "#949393", fontSize: 12 }]}>Today's counselor</Text>
                 <Text style={[MyStyles.text_20, { marginTop: 5 }]}>Today's Beauty Information</Text>
-                <View style={[{ borderRadius: 3, overflow: "hidden", width: "100%", marginTop: 20, padding: 15, marginBottom: 23 }]}>
+                <View style={[{ borderRadius: 3, overflow: "hidden", width: "100%", minHeight: 125, marginTop: 20, padding: 15, marginBottom: 23 }]}>
                   <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} />
                   <View style={{ flexDirection: "row", flex: 1 }}>
                     <View style={{ flex: 1 }}>

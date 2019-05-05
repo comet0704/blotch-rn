@@ -16,7 +16,7 @@ import {
   TouchableHighlight,
   KeyboardAvoidingView,
 } from 'react-native';
-import { ImagePicker } from 'expo';
+import { Updates, ImagePicker } from 'expo';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import MyStyles from '../../constants/MyStyles'
 import Net from '../../Net/Net';
@@ -57,19 +57,19 @@ export default class QuestionnareScreen extends React.Component {
 
       ],
       questionnaire_detail: {
-        "id": 1,
-        "uid": 3,
-        "title": "Me",
-        "birth": "2019-04-08",
-        "gender": "M",
-        "location": "Tokyo",
+        "id": "",
+        "uid": "",
+        "title": "",
+        "birth": "",
+        "gender": "",
+        "location": "",
         "marital_status": "N",
         "is_kids": "N",
-        "skin_type": "Dry,Complex",
-        "needs": "Whitening",
-        "concern": "Acne",
-        "brand_favourite": "1,3,5",
-        "brand_mostly": "2,3,8",
+        "skin_type": "",
+        "needs": "",
+        "concern": "",
+        "brand_favourite": "",
+        "brand_mostly": "",
         "buy_products_from": 0,
         "product_count_in_day": 0,
         "time_for_care": 0,
@@ -78,24 +78,24 @@ export default class QuestionnareScreen extends React.Component {
         "create_date": "0000-00-00 00:00:00",
         "update_date": null,
         "brand_favourite_list": [
-          {
-            "id": 1,
-            "title": "LUSH",
-            "information": "",
-            "image": "uploads/brand/logo_01.jpg",
-            "like_count": 1,
-            "is_liked": 9
-          }
+          // {
+          //   "id": 1,
+          //   "title": "LUSH",
+          //   "information": "",
+          //   "image": "uploads/brand/logo_01.jpg",
+          //   "like_count": 1,
+          //   "is_liked": 9
+          // }
         ],
         "brand_mostly_list": [
-          {
-            "id": 2,
-            "title": "BEAUTY",
-            "information": "",
-            "image": "uploads/brand/logo_02.jpg",
-            "like_count": 0,
-            "is_liked": 1
-          }
+          // {
+          //   "id": 2,
+          //   "title": "BEAUTY",
+          //   "information": "",
+          //   "image": "uploads/brand/logo_02.jpg",
+          //   "like_count": 0,
+          //   "is_liked": 1
+          // }
         ]
       },
 
@@ -114,6 +114,8 @@ export default class QuestionnareScreen extends React.Component {
   }
 
   componentDidMount() {
+    is_from_sign_up = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.is_from_sign_up) // 회원가입후 곧장 넘어왓는지 체크
+
     this.requestQuestionnaireList()
     this.requestCountryList()
   }
@@ -174,8 +176,8 @@ export default class QuestionnareScreen extends React.Component {
       this.refs.modal_toast.showTop("Please input name");
       return;
     }
-    this.setState({ addBabyModalVisible: false });    
-    this.requestAddQuestionnaireItem(this.state.request_list_name)    
+    this.setState({ addBabyModalVisible: false });
+    this.requestAddQuestionnaireItem(this.state.request_list_name)
   }
 
   checkCompleteStatus() {
@@ -387,7 +389,11 @@ export default class QuestionnareScreen extends React.Component {
                         </View>
                       </View>
                     </TouchableOpacity>
+                    
+                    {
+                      this.state.section_basic_info ?
                     <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
+                    : null}
 
                     {
                       this.state.section_basic_info ?
@@ -564,7 +570,10 @@ export default class QuestionnareScreen extends React.Component {
                         </View>
                       </View>
                     </TouchableOpacity>
+                    {
+                      this.state.section_skin_type ?
                     <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
+                    : null}
 
                     {
                       this.state.section_skin_type ?
@@ -707,7 +716,11 @@ export default class QuestionnareScreen extends React.Component {
                         </View>
                       </View>
                     </TouchableOpacity>
+                    {
+                      this.state.section_product_reference ?
                     <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
+                    :
+                    null}
 
                     {
                       this.state.section_product_reference ?
@@ -961,7 +974,11 @@ export default class QuestionnareScreen extends React.Component {
                         </View>
                       </View>
                     </TouchableOpacity>
+                    {
+                      this.state.section_skin_routine ?
                     <Image style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]} />
+                    : null}
+                    
 
                     {
                       this.state.section_skin_routine ?
@@ -1241,7 +1258,7 @@ export default class QuestionnareScreen extends React.Component {
                       itemColor={Colors.color_656565}
                       selectedItemColor={Colors.color_656565}
                       baseColor={Colors.primary_dark}
-                      value={this.state.questionnaire_detail.location}
+                      value={this.state.questionnaire_detail.location == null ? "" : this.state.questionnaire_detail.location}
                       label='Please select your country'
                       onChangeText={(value, index, data) => {
                         this.state.questionnaire_detail.location = value
@@ -1737,8 +1754,14 @@ export default class QuestionnareScreen extends React.Component {
           return
         }
 
-        this.state.questionnaire_list[this.state.beforeBabyIdx].title = this.state.questionnaire_detail.title
-        this.setState(this.state.questionnaire_list)
+        if (is_from_sign_up) {
+          Updates.reload()
+        } else {
+          this.state.questionnaire_list[this.state.beforeBabyIdx].title = this.state.questionnaire_detail.title
+          this.setState(this.state.questionnaire_list)
+        }
+
+        
       })
       .catch((error) => {
         this.setState({

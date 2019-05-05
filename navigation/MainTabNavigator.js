@@ -150,6 +150,9 @@ const LoginStack = createStackNavigator({
   Login: LoginScreen,
   Signup: SignupScreen,
   FindPwd: FindPwdScreen,
+  WeCanSearchIt: WeCanSearchItScreen,
+  Questionnare: QuestionnareScreen,
+  Calendar: CalendarScreen,
 },
   {
     headerMode: 'screen ',

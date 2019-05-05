@@ -42,6 +42,10 @@ export default StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
   },
+  padding_h_10: {
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
   pageIndicatorStyle: {
     backgroundColor: 'rgba(0,0,0,.3)'
   },

@@ -93,6 +93,7 @@ export default {
   NAVIGATION_PARAMS: {
     item_id: "item_id",
     is_from_camera_search: "is_from_camera_search",
+    is_from_sign_up: "is_from_sign_up",
     scanned_barcode: "scanned_barcode",
     album_id: "album_id",
     album_title: "album_title",

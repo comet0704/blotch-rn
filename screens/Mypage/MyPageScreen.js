@@ -85,6 +85,55 @@ export default class MyPageScreen extends React.Component {
     this.setState({ profileEdited: !this.state.profileEdited });
   }
 
+  renderOneLineInfoSection() {
+    return (
+      <View style={[{ marginTop: 20 }]}>
+        <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
+          <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
+          {Common.isNeedToAddQuestionnaire() ? null :
+            <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+              this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>
+              <Text style={MyStyles.txt_more}>more</Text>
+              <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+            </TouchableOpacity>
+          }
+        </View>
+
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 10,
+          paddingLeft: 15,
+          paddingRight: 15,
+          paddingBottom: 20
+        }}>
+          {Common.isNeedToAddQuestionnaire() ?
+            <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_h_10]}
+              onPress=
+              {() => {
+                this.props.navigation.navigate("WeCanSearchIt", {
+                  [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                  [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                  [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                  [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                })
+              }
+              }>
+              <Text style={[MyStyles.text_13_656565, { flex: 1 }]}>Tell us about your skin and we'll show you some product that you might want to check out!</Text>
+              <View>
+                <Image source={require('../../assets/images/ic_btn_right.png')} style={[{ alignSelf: "center" }, MyStyles.ic_btn_right]} />
+              </View>
+            </TouchableOpacity> :
+            this.renderRecommendingScroll()
+          }
+        </View>
+      </View>
+
+    )
+
+  }
+
   renderRecommendingScroll() {
     return (
       <View
@@ -270,92 +319,9 @@ export default class MyPageScreen extends React.Component {
               {/* We recommend It! 로그인 했을때 나타나는 정보 */}
 
               {this.state.refreshOneLineInfo ?
-                <View style={[{ marginTop: 20 }]}>
-                  <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
-                    <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
-                    {Common.isNeedToAddQuestionnaire() ? null :
-                      <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
-                        this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>
-                        <Text style={MyStyles.txt_more}>more</Text>
-                        <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
-                      </TouchableOpacity>
-                    }
-                  </View>
-
-                  <View style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    paddingTop: 10,
-                    paddingLeft: 15,
-                    paddingRight: 15,
-                    paddingBottom: 20
-                  }}>
-                    {Common.isNeedToAddQuestionnaire() ?
-                      <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_h_main]}
-                        onPress=
-                        {() => {
-                          this.props.navigation.navigate("WeCanSearchIt", {
-                            [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
-                            [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
-                            [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
-                            [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
-                          })
-                        }
-                        }>
-                        <Text style={[MyStyles.text_13_656565, { flex: 1 }]}>Tell us about your skin and we'll show you some product that you might want to check out!</Text>
-                        <TouchableOpacity>
-                          <Image source={require('../../assets/images/ic_btn_right.png')} style={[{ alignSelf: "center" }, MyStyles.ic_btn_right]} />
-                        </TouchableOpacity>
-                      </TouchableOpacity> :
-                      this.renderRecommendingScroll()
-                    }
-                  </View>
-                </View>
+                this.renderOneLineInfoSection()
                 :
-                <View style={[{ marginTop: 20 }]}>
-                  <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
-                    <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
-                    {Common.isNeedToAddQuestionnaire() ? null :
-                      <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
-                        this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>
-                        <Text style={MyStyles.txt_more}>more</Text>
-                        <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
-                      </TouchableOpacity>
-                    }
-                  </View>
-
-                  <View style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    paddingTop: 10,
-                    paddingLeft: 15,
-                    paddingRight: 15,
-                    paddingBottom: 20
-                  }}>
-                    {Common.isNeedToAddQuestionnaire() ?
-                      <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_h_main]}
-                        onPress=
-                        {() => {
-                          this.props.navigation.navigate("WeCanSearchIt", {
-                            [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
-                            [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
-                            [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
-                            [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
-                          })
-                        }
-                        }>
-                        <Text style={[MyStyles.text_13_656565, { flex: 1 }]}>Tell us about your skin and we'll show you some product that you might want to check out!</Text>
-                        <TouchableOpacity>
-                          <Image source={require('../../assets/images/ic_btn_right.png')} style={[{ alignSelf: "center" }, MyStyles.ic_btn_right]} />
-                        </TouchableOpacity>
-                      </TouchableOpacity> :
-                      this.renderRecommendingScroll()
-                    }
-                  </View>
-                </View>
-
+                this.renderOneLineInfoSection()
               }
 
 
