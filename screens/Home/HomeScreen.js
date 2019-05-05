@@ -143,7 +143,7 @@ export default class HomeScreen extends React.Component {
     }
   }
   componentDidMount() {
-    // 여기서 Notification을 조종해 주겠음    
+    // Home 에서 Notification을 조종해 주겠음    
     Notifications.addListener(this._handleNotification);
 
     if (global.login_info.token.length > 0) { // 회원이면 expo 토큰 등록
@@ -454,8 +454,8 @@ export default class HomeScreen extends React.Component {
 
                   </View>
                 </View>
-                {/* We recommend It! 로그인 했을때 나타나는 정보 */}
-                {global.login_info.token.length <= 0 ?
+                {/* We recommend It! 로그이 되고 기초 설문작성되었 나타나는 정보 */}
+                {global.login_info.token.length > 0 && Common.isNeedToAddQuestionnaire() == false ?
                   <View style={[{ borderBottomLeftRadius: 20 }, MyStyles.bg_white]}>
                     <View style={[MyStyles.seperate_line_e5e5e5, { marginRight: -15, marginTop: -5 }]} />
                     <View style={[{ flexDirection: "row", flex: 1, marginTop: 10, justifyContent: "center" }]}>
@@ -915,6 +915,7 @@ export default class HomeScreen extends React.Component {
       },
       body: JSON.stringify({
         questionnaire_id: p_questionnaire_id.toString(),
+        title: "Me",
         skin_type: p_skin_type,
         concern: p_concern,
         needs: p_needs,
@@ -935,6 +936,7 @@ export default class HomeScreen extends React.Component {
         global.login_info.concern = p_concern
         global.login_info.needs = p_needs
         this.setState({ refreshOneLineInfo: !this.state.refreshOneLineInfo });
+        this.requestHomeList();
       })
       .catch((error) => {
         this.setState({

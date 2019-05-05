@@ -859,7 +859,7 @@ export class FragmentRecommendProduct extends React.Component {
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.user.addQuestionnaireItem, {
+    return fetch(Net.user.updateQuestionnaireItem, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -868,6 +868,7 @@ export class FragmentRecommendProduct extends React.Component {
       },
       body: JSON.stringify({
         questionnaire_id: p_questionnaire_id.toString(),
+        title: "Me",
         skin_type: p_skin_type,
         concern: p_concern,
         needs: p_needs,

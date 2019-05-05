@@ -1405,6 +1405,7 @@ export default class QuestionnareScreen extends React.Component {
                   <View style={{ flexDirection: "row" }}>
                     <TouchableHighlight onPress={() => {
                       this.setState({ noCompletedQuestionnaireModalVisible: false });
+                      this.updateQuestionnaireItem()
                     }}
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
                       <Text style={MyStyles.btn_primary}>OK</Text>
@@ -1414,7 +1415,6 @@ export default class QuestionnareScreen extends React.Component {
                       style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
                       onPress={() => {
                         this.setState({ noCompletedQuestionnaireModalVisible: false });
-                        this.updateQuestionnaireItem()
                       }}>
                       <Text style={MyStyles.btn_primary_white}>Cancel</Text>
                     </TouchableHighlight>
@@ -1692,6 +1692,7 @@ export default class QuestionnareScreen extends React.Component {
   }
 
   requestUpdateQuestionnaireItem() {
+    console.log(this.state.questionnaire_detail);
     this.setState({
       isLoading: true,
     });
@@ -1715,9 +1716,9 @@ export default class QuestionnareScreen extends React.Component {
         concern: this.state.questionnaire_detail.concern,
         brand_favourite: this.state.questionnaire_detail.brand_favourite,
         brand_mostly: this.state.questionnaire_detail.brand_mostly,
-        buy_products_from: this.state.questionnaire_detail.buy_products_from.toString(),
-        product_count_in_day: this.state.questionnaire_detail.product_count_in_day.toString(),
-        time_for_care: this.state.questionnaire_detail.time_for_care.toString(),
+        buy_products_from: this.state.questionnaire_detail.buy_products_from == null ? null : this.state.questionnaire_detail.buy_products_from.toString(),
+        product_count_in_day: this.state.questionnaire_detail.product_count_in_day == null ? null : this.state.questionnaire_detail.product_count_in_day.toString(),
+        time_for_care: this.state.questionnaire_detail.time_for_care == null ? null : this.state.questionnaire_detail.time_for_care.toString(),
         morning_cleansing: this.state.questionnaire_detail.morning_cleansing,
         morning_care: this.state.questionnaire_detail.morning_care,
         night_cleansing: this.state.questionnaire_detail.night_cleansing,

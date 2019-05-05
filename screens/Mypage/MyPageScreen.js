@@ -544,6 +544,7 @@ export default class MyPageScreen extends React.Component {
       },
       body: JSON.stringify({
         questionnaire_id: p_questionnaire_id.toString(),
+        title: "Me",
         skin_type: p_skin_type,
         concern: p_concern,
         needs: p_needs,
@@ -564,6 +565,7 @@ export default class MyPageScreen extends React.Component {
         global.login_info.concern = p_concern
         global.login_info.needs = p_needs
         this.setState({ refreshOneLineInfo: !this.state.refreshOneLineInfo });
+        this.requestMyPage();
       })
       .catch((error) => {
         this.setState({

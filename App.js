@@ -23,7 +23,7 @@ global.refreshStatus = {
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
-    isLogined: false,
+    isLogined: 0, // 0 => 상태판정못함, -1 : 비로그인, 1: 로그인
   };
 
   
@@ -44,7 +44,7 @@ export default class App extends React.Component {
     result1 = await AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.login_info)
     global.login_info = JSON.parse(result1);
     if (global.login_info == null) { // 로그인 정보가 없는경우는 아예 시도 안함.
-      this.setState({ isLogined: false })
+      this.setState({ isLogined: -1 })
       // 토큰 항상 쓰는 값이므로 빈값으로 초기화라도 해주자
       global.login_info = {
         token:""
@@ -69,7 +69,15 @@ export default class App extends React.Component {
         />
       );
     } else {
-      if (this.state.isLogined == false) {
+      if(this.state.isLogined == 0) {
+        return (
+          <AppLoading
+            startAsync={this._loadResourcesAsync}
+            onError={this._handleLoadingError}
+            onFinish={this._handleFinishLoading}
+          />
+        );
+      } else if (this.state.isLogined == -1) {
         return (
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
@@ -134,7 +142,10 @@ export default class App extends React.Component {
           isLoading: false
         });
         if (responseJson.result_code < 0) {
-          // this.refs.toast.showBottom(responseJson.result_msg);
+          // 로그인 실패했으면 토큰값 초기화
+          global.login_info = {
+            token:""
+          }
           return;
         } else {
           global.login_info = responseJson.result_data.login_user;
@@ -143,7 +154,7 @@ export default class App extends React.Component {
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.user_pwd, p_pwd);
           global.user_pwd = p_pwd
-          this.setState({ isLogined: true })
+          this.setState({ isLogined: 1 })
         }
 
       })
@@ -179,6 +190,10 @@ export default class App extends React.Component {
           isLoading: false
         });
         if (responseJson.result_code < 0) {
+          // 로그인 실패했으면 토큰값 초기화
+          global.login_info = {
+            token:""
+          }
           return;
         } else {
           global.login_info = responseJson.result_data.login_user;
@@ -186,7 +201,7 @@ export default class App extends React.Component {
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
           
-          this.setState({ isLogined: true })
+          this.setState({ isLogined: 1 })
         }
 
       })
