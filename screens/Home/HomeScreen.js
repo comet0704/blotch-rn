@@ -345,7 +345,7 @@ export default class HomeScreen extends React.Component {
       return;
     } else {
       // WecanSeachit에서 입력한 정보들로 메인 questionnaire를 만들어주자.
-      this.requestAddQuestionnaireItem("Me", p_skin_type, p_concern, p_needs)
+      this.requestUpdateQuestionnaireItem(global.login_info.questionnaire_id, p_skin_type, p_concern, p_needs)
     }
   }
 
@@ -901,11 +901,12 @@ export default class HomeScreen extends React.Component {
       });
   }
 
-  requestAddQuestionnaireItem(p_title, p_skin_type, p_concern, p_needs) {
+  requestUpdateQuestionnaireItem(p_questionnaire_id, p_skin_type, p_concern, p_needs) {
+    console.log(p_questionnaire_id)
     this.setState({
       isLoading: true,
     });
-    return fetch(Net.user.addQuestionnaireItem, {
+    return fetch(Net.user.updateQuestionnaireItem, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -913,7 +914,7 @@ export default class HomeScreen extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        title: p_title,
+        questionnaire_id: p_questionnaire_id.toString(),
         skin_type: p_skin_type,
         concern: p_concern,
         needs: p_needs,

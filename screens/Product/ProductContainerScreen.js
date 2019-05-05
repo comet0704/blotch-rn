@@ -68,14 +68,14 @@ export default class ProductContainerScreen extends React.Component {
           tabBarUnderlineStyle={{ backgroundColor: Colors.primary_purple }}
           renderTabBar={() => <DefaultTabBar />}
         >
-          <View tabLabel="Recommendation" style={{ flex: 1 }}>
-            <FragmentRecommendProduct ref='recommendationTAB' navigation={this.props.navigation} ></FragmentRecommendProduct>
-          </View>
           <View tabLabel="New" style={{ flex: 1 }}>
             <FragmentNewProduct navigation={this.props.navigation} ></FragmentNewProduct>
           </View>
           <View tabLabel="Best" style={{ flex: 1 }}>
             <FragmentBestProduct navigation={this.props.navigation} ></FragmentBestProduct>
+          </View>
+          <View tabLabel="Recommendation" style={{ flex: 1 }}>
+            <FragmentRecommendProduct ref='recommendationTAB' navigation={this.props.navigation} ></FragmentRecommendProduct>
           </View>
         </ScrollableTabView>
 

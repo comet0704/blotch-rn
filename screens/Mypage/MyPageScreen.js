@@ -22,6 +22,7 @@ export default class MyPageScreen extends React.Component {
       isLoading: false,
       refreshing: false,
       profileEdited: false,
+      refreshOneLineInfo: false,
       weatherInfo: {
         main: "",
         temp: "",
@@ -92,7 +93,7 @@ export default class MyPageScreen extends React.Component {
         >
           {this.state.result_data.recommend_list.map(item => (
             <View key={item.id} style={{ flex: 1, marginRight: 10, width: 85 }}>
-              <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                 <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image_list) }} />
               </TouchableOpacity>
               <Text style={{ fontSize: 12, color: "#949393", marginTop: 5, textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
@@ -103,6 +104,21 @@ export default class MyPageScreen extends React.Component {
       </View>
     );
   }
+
+  onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
+
+    if (global.login_info.token.length <= 0) { // 로그인 하지 않은 회원의 경우 임시로 보여주기만 하자.
+      global.login_info.skin_type = p_skin_type
+      global.login_info.concern = p_concern
+      global.login_info.needs = p_needs
+      this.setState({ refreshOneLineInfo: !this.state.refreshOneLineInfo });
+      return;
+    } else {
+      // WecanSeachit에서 입력한 정보들로 메인 questionnaire를 만들어주자.
+      this.requestUpdateQuestionnaireItem(global.login_info.questionnaire_id, p_skin_type, p_concern, p_needs)
+    }
+  }
+
 
   renderTrack() {
     return (
@@ -147,14 +163,14 @@ export default class MyPageScreen extends React.Component {
                     null
                 }
 
-                <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", padding: 15, top: 5, right: 0 }} onPress={() => {
+                <TouchableOpacity style={{ position: "absolute", padding: 15, top: 5, right: 0 }} onPress={() => {
                   this.props.navigation.navigate("EditProfile", { [MyConstants.NAVIGATION_PARAMS.onProfileEdited]: this.onProfileEdited })
                 }}>
                   <Image source={require('../../assets/images/ic_edit.png')} style={MyStyles.ic_edit} />
                 </TouchableOpacity>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <View style={[MyStyles.profile_box1]}>
-                    {/* <TouchableOpacity activeOpacity={0.8} onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
+                    {/* <TouchableOpacity onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
                 <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={[{ alignSelf: "center" }, MyStyles.ic_camera]} />
                   </TouchableOpacity> */}
                     <Image source={global.login_info.profile_image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: Common.getImageUrl(global.login_info.profile_image) }} style={global.login_info.profile_image == null ? { width: 117 / 3, height: 166 / 3, alignSelf: "center" } : { width: 315 / 3, height: 315 / 3, borderRadius: 100, }} />
@@ -175,7 +191,7 @@ export default class MyPageScreen extends React.Component {
                     null
                   }
                   <Text style={[MyStyles.meta_text]}>Weather</Text>
-                  <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", top: 0, right: 0, padding: 5 }} onPress={() => { this.requestGetMyPosition() }}>
+                  <TouchableOpacity style={{ position: "absolute", top: 0, right: 0, padding: 5 }} onPress={() => { this.requestGetMyPosition() }}>
                     <Image source={(require('../../assets/images/ic_weather_sync.png'))} style={[MyStyles.ic_weather_sync]} />
                   </TouchableOpacity>
                 </View>
@@ -218,51 +234,132 @@ export default class MyPageScreen extends React.Component {
                   <Image source={require('../../assets/images/ic_weather_type1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_weather_type1]} />
                   <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {"dry"}</Text> today</Text>
                 </View>
-                <View style={[MyStyles.ic_one_line_desc_box]}>
-                  <Image source={require('../../assets/images/ic_face_type1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_weather_type1]} />
-                  <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs} </Text>your face</Text>
-                </View>
-                <View style={[MyStyles.ic_one_line_desc_box]}>
-                  <Image source={require('../../assets/images/ic_snow1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_snow1]} />
-                  <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern}</Text></Text>
-                </View>
+
+                {this.state.refreshOneLineInfo ?
+                  Common.isNeedToAddQuestionnaire() ?
+                    null :
+                    <View>
+                      <View style={[MyStyles.ic_one_line_desc_box]}>
+                        <Image source={require('../../assets/images/ic_face_type1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_weather_type1]} />
+                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs} </Text>your face</Text>
+                      </View>
+                      <View style={[MyStyles.ic_one_line_desc_box]}>
+                        <Image source={require('../../assets/images/ic_snow1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_snow1]} />
+                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern}</Text></Text>
+                      </View>
+                    </View>
+                  :
+                  Common.isNeedToAddQuestionnaire() ?
+                    null :
+                    <View>
+                      <View style={[MyStyles.ic_one_line_desc_box]}>
+                        <Image source={require('../../assets/images/ic_face_type1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_weather_type1]} />
+                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{global.login_info.needs} </Text>your face</Text>
+                      </View>
+                      <View style={[MyStyles.ic_one_line_desc_box]}>
+                        <Image source={require('../../assets/images/ic_snow1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_snow1]} />
+                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern}</Text></Text>
+                      </View>
+                    </View>
+                }
+
               </View>
 
               {/* We recommend It! 로그인 했을때 나타나는 정보 */}
-              <View style={[{ marginTop: 20 }]}>
-                <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
-                  <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
-                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() =>
-                    this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>
-                    <Text style={MyStyles.txt_more}>more</Text>
-                    <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
-                  </TouchableOpacity>
+
+              {this.state.refreshOneLineInfo ?
+                <View style={[{ marginTop: 20 }]}>
+                  <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
+                    <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
+                    {Common.isNeedToAddQuestionnaire() ? null :
+                      <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                        this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>
+                        <Text style={MyStyles.txt_more}>more</Text>
+                        <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                      </TouchableOpacity>
+                    }
+                  </View>
+
+                  <View style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingTop: 10,
+                    paddingLeft: 15,
+                    paddingRight: 15,
+                    paddingBottom: 20
+                  }}>
+                    {Common.isNeedToAddQuestionnaire() ?
+                      <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_h_main]}
+                        onPress=
+                        {() => {
+                          this.props.navigation.navigate("WeCanSearchIt", {
+                            [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                            [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                            [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                            [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                          })
+                        }
+                        }>
+                        <Text style={[MyStyles.text_13_656565, { flex: 1 }]}>Tell us about your skin and we'll show you some product that you might want to check out!</Text>
+                        <TouchableOpacity>
+                          <Image source={require('../../assets/images/ic_btn_right.png')} style={[{ alignSelf: "center" }, MyStyles.ic_btn_right]} />
+                        </TouchableOpacity>
+                      </TouchableOpacity> :
+                      this.renderRecommendingScroll()
+                    }
+                  </View>
                 </View>
-                <View style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingTop: 10,
-                  paddingLeft: 15,
-                  paddingRight: 15,
-                  paddingBottom: 20
-                }}>
-                  {/* <View style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_h_main]}>
-                  <Text style={[MyStyles.text_13_656565, { flex: 1 }]}>Tell us about your skin and we'll show you some product that you might want to check out!</Text>
-                  <TouchableOpacity>
-                    <Image source={require('../../assets/images/ic_btn_right.png')} style={[{ alignSelf: "center" }, MyStyles.ic_btn_right]} />
-                  </TouchableOpacity>
-                </View> */}
-                  {
-                    this.renderRecommendingScroll()
-                  }
+                :
+                <View style={[{ marginTop: 20 }]}>
+                  <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
+                    <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
+                    {Common.isNeedToAddQuestionnaire() ? null :
+                      <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
+                        this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>
+                        <Text style={MyStyles.txt_more}>more</Text>
+                        <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
+                      </TouchableOpacity>
+                    }
+                  </View>
+
+                  <View style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingTop: 10,
+                    paddingLeft: 15,
+                    paddingRight: 15,
+                    paddingBottom: 20
+                  }}>
+                    {Common.isNeedToAddQuestionnaire() ?
+                      <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_h_main]}
+                        onPress=
+                        {() => {
+                          this.props.navigation.navigate("WeCanSearchIt", {
+                            [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                            [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                            [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                            [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                          })
+                        }
+                        }>
+                        <Text style={[MyStyles.text_13_656565, { flex: 1 }]}>Tell us about your skin and we'll show you some product that you might want to check out!</Text>
+                        <TouchableOpacity>
+                          <Image source={require('../../assets/images/ic_btn_right.png')} style={[{ alignSelf: "center" }, MyStyles.ic_btn_right]} />
+                        </TouchableOpacity>
+                      </TouchableOpacity> :
+                      this.renderRecommendingScroll()
+                    }
+                  </View>
                 </View>
-              </View>
+
+              }
 
 
               {/* My Point 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section]}>
-                <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
+                <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
                   this.props.navigation.navigate("MyPoint")
                 }}>
                   <Image source={require("../../assets/images/ic_point_big.png")} style={[MyStyles.ic_point_big]} />
@@ -276,7 +373,7 @@ export default class MyPageScreen extends React.Component {
 
               {/* My Review 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
-                <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
+                <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
                   this.props.navigation.navigate("MyReview")
                 }}>
                   <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
@@ -294,7 +391,7 @@ export default class MyPageScreen extends React.Component {
 
               {/* My Beauty Box 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
-                <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
+                <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
                   this.props.navigation.navigate("MyBeautyBox")
                 }}>
                   <Image source={require("../../assets/images/ic_beauty_box_big.png")} style={[MyStyles.ic_beauty_box_big]} />
@@ -312,7 +409,7 @@ export default class MyPageScreen extends React.Component {
 
               {/* Questionnaire 부분 */}
               <View style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0, marginBottom: 40 }]}>
-                <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
+                <TouchableOpacity style={MyStyles.ingredient_section_header} onPress={() => {
                   this.props.navigation.navigate("Questionnare")
                 }}>
                   <Image source={require("../../assets/images/ic_questionnare_big.png")} style={[MyStyles.ic_questionnare_big]} />
@@ -341,7 +438,7 @@ export default class MyPageScreen extends React.Component {
           </ScrollView>
         </KeyboardAvoidingView>
 
-        <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", bottom: 30, right: 0 }} onPress={() => { this.props.navigation.navigate("Setting") }}>
+        <TouchableOpacity style={{ position: "absolute", bottom: 30, right: 0 }} onPress={() => { this.props.navigation.navigate("Setting") }}>
           <Image source={require('../../assets/images/ic_setting.png')} style={MyStyles.ic_setting} />
         </TouchableOpacity>
       </View>
@@ -350,6 +447,7 @@ export default class MyPageScreen extends React.Component {
 
   _onRefresh = () => {
     this.setState({ refreshing: true });
+    this.requestMyPage();
     this.setState({ refreshing: false });
   }
 
@@ -430,5 +528,49 @@ export default class MyPageScreen extends React.Component {
         this.state.weatherInfo.city = json.name
         this.setState(this.state.weatherInfo)
       });
+  }
+
+  requestUpdateQuestionnaireItem(p_questionnaire_id, p_skin_type, p_concern, p_needs) {
+    console.log(p_questionnaire_id)
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.user.updateQuestionnaireItem, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        questionnaire_id: p_questionnaire_id.toString(),
+        skin_type: p_skin_type,
+        concern: p_concern,
+        needs: p_needs,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          isLoading: false,
+        });
+
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+
+        global.login_info.skin_type = p_skin_type
+        global.login_info.concern = p_concern
+        global.login_info.needs = p_needs
+        this.setState({ refreshOneLineInfo: !this.state.refreshOneLineInfo });
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
   }
 }

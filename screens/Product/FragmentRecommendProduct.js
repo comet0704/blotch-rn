@@ -331,7 +331,7 @@ export class FragmentRecommendProduct extends React.Component {
 
   onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
     // WecanSeachit에서 입력한 정보들로 메인 questionnaire를 만들어주자.
-    this.requestAddQuestionnaireItem("Me", p_skin_type, p_concern, p_needs)
+    this.requestUpdateQuestionnaireItem("Me", p_skin_type, p_concern, p_needs)
   }
 
   onNavigationEvent = () => {
@@ -855,7 +855,7 @@ export class FragmentRecommendProduct extends React.Component {
       .done();
   }
 
-  requestAddQuestionnaireItem(p_title, p_skin_type, p_concern, p_needs) {
+  requestUpdateQuestionnaireItem(p_questionnaire_id, p_skin_type, p_concern, p_needs) {
     this.setState({
       isLoading: true,
     });
@@ -867,7 +867,7 @@ export class FragmentRecommendProduct extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        title: p_title,
+        questionnaire_id: p_questionnaire_id.toString(),
         skin_type: p_skin_type,
         concern: p_concern,
         needs: p_needs,

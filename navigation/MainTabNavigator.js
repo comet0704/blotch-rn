@@ -256,8 +256,8 @@ LinksStack.navigationOptions = {
 
 
 export default createBottomTabNavigator({
-  // HomeStack,
-  LinksStack,
+  // LinksStack,
+  HomeStack,
   ProductStack,
   IngredientStack,
   MyListStack,
@@ -267,6 +267,8 @@ export default createBottomTabNavigator({
     backBehavior: "history",
     tabBarOptions: {
       activeTintColor: "#a695fe",
-      style: { borderTopLeftRadius: 50 / 3, borderTopRightRadius: 50 / 3 }
+      // tabStyle: { backgroundColor:"blue" },
+      style: { borderTopLeftRadius: 50 / 3, borderTopRightRadius: 50 / 3, backgroundColor: "white", overflow:"hidden" },
+      // inactiveBackgroundColor:"red",
     }
   });
