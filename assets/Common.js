@@ -765,7 +765,7 @@ export default {
         typeName: MyConstants.CareName.Sunblock,
         image_off: require("../assets/images/CareTypes/ic_sunblock.png"),
         image_on: require("../assets/images/CareTypes/ic_sunblock_on.png"),
-        image_style: MyStyles.ic_moisturizer,
+        image_style: MyStyles.ic_sunblock,
         is_selected: false,
       },
       {
@@ -786,7 +786,7 @@ export default {
         typeName: MyConstants.CareName.Lotion,
         image_off: require("../assets/images/CareTypes/ic_lotion.png"),
         image_on: require("../assets/images/CareTypes/ic_lotion_on.png"),
-        image_style: MyStyles.ic_moisturizer,
+        image_style: MyStyles.ic_lotion,
         is_selected: false,
       },
     ]
