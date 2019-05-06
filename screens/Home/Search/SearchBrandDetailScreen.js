@@ -60,6 +60,7 @@ export default class SearchBrandDetailScreen extends React.Component {
     };
   }
   componentDidMount() {
+    is_from_camera_search = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.is_from_camera_search)
     w_item_id = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_id)
     this.setState({ brand_id: w_item_id });
     this.requestProductList(w_item_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
@@ -186,7 +187,11 @@ export default class SearchBrandDetailScreen extends React.Component {
                 this.refs.searchBox.blur()
                 return
               }
-              this.props.navigation.pop(2)
+              if (is_from_camera_search) {
+                this.props.navigation.pop(2)
+              } else {
+                this.props.navigation.goBack()
+              }
             }}
             activeOpacity={0.5} style={{ alignSelf: "center", alignItems: "center", padding: 15 }} >
             <Image style={[MyStyles.backButton, { marginTop: 0, alignSelf: "center" }]}
@@ -227,7 +232,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                       :
                       null
                   }
-                  <Image style={[{ width: 85, height: 85 }, MyStyles.brandImage]} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
+                  <ImageLoad style={[{ width: 85, height: 85 }, MyStyles.brandImage]} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
                 </View>
 
               </TouchableOpacity>
@@ -397,7 +402,7 @@ export default class SearchBrandDetailScreen extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        brand_id: p_brand_id
+        brand_id: p_brand_id.toString()
       }),
     })
       .then((response) => response.json())

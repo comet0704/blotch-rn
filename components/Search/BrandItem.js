@@ -34,7 +34,7 @@ export class BrandItem extends React.Component {
     const _this = this.props.this;
     return (
       <View key={item.id} style={[{ flex: 1, width: item_width }, is_match_list ? null : { marginRight: 20, }]}>
-        <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { is_add_modal ? _this.onBrandSelect(item) : _this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { is_add_modal ? _this.onBrandSelect(item) : _this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.is_from_camera_search]: true }) }}>
           { // 이미지가 없을 경우 브랜드 명을 가운데 현시해주자
             item.image == null || item.image.length <= 0
               ?

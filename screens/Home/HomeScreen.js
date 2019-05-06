@@ -343,6 +343,7 @@ export default class HomeScreen extends React.Component {
       global.login_info.skin_type = p_skin_type
       global.login_info.concern = p_concern
       global.login_info.needs = p_needs
+      this.requestOnelineReview(global.login_info.skin_type, global.login_info.concern, global.login_info.needs, this.state.weatherInfo.main)
       this.setState({ refreshOneLineInfo: !this.state.refreshOneLineInfo });
       return;
     } else {
