@@ -102,7 +102,7 @@ export default class ProductDetailScreen extends React.Component {
   BannerWidth = Dimensions.get('window').width - 30;
   renderImages(image, index) {
     return (
-      <View key={index}>
+      <View key={index} style={MyStyles.shadow_2}>
         <TouchableHighlight>
           <View>
             <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(image) }} />
@@ -128,11 +128,11 @@ export default class ProductDetailScreen extends React.Component {
         <Toast ref='toast' />
         <TopbarWithBlackBack rightBtn="true" title="Product" onPress={() => { this.props.navigation.goBack(null) }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
 
-        <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
+        <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag" >
           <View style={[{ flex: 1 }]}>
 
             {/* 이미지 부분 */}
-            <View style={[{ overflow: "hidden", justifyContent: "center", alignSelf: "center", width: this.BannerWidth, height: this.BannerHeight, borderRadius: 10 }, MyStyles.shadow_5]}>
+            <View style={[{ overflow: "hidden", marginTop: 5, justifyContent: "center", alignSelf: "center", width: this.BannerWidth, height: this.BannerHeight, borderRadius: 10 }]}>
               {this.state.product_detail_result_data.detail.image_list.length > 0 ?
                 <View>
                   <Carousel

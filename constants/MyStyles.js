@@ -1532,9 +1532,16 @@ export default StyleSheet.create({
     width: 150,
     maxHeight: 300,
     marginTop: -20,
-    borderColor: Colors.color_e3e5e4,
-    borderWidth: 2,
-    borderRadius: 3,
+    borderRadius: 10,
+    shadowColor: '#3a3a3a',
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
+    shadowOpacity: 0.8,
+    elevation: 15,
+    // background color must be set
+    backgroundColor: "white" // invisible color,
   },
   dropdown_2_row_text: {
     marginHorizontal: 4,
@@ -1546,6 +1553,7 @@ export default StyleSheet.create({
   dropdown_2_separator: {
     height: 1,
     backgroundColor: Colors.color_e3e5e4,
+    marginHorizontal: 10
   },
   category_tag: {
     borderRadius: 30, backgroundColor: Colors.color_f6f6f6, paddingHorizontal: 5, marginRight: 5

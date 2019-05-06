@@ -89,6 +89,14 @@ export default {
     return result
   },
 
+  // <p> 태크를 없애주는 함수
+  removeHtmlTagsFromText(p_html) {
+    const regex = /(<([^>]+)>)/ig;
+    result = p_html.replace(regex, '');
+    result = result.replace("&nbsp;", "")
+    return result
+  },
+
   // 아이디 카테고리 컬러 돌려줌
   getCategoryColor(index) {
     var ColorCode = 'rgb('

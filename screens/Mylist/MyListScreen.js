@@ -379,7 +379,7 @@ export default class MyListScreen extends React.Component {
 
         <Modal
           animationType="slide"
-          transparent={false}
+          transparent={true}
           visible={this.state.showLoginModal}
           onRequestClose={() => {
           }}>

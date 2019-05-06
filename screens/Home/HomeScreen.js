@@ -20,6 +20,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Alert,
+  WebView,
   Dimensions,
   TouchableHighlight,
   TouchableWithoutFeedback,
@@ -185,7 +186,7 @@ export default class HomeScreen extends React.Component {
             <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
               <Text style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{item.title}</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
+              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -205,7 +206,7 @@ export default class HomeScreen extends React.Component {
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
+            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -223,7 +224,7 @@ export default class HomeScreen extends React.Component {
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
+            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -571,7 +572,7 @@ export default class HomeScreen extends React.Component {
                   </TouchableOpacity>
 
                 </View>
-                <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, }}>
+                <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, marginTop: 10 }}>
 
                   <View style={{ borderBottomRightRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
                     <Carousel
@@ -631,7 +632,7 @@ export default class HomeScreen extends React.Component {
                     <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
                   </TouchableOpacity>
                 </View>
-                <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30 }}>
+                <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, marginTop: 10 }}>
                   <View style={{ flex: 1, justifyContent: "center" }}>
                     <Carousel
                       pageIndicatorStyle={MyStyles.pageIndicatorStyle}
@@ -690,7 +691,7 @@ export default class HomeScreen extends React.Component {
                     <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
                   </TouchableOpacity>
                 </View>
-                <View style={{ flexDirection: "row", flex: 1, marginBottom: 30, justifyContent: "center", marginLeft: 15 }}>
+                <View style={{ flexDirection: "row", flex: 1, marginBottom: 30, justifyContent: "center", marginLeft: 15, marginTop: 10 }}>
                   <View style={{ flex: 1, justifyContent: "center" }}>
                     <Carousel
                       pageIndicatorStyle={MyStyles.pageIndicatorStyle}
@@ -717,7 +718,8 @@ export default class HomeScreen extends React.Component {
                   justifyContent: 'center',
                   paddingLeft: 15,
                   paddingRight: 15,
-                  paddingBottom: 30
+                  paddingBottom: 30,
+                  marginTop: 10
                 }}>
                   {
                     this.renderTrendingScroll()
@@ -984,8 +986,8 @@ export default class HomeScreen extends React.Component {
           return;
         }
         this.setState({
-          oneline_review_en: responseJson.result_data.online_review.comment_en,
-          oneline_review_ko: responseJson.result_data.online_review.comment_ko
+          oneline_review_en: responseJson.result_data.oneline_review.comment_en,
+          oneline_review_ko: responseJson.result_data.oneline_review.comment_ko
         });
       })
       .catch((error) => {

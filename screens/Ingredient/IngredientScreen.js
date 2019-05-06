@@ -724,7 +724,7 @@ ingredients that can cause allergies.</Text>
 
         <Modal
           animationType="slide"
-          transparent={false}
+          transparent={true}
           visible={this.state.showLoginModal}
           onRequestClose={() => {
           }}>

@@ -67,7 +67,7 @@ export class FragmentNewProduct extends React.Component {
             <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
               <Text style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{item.title}</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{item.content}</Text>
+              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</Text>
             </View>
           </View>
         </TouchableHighlight>

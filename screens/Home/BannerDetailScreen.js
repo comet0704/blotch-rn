@@ -251,7 +251,7 @@ export default class BannerDetailScreen extends React.Component {
                 :
                 null
               }
-              <Text style={{ fontSize: 13, color: Colors.primary_dark, marginTop: 10, marginBottom: 5 }}>{this.state.banner_detail_result_data.detail.content}</Text>
+              <Text style={{ fontSize: 13, color: Colors.primary_dark, marginTop: 10, marginBottom: 5 }}>{Common.removeHtmlTagsFromText(this.state.banner_detail_result_data.detail.content)}</Text>
             </View>
             <View style={MyStyles.seperate_line_e5e5e5}></View>
 
