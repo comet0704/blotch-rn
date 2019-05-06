@@ -64,7 +64,9 @@ export default class ProductDetailScreen extends React.Component {
 
   componentDidMount() {
     this.requestProductDetail(item_id)
-    this.requestMyList()
+    if (global.login_info.token.length > 0) {
+      this.requestMyList()
+    }
   }
 
   onShare = async () => {
@@ -173,9 +175,10 @@ export default class ProductDetailScreen extends React.Component {
             {/* Description */}
             <View style={[{ marginTop: 5 }, MyStyles.padding_main]}>
               <View style={[{ marginTop: 5, flexDirection: "row", flex: 1 }]}>
-                <TouchableOpacity activeOpacity={0.8} onPress={() => { 
-                  this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: this.state.product_detail_result_data.detail.brand_id }) }} 
-                style={[{ flexDirection: "row", alignItems: "center", borderWidth: 0.5, paddingLeft: 5, paddingRight: 5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }]}>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => {
+                  this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: this.state.product_detail_result_data.detail.brand_id })
+                }}
+                  style={[{ flexDirection: "row", alignItems: "center", borderWidth: 0.5, paddingLeft: 5, paddingRight: 5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }]}>
                   <Text style={{ color: Colors.color_949191 }}>{this.state.product_detail_result_data.detail.brand_title} </Text>
                   <Image source={require("../../assets/images/ic_arrow_right_gray.png")} style={MyStyles.ic_arrow_right_gray} />
                 </TouchableOpacity>
@@ -253,7 +256,7 @@ export default class ProductDetailScreen extends React.Component {
                 </TouchableOpacity>
               </View>
 
-              <View>
+              <View style={{ marginBottom: 20 }}>
                 {this.state.tabbar.Ingredients ?
                   <FragmentProductDetailIngredients toast={this.refs.toast} item_id={item_id}></FragmentProductDetailIngredients>
                   :
@@ -297,6 +300,7 @@ export default class ProductDetailScreen extends React.Component {
               />
             </View>
           </View>
+
         </ScrollView>
 
       </KeyboardAvoidingView >

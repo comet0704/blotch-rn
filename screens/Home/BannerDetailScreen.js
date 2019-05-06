@@ -243,7 +243,7 @@ export default class BannerDetailScreen extends React.Component {
             </View>
 
             <View style={[{ marginTop: 5 }, MyStyles.padding_main]}>
-              {this.state.banner_detail_result_data.detail.is_direct_link > 0 ?
+              {this.state.banner_detail_result_data.detail.url != null && this.state.banner_detail_result_data.detail.url.length > 0 ?
                 <View style={[{ marginTop: 5, flexDirection: "row", flex: 1 }]}>
                   <Text style={{ color: Colors.color_949191, paddingLeft: 5, paddingRight: 5, borderWidth: 0.5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }}>Link</Text>
                   <Text onPress={() => { Linking.openURL(Common.getLinkUrl(this.state.banner_detail_result_data.detail.url)) }} style={[MyStyles.link, { marginLeft: 5 }]}>{this.state.banner_detail_result_data.detail.url}</Text>

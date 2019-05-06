@@ -96,7 +96,7 @@ export default class SearchMainScreen extends React.Component {
   }
 
   addRecentSearchWords(p_keyword) {
-    if (p_keyword == "" || this.state.recentSearchWords.indexOf(p_keyword) > 0) {
+    if (p_keyword == "" || this.state.recentSearchWords.indexOf(p_keyword) >= 0) {
       return;
     }
     AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.recent_search_words, (err, result) => {

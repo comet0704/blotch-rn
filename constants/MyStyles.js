@@ -228,6 +228,13 @@ export default StyleSheet.create({
     marginLeft: 5,
     marginTop: 2.5
   },
+  ic_more_right_white: {
+    width: 16 / 3,
+    height: 25 / 3,
+    alignSelf: "center",
+    marginLeft: 5,
+    marginTop: 2.5
+  },
   ic_camera: {
     width: 38 / 3,
     height: 37 / 3

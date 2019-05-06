@@ -52,7 +52,14 @@ export default class ArticlesScreen extends React.Component {
       this.beforeArticleTime = ""
     }
     return (
-      <TouchableOpacity activeOpacity={0.8} key={index} style={[MyStyles.container, { flex: 1 }]} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+      <TouchableOpacity activeOpacity={0.8} key={index} style={[MyStyles.container, { flex: 1 }]} onPress={() => {
+        if (item.is_direct_link) {
+          Linking.openURL(Common.getLinkUrl(item.url))
+        } else {
+          this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+        }
+      }
+      }>
         {showTime ?
           <View style={[{ position: "absolute", width: 275 / 3, height: 60 / 3, top: -10, right: 15, borderRadius: 10, flexDirection: "row", justifyContent: "center", alignItems: "center" }, MyStyles.shadow_2]}>
             <Image source={require('../../assets/images/ic_clock.png')} style={[MyStyles.ic_clock]} />

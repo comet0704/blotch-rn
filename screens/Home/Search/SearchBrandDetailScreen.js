@@ -232,11 +232,11 @@ export default class SearchBrandDetailScreen extends React.Component {
                       :
                       null
                   }
-                  <ImageLoad style={[{ width: 85, height: 85 }, MyStyles.brandImage]} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
+                  <Image style={[{ width: 85, height: 85 }, MyStyles.brandImage]} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
                 </View>
 
               </TouchableOpacity>
-              <Text style={{ fontSize: 16, color: "white", bottom: -5, textAlign: "center", position: "absolute", width: "100%", textAlign: "center" }} numberOfLines={1}>{this.state.brand_detail_result_data.detail.title} ></Text>
+              <Text style={{ fontSize: 16, color: "white", bottom: -5, textAlign: "center", position: "absolute", width: "100%", textAlign: "center" }} numberOfLines={1}>{this.state.brand_detail_result_data.detail.title} <Image source={require('../../../assets/images/ic_more_right_white.png')} style={MyStyles.ic_more_right_white} /></Text>
               {
                 this.state.brand_detail_result_data.detail.is_liked > 0
                   ?
@@ -414,8 +414,9 @@ export default class SearchBrandDetailScreen extends React.Component {
           this.refs.toast.showBottom(error);
           return;
         }
+        this.state.brand_detail_result_data = responseJson.result_data
         this.setState({
-          brand_detail_result_data: responseJson.result_data
+          brand_detail_result_data: this.state.brand_detail_result_data
         });
 
       })

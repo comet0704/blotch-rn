@@ -252,36 +252,39 @@ export class FragmentProductDetailIngredients extends React.Component {
         </View>
 
         {/* Allergic and Potential Ingredients  */}
-        <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         {global.login_info.token.length > 0 ?
-          <View style={MyStyles.padding_main}>
-            {this.state.questionnaire_list.length > 0 ?
-              <ModalDropdown ref="dropdown_2"
-                style={MyStyles.dropdown_2}
-                defaultIndex={0}
-                defaultValue={this.state.selected_questionnaire.value + " ▾"}
-                textStyle={MyStyles.dropdown_2_text}
-                dropdownStyle={MyStyles.dropdown_2_dropdown}
-                options={this.state.questionnaire_list}
-                renderButtonText={(rowData) => Common._dropdown_2_renderButtonText(rowData)}
-                renderRow={Common._dropdown_2_renderRow.bind(this)}
-                onSelect={(idx, rowData) => {
-                  this.onQuestionnaireSelected(idx, rowData)
-                }}
-                renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
-              />
-              :
-              null}
+          <View>
+            <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+            <View style={MyStyles.padding_main}>
+              {this.state.questionnaire_list.length > 0 ?
+                <ModalDropdown ref="dropdown_2"
+                  style={MyStyles.dropdown_2}
+                  defaultIndex={0}
+                  defaultValue={this.state.selected_questionnaire.value + " ▾"}
+                  textStyle={MyStyles.dropdown_2_text}
+                  dropdownStyle={MyStyles.dropdown_2_dropdown}
+                  options={this.state.questionnaire_list}
+                  renderButtonText={(rowData) => Common._dropdown_2_renderButtonText(rowData)}
+                  renderRow={Common._dropdown_2_renderRow.bind(this)}
+                  onSelect={(idx, rowData) => {
+                    this.onQuestionnaireSelected(idx, rowData)
+                  }}
+                  renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
+                />
+                :
+                null}
 
-            <Text style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500" }}>Allergic Ingredients</Text>
-            <View style={{ flex: 1, marginTop: 10 }}>
-              {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderAllergicIngredients(item, index))}
+              <Text style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500" }}>Allergic Ingredients</Text>
+              <View style={{ flex: 1, marginTop: 10 }}>
+                {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderAllergicIngredients(item, index))}
+              </View>
+              <Text style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500", marginTop: 15 }}>Potential Allergens</Text>
+              <View style={{ flex: 1, marginTop: 10 }}>
+                {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderPotentialAllergenIngredients(item, index))}
+              </View>
             </View>
-            <Text style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500", marginTop: 15 }}>Potential Allergens</Text>
-            <View style={{ flex: 1, marginTop: 10 }}>
-              {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderPotentialAllergenIngredients(item, index))}
-            </View>
-          </View> : null}
+          </View>
+          : null}
 
         {/* Save to modal */}
         <Modal

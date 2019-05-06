@@ -21,6 +21,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TouchableHighlight,
+  Linking
 } from 'react-native';
 import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
@@ -56,7 +57,11 @@ export class FragmentNewProduct extends React.Component {
     return (
       <View key={index}>
         <TouchableHighlight onPressIn={() => {
-          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+          if (item.is_direct_link > 0) {
+            Linking.openURL(Common.getLinkUrl(item.url))
+          } else {
+            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+          }
         }}>
           <View>
             <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
@@ -201,7 +206,7 @@ export class FragmentNewProduct extends React.Component {
                 style={MyStyles.gridView}
                 spacing={10}
                 renderItem={({ item, index }) => (
-                  <ProductItem is_new_tab = {true} item={item} index={index} this={this}></ProductItem>
+                  <ProductItem is_new_tab={true} item={item} index={index} this={this}></ProductItem>
                 )}
               />
             </View>

@@ -25,6 +25,7 @@ import {
   TouchableWithoutFeedback,
   BackHandler,
   RefreshControl,
+  Linking,
 } from 'react-native';
 import { Notifications, Permissions } from 'expo';
 import { WebBrowser } from 'expo';
@@ -174,7 +175,11 @@ export default class HomeScreen extends React.Component {
     return (
       <View key={index}>
         <TouchableOpacity activeOpacity={0.8} onPress={() => {
-          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+          if (item.is_direct_link > 0) {
+            Linking.openURL(Common.getLinkUrl(item.url))
+          } else {
+            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+          }
         }}>
           <View>
             <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
@@ -192,7 +197,11 @@ export default class HomeScreen extends React.Component {
     return (
       <View key={index}>
         <TouchableOpacity activeOpacity={0.8} onPress={() => {
-          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+          if (item.is_direct_link > 0) {
+            Linking.openURL(Common.getLinkUrl(item.url))
+          } else {
+            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+          }
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
@@ -206,7 +215,11 @@ export default class HomeScreen extends React.Component {
     return (
       <View key={index}>
         <TouchableOpacity activeOpacity={0.8} onPress={() => {
-          this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+          if (item.is_direct_link > 0) {
+            Linking.openURL(Common.getLinkUrl(item.url))
+          } else {
+            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+          }
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
