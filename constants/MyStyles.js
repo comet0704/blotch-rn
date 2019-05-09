@@ -1254,6 +1254,10 @@ export default StyleSheet.create({
     width: 68 / 3,
     height: 36 / 3,
   },
+  ic_bar_code: {
+    width: 125 / 3,
+    height: 76 / 3,
+  },
   ic_plus_btn_big: {
     width: 90 / 3,
     height: 93 / 3,

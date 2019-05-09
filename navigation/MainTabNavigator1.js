@@ -96,6 +96,7 @@ const ProductStack = createStackNavigator({
   WeCanSearchIt: WeCanSearchItScreen,
   ProductDetail: ProductDetailScreen,
   BannerDetail: BannerDetailScreen,
+  SearchBrandDetail: SearchBrandDetailScreen,
 },
   {
     headerMode: 'screen ',

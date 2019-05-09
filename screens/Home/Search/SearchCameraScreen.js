@@ -9,6 +9,7 @@ import MyConstants from '../../../constants/MyConstants';
 import MyStyles from '../../../constants/MyStyles';
 import { Camera, BarCodeScanner, Permissions } from 'expo';
 import Net from '../../../Net/Net';
+import Colors from '../../../constants/Colors';
 
 export default class SearchCameraScreen extends React.Component {
 
@@ -78,15 +79,29 @@ export default class SearchCameraScreen extends React.Component {
               >
                 <View style={styles.layerTop} />
                 <View style={styles.layerCenter}>
-                  <View style={styles.layerLeft} />
-                  <View style={styles.focused} />
+                  <View style={[styles.layerLeft, { zIndex: 1000 }]}>
+                  </View>
+                  <View style={styles.focused}>
+                    <Text style={{ color: Colors.primary_purple, zIndex: 1000, fontSize: 25, position: "absolute", top: -21, left: -16 }}>┏</Text>
+                    <Text style={{ color: Colors.primary_purple, zIndex: 1000, fontSize: 25, position: "absolute", top: -21, right: -15 }}>┓</Text>
+                    <Text style={{ color: Colors.primary_purple, zIndex: 1000, fontSize: 25, position: "absolute", bottom: -19, left: -16 }}>┗</Text>
+                    <Text style={{ color: Colors.primary_purple, zIndex: 1000, fontSize: 25, position: "absolute", bottom: -19, right: -15 }}>┛</Text>
+
+                    <View style={{ height: 2, width: "100%", backgroundColor: "#da3c2680" }} />
+                  </View>
                   <View style={styles.layerRight} />
                 </View>
-                <View style={styles.layerBottom} />
+                <View style={styles.layerBottom}>
+                  <View style={{ flex: 1 }} />
+                  <View style={{ flex: 1, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
+                    <Image source={require('../../../assets/images/ic_bar_code.png')} style={[MyStyles.ic_bar_code]} />
+                    <Text style={{ color: Colors.primary_dark, fontSize: 15, fontWeight: "500", marginTop: 10, textAlign: "center" }}>Point the camera on the other side of your{"\n"}phone at a Barcode</Text>
+                  </View>
+                </View>
               </Camera>
           }
           <View style={{ position: "absolute", top: 0, left: 0, right: 0 }}>
-            <TopbarWithBlackBack rightBtn="true" isTorch={true} title="Camera" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this._handleTorchPress() }}></TopbarWithBlackBack>
+            <TopbarWithBlackBack rightBtn="true" isTorch={true} title="Barcode" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this._handleTorchPress() }}></TopbarWithBlackBack>
             <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
           </View>
         </View>
@@ -106,22 +121,25 @@ const styles = StyleSheet.create({
     backgroundColor: opacity
   },
   layerCenter: {
-    flex: 1,
+    height: 515 / 3,
     flexDirection: 'row'
   },
   layerLeft: {
-    flex: 1,
+    width: 130 / 3,
     backgroundColor: opacity
   },
   focused: {
-    flex: 10
+    flex: 1,
+    borderWidth: 4,
+    borderColor: opacity,
+    justifyContent: "center",
   },
   layerRight: {
-    flex: 1,
+    width: 130 / 3,
     backgroundColor: opacity
   },
   layerBottom: {
-    flex: 2,
+    flex: 3,
     backgroundColor: opacity
   },
 });
