@@ -1563,4 +1563,7 @@ export default StyleSheet.create({
   category_tag: {
     borderRadius: 30, backgroundColor: Colors.color_f6f6f6, paddingHorizontal: 5, marginRight: 5
   },
+  switch_cover: {
+    borderRadius: 50, transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }]
+  }
 });

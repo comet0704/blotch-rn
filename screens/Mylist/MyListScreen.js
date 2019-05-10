@@ -355,7 +355,7 @@ export default class MyListScreen extends React.Component {
       console.log(result);
       // AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.my_list_order, 'null')
       this.setState({ my_list_order: null })
-      if (result == 'null') {
+      if (result == 'null' || result == null) {
         this.setState({ my_list_order: null })
       } else {
         this.setState({ my_list_order: result.split(",") })
