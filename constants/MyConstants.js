@@ -85,6 +85,7 @@ export default {
   Loading_text: "Loading...",
   ASYNC_PARAMS: {
     login_info: "LoginInfo",
+    settingButtonOffset: "settingButtonOffset",
     setting: "setting",
     recent_search_words: "recent_search_words",
     like_list_order: "like_list_order",

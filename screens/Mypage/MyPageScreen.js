@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
-import { TouchableWithoutFeedback, Keyboard, AsyncStorage, Button, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View, RefreshControl } from 'react-native';
+import { TouchableWithoutFeedback, Dimensions, Keyboard, AsyncStorage, Button, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View, RefreshControl } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import { TopbarWithWhiteBack } from '../../components/Topbars/TopbarWithWhiteBack';
@@ -14,6 +14,7 @@ import Common from '../../assets/Common';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 import { exitAlert } from '../../components/androidBackButton/exitAlert';
 import { NavigationEvents } from 'react-navigation';
+import MovableView from 'react-native-movable-view'
 
 export default class MyPageScreen extends React.Component {
   constructor(props) {
@@ -48,7 +49,12 @@ export default class MyPageScreen extends React.Component {
       my_skin_type_img: null,
       my_concern_img: null,
       my_needs_img: null,
+      settingButtonDisabled: true,
+      refreshSettingBtn: false,
     };
+
+    this.settingButtonOffset = null
+    this.settingBtnPos = { bottom: 30, right: 0 }
   }
 
   componentDidMount() {
@@ -71,6 +77,16 @@ export default class MyPageScreen extends React.Component {
       const w_item = this.state.need_types[w_index]
       this.setState({ my_needs_img: w_item.image_on })
     }
+
+    AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.settingButtonOffset, (err, result) => {
+      if (result != null) {
+        this.settingButtonOffset = JSON.parse(result);
+        this.settingBtnPos.bottom = Math.max(0, Math.min(this.ScreenHeight - this.TabbarHeight - this.settingButtonOffset.y - MyStyles.ic_setting.height, this.ScreenHeight - MyStyles.ic_setting.height - this.TabbarHeight))
+        this.settingBtnPos.right = Math.max(0, Math.min(this.ScreenWidth - this.settingButtonOffset.x - MyStyles.ic_setting.width, this.ScreenWidth - MyStyles.ic_setting.width))
+        this.setState({ refreshSettingBtn: !this.state.refreshSettingBtn })
+
+      }
+    });
   }
 
   componentWillMount() {
@@ -171,6 +187,9 @@ export default class MyPageScreen extends React.Component {
   }
 
 
+  ScreenWidth = Dimensions.get('window').width;
+  ScreenHeight = Dimensions.get('window').height;
+  TabbarHeight = 50;
   renderTrack() {
     return (
       <View style={{ flex: 1 }}>
@@ -400,16 +419,65 @@ export default class MyPageScreen extends React.Component {
                   <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
                 </TouchableOpacity>
               </View>
-
-
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
 
-        <TouchableOpacity style={{ position: "absolute", bottom: 30, right: 0 }} onPress={() => { this.props.navigation.navigate("Setting") }}>
-          <Image source={require('../../assets/images/ic_setting.png')} style={MyStyles.ic_setting} />
-        </TouchableOpacity>
-      </View>
+        <MovableView
+          ref={ref => this.move = ref}
+          disabled={true}
+          onDragEnd={() => {
+            this.move.changeDisableStatus(); this.setState({ settingButtonDisabled: true });
+            this.settingBtn.measure((x, y, width, height, pageX, pageY) => {
+              console.log("ScreenWidth: " + this.ScreenWidth + "---ScreenHeight: " + this.ScreenHeight)
+              console.log(x, y, width, height, pageX, pageY);
+              this.settingButtonOffset.x = pageX
+              this.settingButtonOffset.y = pageY
+              AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.settingButtonOffset, JSON.stringify(this.settingButtonOffset));
+            })
+          }}
+        >
+          {this.state.refreshSettingBtn ?
+            <TouchableOpacity
+              ref={(ref) => { this.settingBtn = ref }}
+              activeOpacity={0.8}
+              onLongPress={() => { this.move.changeDisableStatus(), this.setState({ settingButtonDisabled: false }) }}
+              style={[{
+                position: "absolute",
+                transform: this.state.settingButtonDisabled ? [{ scaleX: 1 }, { scaleY: 1 }] : [{ scaleX: 1.1 }, { scaleY: 1.1 }]
+              },
+              // { bottom: 30, right: 0, }
+              this.settingButtonOffset == null ? { bottom: 30, right: 0, } :
+                {
+                  bottom: this.settingBtnPos.bottom,
+                  right: this.settingBtnPos.right
+                }
+              ]}
+              onPress={() => { this.props.navigation.navigate("Setting") }}>
+              <Image source={require('../../assets/images/ic_setting.png')} style={MyStyles.ic_setting} />
+            </TouchableOpacity>
+            : <TouchableOpacity
+              ref={(ref) => { this.settingBtn = ref }}
+              activeOpacity={0.8}
+              onLongPress={() => { this.move.changeDisableStatus(), this.setState({ settingButtonDisabled: false }) }}
+              style={[{
+                position: "absolute",
+                transform: this.state.settingButtonDisabled ? [{ scaleX: 1 }, { scaleY: 1 }] : [{ scaleX: 1.1 }, { scaleY: 1.1 }]
+              },
+              // { bottom: 30, right: 0, }
+              this.settingButtonOffset == null ? { bottom: 30, right: 0, } :
+                {
+                  bottom: this.settingBtnPos.bottom,
+                  right: this.settingBtnPos.right
+                }
+              ]}
+              onPress={() => { this.props.navigation.navigate("Setting") }}>
+              <Image source={require('../../assets/images/ic_setting.png')} style={MyStyles.ic_setting} />
+            </TouchableOpacity>
+          }
+
+        </MovableView>
+      </View >
     );
   }
 
@@ -444,7 +512,7 @@ export default class MyPageScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -475,7 +543,7 @@ export default class MyPageScreen extends React.Component {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         //현재 위치 가져옴 position = 현재위치, JSON 형태
-        console.log(position)
+        // console.log(position)
         this._getWeather(position.coords.latitude, position.coords.longitude)
       },
       (error) => {
@@ -503,7 +571,7 @@ export default class MyPageScreen extends React.Component {
   }
 
   requestUpdateQuestionnaireItem(p_questionnaire_id, p_skin_type, p_concern, p_needs) {
-    console.log(p_questionnaire_id)
+    // console.log(p_questionnaire_id)
     this.setState({
       isLoading: true,
     });
