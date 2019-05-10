@@ -1,7 +1,4 @@
-import MovableView from 'react-native-movable-view'
 import React, { Component } from 'react';
-import Draggable from 'react-native-draggable';
-
 import {
   Animated,
   Easing,
@@ -63,42 +60,18 @@ const data = {
 };
 
 export default class Basic extends Component {
-  state = {
-    disabled: true,
-  }
   render() {
     return (
       <View style={styles.container}>
-        <MovableView
-          style={{ marginTop: 200, marginLeft: 50 }}
-          ref={ref => this.move = ref}
-          onMove={values => console.warn(values)}
-          disabled={this.state.disabled}
-          onDragEnd={() => { this.move.changeDisableStatus(); this.setState({ disabled: true }) }}
-        >
-          <TouchableOpacity
-            onLongPress={() => { console.log("onLongpress"); this.move.changeDisableStatus(), this.setState({ disabled: false }) }}
-            style={{
-              width: 60, height: 60,
-              backgroundColor: 'red',
-              borderRadius: 30,
-              transform: this.state.disabled ? [{ scaleX: 0.8 }, { scaleY: 0.8 }] : [{ scaleX: 1 }, { scaleY: 1 }]
-            }}
-          />
-        </MovableView>
-        <TouchableOpacity onPress={() => { this.setState({ disabled: true }) }}>
-
-          <Text style={styles.title}>React Native Sortable List</Text>
-        </TouchableOpacity>
-
-        {/* <SortableList
+        <Text style={styles.title}>React Native Sortable List</Text>
+        <SortableList
           style={styles.list}
           contentContainerStyle={styles.contentContainer}
           data={data}
           renderRow={this._renderRow}
           manuallyActivateRows
-        /> */}
-      </View >
+        />
+      </View>
     );
   }
 

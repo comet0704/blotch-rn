@@ -168,16 +168,10 @@ class MyListRow extends React.Component {
         style={{ marginBottom: 10 }}
         disableRightSwipe={true}
         onRowOpen={(rowId) => {
-          const wAlbumIdx = _this.state.album_list.findIndex(item => item.id == data.id);
-          _this.state.album_list[wAlbumIdx].rowOpened = true
-          _this.setState(_this.state.album_list)
-          _this.setState({ opened_album_id: _this.state.album_list[wAlbumIdx].id })
+
         }}
         onRowClose={(rowId) => {
-          const wAlbumIdx = _this.state.album_list.findIndex(item => item.id == data.id);
-          _this.state.album_list[wAlbumIdx].rowOpened = false
-          _this.setState(_this.state.album_list)
-          _this.setState({ opened_album_id: 0 })
+
         }}
         rightOpenValue={-180 / 3}
       >
@@ -274,7 +268,6 @@ export default class MyListScreen extends React.Component {
       showLoginModal: false,
       addAlbumModalVisible: false,
       edit_album_id: 0, // 0  이면 add_album, > 0 이면 edit_album
-      opened_album_id: 0, // 오픈된 앨범은 requestMyList 다시 호출했을때도 open 상태 유지하도록 하기 위해 보관
       request_list_name: "",
       //  서버에서 내려오는 자료구조는 
       // "result_data": {
@@ -483,14 +476,12 @@ export default class MyListScreen extends React.Component {
               //     const order = rowId.substring(2);
               //     this.state.album_list[order].rowOpened = true
               //     this.setState(this.state.album_list)
-              //     this.setState({ opened_album_id: this.state.album_list[order].id })
               //   }}
               //   onRowClose={(rowId) => {
               //     // rowId 가 s10, s11, s12 ... s199 형식으로 들어오므로 실제 순서는 앞 두글자 없애서 계싼함
               //     const order = rowId.substring(2);
               //     this.state.album_list[order].rowOpened = false
               //     this.setState(this.state.album_list)
-              //     this.setState({ opened_album_id: 0 })
               //   }}
               //   renderRow={(data, secId, rowId, rowMap) => (
               //     <SwipeRow
@@ -698,10 +689,6 @@ export default class MyListScreen extends React.Component {
         this.setState(this.state.like_list_data)
 
         this.state.album_list = responseJson.result_data.album_list
-        // if (this.state.opened_album_id > 0) { // 열렸던 앨범이 있으면 rowOpend를 true로 설정
-        //   const index = this.state.album_list.findIndex(item => item.id === this.state.opened_album_id)
-        //   this.state.album_list[index].rowOpened = true
-        // }
         this.setState(this.state.album_list)
 
       })

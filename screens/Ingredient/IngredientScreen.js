@@ -462,14 +462,16 @@ export default class IngredientScreen extends React.Component {
               }}>
                 <Image source={require("../../assets/images/ic_potential_face.png")} style={[MyStyles.ic_potential_face]} />
                 <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View style={{ flexDirection: "row", alignItems: "center", }}>
                     <Text style={[MyStyles.ingredient_section_header_text1]}>Potential Allergens</Text>
-                    <TouchableOpacity activeOpacity={0.8} style={{
-                      backgroundColor: Colors.color_efeeee, overflow: "hidden", borderRadius: 10, marginLeft: 5,
-                      width: 15, height: 15, justifyContent: "center"
-                    }} onPress={() => { this.setState({ potentialInfoModal: true }) }}>
-                      <Text style={[MyStyles.ingredient_section_header_text1, { fontSize: 12, textAlign: "center" }]}>?</Text>
-                    </TouchableOpacity>
+                    {this.state.potentialInfoModal ? null :
+                      <TouchableOpacity activeOpacity={0.8} style={{
+                        backgroundColor: Colors.color_efeeee, overflow: "hidden", borderRadius: 10, marginLeft: 5,
+                        width: 15, height: 15, justifyContent: "center"
+                      }} onPress={() => { this.setState({ potentialInfoModal: true }) }}>
+                        <Text style={[MyStyles.ingredient_section_header_text1, { fontSize: 12, textAlign: "center" }]}>?</Text>
+                      </TouchableOpacity>
+                    }
                   </View>
                   <Text style={[MyStyles.ingredient_section_header_text2]}>+{this.countType(1)}</Text>
                 </View>
@@ -708,7 +710,12 @@ export default class IngredientScreen extends React.Component {
           <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.setState({ potentialInfoModal: false }) }}>
             <View style={MyStyles.modal_bg}>
               <View style={[MyStyles.modalContainer, { backgroundColor: "transparent", overflow: "visible" }]}>
-
+                <View style={{
+                  backgroundColor: Colors.color_efeeee, overflow: "hidden", borderRadius: 10, marginLeft: "55%", marginBottom: 5,
+                  width: 15, height: 15, justifyContent: "center"
+                }} >
+                  <Text style={[MyStyles.ingredient_section_header_text1, { fontSize: 12, textAlign: "center" }]}>?</Text>
+                </View>
                 <View>
                   <Image source={require('../../assets/images/ic_white_polygon.png')} style={[MyStyles.ic_white_polygon, { marginLeft: "55%" }]} />
                   <Text style={[MyStyles.padding_main, MyStyles.text_13_primary_dark, { width: "100%", marginTop: -3, borderRadius: 10, backgroundColor: "white" }]}>We will analyze the common ingredients of
@@ -932,7 +939,7 @@ ingredients that can cause allergies.</Text>
 
 
         this.setState({ saveToModalVisible: false, searchModalVisible: false });
-        
+
         if (responseJson.result_code < 0) {
           if (responseJson.result_code == -10) {
             Alert.alert(
