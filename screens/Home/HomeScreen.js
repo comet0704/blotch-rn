@@ -294,7 +294,7 @@ export default class HomeScreen extends React.Component {
             <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
               <Text style={{ fontSize: 13, color: "white" }}>{item.title}</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{item.content}</Text>
+              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{Common.removeHtmlTagsFromText(item.content)}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -388,13 +388,13 @@ export default class HomeScreen extends React.Component {
         <Toast ref='toast' />
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
-          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
+          <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag"
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}
                 onRefresh={this._onRefresh}
               />} >
-            <View style={{ backgroundColor: "#f8f8f8" }}>
+            <View style={{ backgroundColor: "#f8f8f8", marginTop: 25, }}>
               {/* Search bar */}
               <View style={[MyStyles.searchBoxCommon, MyStyles.container, MyStyles.bg_white]}>
                 <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />

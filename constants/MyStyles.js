@@ -1459,7 +1459,7 @@ export default StyleSheet.create({
     flex: 1, borderRadius: 20, flexDirection: "row", width: "100%", paddingLeft: 13, paddingRight: 5
   },
   searchBoxCommon: {
-    marginTop: 25, height: 46, paddingTop: 4, paddingBottom: 6, justifyContent: "center", flexDirection: "row",
+    height: 46, paddingTop: 4, paddingBottom: 6, justifyContent: "center", flexDirection: "row",
   },
   text_input_with_border: {
     padding: 10, borderColor: Colors.color_e3e5e4, borderWidth: 0.5, fontSize: 13, color: Colors.color_656565

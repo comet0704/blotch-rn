@@ -7,6 +7,7 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import AppNavigator1 from './navigation/AppNavigator1';
 import Net from './Net/Net'
+import { Constants } from 'expo';
 
 // 사용하는 대역변수 나열
 global.login_info = null
@@ -26,7 +27,7 @@ export default class App extends React.Component {
     isLogined: 0, // 0 => 상태판정못함, -1 : 비로그인, 1: 로그인
   };
 
-  
+
 
   componentWillMount() {
     // 저장해둔 async 값들 받아오기
@@ -37,7 +38,7 @@ export default class App extends React.Component {
   }
 
   async getAsyncData() {
-    
+
   }
 
   async tryLogin() {
@@ -47,10 +48,10 @@ export default class App extends React.Component {
       this.setState({ isLogined: -1 })
       // 토큰 항상 쓰는 값이므로 빈값으로 초기화라도 해주자
       global.login_info = {
-        token:""
+        token: ""
       }
     } else { // 로그인 정보가 있을때는 로그인 해보자
-      if(global.login_info.reg_type == "GOOGLE") { // 구글로그인인 경우 
+      if (global.login_info.reg_type == "GOOGLE") { // 구글로그인인 경우 
         this.requestLoginGoogle(global.login_info.email, global.login_info.user_id)
       } else {
         result2 = await AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.user_pwd)
@@ -69,7 +70,7 @@ export default class App extends React.Component {
         />
       );
     } else {
-      if(this.state.isLogined == 0) {
+      if (this.state.isLogined == 0) {
         return (
           <AppLoading
             startAsync={this._loadResourcesAsync}
@@ -80,14 +81,26 @@ export default class App extends React.Component {
       } else if (this.state.isLogined == -1) {
         return (
           <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            {/* <StatusBar backgroundColor = "white" barStyle="default" /> */}
             <AppNavigator />
           </View>
         );
       } else {
         return (
           <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            {/* <View style={styles.statusBar} />
+            <StatusBar translucent={false} backgroundColor="blue"/> */}
+            {/* <View
+              style={{
+                backgroundColor: 'red',
+                height: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
+              }}>
+              <StatusBar
+                translucent={false}
+                backgroundColor="white"
+                barStyle="light-content"
+              />
+            </View> */}
             <AppNavigator1 />
           </View>
         );
@@ -144,7 +157,7 @@ export default class App extends React.Component {
         if (responseJson.result_code < 0) {
           // 로그인 실패했으면 토큰값 초기화
           global.login_info = {
-            token:""
+            token: ""
           }
           this.setState({ isLogined: -1 })
           return;
@@ -168,7 +181,7 @@ export default class App extends React.Component {
       .done();
 
   }
-  
+
   requestLoginGoogle(p_email, p_id, p_profile_image) {
     this.setState({
       isLoading: true,
@@ -193,7 +206,7 @@ export default class App extends React.Component {
         if (responseJson.result_code < 0) {
           // 로그인 실패했으면 토큰값 초기화
           global.login_info = {
-            token:""
+            token: ""
           }
           this.setState({ isLogined: -1 })
           return;
@@ -202,7 +215,7 @@ export default class App extends React.Component {
           global.setting = responseJson.result_data.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
-          
+
           this.setState({ isLogined: 1 })
         }
 
@@ -222,4 +235,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  statusBar: {
+    backgroundColor: "red",
+    height: Constants.statusBarHeight
+  }
 });
