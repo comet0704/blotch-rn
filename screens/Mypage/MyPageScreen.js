@@ -81,7 +81,7 @@ export default class MyPageScreen extends React.Component {
     AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.settingButtonOffset, (err, result) => {
       if (result != null) {
         this.settingButtonOffset = JSON.parse(result);
-        this.settingBtnPos.bottom = Math.max(0, Math.min(this.ScreenHeight - this.TabbarHeight - this.settingButtonOffset.y - MyStyles.ic_setting.height, this.ScreenHeight - MyStyles.ic_setting.height - this.TabbarHeight))
+        this.settingBtnPos.bottom = Math.max(0, Math.min(this.ScreenHeight - MyConstants.TABBAR_HEIGHT - this.settingButtonOffset.y - MyStyles.ic_setting.height, this.ScreenHeight - MyStyles.ic_setting.height - MyConstants.TABBAR_HEIGHT))
         this.settingBtnPos.right = Math.max(0, Math.min(this.ScreenWidth - this.settingButtonOffset.x - MyStyles.ic_setting.width, this.ScreenWidth - MyStyles.ic_setting.width))
         this.setState({ refreshSettingBtn: !this.state.refreshSettingBtn })
 
@@ -189,7 +189,6 @@ export default class MyPageScreen extends React.Component {
 
   ScreenWidth = Dimensions.get('window').width;
   ScreenHeight = Dimensions.get('window').height;
-  TabbarHeight = 50;
   renderTrack() {
     return (
       <View style={{ flex: 1 }}>
