@@ -29,19 +29,20 @@ export default class ProductDetailScreen extends React.Component {
   constructor(props) {
     super(props)
     item_id = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_id)
+    this.item_info = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_info)
     this.state = {
       product_detail_result_data: {
         detail: {
           "id": 1,
-          "title": "",
-          "image_list": "",
-          "visit_count": 0,
-          "like_count": 0,
-          "comment_count": 0,
-          "grade": 0,
+          "title": this.item_info ? this.item_info.title : "",
+          "image_list": this.item_info ? this.item_info.image_list : "",
+          "visit_count": this.item_info ? this.item_info.visit_count : "",
+          "like_count": this.item_info ? this.item_info.like_count : "",
+          "comment_count": this.item_info ? this.item_info.comment_count : "",
+          "grade": this.item_info ? this.item_info.grade : "",
           "brand_id": 0,
           "is_liked": null,
-          "brand_title": ""
+          "brand_title": this.item_info ? this.item_info.brand_title : ""
         },
         product_category: [
 

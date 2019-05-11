@@ -433,7 +433,7 @@ export class FragmentRecommendProduct extends React.Component {
                   style={MyStyles.gridView}
                   spacing={10}
                   renderItem={({ item, index }) => (
-                    <TouchableOpacity activeOpacity={0.8} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
                       <View style={[MyStyles.productItemContainer]}>
                         <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
                         {item.is_liked > 0

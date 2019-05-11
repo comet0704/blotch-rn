@@ -340,7 +340,7 @@ export default class IngredientScreen extends React.Component {
           showsHorizontalScrollIndicator={false}
         >
           {this.state.mylist_result_data.potential_allergen_product_list.map(item => (
-            <TouchableOpacity activeOpacity={0.8} key={item.id} style={{ marginRight: 10 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+            <TouchableOpacity activeOpacity={0.8} key={item.id} style={{ marginRight: 10 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
               <View style={[MyStyles.productItemContainer, { width: 378 / 3 }]}>
                 <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
                 {item.is_liked > 0
