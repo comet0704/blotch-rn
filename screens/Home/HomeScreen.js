@@ -10,7 +10,7 @@ import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
 
-import Carousel from 'react-native-banner-carousel';
+import Carousel from 'react-native-carousel';
 import {
   Image,
   ScrollView,
@@ -546,20 +546,24 @@ export default class HomeScreen extends React.Component {
               }
 
               {/* 배너 부분 */}
-              <View style={{ borderTopRightRadius: 20, overflow: "hidden", marginTop: 20 }}>
-                <Carousel
-                  pageIndicatorStyle={MyStyles.pageIndicatorStyle}
-                  activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
-                  indicatorColor={'#b2fe76ab'}
-                  inactiveIndicatorColor=''
-                  autoplay={true}
-                  autoplayTimeout={3000}
-                  loop
-                  index={0}
-                  pageSize={this.BannerWidth}
-                >
-                  {this.state.result_data.banner_list.map((item, index) => this.renderBanner(item, index))}
-                </Carousel>
+              <View style={{ borderTopRightRadius: 20, overflow: "hidden", marginTop: 20, height: this.BannerHeight }}>
+
+                {this.state.result_data.banner_list.length > 0 ?
+                  <View style={{
+                    height: this.BannerHeight,
+                  }}>
+                    <Carousel
+                      delay={3000}
+                      indicatorColor="#fe76ab80"
+                      inactiveIndicatorColor="#ffffff3c"
+                      indicatorOffset={-15} // Indicator relative position from top or bottom
+                    >
+                      {this.state.result_data.banner_list.map((item, index) => this.renderBanner(item, index))}
+                    </Carousel>
+                  </View>
+                  :
+                  null
+                }
               </View>
 
               {/* Hi, It's New 부분 */}
@@ -572,48 +576,52 @@ export default class HomeScreen extends React.Component {
                   </TouchableOpacity>
 
                 </View>
-                <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, marginTop: 10 }}>
+                <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, marginTop: 10, height: 600 / 3, }}>
 
                   <View style={{ borderBottomRightRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
-                    <Carousel
-                      pageIndicatorStyle={MyStyles.pageIndicatorStyle}
-                      activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
-                      autoplay={true}
-                      onPageChanged={(index) => {
-                      }}
-                      showsPageIndicator={true}
-                      loop
-                      index={0}
 
-                      pageSize={this.BannerWidth / 2}
-                      ref={(carousel) => { this.bestCarouselIndicator = carousel }}
-                    >
-                      {this.state.result_data.banner_list2.map((item, index) => this.renderBanner2(item, index))}
-                    </Carousel>
-                    {/* <Image source={{ uri: Common.getImageUrl(this.state.bestProductBanner.image_list) }} style={[MyStyles.background_image]} />
-                    <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>{this.state.bestProductBanner.title}</Text> */}
+                    {this.state.result_data.banner_list2.length > 0 ?
+                      <View style={{
+                        height: 600 / 3,
+                      }}>
+                        <Carousel
+                          delay={2500}
+                          hideIndicators={true}
+                        >
+                          {this.state.result_data.banner_list2.map((item, index) => this.renderBanner2(item, index))}
+                        </Carousel>
+                      </View>
+                      :
+                      null
+                    }
                   </View>
 
                   <View style={{ flex: 1, justifyContent: "center" }}>
-                    <Carousel
-                      pageIndicatorStyle={MyStyles.pageIndicatorStyle}
-                      activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
-                      autoplay={false}
-                      autoplayTimeout={3500}
-                      showsPageIndicator={false}
-                      loop
-                      index={0}
-                      pageSize={this.BannerWidth / 2}
-                      ref={(carousel) => { this.newCarouselIndicator = carousel }}
-                    >
-                      {this.state.result_data.new_product_list.map((item, index) => this.renderNewProductBanner(item, index))}
-                    </Carousel>
+                    {this.state.result_data.new_product_list.length > 0 ?
+                      <View style={{
+                        height: 600 / 3,
+                        width: this.BannerWidth / 2,
+                        overflow: "hidden"
+                      }}>
+                        <Carousel
+                          hideIndicators={true}
+                          animate={true}
+                          delay={2000}
+                          width={this.BannerWidth / 2}
+                          ref={(carousel) => { this.newCarouselIndicator = carousel }}
+                        >
+                          {this.state.result_data.new_product_list.map((item, index) => this.renderNewProductBanner(item, index))}
+                        </Carousel>
+                      </View>
+                      :
+                      null}
                     <View style={{ flex: 1, width: "100%", justifyContent: "center", flexDirection: "row", position: "absolute", marginTop: 90 }}>
-                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.newCarouselIndicator.gotoPage(this.newCarouselIndicator.currentIndex - 1); }}>
+                      {/*  _animatePrevPage : 자체로 만들어준 함수, 원래서고에는 없음. 다시 다운받았을때 새롭게 만들어주어야함. */}
+                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.newCarouselIndicator._animatePrevPage(); }}>
                         <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                       <View style={{ flex: 1 }}></View>
-                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.newCarouselIndicator.gotoNextPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.newCarouselIndicator._animateNextPage(); }}>
                         <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                     </View>
@@ -632,48 +640,57 @@ export default class HomeScreen extends React.Component {
                     <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
                   </TouchableOpacity>
                 </View>
-                <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, marginTop: 10 }}>
+                <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, marginBottom: 30, marginTop: 10, height: 600 / 3, }}>
                   <View style={{ flex: 1, justifyContent: "center" }}>
-                    <Carousel
-                      pageIndicatorStyle={MyStyles.pageIndicatorStyle}
-                      activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
-                      autoplay={false}
-                      onPageChanged={(index) => {
-                      }}
-                      showsPageIndicator={false}
-                      loop
-                      index={0}
-                      pageSize={this.BannerWidth / 2}
-                      ref={(carousel) => { this.bestCarouselIndicator = carousel }}
-                    >
-                      {this.state.result_data.best_product_list.map((item, index) => this.renderBestProductBanner(item, index))}
-                    </Carousel>
+                    {this.state.result_data.best_product_list.length > 0 ?
+                      <View style={{
+                        height: 600 / 3,
+                        overflow: "hidden",
+                        width: this.BannerWidth / 2
+                      }}>
+                        <Carousel
+                          hideIndicators={true}
+                          animate={true}
+                          delay={2000}
+                          width={this.BannerWidth / 2}
+                          ref={(carousel) => { this.bestCarouselIndicator = carousel }}
+                        >
+                          {this.state.result_data.best_product_list.map((item, index) => this.renderBestProductBanner(item, index))}
+                        </Carousel>
+                      </View>
+                      :
+                      null
+                    }
                     <View style={{ flex: 1, width: "100%", justifyContent: "center", flexDirection: "row", position: "absolute", marginTop: 90 }}>
-                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.bestCarouselIndicator.gotoPage(this.bestCarouselIndicator.currentIndex - 1); }}>
+                      {/*  _animatePrevPage : 자체로 만들어준 함수, 원래서고에는 없음. 다시 다운받았을때 새롭게 만들어주어야함. */}
+                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.bestCarouselIndicator._animatePrevPage(); }}>
                         <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                       <View style={{ flex: 1 }}></View>
-                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.bestCarouselIndicator.gotoNextPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.bestCarouselIndicator._animateNextPage(); }}>
                         <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                     </View>
                   </View>
 
                   <View style={{ borderBottomLeftRadius: 15, flex: 1, overflow: "hidden", justifyContent: "center" }}>
-                    <Carousel
-                      pageIndicatorStyle={MyStyles.pageIndicatorStyle}
-                      activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
-                      autoplay={true}
-                      autoplayTimeout={2500}
-                      showsPageIndicator={true}
-                      loop
-                      index={0}
-                      pageSize={this.BannerWidth / 2}
-                    >
-                      {this.state.result_data.banner_list3.map((item, index) => this.renderBanner3(item, index))}
-                    </Carousel>
-                    {/* <Image source={{ uri: Common.getImageUrl(this.state.bestProductBanner.image_list) }} style={[MyStyles.background_image]} />
-                    <Text style={{ color: "white", fontSize: 20, fontWeight: "500", textAlign: "center", padding: 10 }}>{this.state.bestProductBanner.title}</Text> */}
+                    {this.state.result_data.banner_list3.length > 0 ?
+                      <View style={{
+                        height: 600 / 3,
+                        width: this.BannerWidth / 2
+                      }}>
+                        <Carousel
+                          hideIndicators={true}
+                          animate={true}
+                          delay={2500}
+                          width={this.BannerWidth / 2}
+                        >
+                          {this.state.result_data.banner_list3.map((item, index) => this.renderBanner3(item, index))}
+                        </Carousel>
+                      </View>
+                      :
+                      null
+                    }
                   </View>
 
                 </View>
@@ -692,19 +709,25 @@ export default class HomeScreen extends React.Component {
                   </TouchableOpacity>
                 </View>
                 <View style={{ flexDirection: "row", flex: 1, marginBottom: 30, justifyContent: "center", marginLeft: 15, marginTop: 10 }}>
-                  <View style={{ flex: 1, justifyContent: "center" }}>
-                    <Carousel
-                      pageIndicatorStyle={MyStyles.pageIndicatorStyle}
-                      activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
-                      autoplay={true}
-                      autoplayTimeout={3000}
-                      loop
-                      index={0}
-                      pageSize={this.BannerWidth - 30}
-                      style={{ alignSelf: "center", flex: 1 }}
-                    >
-                      {this.state.result_data.latest_article_list.map((item, index) => this.renderTodayArticleBanner(item, index))}
-                    </Carousel>
+                  <View style={{ flex: 1, height: 500 / 3, justifyContent: "center" }}>
+                    {this.state.result_data.banner_list3.length > 0 ?
+                      <View style={{
+                        height: 500 / 3,
+                        overflow: "hidden",
+                        width: this.BannerWidth - 30
+                      }}>
+                        <Carousel
+                          delay={3000}
+                          indicatorColor="#fe76ab80"
+                          inactiveIndicatorColor="#ffffff3c"
+                          indicatorOffset={-15} // Indicator relative position from top or bottom
+                        >
+                          {this.state.result_data.latest_article_list.map((item, index) => this.renderTodayArticleBanner(item, index))}
+                        </Carousel>
+                      </View>
+                      :
+                      null
+                    }
                   </View>
                 </View>
 
