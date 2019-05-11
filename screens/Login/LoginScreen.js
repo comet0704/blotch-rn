@@ -80,6 +80,9 @@ export default class LoginScreen extends React.Component {
   );
 
   onLoginWithFacebook = async () => {
+    this.setState({
+      isLoading: true,
+    });
     try {
       const result = await Facebook.logInWithReadPermissionsAsync(MyConstants.FACEBOOK_APP_ID, {
         permissions: ['public_profile', 'email'],
@@ -94,13 +97,22 @@ export default class LoginScreen extends React.Component {
         this.requestLoginFacebook(result_info.name, result_info.id, "");
       } else {
         // type === 'cancel'
+        this.setState({
+          isLoading: false,
+        });
       }
     } catch ({ message }) {
+      this.setState({
+        isLoading: false,
+      });
       alert(`Facebook Login Error: ${message}`);
     }
   }
 
   onLoginWithGoogle = async () => {
+    this.setState({
+      isLoading: true,
+    });
     try {
       const result = await Google.logInAsync({
         androidClientId:
@@ -116,8 +128,14 @@ export default class LoginScreen extends React.Component {
 
       } else {
         console.log("cancelled")
+        this.setState({
+          isLoading: false,
+        });
       }
     } catch (e) {
+      this.setState({
+        isLoading: false,
+      });
       console.log("error", e)
     }
   }
@@ -142,8 +160,8 @@ export default class LoginScreen extends React.Component {
               <Image source={require('../../assets/images/Login/login_bg.png')} style={MyStyles.background_image} />
               <TopbarWithWhiteBack onPress={() => { this.props.navigation.navigate('Home') }}></TopbarWithWhiteBack>
               <Image style={{ flex: 100 }} />
-              <View style={[MyStyles.h_auto, {justifyContent:"center",flexDirection:"row"}]}>
-                <Image style={{width:10}}/>
+              <View style={[MyStyles.h_auto, { justifyContent: "center", flexDirection: "row" }]}>
+                <Image style={{ width: 10 }} />
                 <Image source={require('../../assets/images/Login/logo.png')} style={[MyStyles.h_auto, MyStyles.ic_logo]} />
               </View>
               <Text style={{ marginLeft: "auto", marginRight: "auto", color: "white", marginTop: 8, fontSize: 12, fontWeight: "100" }} >Your Beauty Counselor</Text>
@@ -299,9 +317,9 @@ export default class LoginScreen extends React.Component {
 
   requestLoginGoogle(p_email, p_id, p_profile_image) {
     console.log(p_email + "_" + p_id + "_ " + p_profile_image)
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.auth.loginGoogle, {
       method: 'POST',
       headers: {
@@ -343,9 +361,9 @@ export default class LoginScreen extends React.Component {
   }
 
   requestLoginFacebook(p_email, p_id, p_profile_image) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.auth.loginFacebook, {
       method: 'POST',
       headers: {

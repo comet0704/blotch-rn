@@ -354,9 +354,9 @@ export class FragmentProductDetailIngredients extends React.Component {
   }
 
   requestIngredientList(p_product_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.product.ingredientList, {
       method: 'POST',
       headers: {
@@ -371,9 +371,9 @@ export class FragmentProductDetailIngredients extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.props.toast.showBottom(responseJson.result_msg);
@@ -385,9 +385,9 @@ export class FragmentProductDetailIngredients extends React.Component {
 
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
         this.props.toast.showBottom(error);
       })
       .done();
@@ -395,9 +395,9 @@ export class FragmentProductDetailIngredients extends React.Component {
 
   requestUserIngredientList(p_questionnaire_id) {
     console.log(p_questionnaire_id);
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.ingredient.userIngredientList, {
       method: 'POST',
       headers: {
@@ -412,9 +412,9 @@ export class FragmentProductDetailIngredients extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.props.toast.showBottom(responseJson.result_msg);
@@ -428,9 +428,9 @@ export class FragmentProductDetailIngredients extends React.Component {
       })
       .catch((error) => {
         console.log("22222222")
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
         this.props.toast.showBottom(error);
       })
       .done();
@@ -537,9 +537,9 @@ export class FragmentProductDetailIngredients extends React.Component {
   }
 
   requestQuestionnaireList() {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.user.questionnaireList, {
       method: 'POST',
       headers: {
@@ -553,9 +553,9 @@ export class FragmentProductDetailIngredients extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.props.toast.showBottom(responseJson.result_msg);
@@ -577,9 +577,9 @@ export class FragmentProductDetailIngredients extends React.Component {
 
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
         this.props.toast.showBottom(error);
       })
       .done();
