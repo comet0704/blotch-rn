@@ -10,7 +10,7 @@ import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
 
-import Carousel from 'react-native-banner-carousel';
+import Carousel from 'react-native-carousel';
 import { Image, Dimensions, Share, TouchableHighlight, Modal, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import { LinearGradient } from 'expo';
@@ -60,13 +60,20 @@ export default class ProductDetailScreen extends React.Component {
 
       ]
     };
+    this._isMounted = false;
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.requestProductDetail(item_id)
     if (global.login_info.token.length > 0) {
       this.requestMyList()
     }
+  }
+
+  componentWillUnmount() {
+
+    this._isMounted = false;
   }
 
   onShare = async () => {
@@ -99,15 +106,13 @@ export default class ProductDetailScreen extends React.Component {
   };
 
   BannerHeight = 760 / 3;
-  BannerWidth = Dimensions.get('window').width - 30;
+  BannerWidth = Dimensions.get('window').width;
   renderImages(image, index) {
     return (
-      <View key={index} style={MyStyles.shadow_2}>
-        <TouchableHighlight>
-          <View>
-            <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(image) }} />
-          </View>
-        </TouchableHighlight>
+      <View key={index} style={[MyStyles.shadow_2, { borderRadius: 10, overflow: "hidden", marginHorizontal: 5 }]}>
+        <View>
+          <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(image) }} />
+        </View>
       </View>
     );
   }
@@ -132,22 +137,25 @@ export default class ProductDetailScreen extends React.Component {
           <View style={[{ flex: 1 }]}>
 
             {/* 이미지 부분 */}
-            <View style={[{ overflow: "hidden", marginTop: 5, justifyContent: "center", alignSelf: "center", width: this.BannerWidth, height: this.BannerHeight, borderRadius: 10 }]}>
+            <View style={[{ overflow: "hidden", marginTop: 5, justifyContent: "center", alignItems: "center", alignSelf: "center", width: this.BannerWidth, height: this.BannerHeight }]}>
               {this.state.product_detail_result_data.detail.image_list.length > 0 ?
-                <View>
+                <View
+                  style={{
+                    height: this.BannerHeight,
+                    width: this.BannerWidth - 30
+                  }}
+                >
                   <Carousel
-                    pageIndicatorStyle={MyStyles.pageIndicatorStyle}
-                    activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
-                    autoplay
-                    autoplayTimeout={3000}
-                    onPageChanged={(index) => {
+                    delay={3000}
+                    indicatorColor="#fe76ab80"
+                    inactiveIndicatorColor="#ffffff3c"
+                    indicatorOffset={-15} // Indicator relative position from top or bottom
+                    onPageChange={(index) => {
                       this.state.curImageIdx = index + 1;
                       this.setState({ curImageIdx: this.state.curImageIdx })
                     }}
-                    loop
                     index={0}
-                    showsPageIndicator={false}
-                    pageSize={this.BannerWidth}
+                    hideIndicators={true}
                   >
                     {this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).map((image, index) => this.renderImages(image, index))}
                   </Carousel>
@@ -161,11 +169,11 @@ export default class ProductDetailScreen extends React.Component {
               {
                 this.state.product_detail_result_data.detail.is_liked > 0
                   ?
-                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(this.state.product_detail_result_data.detail.id) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item1]} onPress={() => { this.requestProductUnlike(this.state.product_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
                   :
-                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(this.state.product_detail_result_data.detail.id) }}>
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item1]} onPress={() => { this.requestProductLike(this.state.product_detail_result_data.detail.id) }}>
                     <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                   </TouchableOpacity>
               }
@@ -332,9 +340,11 @@ export default class ProductDetailScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
-        this.setState({
-          product_detail_result_data: responseJson.result_data
-        });
+        if (this._isMounted) {
+          this.setState({
+            product_detail_result_data: responseJson.result_data
+          });
+        }
       })
       .catch((error) => {
         this.setState({
@@ -379,7 +389,9 @@ export default class ProductDetailScreen extends React.Component {
         } else {
           this.state.product_detail_result_data.detail.user_match = "B"
         }
-        this.setState({ product_detail_result_data: this.state.product_detail_result_data })
+        if (this._isMounted) {
+          this.setState({ product_detail_result_data: this.state.product_detail_result_data })
+        }
         global.refreshStatus.mylist = true
       })
       .catch((error) => {

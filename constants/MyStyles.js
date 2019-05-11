@@ -194,6 +194,13 @@ export default StyleSheet.create({
     right: 13,
     top: 13,
   },
+  heart_in_item1: {
+    width: 61 / 3,
+    height: 51 / 3,
+    position: "absolute",
+    right: 100 / 3,
+    top: 13,
+  },
   heart: {
     width: 56 / 3,
     height: 48 / 3,
