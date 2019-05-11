@@ -295,7 +295,7 @@ export default class ProductDetailScreen extends React.Component {
 
               <View style={{ flex: 1 }}>
                 <ModalDropdown ref="dropdown_2"
-                  style={[MyStyles.dropdown_2, { height: 30, width: 250 / 3, marginRight: 15 }]}
+                  style={[MyStyles.dropdown_2, { height: 30, width: 280 / 3, marginRight: 15 }]}
                   defaultIndex={0}
                   defaultValue="Save as ▾"
                   textStyle={MyStyles.dropdown_2_text}
