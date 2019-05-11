@@ -10,7 +10,7 @@ import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
 
-import Carousel from 'react-native-banner-carousel';
+import Carousel from 'react-native-carousel';
 import {
   KeyboardAvoidingView,
   View,
@@ -66,7 +66,7 @@ export class FragmentBestProduct extends React.Component {
           <View>
             <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
-              <Text style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{item.title}</Text>
+              <Text style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{Common.removeHtmlTagsFromText(item.title)}</Text>
               <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</Text>
             </View>
           </View>
@@ -166,18 +166,27 @@ export class FragmentBestProduct extends React.Component {
             <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
             {/* 배너 부분 */}
-            <View style={{ overflow: "hidden" }}>
-              <Carousel
-                pageIndicatorStyle={MyStyles.pageIndicatorStyle}
-                activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
-                autoplay
-                autoplayTimeout={3000}
-                loop
-                index={0}
-                pageSize={this.BannerWidth}
-              >
-                {this.state.banner_list2_result_data.list.map((item, index) => this.renderBanner(item, index))}
-              </Carousel>
+            <View style={{
+              overflow: "hidden",
+              height: this.BannerHeight,
+            }}>
+              {this.state.banner_list2_result_data.list.length > 0 ?
+                <View style={{
+                  height: this.BannerHeight,
+                  width: this.BannerWidth
+                }}>
+                  <Carousel
+                    delay={3000}
+                    indicatorColor="#fe76ab80"
+                    inactiveIndicatorColor="#ffffff3c"
+                    indicatorOffset={-15} // Indicator relative position from top or bottom
+                    index={0}
+                  >
+                    {this.state.banner_list2_result_data.list.map((item, index) => this.renderBanner(item, index))}
+                  </Carousel>
+                </View>
+                :
+                null}
             </View>
 
             {/* 카테고리 나열 부분 */}

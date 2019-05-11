@@ -218,7 +218,7 @@ export default class BannerDetailScreen extends React.Component {
           <View style={[{ flex: 1 }]}>
             {/* Title and Image */}
             <View style={[MyStyles.padding_main]}>
-              <Text style={{ color: Colors.primary_dark, fontSize: 21 }}>{this.state.banner_detail_result_data.detail.title}</Text>
+              <Text style={{ color: Colors.primary_dark, fontSize: 21 }}>{Common.removeHtmlTagsFromText(this.state.banner_detail_result_data.detail.title)}</Text>
               <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
                 <Image style={{ flex: 1 }} />
                 <Image source={require("../../assets/images/ic_heart_gray.png")} style={MyStyles.ic_heart_gray} />

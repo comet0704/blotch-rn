@@ -124,7 +124,7 @@ export default class ArticlesScreen extends React.Component {
             }
             <View style={[MyStyles.banner_title]}>
               <Text style={{ fontSize: 13, color: "white" }}>{item.title}</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{item.content}</Text>
+              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{Common.removeHtmlTagsFromText(item.content)}</Text>
             </View>
           </View>
         </TouchableOpacity>
