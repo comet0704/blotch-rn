@@ -86,6 +86,7 @@ export default {
   Loading_text: "Loading...",
   ASYNC_PARAMS: {
     login_info: "LoginInfo",
+    read_msgs: "read_msgs",
     settingButtonOffset: "settingButtonOffset",
     setting: "setting",
     recent_search_words: "recent_search_words",

@@ -57,6 +57,7 @@ export default {
     return (returnValue > 30 ? (returnValue / 30).toFixed(1) + "M" : returnValue + "days")
   },
 
+  // 차이나는 날짜수 돌려줌 : 2019-05-01 - 2019-05-12 = 11
   dateDiff(_date1, _date2) {
     var diffDate_1 = _date1 instanceof Date ? _date1 : new Date(_date1);
     var diffDate_2 = _date2 instanceof Date ? _date2 : new Date(_date2);

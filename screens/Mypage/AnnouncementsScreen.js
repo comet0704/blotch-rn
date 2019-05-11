@@ -35,6 +35,7 @@ export default class AnnouncementsScreen extends React.Component {
         ]
       }
     };
+    this.wReadMsgs = []
   }
 
   componentDidMount() {
@@ -43,6 +44,15 @@ export default class AnnouncementsScreen extends React.Component {
 
   beforeSelectedFaqItem = -1;
   onAnnounceItemSelected = (index) => {
+    if (this.wReadMsgs.findIndex(item => item.id == this.state.result_data.announce_list[index].id && item.type == this.state.result_data.announce_list[index].type) < 0) {
+      // 30일 안된 공지에 대해서만 체크, 30일 지난 공지는 무조건 읽음처리
+      if (Common.dateDiff(this.state.result_data.announce_list[index].create_date.substring(0, 10), new Date()) < 30) {
+        this.wReadMsgs.push({ id: this.state.result_data.announce_list[index].id, type: this.state.result_data.announce_list[index].type }) // id 와 type 2개가 있어야 식별할수 있음. 서버에서 UNION으로 내려보내는 자료인 이유로 인함.
+        AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.read_msgs, JSON.stringify(this.wReadMsgs));
+        this.state.result_data.announce_list[index].isUnread = false
+      }
+    }
+
     faq_item_list = this.state.result_data.announce_list;
     try {
       faq_item_list[this.beforeSelectedFaqItem].is_selected = false
@@ -83,10 +93,17 @@ export default class AnnouncementsScreen extends React.Component {
             <View key={index}>
               {item.type == 0 ? // notice 일때
                 <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.onAnnounceItemSelected(index) }}>
-                  <Image style={MyStyles.ic_announce_comment} source={require('../../assets/images/ic_announce_notice.png')} />
+                  <View>
+                    <Image style={MyStyles.ic_announce_comment} source={require('../../assets/images/ic_announce_notice.png')} />
+                    {
+                      item.isUnread == false ? null :
+                        <View style={MyStyles.unread_mark} />
+                    }
+
+                  </View>
                   <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
                     <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
-                    <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0,10)}</Text>
+                    <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0, 10)}</Text>
                   </View>
                   {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :
                     <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_down_gray_small.png')} />}
@@ -94,12 +111,28 @@ export default class AnnouncementsScreen extends React.Component {
 
                 :
                 item.type == 1 ? // comment_alert 일때
-                  <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
-                    <Image style={MyStyles.ic_announce_notice} source={require('../../assets/images/ic_announce_comment.png')} />
+                  <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]}
+                    onPress={() => {
+                      // 30일 안된 공지에 대해서만 체크, 30일 지난 공지는 무조건 읽음처리
+                      if (Common.dateDiff(this.state.result_data.announce_list[index].create_date.substring(0, 10), new Date()) < 30) {
+                        this.wReadMsgs.push({ id: this.state.result_data.announce_list[index].id, type: this.state.result_data.announce_list[index].type }) // id 와 type 2개가 있어야 식별할수 있음. 서버에서 UNION으로 내려보내는 자료인 이유로 인함.
+                        AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.read_msgs, JSON.stringify(this.wReadMsgs));
+                        this.state.result_data.announce_list[index].isUnread = false
+                        this.setState({ result_data: this.state.result_data })
+                      }
+                      this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+                    }}>
+                    <View>
+                      <Image style={MyStyles.ic_announce_notice} source={require('../../assets/images/ic_announce_comment.png')} />
+                      {
+                        item.isUnread == false ? null :
+                          <View style={MyStyles.unread_mark} />
+                      }
+                    </View>
 
                     <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
                       <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>There are {item.title} comments on my answer.</Text>
-                      <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0,10)}</Text>
+                      <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0, 10)}</Text>
                     </View>
                     {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :
                       <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_down_gray_small.png')} />}
@@ -107,11 +140,16 @@ export default class AnnouncementsScreen extends React.Component {
 
                   : // contact us 답변내용일때
                   <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.onAnnounceItemSelected(index) }}>
-                    <Image style={MyStyles.ic_announce_contact_us} source={require('../../assets/images/ic_announce_contact_us.png')} />
-
+                    <View>
+                      <Image style={MyStyles.ic_announce_contact_us} source={require('../../assets/images/ic_announce_contact_us.png')} />
+                      {
+                        item.isUnread == false ? null :
+                          <View style={MyStyles.unread_mark} />
+                      }
+                    </View>
                     <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
                       <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
-                      <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0,10)}</Text>
+                      <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0, 10)}</Text>
                     </View>
                     {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :
                       <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_down_gray_small.png')} />}
@@ -148,7 +186,7 @@ export default class AnnouncementsScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -164,15 +202,60 @@ export default class AnnouncementsScreen extends React.Component {
         if (responseJson.result_data.announce_list.length < MyConstants.ITEMS_PER_PAGE) {
           this.setState({ loading_end: true })
         }
+
         if (p_offset == 0) {
-          this.setState({
-            result_data: responseJson.result_data
-          });
-          return;
+          AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.read_msgs, (err, result) => {
+            if (result == null) {
+              this.wReadMsgs = []
+            } else {
+              this.wReadMsgs = JSON.parse(result);
+            }
+            console.log(this.wReadMsgs);
+            responseJson.result_data.announce_list.forEach((item1, index1) => {
+              // 한달 안된 알림중에서 읽지 않은 알림을 추출한다. 알림은 읽기처리 해준다.
+              if (Common.dateDiff(item1.create_date.substring(0, 10), new Date()) < 30) {
+                this.wReadMsgs.forEach((item, index) => {
+                  if ((item.type == item1.type) && (item.id == item1.id)) {
+                    responseJson.result_data.announce_list[index1].isUnread = false
+                  } else {
+                  }
+                })
+              } else {
+                responseJson.result_data.announce_list[index1].isUnread = false
+              }
+            })
+            this.setState({
+              result_data: responseJson.result_data
+            });
+            return;
+          })
+        } else {
+          const announce_list = this.state.result_data.announce_list
+          AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.read_msgs, (err, result) => {
+            if (result == null) {
+              this.wReadMsgs = []
+            } else {
+              this.wReadMsgs = JSON.parse(result);
+            }
+            responseJson.result_data.announce_list.forEach((item1, index1) => {
+              // 한달 안된 알림중에서 읽지 않은 알림을 추출한다. 알림은 읽기처리 해준다.
+              if (Common.dateDiff(item1.create_date.substring(0, 10), new Date()) < 30) {
+                this.wReadMsgs.forEach((item, index) => {
+                  if ((item.type == item1.type) && (item.id == item1.id)) {
+                    responseJson.result_data.announce_list[index1].isUnread = false
+                  } else {
+                  }
+                })
+              } else {
+                responseJson.result_data.announce_list[index1].isUnread = false
+              }
+            })
+            result = { announce_list: [...announce_list, ...responseJson.result_data.announce_list] };
+            this.setState({ result_data: result })
+            return;
+          }
+          )
         }
-        const announce_list = this.state.result_data.announce_list
-        result = { announce_list: [...announce_list, ...responseJson.result_data.announce_list] };
-        this.setState({ result_data: result })
       })
       .catch((error) => {
         this.setState({

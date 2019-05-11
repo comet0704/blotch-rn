@@ -457,7 +457,7 @@ export default class HomeScreen extends React.Component {
                     {this.state.weatherInfo.icon.length > 0 ?
                       <View style={{ alignSelf: "center", marginLeft: 10, justifyContent: "center" }}>
                         <Image source={{ uri: this.state.weatherInfo.icon }} style={{ width: 50, height: 50, alignSelf: "center" }} />
-                        <Text style={{ fontSize: 13, color: "white", alignSelf: "center", marginTop: -15 }}>{this.state.weatherInfo.city + "." + parseFloat(this.state.weatherInfo.temp - 273.15).toFixed(0).toString() + "˚C"}</Text>
+                        <Text style={{ fontSize: 13, color: "white", alignSelf: "center", marginTop: -10 }}>{this.state.weatherInfo.city + "." + parseFloat(this.state.weatherInfo.temp - 273.15).toFixed(0).toString() + "˚C"}</Text>
                       </View>
                       :
                       <View style={{ alignSelf: "center", marginLeft: 10, width: 50, justifyContent: "center" }}>

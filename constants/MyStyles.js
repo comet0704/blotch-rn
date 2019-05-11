@@ -1572,5 +1572,8 @@ export default StyleSheet.create({
   },
   switch_cover: {
     borderRadius: 50, transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }]
+  },
+  unread_mark: {
+    position: "absolute", top: -8, right: -4, width: 4, height: 4, backgroundColor: Colors.primary_purple, borderRadius: 10,
   }
 });
