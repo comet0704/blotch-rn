@@ -15,6 +15,7 @@ import { ImagePicker } from 'expo';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import MyStyles from '../../constants/MyStyles';
 import Net from '../../Net/Net';
+import { LinearGradient } from 'expo';
 
 export default class AboutUsScreen extends React.Component {
 
@@ -34,6 +35,7 @@ export default class AboutUsScreen extends React.Component {
         </View>
         <View style={{ position: "absolute", top: 0, width: "100%", }}>
           <TopbarWithBlackBack title="About Us" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+          <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         </View>
         {/* </ScrollView> */}
       </KeyboardAvoidingView>
