@@ -35,7 +35,7 @@ export default class FavoriteArticlesScreen extends React.Component {
 
   renderArticle(item, index) {
     return (
-      <TouchableOpacity activeOpacity={0.8} key={item.id} style={[MyStyles.container, { flex: 1 }]} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+      <TouchableOpacity activeOpacity={0.8} key={item.id} style={[MyStyles.container, { flex: 1 }]} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
         <View style={[{ marginTop: 15, flex: 1, flexDirection: "row", alignItems: "center" }]}>
           {item.image != "" ?
             <View style={{ width: 316 / 3, height: 230 / 3, borderRadius: 5, overflow: "hidden", marginRight: 10 }}>
@@ -132,7 +132,7 @@ export default class FavoriteArticlesScreen extends React.Component {
       })
       .done();
   }
-  
+
   requestArticleUnlike(p_article_id) {
     // this.setState({
     //   isLoading: true,

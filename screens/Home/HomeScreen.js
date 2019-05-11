@@ -179,7 +179,7 @@ export default class HomeScreen extends React.Component {
           if (item.is_direct_link > 0) {
             Linking.openURL(Common.getLinkUrl(item.url))
           } else {
-            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item })
           }
         }}>
           <View>
@@ -201,7 +201,7 @@ export default class HomeScreen extends React.Component {
           if (item.is_direct_link > 0) {
             Linking.openURL(Common.getLinkUrl(item.url))
           } else {
-            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item })
           }
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
@@ -219,7 +219,7 @@ export default class HomeScreen extends React.Component {
           if (item.is_direct_link > 0) {
             Linking.openURL(Common.getLinkUrl(item.url))
           } else {
-            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item })
           }
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
@@ -289,7 +289,7 @@ export default class HomeScreen extends React.Component {
   renderTodayArticleBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 166, flex: 1 }}>
-        <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
             <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
@@ -312,7 +312,7 @@ export default class HomeScreen extends React.Component {
         >
           {this.state.result_data.trend_article_list.map(item => (
             <View key={item.id} style={{ width: 150, height: 75, flex: 1, marginRight: 10 }}>
-              <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
                   <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
                   <View style={{ position: "absolute", bottom: 5, left: 5, maxWidth: 120 }}>

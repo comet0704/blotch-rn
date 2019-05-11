@@ -21,19 +21,21 @@ export default class BannerDetailScreen extends React.Component {
   offset = 0;
   constructor(props) {
     super(props);
+    this.item_info = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_info)
     this.state = {
       loading_end: false,
       reportModalVisible: false,
       banner_detail_result_data: {
         detail: {
           "id": 0,
-          "title": "",
-          "image": "",
-          "url": null,
-          "like_count": 0,
-          "visit_count": 0,
-          "comment_count": 0,
-          "content": ""
+          "title": this.item_info ? this.item_info.title : "",
+          "image": this.item_info ? this.item_info.image : "",
+          "url": this.item_info ? this.item_info.url : "",
+          "content": this.item_info ? this.item_info.content : "",
+          "is_liked": this.item_info ? this.item_info.is_liked : null,
+          "like_count": this.item_info ? this.item_info.like_count : 0,
+          "visit_count": this.item_info ? this.item_info.visit_count : 0,
+          "comment_count": this.item_info ? this.item_info.comment_count : 0
         }
       },
       banner_comment_list_result_data: {
@@ -228,7 +230,7 @@ export default class BannerDetailScreen extends React.Component {
 
             {/* Description */}
             <View style={{ height: 780 / 3, flex: 1, marginTop: 5 }}>
-              <Image style={MyStyles.background_image} source={{ uri: Common.getImageUrl(this.state.banner_detail_result_data.detail.image) }} />
+              <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(this.state.banner_detail_result_data.detail.image) }} />
               {
                 this.state.banner_detail_result_data.detail.is_liked > 0
                   ?

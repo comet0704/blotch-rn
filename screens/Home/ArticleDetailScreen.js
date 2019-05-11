@@ -21,20 +21,22 @@ export default class ArticleDetailScreen extends React.Component {
   offset = 0;
   constructor(props) {
     super(props);
+
+    this.item_info = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_info)
     this.state = {
       loading_end: false,
       reportModalVisible: false,
       article_detail_result_data: {
         detail: {
-          "id": 1,
-          "title": "기사1",
-          "image": "uploads/product/caleb-simpson-1394514-unsplash.jpg",
-          "url": "www.naver.com",
-          "content": "기사내용입니다.",
-          "is_liked": null,
-          "like_count": 14,
-          "visit_count": 15,
-          "comment_count": 5
+          "id": 0,
+          "title": this.item_info ? this.item_info.title : "",
+          "image": this.item_info ? this.item_info.image : "",
+          "url": this.item_info ? this.item_info.url : "",
+          "content": this.item_info ? this.item_info.content : "",
+          "is_liked": this.item_info ? this.item_info.is_liked : null,
+          "like_count": this.item_info ? this.item_info.like_count : 0,
+          "visit_count": this.item_info ? this.item_info.visit_count : 0,
+          "comment_count": this.item_info ? this.item_info.comment_count : 0
         }
       },
       article_comment_list_result_data: {
@@ -327,9 +329,9 @@ export default class ArticleDetailScreen extends React.Component {
   }
 
   requestArticleDetail(p_article_id) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.article.detail, {
       method: 'POST',
       headers: {
@@ -344,7 +346,7 @@ export default class ArticleDetailScreen extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
-          isLoading: false,
+          // isLoading: false,
           article_detail_result_data: responseJson.result_data
         });
         if (responseJson.result_code < 0) {
@@ -354,9 +356,9 @@ export default class ArticleDetailScreen extends React.Component {
 
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
         this.refs.toast.showBottom(error);
       })
       .done();
@@ -364,9 +366,9 @@ export default class ArticleDetailScreen extends React.Component {
   }
 
   requestArticleCommentList(p_article_id, p_offset) {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     return fetch(Net.article.commentList, {
       method: 'POST',
       headers: {
@@ -381,9 +383,9 @@ export default class ArticleDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -408,9 +410,9 @@ export default class ArticleDetailScreen extends React.Component {
         this.setState({ article_comment_list_result_data: result })
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
         this.refs.toast.showBottom(error);
       })
       .done();

@@ -60,7 +60,7 @@ export class FragmentNewProduct extends React.Component {
           if (item.is_direct_link > 0) {
             Linking.openURL(Common.getLinkUrl(item.url))
           } else {
-            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+            this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item })
           }
         }}>
           <View>

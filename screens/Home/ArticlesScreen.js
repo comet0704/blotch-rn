@@ -56,7 +56,7 @@ export default class ArticlesScreen extends React.Component {
         if (item.is_direct_link) {
           Linking.openURL(Common.getLinkUrl(item.url))
         } else {
-          this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id })
+          this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item })
         }
       }
       }>
@@ -109,7 +109,7 @@ export default class ArticlesScreen extends React.Component {
   renderTodayArticleBanner(item, index) {
     return (
       <View key={index} style={{ width: "100%", height: 550 / 3, flex: 1 }}>
-        <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+        <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
           <View style={{ flex: 1, overflow: "hidden" }}>
             <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
             {
