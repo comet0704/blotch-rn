@@ -103,7 +103,7 @@ export default class MyPageScreen extends React.Component {
 
   renderOneLineInfoSection() {
     return (
-      <View style={[{ marginTop: 20 }]}>
+      <View style={[{ marginTop: 10 }]}>
         <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
           <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
           {Common.isNeedToAddQuestionnaire() ? null :
@@ -119,10 +119,9 @@ export default class MyPageScreen extends React.Component {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          paddingTop: 10,
           paddingLeft: 15,
           paddingRight: 15,
-          paddingBottom: 20
+          paddingBottom: 15
         }}>
           {Common.isNeedToAddQuestionnaire() ?
             <TouchableOpacity style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_h_10]}
@@ -257,7 +256,7 @@ export default class MyPageScreen extends React.Component {
                   {this.state.weatherInfo.icon.length > 0 ?
                     <Image source={{ uri: this.state.weatherInfo.icon }} style={[{ alignSelf: "center" }, MyStyles.weather_icon]} />
                     :
-                    null
+                    <Image style={[{ alignSelf: "center" }, MyStyles.weather_icon]} />
                   }
                   <Text style={[MyStyles.meta_text]}>Weather</Text>
                   <TouchableOpacity style={{ position: "absolute", top: 0, right: 0, padding: 5 }} onPress={() => { this.requestGetMyPosition() }}>
@@ -298,44 +297,32 @@ export default class MyPageScreen extends React.Component {
 
 
               {/* It's dry today, Moisturize your face, You're interedsted in Whitening */}
-              <View style={[{ flex: 1 }, MyStyles.padding_h_main]}>
-                <View style={[MyStyles.ic_one_line_desc_box]}>
-                  <Image source={require('../../assets/images/ic_weather_type1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_weather_type1]} />
-                  <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {"dry"}</Text> today</Text>
+
+              <View style={[{ flex: 1, minHeight: 125, marginTop: 5 }, MyStyles.padding_h_main]}>
+                <View style={[{ flex: 1, backgroundColor: "white", borderRadius: 5 }, MyStyles.shadow_2, MyStyles.padding_h_main, MyStyles.padding_v_10]}>
+                  <Text style={[{ fontSize: 15, fontWeight: "500", color: Colors.primary_dark }]}>Beauty Advice</Text>
+                  <View style={[MyStyles.seperate_line_e5e5e5, { marginTop: 10, marginBottom: 10 }]} />
+                  {this.state.refreshOneLineInfo ?
+                    !(Common.isNeedToAddQuestionnaire()) ?
+                      <View>
+                        <View style={[{ flexDirection: "row", color: "white" }]}>
+                          <Text style={{ color: Colors.color_656565, fontSize: 13, }}><Text style={{}}>{this.state.oneline_review_en} </Text></Text>
+                        </View>
+                      </View>
+                      : null
+                    :
+                    !(Common.isNeedToAddQuestionnaire()) ?
+                      <View>
+                        <View style={[{ flexDirection: "row", color: "white" }]}>
+                          <Text style={{ color: Colors.color_656565, fontSize: 13, }}><Text style={{}}>{this.state.oneline_review_en} </Text></Text>
+                        </View>
+                      </View>
+                      : null
+                  }
                 </View>
-
-                {this.state.refreshOneLineInfo ?
-                  Common.isNeedToAddQuestionnaire() ?
-                    null :
-                    <View>
-                      <View style={[MyStyles.ic_one_line_desc_box]}>
-                        <Image source={require('../../assets/images/ic_face_type1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_weather_type1]} />
-                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{this.state.oneline_review_en} </Text></Text>
-                      </View>
-                      <View style={[MyStyles.ic_one_line_desc_box]}>
-                        <Image source={require('../../assets/images/ic_snow1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_snow1]} />
-                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern}</Text></Text>
-                      </View>
-                    </View>
-                  :
-                  Common.isNeedToAddQuestionnaire() ?
-                    null :
-                    <View>
-                      <View style={[MyStyles.ic_one_line_desc_box]}>
-                        <Image source={require('../../assets/images/ic_face_type1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_weather_type1]} />
-                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{this.state.oneline_review_en} </Text></Text>
-                      </View>
-                      <View style={[MyStyles.ic_one_line_desc_box]}>
-                        <Image source={require('../../assets/images/ic_snow1.png')} style={[{ alignSelf: "center" }, MyStyles.ic_snow1]} />
-                        <Text style={{ color: Colors.color_212122, fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern}</Text></Text>
-                      </View>
-                    </View>
-                }
-
               </View>
 
               {/* We recommend It! 로그인 했을때 나타나는 정보 */}
-
               {this.state.refreshOneLineInfo ?
                 this.renderOneLineInfoSection()
                 :
