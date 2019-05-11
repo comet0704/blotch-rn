@@ -152,7 +152,7 @@ export class FragmentProductDetailReviews extends React.Component {
           <View style={{ flex: 1, marginLeft: 10 }}>
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
               <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
-              {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 50 / 3 }]}>Me</Text> : null}
+              {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 55 / 3 }]}>Me</Text> : null}
               <StarRating
                 disabled={false}
                 maxStars={5}
@@ -332,6 +332,7 @@ export class FragmentProductDetailReviews extends React.Component {
   };
 
   render() {
+    const _this = this.props.this;
     const progressBlotchStyle = {
       backgroundColor: Colors.ingredient_allergic_dark,
       height: 6,
@@ -457,7 +458,15 @@ export class FragmentProductDetailReviews extends React.Component {
                 }}
                 multiline={true}
                 style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
-              <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 10, marginTop: 5 }} onPress={() => { this.setState({ photoModalVisible: true }) }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 10, marginTop: 5 }} onPress={async () => {
+                await this.setState({ photoModalVisible: true })
+                _this.setState({ visible_bottom_bar: false })
+                // 스크롤 맨 아래로 내려야 함.
+                this.interval = setInterval(() => {
+                  _this.wScrollView.scrollToEnd({ animated: true })
+                  clearInterval(this.interval)
+                }, 100)
+              }}>
                 <Image source={require("../../assets/images/ic_gallery.png")} style={[MyStyles.ic_gallery]} />
               </TouchableOpacity>
               <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.onPostSend() }}>
@@ -481,8 +490,9 @@ export class FragmentProductDetailReviews extends React.Component {
                 }}
                 fullStarColor={Colors.color_star_full}
               />
-              {/* <Image source={require("../../assets/images/ic_arrow_down_gray_small.png")} style={[MyStyles.ic_arrow_down_gray_small, { position: "absolute", right: 10 }]} /> */}
             </View>
+
+
 
             {/* // 리뷰작성후 다시 페지 진입시 원래 작성내용 보여주는 기능 막음
             회원이 올린 리뷰사진은 새로 올리는 사진이 없는 경우에만 현시 */}
@@ -515,10 +525,39 @@ export class FragmentProductDetailReviews extends React.Component {
                 <Image source={{ uri: this.state.review_photos.length > 4 ? this.state.review_photos[4].uri : null }} style={[MyStyles.review_photo]} />
               </View>
               : null}
-
+            {this.state.photoModalVisible ?
+              <View style={[{ height: 800 / 3, width: "100%", justifyContent: "center", alignItems: "center", backgroundColor: Colors.color_f8f8f8 }, MyStyles.shadow_2]}>
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center" }} onPress={() => {
+                    _this.setState({ visible_bottom_bar: true })
+                    this._pickImageFromCamera()
+                  }}>
+                    <Image source={require("../../assets/images/ic_camera_big.png")} style={MyStyles.ic_camera_big} />
+                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 50, justifyContent: "center" }} onPress={() => {
+                    _this.setState({ visible_bottom_bar: true })
+                    this._pickImageFromGallery()
+                  }}>
+                    <Image source={require("../../assets/images/ic_gallery_big.png")} style={MyStyles.ic_gallery_big} />
+                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</Text>
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", top: 0, right: 0 }]} onPress={() => {
+                  this.setState({ photoModalVisible: false });
+                  _this.setState({ visible_bottom_bar: true })
+                }}>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                </TouchableOpacity>
+              </View>
+              :
+              null}
           </View>
 
-          {this.state.product_comment_list_result_data.comment_list.map((item, index) => this.renderComment(item, index))}
+          {
+            this.state.photoModalVisible ? null :
+              this.state.product_comment_list_result_data.comment_list.map((item, index) => this.renderComment(item, index))
+          }
 
         </View>
 
@@ -562,7 +601,7 @@ export class FragmentProductDetailReviews extends React.Component {
         </Modal>
 
         {/* 갤러리 picker  팝업 */}
-        <Modal
+        {/* <Modal
           animationType="slide"
           transparent={true}
           visible={this.state.photoModalVisible}
@@ -585,7 +624,7 @@ export class FragmentProductDetailReviews extends React.Component {
               </View>
             </View>
           </TouchableWithoutFeedback>
-        </Modal>
+        </Modal> */}
 
         {/* image zoom viewer */}
         <Modal visible={this.state.zoomViewerModalVisible} transparent={true}

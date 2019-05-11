@@ -59,7 +59,8 @@ export default class ProductDetailScreen extends React.Component {
       },
       album_list: [
 
-      ]
+      ],
+      visible_bottom_bar: true,
     };
     this._isMounted = false;
   }
@@ -134,7 +135,7 @@ export default class ProductDetailScreen extends React.Component {
         <Toast ref='toast' />
         <TopbarWithBlackBack rightBtn="true" title="Product" onPress={() => { this.props.navigation.goBack(null) }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
 
-        <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag" >
+        <ScrollView ref={(w_scrollview) => {this.wScrollView = w_scrollview}} style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag" >
           <View style={[{ flex: 1 }]}>
 
             {/* 이미지 부분 */}
@@ -269,7 +270,7 @@ export default class ProductDetailScreen extends React.Component {
                 {this.state.tabbar.Ingredients ?
                   <FragmentProductDetailIngredients toast={this.refs.toast} item_id={item_id}></FragmentProductDetailIngredients>
                   :
-                  <FragmentProductDetailReviews toast={this.refs.toast} item_id={item_id} comment_count={this.state.product_detail_result_data.detail.comment_count}></FragmentProductDetailReviews>
+                  <FragmentProductDetailReviews this={this} toast={this.refs.toast} item_id={item_id} comment_count={this.state.product_detail_result_data.detail.comment_count}></FragmentProductDetailReviews>
                 }
               </View>
             </View>
@@ -277,39 +278,41 @@ export default class ProductDetailScreen extends React.Component {
 
           {/* 하단바 */}
           {/* <LinearGradient colors={['#fefefe', '#f8f8f8']} style={{ height: 3 }} ></LinearGradient> */}
-          <View style={[{ height: 215 / 3, flexDirection: "row", alignItems: "center" }, MyStyles.shadow_5]}>
-            <View style={{ flex: 1 }}>
-              <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "M" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 0) }}>
-                {this.state.product_detail_result_data.detail.user_match == "M" ? <Image source={require('../../assets/images/ic_match_on.png')} style={[MyStyles.ic_match]} /> : <Image source={require('../../assets/images/ic_match_off.png')} style={[MyStyles.ic_match]} />}
-                {this.state.product_detail_result_data.detail.user_match == "M" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_6bd5be }}>Match'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Match'd</Text>}
-              </TouchableOpacity>
-            </View>
-            <View style={{ flex: 1 }}>
-              <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "B" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 1) }}>
-                {this.state.product_detail_result_data.detail.user_match == "B" ? <Image source={require('../../assets/images/ic_blotch_on.png')} style={[MyStyles.ic_blotch]} /> : <Image source={require('../../assets/images/ic_blotch_off.png')} style={[MyStyles.ic_blotch]} />}
-                {this.state.product_detail_result_data.detail.user_match == "B" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_f691a1 }}>Blotch'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Blotch'd</Text>}
-              </TouchableOpacity>
-            </View>
+          {this.state.visible_bottom_bar ?
+            <View style={[{ height: 215 / 3, flexDirection: "row", alignItems: "center" }, MyStyles.shadow_5]}>
+              <View style={{ flex: 1 }}>
+                <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "M" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 0) }}>
+                  {this.state.product_detail_result_data.detail.user_match == "M" ? <Image source={require('../../assets/images/ic_match_on.png')} style={[MyStyles.ic_match]} /> : <Image source={require('../../assets/images/ic_match_off.png')} style={[MyStyles.ic_match]} />}
+                  {this.state.product_detail_result_data.detail.user_match == "M" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_6bd5be }}>Match'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Match'd</Text>}
+                </TouchableOpacity>
+              </View>
+              <View style={{ flex: 1 }}>
+                <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "B" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 1) }}>
+                  {this.state.product_detail_result_data.detail.user_match == "B" ? <Image source={require('../../assets/images/ic_blotch_on.png')} style={[MyStyles.ic_blotch]} /> : <Image source={require('../../assets/images/ic_blotch_off.png')} style={[MyStyles.ic_blotch]} />}
+                  {this.state.product_detail_result_data.detail.user_match == "B" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_f691a1 }}>Blotch'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Blotch'd</Text>}
+                </TouchableOpacity>
+              </View>
 
-            <View style={{ flex: 1 }}>
-              <ModalDropdown ref="dropdown_2"
-                style={[MyStyles.dropdown_2, { height: 30, width: 250 / 3, marginRight: 15 }]}
-                defaultIndex={0}
-                defaultValue="Save as ▾"
-                textStyle={MyStyles.dropdown_2_text}
-                dropdownStyle={MyStyles.dropdown_2_dropdown}
-                options={this.state.album_list}
-                renderButtonText={(rowData) => "Save as ▾"}
-                renderRow={Common._dropdown_3_renderRow.bind(this)}
-                onSelect={(idx, rowData) => {
-                  // this.requestCheckInMyList(rowData.id, item_id)
-                  this.requestAddToMyList(rowData.id, item_id)
-                }}
-                renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
-              />
+              <View style={{ flex: 1 }}>
+                <ModalDropdown ref="dropdown_2"
+                  style={[MyStyles.dropdown_2, { height: 30, width: 250 / 3, marginRight: 15 }]}
+                  defaultIndex={0}
+                  defaultValue="Save as ▾"
+                  textStyle={MyStyles.dropdown_2_text}
+                  dropdownStyle={MyStyles.dropdown_2_dropdown}
+                  options={this.state.album_list}
+                  renderButtonText={(rowData) => "Save as ▾"}
+                  renderRow={Common._dropdown_3_renderRow.bind(this)}
+                  onSelect={(idx, rowData) => {
+                    // this.requestCheckInMyList(rowData.id, item_id)
+                    this.requestAddToMyList(rowData.id, item_id)
+                  }}
+                  renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
+                />
+              </View>
             </View>
-          </View>
-
+            :
+            null}
         </ScrollView>
 
       </KeyboardAvoidingView >

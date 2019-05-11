@@ -45,6 +45,8 @@ import CalendarScreen from '../screens/Mypage/CalendarScreen';
 import QuestionnareScreen from '../screens/Mypage/QuestionnareScreen';
 import WeCanSearchItScreen from '../screens/Mypage/WeCanSearchItScreen';
 import MyOwnListScreen from '../screens/Mylist/MyOwnListScreen';
+import MyConstants from '../constants/MyConstants';
+import MyStyles from '../constants/MyStyles';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -272,8 +274,9 @@ export default createBottomTabNavigator({
     backBehavior: "history",
     tabBarOptions: {
       activeTintColor: "#a695fe",
-      // tabStyle: { backgroundColor:"blue" },
-      style: { borderTopLeftRadius: 50 / 3, borderTopRightRadius: 50 / 3, backgroundColor: "white", overflow: "hidden" },
-      // inactiveBackgroundColor:"red",
+      inactiveTintColor: "#c3c3c3",
+      labelStyle: { marginBottom: 7, marginTop: -7, fontWeight: "bold" },
+      // tabStyle: { backgroundColor: "blue", borderTopLeftRadius: 50 / 3, borderTopRightRadius: 50 / 3, },
+      style: [{ backgroundColor: "transparent", height: MyConstants.TABBAR_HEIGHT, borderTopColor: "#f2f2f2" }],
     }
   });

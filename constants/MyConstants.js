@@ -83,7 +83,7 @@ export default {
     nail_care: "Nail care",
     toothpaste: "Toothpaste",
   },
-  Loading_text: "Loading...",
+  Loading_text: "",
   ASYNC_PARAMS: {
     login_info: "LoginInfo",
     read_msgs: "read_msgs",
