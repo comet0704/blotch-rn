@@ -106,6 +106,7 @@ export default {
         updateAlarm: MyConstants.SERVER_URL + "/user/updateAlarm",
         getAlarm: MyConstants.SERVER_URL + "/user/getAlarm",
         terms_privacy: MyConstants.SERVER_URL + "/terms/usage.html",
+        about_us: MyConstants.SERVER_URL + "/terms/about.html",
     },
     brand: {
         detail: MyConstants.SERVER_URL + "/brand/detail",

@@ -23,15 +23,18 @@ export default class AboutUsScreen extends React.Component {
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
         {/* <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" > */}
-          <View style={{flex:1}}>
-            <TopbarWithBlackBack title="About Us" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
-            <View style={[MyStyles.container, {flex:1}]}>
-              <WebView
-                source={{ uri: Net.user.terms_privacy }}
-                style={{ flex: 1}}
-              />
-            </View>
+        <View style={{ flex: 1 }}>
+          <TopbarWithBlackBack title="About Us" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+          <View style={[MyStyles.container, { flex: 1 }]}>
+            <WebView
+              source={{ uri: Net.user.about_us }}
+              style={{ flex: 1 }}
+            />
           </View>
+        </View>
+        <View style={{ position: "absolute", top: 0, width: "100%", }}>
+          <TopbarWithBlackBack title="About Us" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+        </View>
         {/* </ScrollView> */}
       </KeyboardAvoidingView>
     );
