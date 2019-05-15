@@ -135,7 +135,7 @@ export default class ProductDetailScreen extends React.Component {
         <Toast ref='toast' />
         <TopbarWithBlackBack rightBtn="true" title="Product" onPress={() => { this.props.navigation.goBack(null) }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
 
-        <ScrollView ref={(w_scrollview) => {this.wScrollView = w_scrollview}} style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag" >
+        <ScrollView ref={(w_scrollview) => { this.wScrollView = w_scrollview }} style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag" >
           <View style={[{ flex: 1 }]}>
 
             {/* 이미지 부분 */}
@@ -144,7 +144,7 @@ export default class ProductDetailScreen extends React.Component {
                 <View
                   style={{
                     height: this.BannerHeight,
-                    width: this.BannerWidth - 30
+                    width: this.BannerWidth - 20
                   }}
                 >
                   <Carousel
@@ -230,9 +230,9 @@ export default class ProductDetailScreen extends React.Component {
                   />
                 </TouchableOpacity>
                 {this.state.gradeVisible ?
-                  <View style={[{ justifyContent: "center", alignItems: "center", marginLeft: 5 }, MyStyles.ic_star_rate_bg]}>
-                    <Image source={require("../../assets/images/ic_star_rate_bg.png")} style={[MyStyles.background_image]} />
-                    <Text style={{ color: Colors.color_star_full, alignSelf: "center", marginTop: -2, fontSize: 12 }}>{parseFloat(this.state.product_detail_result_data.detail.grade).toFixed(1)}</Text>
+                  <View style={[{ position: "absolute", bottom: -30, zIndex: 1000, right: -3, justifyContent: "center", alignItems: "center" }, MyStyles.ic_star_rate_bg1]}>
+                    <Image source={require("../../assets/images/ic_star_rate_bg1.png")} style={[MyStyles.background_image]} />
+                    <Text style={{ color: Colors.color_star_full, alignSelf: "center", marginTop: 2, fontSize: 12 }}>{parseFloat(this.state.product_detail_result_data.detail.grade).toFixed(1)}</Text>
                   </View>
                   : null}
               </View>

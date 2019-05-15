@@ -152,7 +152,7 @@ export class FragmentProductDetailReviews extends React.Component {
           <View style={{ flex: 1, marginLeft: 10 }}>
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
               <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
-              {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 55 / 3 }]}>Me</Text> : null}
+              {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 42 / 3, lineHeight: 44 / 3 }]}>Me</Text> : null}
               <StarRating
                 disabled={false}
                 maxStars={5}
@@ -208,15 +208,15 @@ export class FragmentProductDetailReviews extends React.Component {
               : null}
 
             <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
-              <Text style={MyStyles.text_date}>{item.create_date}</Text>
+              <Text style={[MyStyles.text_date, { marginRight: 5, }]}>{item.create_date}</Text>
               {item.parent == 0 ?
-                <TouchableOpacity activeOpacity={0.8} style={{ padding: 5 }} onPress={() => { this.onAddCommentSelected(index) }}>
+                <TouchableOpacity activeOpacity={0.8} style={{ padding: 4 }} onPress={() => { this.onAddCommentSelected(index) }}>
                   {/* <TouchableOpacity activeOpacity={0.8} style={{ padding: 5 }}> */}
-                  <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment, { marginLeft: 5 }]} />
+                  <Image source={require("../../assets/images/ic_comment.png")} style={[MyStyles.ic_comment]} />
                 </TouchableOpacity>
                 : null}
               {item.user_id == global.login_info.user_id ?
-                <TouchableOpacity activeOpacity={0.8} style={{ padding: 5 }} onPress={() => {
+                <TouchableOpacity activeOpacity={0.8} style={{ padding: 4 }} onPress={() => {
                   Alert.alert(
                     '',
                     Messages.would_you_like_to_delete_it,
@@ -235,10 +235,10 @@ export class FragmentProductDetailReviews extends React.Component {
                     { cancelable: false },
                   );
                 }}>
-                  <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete, { marginLeft: 5 }]} />
+                  <Image source={require("../../assets/images/ic_delete.png")} style={[MyStyles.ic_delete]} />
                 </TouchableOpacity>
                 :
-                <TouchableOpacity activeOpacity={0.8} style={{ padding: 5 }} onPress={() => { this.setState({ reportModalVisible: true, selected_comment_id: item.id }) }}>
+                <TouchableOpacity activeOpacity={0.8} style={{ padding: 4 }} onPress={() => { this.setState({ reportModalVisible: true, selected_comment_id: item.id }) }}>
                   <Image source={require("../../assets/images/ic_report_gray.png")} style={[MyStyles.ic_report_gray,]} />
                 </TouchableOpacity>
               }
@@ -368,7 +368,7 @@ export class FragmentProductDetailReviews extends React.Component {
         <View style={[MyStyles.margin_h_main, MyStyles.padding_v_25, MyStyles.border_bottom_e5e5e5]}>
 
           {/* Match'd */}
-          <View style={{ marginTop: 10 }}>
+          <View>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
               <Image source={require("../../assets/images/ic_match_prog.png")} style={[MyStyles.ic_match_prog]} />
               <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Match'd</Text>
@@ -386,7 +386,7 @@ export class FragmentProductDetailReviews extends React.Component {
           </View>
 
           {/* Blotch'd */}
-          <View>
+          <View style={{ marginTop: 10 }}>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
               <Image source={require("../../assets/images/ic_blotch_prog.png")} style={[MyStyles.ic_blotch_prog]} />
               <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Blotch'd</Text>
@@ -474,23 +474,55 @@ export class FragmentProductDetailReviews extends React.Component {
               </TouchableOpacity>
             </View>
             <View style={[MyStyles.seperate_line_e5e5e5, { marginTop: 5 }]}></View>
-            <View style={{ borderWidth: 0.5, borderColor: Colors.color_dcdedd, borderTopWidth: 0, height: 115 / 3, justifyContent: "center", alignItems: "center" }}>
-              <StarRating
-                disabled={false}
-                maxStars={5}
-                containerStyle={{ width: 273 / 3 }}
-                starSize={50 / 3}
-                emptyStarColor={Colors.color_star_empty}
-                // rating={this.state.product_comment_list_result_data.user_comment.grade} // 리뷰작성후 다시 페지 진입시 원래 작성내용 보여주는 기능 막음
-                rating={this.state.selected_star}
-                selectedStar={(rating) => {
-                  this.state.product_comment_list_result_data.user_comment.grade = rating
-                  this.state.selected_star = rating
-                  this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data, selectedStar: this.state.selected_star });
-                }}
-                fullStarColor={Colors.color_star_full}
-              />
-            </View>
+
+            {this.state.photoModalVisible ?
+              <View style={[{ height: 800 / 3, borderTopWidth: 0.5, borderTopColor: Colors.color_e5e6e5, width: Dimensions.get('screen').width, marginTop: -1, marginLeft: -15, marginRight: -15, marginBottom: -15, justifyContent: "center", alignItems: "center", backgroundColor: Colors.color_f8f8f8 }]}>
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center" }} onPress={() => {
+                    _this.setState({ visible_bottom_bar: true })
+                    this._pickImageFromCamera()
+                  }}>
+                    <Image source={require("../../assets/images/ic_camera_big.png")} style={MyStyles.ic_camera_big} />
+                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 50, justifyContent: "center" }} onPress={() => {
+                    _this.setState({ visible_bottom_bar: true })
+                    this._pickImageFromGallery()
+                  }}>
+                    <Image source={require("../../assets/images/ic_gallery_big.png")} style={MyStyles.ic_gallery_big} />
+                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</Text>
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_main, { position: "absolute", top: 0, right: 0 }]} onPress={() => {
+                  this.setState({ photoModalVisible: false });
+                  _this.setState({ visible_bottom_bar: true })
+                }}>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                </TouchableOpacity>
+              </View>
+              :
+              null}
+
+            {
+              this.state.photoModalVisible ? null :
+                <View style={{ borderWidth: 0.5, borderColor: Colors.color_dcdedd, borderTopWidth: 0, height: 115 / 3, justifyContent: "center", alignItems: "center" }}>
+                  <StarRating
+                    disabled={false}
+                    maxStars={5}
+                    containerStyle={{ width: 273 / 3 }}
+                    starSize={50 / 3}
+                    emptyStarColor={Colors.color_star_empty}
+                    // rating={this.state.product_comment_list_result_data.user_comment.grade} // 리뷰작성후 다시 페지 진입시 원래 작성내용 보여주는 기능 막음
+                    rating={this.state.selected_star}
+                    selectedStar={(rating) => {
+                      this.state.product_comment_list_result_data.user_comment.grade = rating
+                      this.state.selected_star = rating
+                      this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data, selectedStar: this.state.selected_star });
+                    }}
+                    fullStarColor={Colors.color_star_full}
+                  />
+                </View>
+            }
 
 
 
@@ -525,33 +557,6 @@ export class FragmentProductDetailReviews extends React.Component {
                 <Image source={{ uri: this.state.review_photos.length > 4 ? this.state.review_photos[4].uri : null }} style={[MyStyles.review_photo]} />
               </View>
               : null}
-            {this.state.photoModalVisible ?
-              <View style={[{ height: 800 / 3, width: "100%", justifyContent: "center", alignItems: "center", backgroundColor: Colors.color_f8f8f8 }, MyStyles.shadow_2]}>
-                <View style={{ flexDirection: "row" }}>
-                  <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center" }} onPress={() => {
-                    _this.setState({ visible_bottom_bar: true })
-                    this._pickImageFromCamera()
-                  }}>
-                    <Image source={require("../../assets/images/ic_camera_big.png")} style={MyStyles.ic_camera_big} />
-                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 50, justifyContent: "center" }} onPress={() => {
-                    _this.setState({ visible_bottom_bar: true })
-                    this._pickImageFromGallery()
-                  }}>
-                    <Image source={require("../../assets/images/ic_gallery_big.png")} style={MyStyles.ic_gallery_big} />
-                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</Text>
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", top: 0, right: 0 }]} onPress={() => {
-                  this.setState({ photoModalVisible: false });
-                  _this.setState({ visible_bottom_bar: true })
-                }}>
-                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
-                </TouchableOpacity>
-              </View>
-              :
-              null}
           </View>
 
           {

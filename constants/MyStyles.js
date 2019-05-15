@@ -341,7 +341,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     paddingTop: 10,
-    paddingBottom: 5,
+    paddingBottom: 10,
     paddingLeft: 15,
     paddingRight: 15,
     backgroundColor: "white"
@@ -1337,6 +1337,10 @@ export default StyleSheet.create({
   ic_star_rate_bg: {
     width: 141 / 3,
     height: 69 / 3,
+  },
+  ic_star_rate_bg1: {
+    width: 129 / 3,
+    height: 91 / 3,
   },
   ic_beauty_box: {
     width: 65 / 3,
