@@ -51,8 +51,8 @@ export class ProductBestItem extends React.Component {
               <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "black" }}>{index + 1}</Text>
             </View>}
         </View>
-        <Text style={[MyStyles.productBrand]}>{item.brand_title}</Text>
-        <Text style={[MyStyles.productName]}>{item.title}</Text>
+        <Text style={[MyStyles.productBrand]} numberOfLines={1}>{item.brand_title}</Text>
+        <Text style={[MyStyles.productName]} numberOfLines={1}>{item.title}</Text>
       </TouchableOpacity>
     )
   }

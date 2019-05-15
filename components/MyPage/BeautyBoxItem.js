@@ -61,7 +61,7 @@ export class BeautyBoxItem extends React.Component {
         <View style={{ marginLeft: 10, flex: 1 }}>
           <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
             <View style={{ flex: 1 }}>
-              <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]}>{item.brand_title}</Text>
+              <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]} numberOfLines={1}>{item.brand_title}</Text>
               <Text style={[MyStyles.productName, { textAlign: "left" }]} numberOfLines={1}>{item.title}</Text>
               <View style={{ flexDirection: "row", alignItems: "center", marginTop: 0 }}>
                 <StarRating

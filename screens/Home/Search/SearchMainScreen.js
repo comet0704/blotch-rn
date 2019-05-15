@@ -283,7 +283,12 @@ export default class SearchMainScreen extends React.Component {
           inputContainerStyle={{ borderColor: "transparent" }}
           placeholder="Enter keywords"
           renderItem={(keyword) => (
-            <TouchableOpacity activeOpacity={0.8} onPress={async () => { await this.setState({ query: keyword, searchWord: keyword }); this.goSearchResultScreen() }}>
+            <TouchableOpacity activeOpacity={0.8} onPress={async () => {
+              await this.setState({ query: keyword, searchWord: keyword });
+              this.addRecentSearchWords(this.state.query);
+              this.goSearchResultScreen()
+            }
+            }>
               <Text style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15 }}>
                 {
                   keyword.substring(0, keyword.toLowerCase().indexOf(query.toLowerCase()))}<Text style={{ color: Colors.primary_purple }}>{query}</Text>{keyword.substring(keyword.toLowerCase().indexOf(query.toLowerCase()) + query.length)

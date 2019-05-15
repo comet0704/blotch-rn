@@ -508,6 +508,7 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     borderRadius: 5,
     padding: 10,
+    overflow: "hidden",
     aspectRatio: 1,
   },
   productItemContainer1: {
@@ -592,7 +593,7 @@ export default StyleSheet.create({
     height: 52 / 3,
   },
   ic_hair: {
-    width: 51 / 3,
+    width: 99 / 3,
     height: 84 / 3,
   },
   ic_hair_small: {
@@ -608,7 +609,7 @@ export default StyleSheet.create({
     height: 52 / 3,
   },
   ic_perfume: {
-    width: 69 / 3,
+    width: 61 / 3,
     height: 84 / 3,
   },
   ic_perfume_small: {
@@ -624,7 +625,7 @@ export default StyleSheet.create({
     height: 52 / 3,
   },
   ic_baby: {
-    width: 69 / 3,
+    width: 38 / 3,
     height: 84 / 3,
   },
   ic_baby_small: {
@@ -1265,6 +1266,10 @@ export default StyleSheet.create({
     width: 125 / 3,
     height: 76 / 3,
   },
+  ic_purple_border: {
+    width: 65 / 3,
+    height: 65 / 3,
+  },
   ic_plus_btn_big: {
     width: 90 / 3,
     height: 93 / 3,
@@ -1466,7 +1471,7 @@ export default StyleSheet.create({
     flex: 1, borderRadius: 20, flexDirection: "row", width: "100%", paddingLeft: 13, paddingRight: 5
   },
   searchBoxCommon: {
-    height: 46, paddingTop: 4, paddingBottom: 6, justifyContent: "center", flexDirection: "row",
+    height: 46, paddingTop: 4, paddingBottom: 6, justifyContent: "center", flexDirection: "row", marginTop: 25,
   },
   text_input_with_border: {
     padding: 10, borderColor: Colors.color_e3e5e4, borderWidth: 0.5, fontSize: 13, color: Colors.color_656565

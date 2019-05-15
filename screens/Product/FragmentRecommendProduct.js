@@ -29,6 +29,7 @@ import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
 import { LoginModal } from '../../components/Modals/LoginModal';
 import ModalDropdown from 'react-native-modal-dropdown'
+import { ProductItem } from '../../components/Products/ProductItem';
 
 export class FragmentRecommendProduct extends React.Component {
 
@@ -433,29 +434,7 @@ export class FragmentRecommendProduct extends React.Component {
                   style={MyStyles.gridView}
                   spacing={10}
                   renderItem={({ item, index }) => (
-                    <TouchableOpacity activeOpacity={0.8} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
-                      <View style={[MyStyles.productItemContainer]}>
-                        <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[MyStyles.background_image]} />
-                        {item.is_liked > 0
-                          ?
-                          <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
-                            <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
-                          </TouchableOpacity>
-                          :
-                          <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
-                            <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
-                          </TouchableOpacity>
-                        }
-                        {/* {index < 3 ?
-                       <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
-                         <Image source={require('../../assets/images/ic_best_ranking.png')} style={[MyStyles.background_image]} />
-                         <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>{index + 1}</Text>
-                       </View>
-                       : null} */}
-                      </View>
-                      <Text style={[MyStyles.productBrand]}>{item.brand_title}</Text>
-                      <Text style={[MyStyles.productName]}>{item.title}</Text>
-                    </TouchableOpacity>
+                    <ProductItem item={item} index={index} this={this}></ProductItem>
                   )}
                 />
               </View>

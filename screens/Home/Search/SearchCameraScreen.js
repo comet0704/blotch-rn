@@ -82,10 +82,10 @@ export default class SearchCameraScreen extends React.Component {
                   <View style={[styles.layerLeft, { zIndex: 1000 }]}>
                   </View>
                   <View style={styles.focused}>
-                    <Text style={{ color: Colors.primary_purple, zIndex: 1000, fontSize: 25, position: "absolute", top: -21, left: -16 }}>┏</Text>
-                    <Text style={{ color: Colors.primary_purple, zIndex: 1000, fontSize: 25, position: "absolute", top: -21, right: -15 }}>┓</Text>
-                    <Text style={{ color: Colors.primary_purple, zIndex: 1000, fontSize: 25, position: "absolute", bottom: -19, left: -16 }}>┗</Text>
-                    <Text style={{ color: Colors.primary_purple, zIndex: 1000, fontSize: 25, position: "absolute", bottom: -19, right: -15 }}>┛</Text>
+                    <Image source={require('../../../assets/images/ic_purple_border1.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", top: -3, left: -3 }]} />
+                    <Image source={require('../../../assets/images/ic_purple_border2.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", top: -3, right: -3 }]} />
+                    <Image source={require('../../../assets/images/ic_purple_border3.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", bottom: -3, left: -3 }]} />
+                    <Image source={require('../../../assets/images/ic_purple_border4.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", bottom: -3, right: -3 }]} />
 
                     <View style={{ height: 2, width: "100%", backgroundColor: "#da3c2680" }} />
                   </View>
