@@ -373,6 +373,21 @@ export default class HomeScreen extends React.Component {
     this.setState({ refreshing: false });
   }
 
+  renderOneLineInfoSection() {
+    return (
+      <View>
+        <View style={[{ flexDirection: "row", color: "white" }]}>
+          {/* <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} /> */}
+          <Text style={{ color: "white", fontSize: 13,/* marginLeft: 5*/ }}><Text>{this.state.oneline_review_en} </Text></Text>
+        </View>
+        {/* <View style={[{ flexDirection: "row", color: "white" }]}>
+          <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
+          <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern.split(",")[0]}</Text></Text>
+        </View> */}
+      </View>
+    )
+  }
+
   render() {
 
     return (
@@ -422,35 +437,18 @@ export default class HomeScreen extends React.Component {
                     <View style={{ flex: 1 }}>
                       <Text style={[{ fontSize: 15, fontWeight: "500", color: "white" }]}>Beauty Advice</Text>
                       <View style={[MyStyles.seperate_line_white, { marginTop: 10, marginBottom: 10 }]} />
-                      <View style={[{ flexDirection: "row", color: "white" }]}>
+                      {/* 날씨 감춤 */}
+                      {/* <View style={[{ flexDirection: "row", color: "white" }]}>
                         <Image source={require('../../assets/images/Home/ic_weather_type.png')} style={{ width: 13, height: 7, alignSelf: "center" }} />
                         <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {this.state.weatherInfo.main.toLowerCase()}</Text> today</Text>
-                      </View>
+                      </View> */}
                       {this.state.refreshOneLineInfo ?
                         !(Common.isNeedToAddQuestionnaire()) ?
-                          <View>
-                            <View style={[{ flexDirection: "row", color: "white" }]}>
-                              <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
-                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{this.state.oneline_review_en} </Text></Text>
-                            </View>
-                            <View style={[{ flexDirection: "row", color: "white" }]}>
-                              <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
-                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern.split(",")[0]}</Text></Text>
-                            </View>
-                          </View>
+                          this.renderOneLineInfoSection()
                           : null
                         :
                         !(Common.isNeedToAddQuestionnaire()) ?
-                          <View>
-                            <View style={[{ flexDirection: "row", color: "white" }]}>
-                              <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} />
-                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}><Text style={{ fontWeight: "bold" }}>{this.state.oneline_review_en} </Text></Text>
-                            </View>
-                            <View style={[{ flexDirection: "row", color: "white" }]}>
-                              <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
-                              <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern.split(",")[0]}</Text></Text>
-                            </View>
-                          </View>
+                          this.renderOneLineInfoSection()
                           : null
                       }
                     </View>
@@ -567,7 +565,7 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* Hi, It's New 부분 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Hi, It's New</Text>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 0 }) }}>
@@ -631,7 +629,7 @@ export default class HomeScreen extends React.Component {
 
 
               {/* Best Choice 부분 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Best Choice</Text>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 1 }) }}
@@ -698,7 +696,7 @@ export default class HomeScreen extends React.Component {
 
 
               {/* Today's Article & What's Trending 부분 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, marginBottom: 10 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20, marginBottom: 10 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 {/* Today's Article */}
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Today's Article</Text>
