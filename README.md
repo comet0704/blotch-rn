@@ -31,3 +31,11 @@
 3. 배포  
     sudo expo upload:ios  
 
+4. 오류해결
+    업로드오류가 나오는 경우  
+    sudo expo diagnostics
+    위 지령으로 확인해보면 Xcode 에 undefined 로 나오면 xcode 가 전혀 실행되지 않았다거나 연결이 안되어있는 상태이다.
+    이때에는...
+    sudo xcode-select -s /Applications/Xcode.app
+
+
