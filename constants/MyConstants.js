@@ -11,7 +11,7 @@ export default {
   // 앱내 상수들  
   //
   ITEMS_PER_PAGE: 30,
-  TABBAR_HEIGHT: 167 / 3,
+  TABBAR_HEIGHT: 164 / 3,
   // SERVER_URL: "http://192.168.0.74:3000",
   // UPLOAD_SERVER_URL: "http://192.168.0.74:3001",
   SERVER_URL: "http://chemi.rsad.kr",

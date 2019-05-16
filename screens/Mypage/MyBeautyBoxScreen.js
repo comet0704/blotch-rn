@@ -272,7 +272,7 @@ export default class MyBeautyBoxScreen extends React.Component {
                       </View>
                     </View>
 
-                    <View style={[MyStyles.border_bottom_e5e5e5, { marginBottom: 75 / 3 }]} />
+                    <View style={[MyStyles.border_bottom_e5e5e5, { marginBottom: 75 / 3, marginRight: -15, }]} />
 
                     {/* Are you satisfied with the product? 부분 */}
                     <View style={{ justifyContent: "center", marginBottom: 75 / 3, alignItems: "center" }}>

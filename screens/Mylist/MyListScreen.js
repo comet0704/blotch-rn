@@ -204,32 +204,34 @@ class MyListRow extends React.Component {
         </View>
 
         <Animated.View style={[this._style]}>
-          <TouchableOpacity activeOpacity={0.9} onLongPress={this.props.toggleRowActive} onPress={() => {
-            if (data.count == 0) {
-              Alert.alert(
-                '',
-                'Do you want to search for products?',
-                [
-                  {
-                    text: 'No',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel',
-                  },
-                  { text: 'Yes', onPress: () => _this.props.navigation.navigate("SearchMain") },
-                ],
-                { cancelable: false },
-              );
-            } else {
-              _this.props.navigation.navigate("MyOwnList", {
-                [MyConstants.NAVIGATION_PARAMS.album_id]: data.id,
-                [MyConstants.NAVIGATION_PARAMS.album_title]: data.title,
-                [MyConstants.NAVIGATION_PARAMS.deleteFromMyListCallback]: _this.deleteFromMyListCallback
+          <TouchableOpacity activeOpacity={0.9} onLongPress={this.props.toggleRowActive}
+            style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.my_own_list_section, data.rowOpened ? { marginLeft: 60 } : null]}
+            onPress={() => {
+              if (data.count == 0) {
+                Alert.alert(
+                  '',
+                  'Do you want to search for products?',
+                  [
+                    {
+                      text: 'No',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    { text: 'Yes', onPress: () => _this.props.navigation.navigate("SearchMain") },
+                  ],
+                  { cancelable: false },
+                );
+              } else {
+                _this.props.navigation.navigate("MyOwnList", {
+                  [MyConstants.NAVIGATION_PARAMS.album_id]: data.id,
+                  [MyConstants.NAVIGATION_PARAMS.album_title]: data.title,
+                  [MyConstants.NAVIGATION_PARAMS.deleteFromMyListCallback]: _this.deleteFromMyListCallback
+                }
+                )
               }
-              )
-            }
-          }}
-            style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.my_own_list_section, data.rowOpened ? { marginLeft: 60 } : null]}>
+            }}>
             <View style={MyStyles.ingredient_section_header}>
+              <Image source={require("../../assets/images/ic_dice.png")} style={[MyStyles.ic_dice, { position: "absolute", left: -11 }]} />
               <View activeOpacity={0.8} style={[{ flex: 1 }]} >
                 <View style={{ flexDirection: "row" }}>
                   <Text style={[MyStyles.ingredient_section_header_text1, { alignSelf: "center" }]}>{data.title}</Text>

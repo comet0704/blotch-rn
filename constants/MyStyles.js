@@ -1244,7 +1244,7 @@ export default StyleSheet.create({
     backgroundColor: "white" // invisible color,
   },
   my_own_list_section: {
-    borderLeftWidth: 3,
+    borderLeftWidth: 15,
     borderColor: Colors.primary_purple,
     borderRadius: 5,
     backgroundColor: Colors.color_white,

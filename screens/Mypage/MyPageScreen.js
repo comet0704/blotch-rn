@@ -53,7 +53,7 @@ export default class MyPageScreen extends React.Component {
       refreshSettingBtn: false,
     };
 
-    this.settingButtonOffset = null
+    this.settingButtonOffset = { x: 0, y: 0 }
     this.settingBtnPos = { bottom: 30, right: 0 }
   }
 
