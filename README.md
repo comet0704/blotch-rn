@@ -30,6 +30,8 @@
 
 3. 배포  
     sudo expo upload:ios  
+    혹은 각종 정보입력없이 업로드하려면 ...  
+    sudo ./upload.sh  
 
 4. 오류해결
     - start_with? 오류가 나오는 경우  
