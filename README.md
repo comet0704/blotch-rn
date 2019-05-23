@@ -30,4 +30,22 @@
 
 3. 배포  
     sudo expo upload:ios  
+    혹은 각종 정보입력없이 업로드하려면 ...  
+    sudo ./upload.sh  
+
+4. 오류해결
+    - start_with? 오류가 나오는 경우  
+    sudo expo diagnostics  
+    위 지령으로 확인해보면 Xcode 에 undefined 로 나오면 xcode 가 전혀 실행되지 않았다거나 연결이 안되어있는 상태이다.  
+    이때에는...  
+    sudo xcode-select -s /Applications/Xcode.app  
+
+    - certificate & provisionning 을 다시 생성하거나 revoke 했을때
+    sudo expo build:ios --clear-credentials  
+    혹은 expo가 삭제 & 생성하게 하려면  
+    sudo expo build:ios --clear-credentials --revoke-apple-dist-certs --revoke-apple-push-certs --revoke-apple-provisioning-profile
+
+    - Switch to Push Notification Key on iOS  
+    If you are using Push Notifications Certificate and want to switch to Push Notifications Key you need to start build with --clear-push-cert. We will remove certificate from our servers and generate Push Notifcations Key for you.
+
 
