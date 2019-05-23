@@ -173,6 +173,7 @@ export default class App extends React.Component {
 
       })
       .catch((error) => {
+        this.setState({ isLogined: -1 })
         this.setState({
           isLoading: false,
         });
@@ -221,6 +222,7 @@ export default class App extends React.Component {
 
       })
       .catch((error) => {
+        this.setState({ isLogined: -1 })
         this.setState({
           isLoading: false,
         });

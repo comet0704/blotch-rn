@@ -359,6 +359,7 @@ export default class SignupScreen extends React.Component {
         } else {
           global.login_info = responseJson.result_data.login_user;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
+          AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.user_pwd, p_pwd);
           
           this.setState({ askInputQueModal: true });
         }

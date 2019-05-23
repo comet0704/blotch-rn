@@ -12,10 +12,10 @@ export default {
   //
   ITEMS_PER_PAGE: 30,
   TABBAR_HEIGHT: 164 / 3,
-  // SERVER_URL: "http://192.168.0.74:3000",
-  // UPLOAD_SERVER_URL: "http://192.168.0.74:3001",
-  SERVER_URL: "http://chemi.rsad.kr",
-  UPLOAD_SERVER_URL: "http://upload.rsad.kr",
+  SERVER_URL: "http://api.barocomms.com:8002",
+  UPLOAD_SERVER_URL: "http://upload.barocomms.com:8002",
+  // SERVER_URL: "http://chemi.rsad.kr",
+  // UPLOAD_SERVER_URL: "http://upload.rsad.kr",
   SkinTypeName: {
     dry: "Dry",
     oily: "Oily",

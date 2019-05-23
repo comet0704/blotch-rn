@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
-import { TouchableWithoutFeedback, Keyboard, AsyncStorage, Button, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, TouchableHighlight, TouchableWithoutFeedback, Keyboard, AsyncStorage, Button, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import { TopbarWithWhiteBack } from '../../components/Topbars/TopbarWithWhiteBack';
@@ -19,6 +19,7 @@ export default class LoginScreen extends React.Component {
       loginPressed: false,
       email: null,
       password: null,
+      askInputQueModal: false,
     };
   }
 
@@ -265,6 +266,50 @@ export default class LoginScreen extends React.Component {
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.askInputQueModal}
+          onRequestClose={() => {
+          }}>
+          <View style={{ flex: 1 }}>
+            <View style={MyStyles.modal_bg}>
+              <View style={MyStyles.modalContainer}>
+                <TouchableOpacity activeOpacity={0.8} style={MyStyles.modal_close_btn} onPress={() => {
+                  this.setState({ askInputQueModal: false });
+                  // 로그인 되었으면 앱을 리로딩
+                  Updates.reload()
+                }}>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                </TouchableOpacity>
+
+                <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
+                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Tell us little more about you so {"\n"} we can find recommendation!</Text>
+
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableHighlight onPress={() => {
+                    this.setState({ askInputQueModal: false });
+                    this.props.navigation.navigate("Questionnare", { [MyConstants.NAVIGATION_PARAMS.is_from_sign_up]: true })
+                  }}
+                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                  </TouchableHighlight>
+
+                  <TouchableHighlight
+                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    onPress={() => {
+                      this.setState({ askInputQueModal: false });
+                      // 로그인 되었으면 앱을 리로딩
+                      Updates.reload()
+                    }}>
+                    <Text style={MyStyles.btn_primary_white}>Not now</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -346,8 +391,8 @@ export default class LoginScreen extends React.Component {
           global.setting = responseJson.result_data.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
-          // 로그인 되었으면 앱을 리로딩
-          Updates.reload()
+          // 추가정보입력 팝업 현시
+          this.setState({ askInputQueModal: true });
         }
 
       })
@@ -390,8 +435,9 @@ export default class LoginScreen extends React.Component {
           global.setting = responseJson.result_data.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
-          // 로그인 되었으면 앱을 리로딩
-          Updates.reload()
+          
+          // 추가정보입력 팝업 현시
+          this.setState({ askInputQueModal: true });
         }
 
       })

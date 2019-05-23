@@ -236,15 +236,15 @@ export default class MyPageScreen extends React.Component {
                 }}>
                   <Image source={require('../../assets/images/ic_edit.png')} style={MyStyles.ic_edit} />
                 </TouchableOpacity>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{ flexDirection: "row", alignItems: "center", flex: 1}}>
                   <View style={[MyStyles.profile_box1]}>
                     {/* <TouchableOpacity onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
                 <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={[{ alignSelf: "center" }, MyStyles.ic_camera]} />
                   </TouchableOpacity> */}
                     <Image source={global.login_info.profile_image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: Common.getImageUrl(global.login_info.profile_image) }} style={global.login_info.profile_image == null ? { width: 117 / 3, height: 166 / 3, alignSelf: "center" } : { width: 315 / 3, height: 315 / 3, borderRadius: 100, }} />
                   </View>
-                  <View style={{ marginLeft: 15 }}>
-                    <Text style={{ fontSize: 59 / 3, color: "white", fontWeight: "500" }}>Hello {global.login_info.user_id}</Text>
+                  <View style={{ marginLeft: 15, flex: 1 }}>
+                    <Text style={{ fontSize: 59 / 3, color: "white", fontWeight: "500" }}>Hello {global.login_info.reg_type == "GOOGLE" ? global.login_info.email : global.login_info.user_id}</Text>
                     <Text style={{ fontSize: 59 / 3, color: "white" }}>Do you need advice?</Text>
                   </View>
                 </View>

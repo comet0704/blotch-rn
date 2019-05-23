@@ -343,7 +343,13 @@ export default class QuestionnareScreen extends React.Component {
 
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
-          <TopbarWithBlackBack title="Questionnaire" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
+          <TopbarWithBlackBack title="Questionnaire" onPress={() => {
+            if (is_from_sign_up) {
+              Updates.reload()
+            } else {
+              this.props.navigation.goBack()
+            }
+          }}></TopbarWithBlackBack>
 
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
 
@@ -745,7 +751,7 @@ export default class QuestionnareScreen extends React.Component {
                               <View style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_v_5]}>
                                 {this.state.questionnaire_detail.brand_favourite_list.map((item) =>
                                   (
-                                    <TouchableOpacity key={item.id} style={[{ marginRight: 15 }]} onPress={() => {this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+                                    <TouchableOpacity key={item.id} style={[{ marginRight: 15 }]} onPress={() => { this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                                       <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
                                       <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}
                                         onPress={() => {
@@ -804,7 +810,7 @@ export default class QuestionnareScreen extends React.Component {
                               <View style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_v_5]}>
                                 {this.state.questionnaire_detail.brand_mostly_list.map((item) =>
                                   (
-                                    <TouchableOpacity key={item.id} style={[{ marginRight: 15 }]} onPress={() => {this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
+                                    <TouchableOpacity key={item.id} style={[{ marginRight: 15 }]} onPress={() => { this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id }) }}>
                                       <ImageLoad style={{ width: 30, height: 30, borderWidth: 0.5, borderLeftColor: Colors.color_e3e5e4, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image) }} />
                                       <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", top: 0, right: 0, padding: 5, borderRadius: 10, overflow: "hidden", backgroundColor: Colors.primary_purple }}
                                         onPress={() => {
