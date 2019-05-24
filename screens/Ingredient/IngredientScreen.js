@@ -40,7 +40,6 @@ export default class IngredientScreen extends React.Component {
     super(props)
     this.state = {
       refreshing: false,
-      alreadyLoaded: false,
       showLoginModal: false,
       searchKeyword: null,
       ingredient_add_type: -1,
@@ -89,6 +88,9 @@ export default class IngredientScreen extends React.Component {
     this.state.selected_questionnaire = questionnaire_list[index]
     this.setState({ selected_questionnaire: this.state.selected_questionnaire })
     this.requestMyList(this.state.selected_questionnaire.id)
+    global.login_info.questionnaire_id = this.state.selected_questionnaire.id
+    global.refreshStatus.product_recommend = true
+    global.refreshStatus.mypage = true
   }
 
   renderMyBabies() {
@@ -381,7 +383,7 @@ export default class IngredientScreen extends React.Component {
               this.setState({ showLoginModal: true });
               return;
             }
-            if (this.state.alreadyLoaded == false) {
+            if (global.refreshStatus.ingredient == true) {
               this.requestQuestionnaireList();
             }
           }}
@@ -407,7 +409,7 @@ export default class IngredientScreen extends React.Component {
 
           <View>
             {this.state.questionnaire_list.length > 0 ?
-              // {/* 카테고리 나열 부분 */}
+              // {/* 베이비 나열 부분 */}
               <View style={{
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -780,7 +782,6 @@ ingredients that can cause allergies.</Text>
   requestMyList(p_questionnaire_id) {
     this.setState({
       isLoading: true,
-      alreadyLoaded: true,
     });
     return fetch(Net.ingredient.myList, {
       method: 'POST',
@@ -806,6 +807,7 @@ ingredients that can cause allergies.</Text>
         }
 
         this.setState({ mylist_result_data: responseJson.result_data })
+        global.refreshStatus.ingredient = false
 
       })
       .catch((error) => {
@@ -1080,13 +1082,17 @@ ingredients that can cause allergies.</Text>
         this.state.questionnaire_list = responseJson.result_data.questionnaire_list
 
         if (this.state.questionnaire_list.length > 0) {
-          this.state.selected_questionnaire = this.state.questionnaire_list[0]
+          // 전반적으로 선택된 인원 같이 변경해야 하므로
+          w_selectedQueIdx = this.state.questionnaire_list.findIndex((item) => item.id == global.login_info.questionnaire_id)
+          this.state.selected_questionnaire = this.state.questionnaire_list[w_selectedQueIdx]
           this.setState({ selected_questionnaire: this.state.selected_questionnaire })
 
           this.state.questionnaire_list.forEach(element => {
             element.is_selected = false
           })
-          this.state.questionnaire_list[0].is_selected = true
+
+          this.state.questionnaire_list[w_selectedQueIdx].is_selected = true
+          this.state.beforeBabyIdx = w_selectedQueIdx
           this.setState({ questionnaire_list: this.state.questionnaire_list })
 
           this.setState({ refreshing: false });

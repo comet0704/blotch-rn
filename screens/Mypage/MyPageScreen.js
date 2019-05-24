@@ -25,6 +25,7 @@ export default class MyPageScreen extends React.Component {
       oneline_review_ko: "",
       oneline_review_en: "",
       profileEdited: false,
+      questionnaire_title: "",
       refreshOneLineInfo: false,
       weatherInfo: {
         main: "_____",
@@ -58,7 +59,6 @@ export default class MyPageScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.requestMyPage();
     this.requestGetMyPosition();
     handleAndroidBackButton(this, exitAlert);
 
@@ -210,6 +210,7 @@ export default class MyPageScreen extends React.Component {
               if (global.refreshStatus.mypage == true) {
                 global.refreshStatus.mypage = false
                 this.requestMyPage();
+                this.requestQuestionnaireDetail(global.login_info.questionnaire_id)
               }
             }}
           />
@@ -236,7 +237,7 @@ export default class MyPageScreen extends React.Component {
                 }}>
                   <Image source={require('../../assets/images/ic_edit.png')} style={MyStyles.ic_edit} />
                 </TouchableOpacity>
-                <View style={{ flexDirection: "row", alignItems: "center", flex: 1}}>
+                <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
                   <View style={[MyStyles.profile_box1]}>
                     {/* <TouchableOpacity onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
                 <Image source={(require('../../assets/images/Login/ic_camera.png'))} style={[{ alignSelf: "center" }, MyStyles.ic_camera]} />
@@ -389,11 +390,13 @@ export default class MyPageScreen extends React.Component {
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
                     <View style={{ flexDirection: "row" }}>
                       <Text style={[MyStyles.ingredient_section_header_text1]}>Questionnaire</Text>
-                      {this.state.result_data.mypage.my_questionnaire != null && this.state.result_data.mypage.my_questionnaire.length > 0 ?
+                      <Text style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>{this.state.questionnaire_title}</Text>
+                      {/* 필요없어 보임 */}
+                      {/* {this.state.result_data.mypage.my_questionnaire != null && this.state.result_data.mypage.my_questionnaire.length > 0 ?
                         <Text style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>Me</Text>
                         :
                         <Text style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>-</Text>
-                      }
+                      } */}
                     </View>
 
                     {this.state.result_data.mypage.my_questionnaire_status > 0 ?
@@ -639,6 +642,40 @@ export default class MyPageScreen extends React.Component {
       })
       .done();
 
+  }
+
+  requestQuestionnaireDetail(p_questionnaire_id) {
+    console.log("222222222222:" + p_questionnaire_id)
+    return fetch(Net.user.questionnaireDetail, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+      },
+      body: JSON.stringify({
+        questionnaire_id: p_questionnaire_id
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        if (responseJson.result_code < 0) {
+          this.refs.toast.showBottom(responseJson.result_msg);
+          return
+        }
+        
+        this.state.questionnaire_title = responseJson.result_data.questionnaire_detail.title
+        console.log("222222222222:" + this.state.questionnaire_title)
+        this.setState({questionnaire_title: this.state.questionnaire_title})
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
   }
 
 }

@@ -118,6 +118,11 @@ export default class QuestionnareScreen extends React.Component {
 
     this.requestQuestionnaireList()
     this.requestCountryList()
+
+    // questionnaire에 들어왔댔으면 기본 설문 변경여부에 상관없이 ingredient와 product_recommend 화면을 재그리기 시키자
+    global.refreshStatus.ingredient = true
+    global.refreshStatus.product_recommend = true
+    global.refreshStatus.mypage = true
   }
 
   ScreenWidth = Dimensions.get('window').width;
@@ -1504,13 +1509,17 @@ export default class QuestionnareScreen extends React.Component {
 
         this.state.questionnaire_list = responseJson.result_data.questionnaire_list
 
+        // 전반적으로 선택된 인원 같이 변경해야 하므로
+        w_selectedQueIdx = this.state.questionnaire_list.findIndex((item) => item.id == global.login_info.questionnaire_id)
+
         if (this.state.questionnaire_list.length > 0) {
           this.state.questionnaire_list.forEach(element => {
             element.is_selected = false
           })
-          if (this.state.edit_baby_id == 0) {
-            this.state.questionnaire_list[0].is_selected = true
-            this.requestQuestionnaireDetail(this.state.questionnaire_list[0].id);
+          if (this.state.edit_baby_id == 0) { // questionnaire 화면에 들어와서 선택한 questionnaire 가 없을때는 앱내에 기본 설정된 questionnaire 를 선택해준다
+            this.state.beforeBabyIdx = w_selectedQueIdx
+            this.state.questionnaire_list[w_selectedQueIdx].is_selected = true
+            this.requestQuestionnaireDetail(this.state.questionnaire_list[w_selectedQueIdx].id);
           } else {
             const index = this.state.questionnaire_list.findIndex(item => item.id == this.state.edit_baby_id)
             this.state.questionnaire_list[index].is_selected = true
@@ -1780,13 +1789,14 @@ export default class QuestionnareScreen extends React.Component {
           return
         }
 
+        global.login_info.questionnaire_id = this.state.questionnaire_detail.id
+
         if (is_from_sign_up) {
           Updates.reload()
         } else {
           this.state.questionnaire_list[this.state.beforeBabyIdx].title = this.state.questionnaire_detail.title
           this.setState(this.state.questionnaire_list)
         }
-
 
       })
       .catch((error) => {

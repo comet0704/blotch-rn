@@ -73,6 +73,9 @@ export default {
 
   // 생년월일로부터 연령대 계산 예:) 1990-07-04 -> 20's
   getAgeFromBirth(p_birthday) {
+    if(p_birthday == null) {
+      return null
+    }
     var birthDate = p_birthday instanceof Date ? p_birthday : new Date(p_birthday);
     curDate = new Date()
     var age = Math.abs(curDate.getFullYear() - birthDate.getFullYear())

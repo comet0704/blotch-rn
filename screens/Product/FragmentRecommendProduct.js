@@ -40,7 +40,6 @@ export class FragmentRecommendProduct extends React.Component {
       refreshing: false,
       showLoginModal: false,
       filterModalVisible: false,
-      alreadyLoadedData: false,
 
       product_list_result_data: {
         recomment_list: [
@@ -127,9 +126,7 @@ export class FragmentRecommendProduct extends React.Component {
 
   onFilterSubCategorySelect = async (p_item, p_sub_item) => {
     const w_main_index = this.state.mainCategoryItems.findIndex(w_item => w_item.categoryName == p_item.categoryName)
-    console.log("3333333" + w_main_index);
     const w_sub_index = this.state.mainCategoryItems[w_main_index].sub_category.findIndex(w_item1 => w_item1.name == p_sub_item.name)
-    console.log("4444444" + w_sub_index);
     this.state.mainCategoryItems[w_main_index].sub_category[w_sub_index].is_selected = !this.state.mainCategoryItems[w_main_index].sub_category[w_sub_index].is_selected
     moreThanOneSelected = false;
     sub_all_selected = true;
@@ -197,8 +194,9 @@ export class FragmentRecommendProduct extends React.Component {
           <Text style={{ fontSize: 14, color: Colors.primary_dark, fontWeight: "bold" }}>My Skin Info</Text>
           <View style={{ flex: 1 }}></View>
           <ModalDropdown ref="dropdown_2"
+            ref="mModalDropDown"
             style={MyStyles.dropdown_2}
-            defaultIndex={0}
+            defaultIndex={this.state.questionnaire_list.findIndex((item) => item.id == global.login_info.questionnaire_id)}
             defaultValue={this.state.selected_questionnaire.value + " ▾"}
             textStyle={MyStyles.dropdown_2_text}
             dropdownStyle={MyStyles.dropdown_2_dropdown}
@@ -226,7 +224,7 @@ export class FragmentRecommendProduct extends React.Component {
               :
               <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
                 <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
-                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>Age</Text>
+                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</Text>
                 </View>
                 <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Age</Text>
               </View>
@@ -328,6 +326,9 @@ export class FragmentRecommendProduct extends React.Component {
     this.state.selected_questionnaire = rowData
     this.setState({ selected_questionnaire: this.state.selected_questionnaire })
     this.requestQuestionnaireDetail(this.state.selected_questionnaire.id)
+    global.login_info.questionnaire_id = this.state.selected_questionnaire.id
+    global.refreshStatus.ingredient = true
+    global.refreshStatus.mypage = true
   }
 
   onWeCanSearchItCallback = (p_skin_type, p_concern, p_needs) => {
@@ -338,9 +339,8 @@ export class FragmentRecommendProduct extends React.Component {
   onNavigationEvent = () => {
     if (global.login_info.token == "") {
     } else {
-      if (Common.isNeedToAddQuestionnaire() == false && this.state.alreadyLoadedData == false) { // 이미 설문이 추가된 회원이면 설문목록 얻어오기
-        this.state.alreadyLoadedData = true
-        this.setState({ alreadyLoadedData: this.state.alreadyLoadedData })
+      if (Common.isNeedToAddQuestionnaire() == false && global.refreshStatus.product_recommend == true) { // 이미 설문이 추가된 회원이면 설문목록 얻어오기
+        global.refreshStatus.product_recommend = false
         this.requestQuestionnaireList();
       }
     }
@@ -544,8 +544,6 @@ export class FragmentRecommendProduct extends React.Component {
                                       spacing={10}
                                       renderItem={({ item: sub_item, index: sub_index }) => (
                                         <TouchableOpacity activeOpacity={0.8} onPress={() => {
-                                          console.log("1111111111" + JSON.stringify(item))
-                                          console.log("2222222222" + JSON.stringify(sub_item))
                                           this.onFilterSubCategorySelect(item, sub_item)
 
                                         }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
@@ -591,7 +589,6 @@ export class FragmentRecommendProduct extends React.Component {
   }
 
   requestRecommendList(p_questionnaire_id, p_category, p_offset) {
-    console.log("category= " + p_category);
     this.setState({
       isLoading: true,
     });
@@ -610,7 +607,6 @@ export class FragmentRecommendProduct extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(JSON.stringify(responseJson));
         this.setState({
           isLoading: false,
         });
@@ -663,7 +659,6 @@ export class FragmentRecommendProduct extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -702,7 +697,6 @@ export class FragmentRecommendProduct extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -740,7 +734,6 @@ export class FragmentRecommendProduct extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         // this.setState({
         //   isLoading: false,
         // });
@@ -756,10 +749,13 @@ export class FragmentRecommendProduct extends React.Component {
           data.push({ value: element.title, id: element.id })
         });
 
+        // 전반적으로 선택된 인원 같이 변경해야 하므로
+        w_selectedQueIdx = data.findIndex((item) => item.id == global.login_info.questionnaire_id)        
+        this.refs.mModalDropDown.select(w_selectedQueIdx)
+
         if (data.length > 0) {
-          this.state.selected_questionnaire = data[0]
+          this.state.selected_questionnaire = data[w_selectedQueIdx]
           this.setState({ selected_questionnaire: this.state.selected_questionnaire })
-          console.log("1111111111" + this.state.selected_questionnaire.value);
           this.requestQuestionnaireDetail(this.state.selected_questionnaire.id)
         }
         this.setState({ questionnaire_list: data })
@@ -774,6 +770,7 @@ export class FragmentRecommendProduct extends React.Component {
   }
 
   requestQuestionnaireDetail(p_questionnaire_id) {
+    console.log("1111111:" + p_questionnaire_id);
     // this.setState({
     //   isLoading: true,
     // });
@@ -808,20 +805,32 @@ export class FragmentRecommendProduct extends React.Component {
           const w_index = this.state.skin_types.findIndex(item1 => item1.typeName == questionnaireDetail.skin_type)
           const w_item = this.state.skin_types[w_index]
           this.state.my_skin_type = w_item
-          this.setState(this.state.my_skin_type)
+          this.setState({ my_skin_type: this.state.my_skin_type })
+        } else {
+          this.state.my_skin_type = null
+          this.setState({ my_skin_type: null })
         }
+
         if (questionnaireDetail.concern != null && questionnaireDetail.concern.length > 0) {
           const w_index = this.state.concern_types.findIndex(item1 => item1.typeName == questionnaireDetail.concern.split(",")[0])
           const w_item = this.state.concern_types[w_index]
           this.state.my_concern = w_item
-          this.setState(this.state.my_concern)
+          this.setState({ my_concern: this.state.my_concern })
+        } else {
+          this.state.my_concern = null
+          this.setState({ my_concern: null })
         }
+
         if (questionnaireDetail.needs != null && questionnaireDetail.needs.length > 0) {
           const w_index = this.state.need_types.findIndex(item1 => item1.typeName == questionnaireDetail.needs.split(",")[0])
           const w_item = this.state.need_types[w_index]
           this.state.my_needs = w_item
-          this.setState(this.state.my_needs)
+          this.setState({ my_needs: this.state.my_needs })
+        } else {
+          this.state.my_needs = null
+          this.setState({ my_needs: null })
         }
+
         this.setState({ refreshing: false });
         this.getRecommendList(0);
       })
@@ -855,7 +864,6 @@ export class FragmentRecommendProduct extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });

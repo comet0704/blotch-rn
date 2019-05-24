@@ -17,6 +17,8 @@ global.user_pwd = null;
 // 이 값으로 모든 root 페지들이 refresh 가 필요한가를 판정함
 // 현재는 mylist 만 판정, 다른 페지들은 필요할때 추가.
 global.refreshStatus = {
+  product_recommend: true,
+  ingredient: true,
   mylist: true,
   mypage: true,
 }
