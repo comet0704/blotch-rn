@@ -94,7 +94,7 @@ export default {
   removeHtmlTagsFromText(p_html) {
     const regex = /(<([^>]+)>)/ig;
     result = p_html.replace(regex, '');
-    result = result.replace("&nbsp;", "")
+    result = result.replace(/&nbsp;/ig, "")
     return result
   },
 

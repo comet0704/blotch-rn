@@ -148,7 +148,7 @@ export default class SearchResultScreen extends React.Component {
       return;
     }
     this.setState({ requestProductModalVisible: false });
-    this.requestProductRequest(this.state.request_brand_name, this.state.product_name)
+    this.requestProductRequest(this.state.request_brand_name, this.state.request_product_name)
   }
 
   render() {
@@ -178,8 +178,8 @@ export default class SearchResultScreen extends React.Component {
             </TouchableOpacity>
 
             <TouchableWithoutFeedback onPress={() => {
-                this.props.navigation.goBack(null)
-                this.backCallbackToSearchMain();
+              this.props.navigation.goBack(null)
+              this.backCallbackToSearchMain();
             }}>
               <View style={[MyStyles.searchBoxCover, MyStyles.shadow_2]}>
                 <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
@@ -207,9 +207,10 @@ export default class SearchResultScreen extends React.Component {
                         flex: 1,
                         alignItems: 'center',
                         justifyContent: 'center',
+                        paddingTop: 15,
                         paddingLeft: 15,
                         paddingRight: 15,
-                        paddingBottom: 30
+                        paddingBottom: 75/3,
                       }}>
                         {
                           this.renderBrandsScroll()
@@ -539,6 +540,7 @@ export default class SearchResultScreen extends React.Component {
 
 
   requestProductRequest(p_brand_name, p_product_name) {
+    console.log("1:" + p_brand_name + "-2:" + p_product_name)
     this.setState({
       isLoading: true,
     });

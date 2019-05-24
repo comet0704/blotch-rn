@@ -354,8 +354,10 @@ export default class SearchBrandDetailScreen extends React.Component {
                       <View style={{ marginTop: 200 / 3, }}>
                         <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
                           <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>{this.state.brand_detail_result_data.detail.title}</Text>
-                          <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() =>
-                            this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>Products({this.state.product_list_result_data.product_list.length})</Text>
+                          <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => {
+                            this.setState({ detailModalVisible: false });
+                            this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })
+                          }}>Products({this.state.product_list_result_data.product_list.length})</Text>
                         </View>
                         <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginTop: 20 }]}></View>
 
@@ -374,7 +376,7 @@ export default class SearchBrandDetailScreen extends React.Component {
             </View>
           </View>
         </ScrollView>
-      </View>
+      </View >
     );
   }
 

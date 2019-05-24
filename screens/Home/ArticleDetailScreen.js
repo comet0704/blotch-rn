@@ -256,7 +256,7 @@ export default class ArticleDetailScreen extends React.Component {
                 :
                 null
               }
-              <Text style={{ fontSize: 13, color: Colors.primary_dark, marginTop: 10, marginBottom: 5 }}>{this.state.article_detail_result_data.detail.content}</Text>
+              <Text style={{ fontSize: 13, color: Colors.primary_dark, marginTop: 10, marginBottom: 5 }}>{Common.removeHtmlTagsFromText(this.state.article_detail_result_data.detail.content)}</Text>
             </View>
             <View style={MyStyles.seperate_line_e5e5e5}></View>
 
