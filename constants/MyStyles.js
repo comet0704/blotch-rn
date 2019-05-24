@@ -201,15 +201,21 @@ export default StyleSheet.create({
     right: 100 / 3,
     top: 13,
   },
+  heart_in_item2: {
+    width: 61 / 3,
+    height: 51 / 3,
+    position: "absolute",
+    right: 30 / 3,
+    top: 30 / 3,
+  },
   heart: {
     width: 56 / 3,
     height: 48 / 3,
   },
   product_thumbnail1: {
-    width: 249 / 3,
-    height: 173 / 3,
+    width: "100%",
+    height: 321 / 3,
     alignSelf: "center",
-    marginTop: 40,
   },
   ic_clock: {
     width: 32 / 3,
@@ -1584,5 +1590,16 @@ export default StyleSheet.create({
   },
   unread_mark: {
     position: "absolute", top: -8, right: -4, width: 4, height: 4, backgroundColor: Colors.primary_purple, borderRadius: 10,
+  },
+  product_banneritem1: {
+    paddingLeft: 50 / 3, paddingRight: 50 / 3, paddingTop: 37 / 3,
+  },
+  carousel_selector: {
+    flex: 1, width: "100%", height: 245 / 3, alignItems: "center", justifyContent: "center", flexDirection: "row", position: "absolute", bottom: 0,
+    paddingLeft: 5 / 3,
+    paddingRight: 5 / 3,
+  },
+  productbanner1_text_cover: {
+    position: "absolute", bottom: 0, maxWidth: 120, height: 245 / 3, alignItems: "center", justifyContent: "center", paddingBottom: 0, alignSelf: "center"
   }
 });

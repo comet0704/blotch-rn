@@ -233,22 +233,22 @@ export default class HomeScreen extends React.Component {
 
   renderNewProductBanner(item, index) {
     return (
-      <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
+      <View key={index} style={[{ width: "100%", flex: 1 }, MyStyles.product_banneritem1]}>
         <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
           <View style={{ flex: 1 }}>
             <ImageLoad style={MyStyles.product_thumbnail1} source={{ uri: Common.getImageUrl(item.image_list) }} />
             {
               item.is_liked > 0
                 ?
-                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item2]} onPress={() => { this.requestProductUnlike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
                 :
-                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item2]} onPress={() => { this.requestProductLike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
             }
-            <View style={{ position: "absolute", bottom: 0, maxWidth: 130, paddingBottom: 30, alignSelf: "center" }}>
+            <View style={[MyStyles.productbanner1_text_cover]}>
               <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
               <Text style={{ fontSize: 14, color: "black", textAlign: "center", lineHeight: 14, marginTop: 3 }} numberOfLines={2}>{item.title}</Text>
             </View>
@@ -260,22 +260,22 @@ export default class HomeScreen extends React.Component {
 
   renderBestProductBanner(item, index) {
     return (
-      <View key={index} style={{ width: "100%", height: 200, flex: 1 }}>
+      <View key={index} style={[{ width: "100%", flex: 1 }, MyStyles.product_banneritem1]}>
         <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
           <View style={{ flex: 1 }}>
             <ImageLoad style={MyStyles.product_thumbnail1} source={{ uri: Common.getImageUrl(item.image_list) }} />
             {
               item.is_liked > 0
                 ?
-                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductUnlike(item.id) }}>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item2]} onPress={() => { this.requestProductUnlike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_on.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
                 :
-                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item]} onPress={() => { this.requestProductLike(item.id) }}>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.heart_in_item2]} onPress={() => { this.requestProductLike(item.id) }}>
                   <Image source={require('../../assets/images/ic_heart_off.png')} style={[MyStyles.background_image]} />
                 </TouchableOpacity>
             }
-            <View style={{ position: "absolute", bottom: 0, maxWidth: 130, paddingBottom: 30, alignSelf: "center" }}>
+            <View style={[MyStyles.productbanner1_text_cover]}>
               <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
               <Text style={{ fontSize: 14, color: "black", textAlign: "center", lineHeight: 14, marginTop: 3 }} numberOfLines={2}>{item.title}</Text>
             </View>
@@ -613,13 +613,13 @@ export default class HomeScreen extends React.Component {
                       </View>
                       :
                       null}
-                    <View style={{ flex: 1, width: "100%", justifyContent: "center", flexDirection: "row", position: "absolute", marginTop: 90 }}>
+                    <View style={MyStyles.carousel_selector}>
                       {/*  _animatePrevPage : 자체로 만들어준 함수, 원래서고에는 없음. 다시 다운받았을때 새롭게 만들어주어야함. */}
-                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.newCarouselIndicator._animatePrevPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.newCarouselIndicator._animatePrevPage(); }}>
                         <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                       <View style={{ flex: 1 }}></View>
-                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.newCarouselIndicator._animateNextPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.newCarouselIndicator._animateNextPage(); }}>
                         <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                     </View>
@@ -659,13 +659,13 @@ export default class HomeScreen extends React.Component {
                       :
                       null
                     }
-                    <View style={{ flex: 1, width: "100%", justifyContent: "center", flexDirection: "row", position: "absolute", marginTop: 90 }}>
+                    <View style={MyStyles.carousel_selector}>
                       {/*  _animatePrevPage : 자체로 만들어준 함수, 원래서고에는 없음. 다시 다운받았을때 새롭게 만들어주어야함. */}
-                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-start", padding: 15 }} onPress={() => { this.bestCarouselIndicator._animatePrevPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.bestCarouselIndicator._animatePrevPage(); }}>
                         <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                       <View style={{ flex: 1 }}></View>
-                      <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: "flex-end", padding: 15 }} onPress={() => { this.bestCarouselIndicator._animateNextPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.bestCarouselIndicator._animateNextPage(); }}>
                         <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                     </View>
