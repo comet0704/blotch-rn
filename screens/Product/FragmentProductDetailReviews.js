@@ -38,12 +38,14 @@ export class FragmentProductDetailReviews extends React.Component {
   constructor(props) {
     super(props);
     this.item_id = this.props.item_id
+    this.selected_img_idx = 0 // 이미지 삭제를 위해 선택한 이미지 index
 
     this.state = {
       review_photos: [
 
       ],
       reportModalVisible: false,
+      showImageRemoveModal: false,
       zoomViewerModalVisible: false,
       user_review_photo_list: [],
       zoomViewerImages: [],
@@ -89,9 +91,8 @@ export class FragmentProductDetailReviews extends React.Component {
   onCommentPosted = (p_comment, parent) => {
     const comment_list = this.state.product_comment_list_result_data.comment_list
 
-    this.state.comment_count++
     this.setState({ post_comment: "" })
-    this.setState({ post_sub_comment: "", comment_count: this.state.comment_count })
+    this.setState({ post_sub_comment: "" })
     if (parent == 0) { //부모댓글인 경우 마지막에 추가만 해주면 됨. 제품에 올리는 댓글인 경우 하나만 올려야 하므로 원래 댓글 이 있으면 replace 해주어야 하는데 시끄러워서 api 다시 호출하겠음.
       this.setState({ loading_end: false })
       this.requestProductCommentList(item_id, 0);
@@ -103,8 +104,9 @@ export class FragmentProductDetailReviews extends React.Component {
   }
 
   onPostSend = async () => {
+    this.uploadedImagePaths = ""
     // if (this.state.product_comment_list_result_data.user_comment.comment == "") {
-    if (this.state.comment_text == "") {
+    if (this.state.comment_text == null || this.state.comment_text.length < 1) {
       this.props.toast.showBottom("Please input your comment");
       return;
     }
@@ -153,20 +155,23 @@ export class FragmentProductDetailReviews extends React.Component {
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
               <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
               {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 42 / 3, lineHeight: 44 / 3 }]}>Me</Text> : null}
-              <StarRating
-                disabled={false}
-                maxStars={5}
-                containerStyle={{ width: 180 / 3, marginLeft: 10 }}
-                starSize={30 / 3}
-                emptyStarColor={Colors.color_star_empty}
-                rating={item.grade}
-                selectedStar={(rating) => {
-                  this.state.product_comment_list_result_data.user_comment.grade = rating
-                  this.state.selected_star = rating
-                  this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data, selectedStar: this.state.selected_star });
-                }}
-                fullStarColor={Colors.color_star_full}
-              />
+              {item.parent == 0 ?
+                <StarRating
+                  disabled={false}
+                  maxStars={5}
+                  containerStyle={{ width: 180 / 3, marginLeft: 10 }}
+                  starSize={30 / 3}
+                  emptyStarColor={Colors.color_star_empty}
+                  rating={item.grade}
+                  selectedStar={(rating) => {
+                    this.state.product_comment_list_result_data.user_comment.grade = rating
+                    this.state.selected_star = rating
+                    this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data, selectedStar: this.state.selected_star });
+                  }}
+                  fullStarColor={Colors.color_star_full}
+                />
+                : null
+              }
             </View>
             {
               item.user_status == 1 ? // user_status=1 이면 "This user was suspended."
@@ -548,15 +553,52 @@ export class FragmentProductDetailReviews extends React.Component {
               </View>
               : null} */}
 
-            {this.state.review_photos.length > 0 && this.state.review_photos[0] != "" ?
-              <View style={{ flexDirection: "row", flex: 1 }}>
-                <Image source={{ uri: this.state.review_photos.length > 0 ? this.state.review_photos[0].uri : null }} style={[MyStyles.review_photo]} />
-                <Image source={{ uri: this.state.review_photos.length > 1 ? this.state.review_photos[1].uri : null }} style={[MyStyles.review_photo]} />
-                <Image source={{ uri: this.state.review_photos.length > 2 ? this.state.review_photos[2].uri : null }} style={[MyStyles.review_photo]} />
-                <Image source={{ uri: this.state.review_photos.length > 3 ? this.state.review_photos[3].uri : null }} style={[MyStyles.review_photo]} />
-                <Image source={{ uri: this.state.review_photos.length > 4 ? this.state.review_photos[4].uri : null }} style={[MyStyles.review_photo]} />
-              </View>
-              : null}
+            {
+              this.state.photoModalVisible ? null :
+                this.state.review_photos.length > 0 && this.state.review_photos[0] != "" ?
+                  <View style={{ flexDirection: "row", flex: 1 }}>
+                    <TouchableHighlight style={[MyStyles.review_photo]} onPress={() => {
+                      if (this.state.review_photos.length > 0) {
+                        this.selected_img_idx = 0
+                        this.setState({showImageRemoveModal : true})
+                      }
+                    }}>
+                      <Image source={{ uri: this.state.review_photos.length > 0 ? this.state.review_photos[0].uri : null }} style={[MyStyles.review_photo_img]} />
+                    </TouchableHighlight>
+                    <TouchableHighlight style={[MyStyles.review_photo]} onPress={() => {
+                      if (this.state.review_photos.length > 1) {
+                        this.selected_img_idx = 1
+                        this.setState({showImageRemoveModal : true})
+                      }
+                    }}>
+                      <Image source={{ uri: this.state.review_photos.length > 1 ? this.state.review_photos[1].uri : null }} style={[MyStyles.review_photo_img]} />
+                    </TouchableHighlight>
+                    <TouchableHighlight style={[MyStyles.review_photo]} onPress={() => {
+                      if (this.state.review_photos.length > 2) {
+                        this.selected_img_idx = 2
+                        this.setState({showImageRemoveModal : true})
+                      }
+                    }}>
+                      <Image source={{ uri: this.state.review_photos.length > 2 ? this.state.review_photos[2].uri : null }} style={[MyStyles.review_photo_img]} />
+                    </TouchableHighlight>
+                    <TouchableHighlight style={[MyStyles.review_photo]} onPress={() => {
+                      if (this.state.review_photos.length > 3) {
+                        this.selected_img_idx = 3
+                        this.setState({showImageRemoveModal : true})
+                      }
+                    }}>
+                      <Image source={{ uri: this.state.review_photos.length > 3 ? this.state.review_photos[3].uri : null }} style={[MyStyles.review_photo_img]} />
+                    </TouchableHighlight>
+                    <TouchableHighlight style={[MyStyles.review_photo]} onPress={() => {
+                      if (this.state.review_photos.length > 4) {
+                        this.selected_img_idx = 4
+                        this.setState({showImageRemoveModal : true})
+                      }
+                    }}>
+                      <Image source={{ uri: this.state.review_photos.length > 4 ? this.state.review_photos[4].uri : null }} style={[MyStyles.review_photo_img]} />
+                    </TouchableHighlight>
+                  </View>
+                  : null}
           </View>
 
           {
@@ -565,6 +607,51 @@ export class FragmentProductDetailReviews extends React.Component {
           }
 
         </View>
+
+        {/* 이미지 삭제 확인팝업 */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.showImageRemoveModal}
+          onRequestClose={() => {
+          }}>
+          <View style={{ flex: 1 }}>
+            <View style={MyStyles.modal_bg}>
+              <View style={MyStyles.modalContainer}>
+                <TouchableOpacity activeOpacity={0.8} style={MyStyles.modal_close_btn} onPress={() => {
+                  this.setState({ showImageRemoveModal: false });
+                }}>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                </TouchableOpacity>
+
+                <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
+                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", textAlign: "center", marginLeft: 10, marginRight: 10, fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Are you sure you want to delete it?</Text>
+
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableHighlight onPress={() => {
+                    this.setState({ showImageRemoveModal: false });
+                    this.state.review_photos.splice(this.selected_img_idx, 1)
+                    this.setState({ review_photos: this.state.review_photos })
+                  }}
+                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                  </TouchableHighlight>
+
+                  <TouchableHighlight
+                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    onPress={() => {
+                      this.setState({ showImageRemoveModal: false });
+                    }}>
+                    <Text style={MyStyles.btn_primary_white}>No</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+
+            </View>
+          </View>
+        </Modal>
+
+
 
         {/* 신고팝업 */}
         <Modal
@@ -695,7 +782,8 @@ export class FragmentProductDetailReviews extends React.Component {
             ]
           }
           this.setState({
-            product_comment_list_result_data: result
+            product_comment_list_result_data: result,
+            comment_count: result.comment_list.length
           });
 
           try {
@@ -707,7 +795,10 @@ export class FragmentProductDetailReviews extends React.Component {
         }
         const comment_list = this.state.product_comment_list_result_data.comment_list
         result = { comment_list: [...comment_list, ...responseJson.result_data.comment_list] };
-        this.setState({ product_comment_list_result_data: result })
+        this.setState({
+          product_comment_list_result_data: result,
+          comment_count: result.comment_list.length
+        })
       })
       .catch((error) => {
         this.setState({
@@ -878,8 +969,9 @@ export class FragmentProductDetailReviews extends React.Component {
         }
 
         this.state.product_comment_list_result_data.comment_list.splice(p_index, 1);
-        this.state.comment_count--
-        this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data, comment_count: this.state.comment_count });
+        this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data });
+
+        this.requestProductCommentList(this.item_id, 0)
       })
       .catch((error) => {
         // this.setState({

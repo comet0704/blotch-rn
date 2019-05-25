@@ -1353,7 +1353,12 @@ export default StyleSheet.create({
     height: 53 / 3,
   },
   review_photo: {
-    flex: 1, backgroundColor: "transparent", borderWidth: 1, aspectRatio: 1.2, margin: 5,
+    flex: 1, backgroundColor: "transparent", aspectRatio: 1.2, margin: 5,
+  },
+  review_photo_img: {
+    width: "100%",
+    height: "100%",
+    borderWidth: 1,
   },
   ic_toner: {
     width: 19 / 3,
