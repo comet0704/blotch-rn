@@ -20,6 +20,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import MyConstants from '../../constants/MyConstants';
 import Messages from '../../constants/Messages';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 export default class ChangePwdScreen extends React.Component {
 

@@ -158,6 +158,12 @@ export default class HomeScreen extends React.Component {
     this.requestHomeList()
     this.requestGetMyPosition();
     handleAndroidBackButton(this, exitAlert);
+
+    AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.is_tutorial_shown, (err, result) => {
+      if (result == null) {
+        this.props.navigation.navigate("Tutorial")
+      }
+    });
   }
 
   componentWillMount() {
@@ -604,8 +610,8 @@ export default class HomeScreen extends React.Component {
                       }}>
                         <Carousel
                           hideIndicators={true}
-                          animate={true}
-                          delay={2000}
+                          animate={false}
+                          delay={50000}
                           width={this.BannerWidth / 2}
                           ref={(carousel) => { this.newCarouselIndicator = carousel }}
                         >
@@ -649,8 +655,8 @@ export default class HomeScreen extends React.Component {
                       }}>
                         <Carousel
                           hideIndicators={true}
-                          animate={true}
-                          delay={2000}
+                          animate={false}
+                          delay={50000}
                           width={this.BannerWidth / 2}
                           ref={(carousel) => { this.bestCarouselIndicator = carousel }}
                         >

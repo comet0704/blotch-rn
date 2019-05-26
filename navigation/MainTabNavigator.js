@@ -48,9 +48,11 @@ import WeCanSearchItScreen from '../screens/Mypage/WeCanSearchItScreen';
 import MyOwnListScreen from '../screens/Mylist/MyOwnListScreen';
 import MyConstants from '../constants/MyConstants';
 import MyStyles from '../constants/MyStyles';
+import TutorialScreen from '../screens/Tutorial/TutorialScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  Tutorial: TutorialScreen,
   WeCanSearchIt: WeCanSearchItScreen,
   Article: ArticlesScreen,
   ArticleDetail: ArticleDetailScreen,

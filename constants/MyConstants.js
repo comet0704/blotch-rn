@@ -90,6 +90,7 @@ export default {
     settingButtonOffset: "settingButtonOffset",
     setting: "setting",
     recent_search_words: "recent_search_words",
+    is_tutorial_shown: "is_tutorial_shown",
     like_list_order: "like_list_order",
     my_list_order: "my_list_order",
     user_pwd: "user_pwd",
