@@ -1127,6 +1127,10 @@ export default StyleSheet.create({
     width: 47 / 3,
     height: 48 / 3,
   },
+  ic_hidden_chk_mark: {
+    width: 347 / 3,
+    height: 377 / 3,
+  },
   ic_arrow_right_white: {
     width: 21 / 3,
     height: 34 / 3,
@@ -1138,6 +1142,10 @@ export default StyleSheet.create({
   ic_questionnare_big: {
     width: 99 / 3,
     height: 109 / 3,
+  },
+  ic_hidden_pt_mark: {
+    width: 334 / 3,
+    height: 375 / 3,
   },
   ic_product_approval: {
     width: 98 / 3,
@@ -1224,6 +1232,7 @@ export default StyleSheet.create({
     padding: 15,
   },
   ingredient_section_header: {
+    overflow: "hidden",
     padding: 15,
     flex: 1, flexDirection: "row", alignItems: "center"
   },

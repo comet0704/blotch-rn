@@ -399,10 +399,23 @@ export default class QuestionnareScreen extends React.Component {
                               this.state.questionnaire_detail.location.length > 0 &&
                               this.state.questionnaire_detail.is_kids != null &&
                               this.state.questionnaire_detail.is_kids.length > 0 ?
-                              <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked, { marginLeft: 5 }]} /> : null
+                              <Image source={require("../../assets/images/ic_question_checked.png")} style={[MyStyles.ic_question_checked, { marginLeft: 5 }]} />
+                              : null
                           }
                         </View>
                       </View>
+                      { // 섹션1 완성상태 체크
+                        this.state.questionnaire_detail.birth != null &&
+                          this.state.questionnaire_detail.birth.length > 0 &&
+                          this.state.questionnaire_detail.gender != null &&
+                          this.state.questionnaire_detail.gender.length > 0 &&
+                          this.state.questionnaire_detail.location != null &&
+                          this.state.questionnaire_detail.location.length > 0 &&
+                          this.state.questionnaire_detail.is_kids != null &&
+                          this.state.questionnaire_detail.is_kids.length > 0 ?
+                          <Image source={require("../../assets/images/ic_hidden_chk_mark.png")} style={[MyStyles.ic_hidden_chk_mark, { position: "absolute", right: -65 / 3 }]} />
+                          : null
+                      }
                     </TouchableOpacity>
 
                     {
@@ -587,6 +600,16 @@ export default class QuestionnareScreen extends React.Component {
                           }
                         </View>
                       </View>
+                      { // 섹션2 완성상태 체크
+                        this.state.questionnaire_detail.skin_type != null &&
+                          this.state.questionnaire_detail.skin_type.length > 0 &&
+                          this.state.questionnaire_detail.concern != null &&
+                          this.state.questionnaire_detail.concern.length > 0 &&
+                          this.state.questionnaire_detail.needs != null &&
+                          this.state.questionnaire_detail.needs.length > 0 ?
+                          <Image source={require("../../assets/images/ic_hidden_chk_mark.png")} style={[MyStyles.ic_hidden_chk_mark, { position: "absolute", right: -65 / 3 }]} />
+                          : null
+                      }
                     </TouchableOpacity>
                     {
                       this.state.section_skin_type ?
@@ -736,6 +759,20 @@ export default class QuestionnareScreen extends React.Component {
                           }
                         </View>
                       </View>
+                      { // 섹션3 완성상태 체크
+                        this.state.questionnaire_detail.brand_favourite_list != null &&
+                          this.state.questionnaire_detail.brand_favourite_list.length > 0 &&
+                          this.state.questionnaire_detail.brand_mostly_list != null &&
+                          this.state.questionnaire_detail.brand_mostly_list.length > 0 &&
+                          this.state.questionnaire_detail.buy_products_from != null &&
+                          this.state.questionnaire_detail.buy_products_from > 0 &&
+                          this.state.questionnaire_detail.product_count_in_day != null &&
+                          this.state.questionnaire_detail.product_count_in_day > 0 &&
+                          this.state.questionnaire_detail.time_for_care != null &&
+                          this.state.questionnaire_detail.time_for_care > 0 ?
+                          <Image source={require("../../assets/images/ic_hidden_chk_mark.png")} style={[MyStyles.ic_hidden_chk_mark, { position: "absolute", right: -65 / 3 }]} />
+                          : null
+                      }
                     </TouchableOpacity>
                     {
                       this.state.section_product_reference ?
@@ -1005,6 +1042,14 @@ export default class QuestionnareScreen extends React.Component {
                           }
                         </View>
                       </View>
+                      { // 섹션4 완성상태 체크
+                        this.state.morning_cleansing_types.findIndex(item => item.is_selected == true) >= 0 &&
+                          this.state.morning_care_types.findIndex(item => item.is_selected == true) >= 0 &&
+                          this.state.night_cleansing_types.findIndex(item => item.is_selected == true) >= 0 &&
+                          this.state.night_care_types.findIndex(item => item.is_selected == true) >= 0 ?
+                          <Image source={require("../../assets/images/ic_hidden_chk_mark.png")} style={[MyStyles.ic_hidden_chk_mark, { position: "absolute", right: -65 / 3 }]} />
+                          : null
+                      }
                     </TouchableOpacity>
                     {
                       this.state.section_skin_routine ?

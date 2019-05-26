@@ -48,7 +48,7 @@ export default class MyPointScreen extends React.Component {
     if (item.type == 1) {
       {/* 리뷰작성으로 인한 지급 */ }
       <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: -3 }]}>
-        <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
+        <TouchableOpacity activeOpacity={0.8} style={[MyStyles.ingredient_section_header]} onPress={() => {
           this.setState({ section_allergic_show: !this.state.section_allergic_show })
         }}>
           <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
@@ -57,12 +57,13 @@ export default class MyPointScreen extends React.Component {
             <MyAppText style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</MyAppText>
           </View>
           <MyAppText style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<MyAppText style={{ color: Colors.primary_purple }}>P</MyAppText></MyAppText>
+          <Image source={require("../../assets/images/ic_hidden_pt_mark.png")} style={[MyStyles.ic_hidden_pt_mark, { position: "absolute", right: -65 / 3 }]} />
         </TouchableOpacity>
       </View>
     } else if (item.type == 2) { // 미등록 제품스캔, 사진 업로드로 인한  인한 지급
       return (
         <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
-          <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
+          <TouchableOpacity activeOpacity={0.8} style={[MyStyles.ingredient_section_header]} onPress={() => {
             this.setState({ section_allergic_show: !this.state.section_allergic_show })
           }}>
             <Image source={require("../../assets/images/ic_product_approval.png")} style={[MyStyles.ic_product_approval]} />
@@ -74,6 +75,7 @@ export default class MyPointScreen extends React.Component {
               <MyAppText style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</MyAppText>
             </View>
             <MyAppText style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<MyAppText style={{ color: Colors.primary_purple }}>P</MyAppText></MyAppText>
+            <Image source={require("../../assets/images/ic_hidden_pt_mark.png")} style={[MyStyles.ic_hidden_pt_mark, { position: "absolute", right: -65 / 3 }]} />
           </TouchableOpacity>
         </View>
       );
@@ -82,7 +84,7 @@ export default class MyPointScreen extends React.Component {
       {/* Questionnaire 완료시 지급 */ }
       return (
         <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
-          <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
+          <TouchableOpacity activeOpacity={0.8} style={[MyStyles.ingredient_section_header]} onPress={() => {
             this.setState({ section_allergic_show: !this.state.section_allergic_show })
           }}>
             <Image source={require("../../assets/images/ic_questionnare_big.png")} style={[MyStyles.ic_questionnare_big]} />
@@ -94,6 +96,8 @@ export default class MyPointScreen extends React.Component {
               <MyAppText style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</MyAppText>
             </View>
             <MyAppText style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<MyAppText style={{ color: Colors.primary_purple }}>P</MyAppText></MyAppText>
+
+            <Image source={require("../../assets/images/ic_hidden_pt_mark.png")} style={[MyStyles.ic_hidden_pt_mark, { position: "absolute", right: -65 / 3 }]} />
           </TouchableOpacity>
         </View>
       );
