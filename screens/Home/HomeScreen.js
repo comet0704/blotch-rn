@@ -424,7 +424,7 @@ export default class HomeScreen extends React.Component {
                   </View>
                 </TouchableWithoutFeedback>
               </View>
-              
+
               {/* Today's Beauty Information */}
               <View style={[{ paddingTop: 20, borderBottomLeftRadius: 20, }, MyStyles.container, MyStyles.bg_white, MyStyles.shadow_2]}>
                 {/* borderTop에 그림자 효과 가리기 위한 뷰 */}

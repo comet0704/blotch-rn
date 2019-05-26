@@ -73,8 +73,9 @@ export default class SearchBarcodeScreen extends React.Component {
               </MyAppText>
               :
               <Camera
-                // onBarCodeScanned={this._handleBarCodeRead}
+                onBarCodeScanned={this._handleBarCodeRead}
                 style={[StyleSheet.absoluteFill, styles.container]}
+                // onBarCodeScanned={(scan) => { alert(scan.data) }}
                 flashMode={this.state.isTorchOn ? 'torch' : 'off'}
               >
                 <View style={styles.layerTop} />
@@ -83,29 +84,26 @@ export default class SearchBarcodeScreen extends React.Component {
                   <View style={[styles.layerLeft, { zIndex: 1000 }]}>
                   </View>
                   <View style={styles.focused}>
+                    <Image source={require('../../../assets/images/ic_purple_border1.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", top: -3, left: -3 }]} />
+                    <Image source={require('../../../assets/images/ic_purple_border2.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", top: -3, right: -3 }]} />
+                    <Image source={require('../../../assets/images/ic_purple_border3.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", bottom: -3, left: -3 }]} />
+                    <Image source={require('../../../assets/images/ic_purple_border4.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", bottom: -3, right: -3 }]} />
 
+                    <View style={{ height: 2, width: "100%", backgroundColor: "#da3c2680" }} />
                   </View>
                   <View style={styles.layerRight} />
                 </View>
-                <View style={styles.layerBottom} />
+                <View style={styles.layerBottom}/>
                 <View style={styles.layerDesc}>
-                  <View style={{ flex: 1, backgroundColor: "white", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-                    <View style={{ flex: 1 }} />
-                    <Image source={require('../../../assets/images/ic_camera_button.png')} style={[MyStyles.ic_camera_button]} />
-                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                      <TouchableOpacity onPress={() => {
-                        this.props.navigation.pop(1);
-                        this.props.navigation.navigate("SearchBarcode")
-                      }}>
-                        <Image source={require('../../../assets/images/ic_barcode_button.png')} style={[MyStyles.ic_barcode_button]} />
-                      </TouchableOpacity>
-                    </View>
+                  <View style={{ flex: 1, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
+                    <Image source={require('../../../assets/images/ic_bar_code.png')} style={[MyStyles.ic_bar_code]} />
+                    <MyAppText style={{ color: Colors.primary_dark, fontSize: 15, fontWeight: "500", marginTop: 10, textAlign: "center" }}>Point the camera on the other side of your{"\n"}phone at a Barcode</MyAppText>
                   </View>
                 </View>
               </Camera>
           }
           <View style={{ position: "absolute", top: 0, left: 0, right: 0 }}>
-            <TopbarWithBlackBack rightBtn="true" isTorch={true} title="Camera" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this._handleTorchPress() }}></TopbarWithBlackBack>
+            <TopbarWithBlackBack rightBtn="true" isTorch={true} title="Barcode" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this._handleTorchPress() }}></TopbarWithBlackBack>
             <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
           </View>
         </View>
@@ -129,21 +127,21 @@ const styles = StyleSheet.create({
     backgroundColor: opacity
   },
   layerCenter: {
-    height: 990 / 3,
+    height: 515 / 3,
     flexDirection: 'row'
   },
   layerLeft: {
-    width: 15,
+    width: 130 / 3,
     backgroundColor: opacity
   },
   focused: {
     flex: 1,
     borderWidth: 4,
-    borderColor: Colors.color_primary_pink,
+    borderColor: opacity,
     justifyContent: "center",
   },
   layerRight: {
-    width: 15,
+    width: 130 / 3,
     backgroundColor: opacity
   },
   layerBottom: {

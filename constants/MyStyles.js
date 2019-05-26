@@ -1272,6 +1272,14 @@ export default StyleSheet.create({
     width: 125 / 3,
     height: 76 / 3,
   },
+  ic_camera_button: {
+    width: 191 / 3,
+    height: 191 / 3,
+  },
+  ic_barcode_button: {
+    width: 78 / 3,
+    height: 74 / 3,
+  },
   ic_purple_border: {
     width: 65 / 3,
     height: 65 / 3,
@@ -1451,17 +1459,17 @@ export default StyleSheet.create({
   backButton: {
     width: 11,
     height: 18,
-    marginTop: 20,
+    marginTop: 22,
   },
   shareBtn: {
     width: 46 / 3,
     height: 53 / 3,
-    marginTop: 20,
+    marginTop: 22,
   },
   ic_edit_pwd: {
     width: 196 / 3,
     height: 37 / 3,
-    marginTop: 20,
+    marginTop: 22,
   },
   flashBtn: {
     width: 38 / 3,

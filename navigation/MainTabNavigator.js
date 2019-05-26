@@ -26,6 +26,7 @@ import SearchResultProductMoreScreen from '../screens/Home/Search/SearchResultPr
 import SearchResultIngredientMoreScreen from '../screens/Home/Search/SearchResultIngredientMoreScreen';
 import MyListScreen from '../screens/Mylist/MyListScreen';
 import SearchCameraScreen from '../screens/Home/Search/SearchCameraScreen';
+import SearchBarcodeScreen from '../screens/Home/Search/SearchBarcodeScreen';
 import MatchdListScreen from '../screens/Mylist/MatchdListScreen';
 import BlotchdListScreen from '../screens/Mylist/BlotchdListScreen';
 import HeartListScreen from '../screens/Mylist/HeartListScreen';
@@ -62,6 +63,7 @@ const HomeStack = createStackNavigator({
   SearchResultProductMore: SearchResultProductMoreScreen,
   SearchResultIngredientMore: SearchResultIngredientMoreScreen,
   SearchCamera: SearchCameraScreen,
+  SearchBarcode: SearchBarcodeScreen,
   AboutUs: AboutUsScreen,
 },
   {
@@ -181,6 +183,7 @@ const MyListStack = createStackNavigator({
   MatchdList: MatchdListScreen,
   SearchBrandDetail: SearchBrandDetailScreen,
   SearchCamera: SearchCameraScreen,
+  SearchBarcode: SearchBarcodeScreen,
   ProductDetail: ProductDetailScreen,
   MyOwnList: MyOwnListScreen,
 },

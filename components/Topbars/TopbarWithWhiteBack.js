@@ -10,7 +10,7 @@ export class TopbarWithWhiteBack extends React.Component {
   render() {
     return (
       <View style={{ flexDirection: "row", justifyContnt: "center", }}>
-        <MyAppText style={{ flex: 1, textAlign: "center", left: 0, right: 0, height: 48, top: 35, fontSize: 16, fontWeight: "500", position: "absolute" }}>{this.props.title}</MyAppText>
+        <MyAppText style={{ flex: 1, textAlign: "center", left: 0, right: 0, height: 48, top: 38, fontSize: 16, fontWeight: "500", position: "absolute" }}>{this.props.title}</MyAppText>
 
         <TouchableOpacity
           onPress={this.props.onPress} activeOpacity={0.5} style={{ padding: 15, width: 45 }}>
