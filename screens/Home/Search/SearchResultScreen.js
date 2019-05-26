@@ -182,7 +182,8 @@ export default class SearchResultScreen extends React.Component {
               this.props.navigation.goBack(null)
               this.backCallbackToSearchMain();
             }}>
-              <View style={[MyStyles.searchBoxCover, MyStyles.shadow_2]}>
+              <View style={[MyStyles.searchBoxCover]}>
+                <Image source={require("../../../assets/images/ic_search_box_bg1.png")} style={MyStyles.background_image_stretch} />
                 <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
                 <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} value={this.state.searchWord}></TextInput>
                 <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchBarcode") }}>
@@ -211,7 +212,7 @@ export default class SearchResultScreen extends React.Component {
                         paddingTop: 15,
                         paddingLeft: 15,
                         paddingRight: 15,
-                        paddingBottom: 75/3,
+                        paddingBottom: 75 / 3,
                       }}>
                         {
                           this.renderBrandsScroll()

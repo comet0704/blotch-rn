@@ -421,7 +421,8 @@ export default class HomeScreen extends React.Component {
               <View style={[MyStyles.searchBoxCommon, MyStyles.container, MyStyles.bg_white, { marginTop: 0 }]}>
                 <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />
                 <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
-                  <View style={[{ marginLeft: 12, }, MyStyles.searchBoxCover, MyStyles.shadow_2]}>
+                  <View style={[{ marginLeft: 12, }, MyStyles.searchBoxCover,]}>
+                    <Image source={require("../../assets/images/ic_search_box_bg.png")} style={MyStyles.background_image_stretch} />
                     <Image source={require('../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
                     <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
                     <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
@@ -432,7 +433,7 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* Today's Beauty Information */}
-              <View style={[{ paddingTop: 20, borderBottomLeftRadius: 20, }, MyStyles.container, MyStyles.bg_white, MyStyles.shadow_2]}>
+              <View style={[{ paddingTop: 20, borderBottomLeftRadius: 20, }, MyStyles.container, MyStyles.bg_white]}>
                 {/* borderTop에 그림자 효과 가리기 위한 뷰 */}
                 <View style={{ position: "absolute", height: 2, top: -2, left: 0, right: 0, backgroundColor: "white" }} />
 
@@ -499,12 +500,13 @@ export default class HomeScreen extends React.Component {
                   </View>
                   : null}
               </View>
+              <Image source={require("../../assets/images/ic_main_shadow.png")} style={[MyStyles.ic_main_shadow, { marginBottom: -10 }]} />
 
 
               {/* We can search it */}
               {this.state.refreshOneLineInfo ?
                 global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
-                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.container, { marginTop: 20 }]} onPress=
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.container, { marginTop: 10 }]} onPress=
                     {() => {
                       this.props.navigation.navigate("WeCanSearchIt", {
                         [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
@@ -515,7 +517,8 @@ export default class HomeScreen extends React.Component {
                     }
                     }
                   >
-                    <View style={[MyStyles.we_can_search_it_cover, MyStyles.shadow_2]}>
+                    <View style={[MyStyles.we_can_search_it_cover,]}>
+                      <Image source={require("../../assets/images/ic_we_can_search_it_bg.png")} style={MyStyles.background_image_stretch} />
                       <View style={{ flex: 1 }}>
                         <MyAppText style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</MyAppText>
                         <MyAppText style={{ fontSize: 12, color: "#949393" }}>Please set up your skin type</MyAppText>
@@ -527,7 +530,7 @@ export default class HomeScreen extends React.Component {
                   : null
                 :
                 global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
-                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.container, { marginTop: 20 }]} onPress=
+                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.container, { marginTop: 10 }]} onPress=
                     {() => {
                       this.props.navigation.navigate("WeCanSearchIt", {
                         [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
@@ -538,7 +541,8 @@ export default class HomeScreen extends React.Component {
                     }
                     }
                   >
-                    <View style={[MyStyles.we_can_search_it_cover, MyStyles.shadow_2]}>
+                    <View style={[MyStyles.we_can_search_it_cover]}>
+                      <Image source={require("../../assets/images/ic_we_can_search_it_bg.png")} style={MyStyles.background_image_stretch} />
                       <View style={{ flex: 1 }}>
                         <MyAppText style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</MyAppText>
                         <MyAppText style={{ fontSize: 12, color: "#949393" }}>Please set up your skin type</MyAppText>
@@ -551,7 +555,7 @@ export default class HomeScreen extends React.Component {
               }
 
               {/* 배너 부분 */}
-              <View style={{ borderTopRightRadius: 20, overflow: "hidden", marginTop: 20, height: this.BannerHeight }}>
+              <View style={{ borderTopRightRadius: 20, overflow: "hidden", marginTop: 10, height: this.BannerHeight }}>
 
                 {this.state.result_data.banner_list.length > 0 ?
                   <View style={{
@@ -572,7 +576,7 @@ export default class HomeScreen extends React.Component {
               </View>
 
               {/* Hi, It's New 부분 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20 }, MyStyles.bg_white]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <MyAppText style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Hi, It's New</MyAppText>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 0 }) }}>
@@ -633,10 +637,10 @@ export default class HomeScreen extends React.Component {
                   </View>
                 </View>
               </View>
-
+              <Image source={require("../../assets/images/ic_main_shadow.png")} style={[MyStyles.ic_main_shadow, { marginBottom: -10 }]} />
 
               {/* Best Choice 부분 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20 }, MyStyles.bg_white]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <MyAppText style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Best Choice</MyAppText>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 1 }) }}
@@ -700,10 +704,10 @@ export default class HomeScreen extends React.Component {
 
                 </View>
               </View>
-
+              <Image source={require("../../assets/images/ic_main_shadow.png")} style={[MyStyles.ic_main_shadow, { marginBottom: -10 }]} />
 
               {/* Today's Article & What's Trending 부분 */}
-              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20, marginBottom: 10 }, MyStyles.bg_white, MyStyles.shadow_2]}>
+              <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20 }, MyStyles.bg_white]}>
                 {/* Today's Article */}
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
                   <MyAppText style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Today's Article</MyAppText>
@@ -767,6 +771,7 @@ export default class HomeScreen extends React.Component {
                 </View>
               </View>
 
+              <Image source={require("../../assets/images/ic_main_shadow.png")} style={[MyStyles.ic_main_shadow]} />
             </View>
 
             <LoginModal is_transparent={true} this={this} />

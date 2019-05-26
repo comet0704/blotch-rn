@@ -55,6 +55,9 @@ export default StyleSheet.create({
   bg_white: {
     backgroundColor: "white"
   },
+  ic_main_shadow: {
+    width: "100%", height: 90 / 3, marginTop: -20,
+  },
   h_auto: {
     marginLeft: "auto",
     marginRight: "auto",
@@ -150,7 +153,9 @@ export default StyleSheet.create({
     maxWidth: 150,
   },
   we_can_search_it_cover: {
-    paddingLeft: 23, paddingRight: 23, paddingTop: 10, paddingBottom: 10, flexDirection: "row", borderRadius: 35,
+    height: 202 / 3,
+    paddingLeft: 23, paddingRight: 23, flexDirection: "row", borderRadius: 35,
+    paddingBottom: 23 / 3,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
@@ -165,6 +170,17 @@ export default StyleSheet.create({
     height: null,
     width: null,
     resizeMode: "cover",
+  },
+  background_image_stretch: {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    position: "absolute",
+    flex: 1,
+    height: null,
+    width: null,
+    resizeMode: "stretch",
   },
   seperate_line_white: {
     height: 0.5,
@@ -1500,7 +1516,10 @@ export default StyleSheet.create({
     height: 153 / 3,
   },
   searchBoxCover: {
-    flex: 1, borderRadius: 20, flexDirection: "row", width: "100%", paddingLeft: 13, paddingRight: 5
+    flex: 1, borderRadius: 20, flexDirection: "row", width: "100%", paddingLeft: 13, paddingRight: 40 / 3,
+    alignItems: "center",
+    paddingBottom: 5,
+    height: 125 / 3,
   },
   searchBoxCommon: {
     height: 46, paddingTop: 4, paddingBottom: 6, justifyContent: "center", flexDirection: "row", marginTop: 25,
