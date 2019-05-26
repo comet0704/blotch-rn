@@ -9,6 +9,7 @@ import MyConstants from '../../../constants/MyConstants'
 import Common from '../../../assets/Common';
 import Net from '../../../Net/Net';
 import Colors from '../../../constants/Colors';
+import { MyAppText } from '../../../components/Texts/MyAppText';
 import { Icon } from 'expo';
 import Carousel from 'react-native-banner-carousel';
 import {
@@ -90,16 +91,16 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
     return (
       <View key={item.id} style={{ flex: 1 }}>
         <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
-          <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
+          <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</MyAppText>
           <Image style={{ flex: 1 }} />
           <TouchableOpacity activeOpacity={0.8} onPress={() => {
             this.setState({ saveToModalVisible: true, selectedIngredient_id: item.id })
           }}>
-            <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</Text>
+            <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</MyAppText>
           </TouchableOpacity>
         </TouchableOpacity>
         {this.state.curSelectedIngredient == item.id ? <View style={{ justifyContent: "center" }}>
-          <Text style={style_content_text}>{item.content}</Text>
+          <MyAppText style={style_content_text}>{item.content}</MyAppText>
         </View> : null}
       </View>
     )
@@ -153,7 +154,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                   <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 10, alignSelf: "center", }} onPress={() => { this.props.navigation.goBack() }}>
                     <Image source={require("../../../assets/images/ic_back3.png")} style={[MyStyles.ic_back3,]} />
                   </TouchableOpacity>
-                  <Text style={[MyStyles.text_14, { flex: 1, textAlignVertical: "center", marginTop: -8 }]}>Ingredient({this.state.result_data.ingredient_count})</Text>
+                  <MyAppText style={[MyStyles.text_14, { flex: 1, textAlignVertical: "center", marginTop: -8 }]}>Ingredient({this.state.result_data.ingredient_count})</MyAppText>
                 </View>
                 <View style={[MyStyles.container]}>
                   {this.state.result_data.ingredient_list.map((item, index) => this.renderGoodNormalBadIngredientList(item, index))}
@@ -176,7 +177,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                   {/* modal header */}
                   <View style={{ flexDirection: "row", alignItems: "center", width: "100%", height: 50 }}>
                     <View style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute" }]}>
-                      <Text style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</Text>
+                      <MyAppText style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</MyAppText>
                     </View>
                     <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                       this.setState({ saveToModalVisible: false })
@@ -194,7 +195,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                         this.requestAddUserIngredient(this.state.selectedIngredient_id, 0, this.state.selected_questionnaire.id)
                       }}>
                       <Image style={MyStyles.ic_allergic_ingredient} source={require("../../../assets/images/ic_allergic_ingredient.png")} />
-                      <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
+                      <MyAppText style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</MyAppText>
                       <Image style={{ flex: 1 }} />
                       <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")} />
                     </TouchableOpacity>
@@ -204,7 +205,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                         this.requestAddUserIngredient(this.state.selectedIngredient_id, 1, this.state.selected_questionnaire.id)
                       }}>
                       <Image style={MyStyles.ic_potential_allergins} source={require("../../../assets/images/ic_potential_allergins.png")} />
-                      <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
+                      <MyAppText style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</MyAppText>
                       <Image style={{ flex: 1 }} />
                       <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")} />
                     </TouchableOpacity>
@@ -214,7 +215,7 @@ export default class SearchResultIngredientMoreScreen extends React.Component {
                         this.requestAddUserIngredient(this.state.selectedIngredient_id, 2, this.state.selected_questionnaire.id)
                       }}>
                       <Image style={MyStyles.ic_preferred_ingredient} source={require("../../../assets/images/ic_preferred_ingredient.png")} />
-                      <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
+                      <MyAppText style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</MyAppText>
                       <Image style={{ flex: 1 }} />
                       <Image style={MyStyles.ic_arrow_right_gray} source={require("../../../assets/images/ic_arrow_right_gray.png")} />
                     </TouchableOpacity>

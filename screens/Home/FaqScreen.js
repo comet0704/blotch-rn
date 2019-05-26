@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
@@ -72,7 +73,7 @@ export default class FaqScreen extends React.Component {
         this.setState({ loading_end: false })
         this.requestFaqList(item.category, 0)
       }}>
-        <Text style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.category}</Text>
+        <MyAppText style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.category}</MyAppText>
       </TouchableOpacity>
     );
   }
@@ -110,15 +111,15 @@ export default class FaqScreen extends React.Component {
           {this.state.faq_list_result_data.faq_list.map((item, index) => (
             <View key={item.id}>
               <TouchableOpacity activeOpacity={0.8} style={[{ flexDirection: "row", alignItems: "center" }, MyStyles.padding_main, MyStyles.border_bottom_e5e5e5]} onPress={() => { this.onFaqItemSelected(index) }}>
-                <Text style={{ backgroundColor: [Common.getCategoryColor(item.id)], fontSize: 12, borderRadius: 2, paddingLeft: 5, paddingRight: 5, color: "white" }}>{item.category}</Text>
-                <Text style={{ flex: 1, marginLeft: 10, marginRight: 10, color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
+                <MyAppText style={{ backgroundColor: [Common.getCategoryColor(item.id)], fontSize: 12, borderRadius: 2, paddingLeft: 5, paddingRight: 5, color: "white" }}>{item.category}</MyAppText>
+                <MyAppText style={{ flex: 1, marginLeft: 10, marginRight: 10, color: Colors.primary_dark, fontSize: 15 }}>{item.title}</MyAppText>
                 {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :
                   <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_down_gray_small.png')} />}
               </TouchableOpacity>
 
               {item.is_selected ?
                 <View style={[MyStyles.padding_main, { backgroundColor: Colors.color_f8f8f8 }]}>
-                  <Text style={{ fontSize: 13, color: Colors.color_949191 }}>{item.content}</Text>
+                  <MyAppText style={{ fontSize: 13, color: Colors.color_949191 }}>{item.content}</MyAppText>
                 </View> : null}
             </View>
           ))}

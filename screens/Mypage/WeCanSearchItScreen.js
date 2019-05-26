@@ -10,6 +10,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 import { TopbarWithWhiteBack } from '../../components/Topbars/TopbarWithWhiteBack';
 
 import Carousel from 'react-native-banner-carousel';
@@ -102,13 +103,13 @@ export default class WeCanSearcnItScreen extends React.Component {
           <Image source={require('../../assets/images/Login/login_bg.png')} style={MyStyles.background_image} />
           <TopbarWithWhiteBack onPress={() => { this.props.navigation.goBack(null) }}></TopbarWithWhiteBack>
           <View>
-            <Text style={{ fontSize: 20, fontWeight: "bold", color: "white", textAlign: "center" }}>We can Search it !</Text>
-            <Text style={{ fontSize: 12, color: "white", textAlign: "center" }}>We will consult your Skin</Text>
+            <MyAppText style={{ fontSize: 20, fontWeight: "bold", color: "white", textAlign: "center" }}>We can Search it !</MyAppText>
+            <MyAppText style={{ fontSize: 12, color: "white", textAlign: "center" }}>We will consult your Skin</MyAppText>
           </View>
         </View>
         <View style={[MyStyles.padding_h_main, { height: 120 / 3, alignItems: "center", flexDirection: "row", backgroundColor: "white" }]}>
           <Image source={require("../../assets/images/ic_search_medium.png")} style={[MyStyles.ic_search_small]} />
-          <Text style={{ marginLeft: 5, color: Colors.primary_dark, fontWeight: "500", fontSize: 12 }}>Please set up your skin type</Text>
+          <MyAppText style={{ marginLeft: 5, color: Colors.primary_dark, fontWeight: "500", fontSize: 12 }}>Please set up your skin type</MyAppText>
         </View>
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
@@ -122,8 +123,8 @@ export default class WeCanSearcnItScreen extends React.Component {
                 this.setState({ section_step1_show: !this.state.section_step1_show })
               }}>
                 <View style={[{ flex: 1 }]}>
-                  <Text style={[MyStyles.ingredient_section_header_text2]}>Step 01</Text>
-                  <Text style={[MyStyles.ingredient_section_header_text1]}>Select your Skin Type</Text>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text2]}>Step 01</MyAppText>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Select your Skin Type</MyAppText>
                 </View>
                 {
                   this.state.section_step1_show ? <Image source={require("../../assets/images/ic_polygon_up.png")} style={[MyStyles.ic_polygon_up]} />
@@ -151,7 +152,7 @@ export default class WeCanSearcnItScreen extends React.Component {
                         this.setState(this.state.skin_types)
                       }} style={{ alignItems: "center" }} >
                         <Image source={item.is_selected ? item.image_on : item.image_off} style={[MyStyles.ic_skin_types_big]} />
-                        <Text style={{ textAlign: "center", color: Colors.color_949292, fontSize: 13, marginTop: 2 }}>{item.typeName}</Text>
+                        <MyAppText style={{ textAlign: "center", color: Colors.color_949292, fontSize: 13, marginTop: 2 }}>{item.typeName}</MyAppText>
                       </TouchableOpacity>
                     )}
                   />
@@ -165,8 +166,8 @@ export default class WeCanSearcnItScreen extends React.Component {
                 this.setState({ section_step2_show: !this.state.section_step2_show })
               }}>
                 <View style={[{ flex: 1 }]}>
-                  <Text style={[MyStyles.ingredient_section_header_text2]}>Step 02</Text>
-                  <Text style={[MyStyles.ingredient_section_header_text1]}>Select your Concerns</Text>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text2]}>Step 02</MyAppText>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Select your Concerns</MyAppText>
                 </View>
                 {
                   this.state.section_step2_show ? <Image source={require("../../assets/images/ic_polygon_up.png")} style={[MyStyles.ic_polygon_up]} />
@@ -189,7 +190,7 @@ export default class WeCanSearcnItScreen extends React.Component {
                         this.setState(this.state.concern_types)
                       }} style={{ alignItems: "center" }} >
                         <Image source={item.is_selected ? item.image_on : item.image_off} style={[MyStyles.ic_skin_types_big]} />
-                        <Text style={{ textAlign: "center", color: Colors.color_949292, fontSize: 13, marginTop: 2 }}>{item.typeName}</Text>
+                        <MyAppText style={{ textAlign: "center", color: Colors.color_949292, fontSize: 13, marginTop: 2 }}>{item.typeName}</MyAppText>
                       </TouchableOpacity>
                     )}
                   />
@@ -203,8 +204,8 @@ export default class WeCanSearcnItScreen extends React.Component {
                 this.setState({ section_step3_show: !this.state.section_step3_show })
               }}>
                 <View style={[{ flex: 1 }]}>
-                  <Text style={[MyStyles.ingredient_section_header_text2]}>Step 03</Text>
-                  <Text style={[MyStyles.ingredient_section_header_text1]}>Select your Needs</Text>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text2]}>Step 03</MyAppText>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Select your Needs</MyAppText>
                 </View>
                 {
                   this.state.section_step3_show ? <Image source={require("../../assets/images/ic_polygon_up.png")} style={[MyStyles.ic_polygon_up]} />
@@ -227,7 +228,7 @@ export default class WeCanSearcnItScreen extends React.Component {
                         this.setState(this.state.need_types)
                       }} style={{ alignItems: "center" }} >
                         <Image source={item.is_selected ? item.image_on : item.image_off} style={[MyStyles.ic_skin_types_big]} />
-                        <Text style={{ textAlign: "center", color: Colors.color_949292, fontSize: 13, marginTop: 2 }}>{item.typeName}</Text>
+                        <MyAppText style={{ textAlign: "center", color: Colors.color_949292, fontSize: 13, marginTop: 2 }}>{item.typeName}</MyAppText>
                       </TouchableOpacity>
                     )}
                   />
@@ -275,7 +276,7 @@ export default class WeCanSearcnItScreen extends React.Component {
                   this.onWeCanSearchItCallback(returnSkinType, returnConcern, returnNeeds)
                   this.props.navigation.goBack();
                 }}>
-                <Text style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</Text>
+                <MyAppText style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</MyAppText>
               </TouchableOpacity>
               <TouchableOpacity activeOpacity={0.8} style={[{ borderColor: Colors.primary_purple, height: 135 / 3, borderWidth: 1, borderRadius: 2, justifyContent: "center", flex: 1, marginLeft: 10 }]}
                 onPress={() => {
@@ -295,7 +296,7 @@ export default class WeCanSearcnItScreen extends React.Component {
                   this.setState(this.state.need_types)
                 }}
               >
-                <Text style={{ textAlign: "center", color: Colors.primary_purple, fontSize: 13 }}>Clear</Text>
+                <MyAppText style={{ textAlign: "center", color: Colors.primary_purple, fontSize: 13 }}>Clear</MyAppText>
               </TouchableOpacity>
             </View>
           </View>

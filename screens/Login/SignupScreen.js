@@ -10,6 +10,7 @@ import Net from '../../Net/Net';
 import MyConstants from '../../constants/MyConstants';
 import Models from '../../Net/Models';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 export default class SignupScreen extends React.Component {
 
@@ -31,9 +32,9 @@ export default class SignupScreen extends React.Component {
   }
 
   Necessarry = (
-    <Text style={{ color: "#efb5cc", fontSize: 13 }}>
+    <MyAppText style={{ color: "#efb5cc", fontSize: 13 }}>
       *
-    </Text>
+    </MyAppText>
   );
 
   checkValidation = (value, check_type) => {
@@ -97,8 +98,8 @@ export default class SignupScreen extends React.Component {
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
 
           <View style={MyStyles.container}>
-            <Text style={MyStyles.text_header1}>Welcome!</Text>
-            <Text style={MyStyles.text_desc}>Tell us about you !</Text>
+            <MyAppText style={MyStyles.text_header1}>Welcome!</MyAppText>
+            <MyAppText style={MyStyles.text_desc}>Tell us about you !</MyAppText>
 
             <View style={[MyStyles.profile_box]}>
               <TouchableOpacity activeOpacity={0.8} onPress={() => { this.setState({ photoModalVisible: true }) }} style={MyStyles.camera_box}>
@@ -108,7 +109,7 @@ export default class SignupScreen extends React.Component {
             </View>
 
             <View style={[MyStyles.inputBox, (this.checkValidation(email, "email") == false && savePressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-              {this.checkValidation(email, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Email {this.Necessarry}</Text> : null}
+              {this.checkValidation(email, "empty") == false ? <MyAppText style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Email {this.Necessarry}</MyAppText> : null}
               <TextInput
                 returnKeyType="next"
                 onChangeText={(text) => { this.setState({ email: text }) }}
@@ -118,11 +119,11 @@ export default class SignupScreen extends React.Component {
             </View>
             {
               ((this.checkValidation(email, "email") == false) && savePressed == true) ?
-                <Text style={MyStyles.warningText}>Please Confirm your Email</Text> : null
+                <MyAppText style={MyStyles.warningText}>Please Confirm your Email</MyAppText> : null
             }
 
             <View style={[MyStyles.inputBox, (this.checkValidation(id, "id") == false && savePressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-              {this.checkValidation(id, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>ID {this.Necessarry}</Text> : null}
+              {this.checkValidation(id, "empty") == false ? <MyAppText style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>ID {this.Necessarry}</MyAppText> : null}
               <TextInput
                 returnKeyType="next"
                 ref={(input) => { this.idTextInput = input; }}
@@ -133,11 +134,11 @@ export default class SignupScreen extends React.Component {
             </View>
             {
               ((this.checkValidation(id, "id") == false) && savePressed == true) ?
-                <Text style={MyStyles.warningText}>Please Enter a ID at least four characters</Text> : null
+                <MyAppText style={MyStyles.warningText}>Please Enter a ID at least four characters</MyAppText> : null
             }
 
             <View style={[MyStyles.inputBox, (this.checkValidation(password, "password") == false && savePressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-              {this.checkValidation(password, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Password {this.Necessarry}</Text> : null}
+              {this.checkValidation(password, "empty") == false ? <MyAppText style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Password {this.Necessarry}</MyAppText> : null}
               <TextInput
                 returnKeyType="next"
                 ref={(input) => { this.pwdTextInput = input; }}
@@ -148,11 +149,11 @@ export default class SignupScreen extends React.Component {
             </View>
             {
               ((this.checkValidation(password, "password") == false) && savePressed == true) ?
-                <Text style={MyStyles.warningText}>Please Enter a Password at least eight characters</Text> : null
+                <MyAppText style={MyStyles.warningText}>Please Enter a Password at least eight characters</MyAppText> : null
             }
 
             <View style={[MyStyles.inputBox, (this.checkValidation(password_confirm, "password_confirm") == false && savePressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-              {this.checkValidation(password_confirm, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Confirm Password {this.Necessarry}</Text> : null}
+              {this.checkValidation(password_confirm, "empty") == false ? <MyAppText style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Confirm Password {this.Necessarry}</MyAppText> : null}
               <TextInput
                 returnKeyType="done"
                 ref={(input) => { this.pwdConfirmTextInput = input; }}
@@ -162,11 +163,11 @@ export default class SignupScreen extends React.Component {
             </View>
             {
               ((this.checkValidation(password_confirm, "password_confirm") == false) && savePressed == true) ?
-                <Text style={MyStyles.warningText}>Please Confirm a Password</Text> : null
+                <MyAppText style={MyStyles.warningText}>Please Confirm a Password</MyAppText> : null
             }
 
             <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_primary_cover, { marginTop: 35, marginBottom: 45 }]} onPress={() => this.onSavePressed()}>
-              <Text style={MyStyles.btn_primary}>Save</Text>
+              <MyAppText style={MyStyles.btn_primary}>Save</MyAppText>
             </TouchableOpacity>
 
           </View>
@@ -190,7 +191,7 @@ export default class SignupScreen extends React.Component {
                 </TouchableOpacity>
 
                 <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
-                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Tell us little more about you so {"\n"} we can find recommendation!</Text>
+                <MyAppText style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Tell us little more about you so {"\n"} we can find recommendation!</MyAppText>
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight onPress={() => {
@@ -199,7 +200,7 @@ export default class SignupScreen extends React.Component {
                     this.props.navigation.navigate("Questionnare", {[MyConstants.NAVIGATION_PARAMS.is_from_sign_up] : true})
                   }}
                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
-                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                    <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
@@ -209,7 +210,7 @@ export default class SignupScreen extends React.Component {
                       // 로그인 되었으면 앱을 리로딩
                       Updates.reload()
                     }}>
-                    <Text style={MyStyles.btn_primary_white}>Not now</Text>
+                    <MyAppText style={MyStyles.btn_primary_white}>Not now</MyAppText>
                   </TouchableHighlight>
                 </View>
               </View>
@@ -232,11 +233,11 @@ export default class SignupScreen extends React.Component {
                 <View style={{ flexDirection: "row" }}>
                   <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center" }} onPress={() => { this._pickImageFromCamera() }}>
                     <Image source={require("../../assets/images/ic_camera_big.png")} style={MyStyles.ic_camera_big} />
-                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</Text>
+                    <MyAppText style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</MyAppText>
                   </TouchableOpacity>
                   <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 50, justifyContent: "center" }} onPress={() => { this._pickImageFromGallery() }}>
                     <Image source={require("../../assets/images/ic_gallery_big.png")} style={MyStyles.ic_gallery_big} />
-                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</Text>
+                    <MyAppText style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</MyAppText>
                   </TouchableOpacity>
                 </View>
               </View>

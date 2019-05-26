@@ -9,6 +9,7 @@ import MyConstants from '../../../constants/MyConstants'
 import Common from '../../../assets/Common';
 import Net from '../../../Net/Net';
 import Colors from '../../../constants/Colors';
+import { MyAppText } from '../../../components/Texts/MyAppText';
 
 import Carousel from 'react-native-banner-carousel';
 import {
@@ -160,7 +161,7 @@ export default class SearchMainScreen extends React.Component {
                 {item.is_selected ? <Image source={require("../../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
               </TouchableOpacity>
-              <Text style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</Text>
+              <MyAppText style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</MyAppText>
             </View>
           ))}
         </ScrollView>
@@ -185,7 +186,7 @@ export default class SearchMainScreen extends React.Component {
                     this.setState({ loading_end: false })
                     this.requestBestList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
                   }}>
-                    <Text style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</Text>
+                    <MyAppText style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</MyAppText>
                   </TouchableOpacity>
                 ))}
             </View>
@@ -289,11 +290,11 @@ export default class SearchMainScreen extends React.Component {
               this.goSearchResultScreen()
             }
             }>
-              <Text style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15 }}>
+              <MyAppText style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15 }}>
                 {
-                  keyword.substring(0, keyword.toLowerCase().indexOf(query.toLowerCase()))}<Text style={{ color: Colors.primary_purple }}>{query}</Text>{keyword.substring(keyword.toLowerCase().indexOf(query.toLowerCase()) + query.length)
+                  keyword.substring(0, keyword.toLowerCase().indexOf(query.toLowerCase()))}<MyAppText style={{ color: Colors.primary_purple }}>{query}</MyAppText>{keyword.substring(keyword.toLowerCase().indexOf(query.toLowerCase()) + query.length)
                 }
-              </Text>
+              </MyAppText>
               <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginRight: 15 }]}></View>
             </TouchableOpacity>
           )}
@@ -329,7 +330,7 @@ export default class SearchMainScreen extends React.Component {
                   }
                 }}>
                 <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-                  <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Best Product</Text>
+                  <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Best Product</MyAppText>
                   <FlatGrid
                     itemDimension={this.ScreenWidth / 2 - 30}
                     items={this.state.product_list_result_data.best_list}

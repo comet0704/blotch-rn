@@ -8,6 +8,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import ImageLoad from 'react-native-image-placeholder';
 import { Image } from "react-native-expo-image-cache";
@@ -170,7 +171,7 @@ export default class ProductDetailScreen extends React.Component {
                     {this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).map((image, index) => this.renderImages(image, index))}
                   </Carousel>
                   <View style={{ position: "absolute", bottom: 10, justifyContent: "center", width: "100%", flexDirection: "row", alignItems: "center" }}>
-                    <Text style={{ backgroundColor: Colors.color_636364, paddingLeft: 10, paddingRight: 10, borderRadius: 10, color: "white", textAlign: "center" }}>{(this.state.curImageIdx) + "/" + this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).length}</Text>
+                    <MyAppText style={{ backgroundColor: Colors.color_636364, paddingLeft: 10, paddingRight: 10, borderRadius: 10, color: "white", textAlign: "center" }}>{(this.state.curImageIdx) + "/" + this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).length}</MyAppText>
                   </View>
                 </View>
                 :
@@ -197,7 +198,7 @@ export default class ProductDetailScreen extends React.Component {
                   this.props.navigation.navigate("SearchBrandDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: this.state.product_detail_result_data.detail.brand_id })
                 }}
                   style={[{ flexDirection: "row", alignItems: "center", borderWidth: 0.5, paddingLeft: 5, paddingRight: 5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }]}>
-                  <Text style={{ color: Colors.color_949191 }}>{this.state.product_detail_result_data.detail.brand_title} </Text>
+                  <MyAppText style={{ color: Colors.color_949191 }}>{this.state.product_detail_result_data.detail.brand_title} </MyAppText>
                   <Image source={require("../../assets/images/ic_arrow_right_gray.png")} style={MyStyles.ic_arrow_right_gray} />
                 </TouchableOpacity>
 
@@ -208,19 +209,19 @@ export default class ProductDetailScreen extends React.Component {
                   {this.state.product_detail_result_data.product_category.map(item => {
                     return (
                       <View key={item.id} style={[MyStyles.category_tag]}>
-                        <Text style={{ fontSize: 13, color: Colors.color_949292 }}>#{item.main_category.toUpperCase()}{item.sub_category ? " > " + item.sub_category.toUpperCase() : ""}</Text>
+                        <MyAppText style={{ fontSize: 13, color: Colors.color_949292 }}>#{item.main_category.toUpperCase()}{item.sub_category ? " > " + item.sub_category.toUpperCase() : ""}</MyAppText>
                       </View>
                     )
                   })
                   }
                 </ScrollView>
               </View>
-              <Text style={{ fontSize: 63 / 3, color: Colors.primary_dark, marginTop: 30 / 3, marginBottom: 25 }}>{this.state.product_detail_result_data.detail.title}
-              </Text>
+              <MyAppText style={{ fontSize: 63 / 3, color: Colors.primary_dark, marginTop: 30 / 3, marginBottom: 25 }}>{this.state.product_detail_result_data.detail.title}
+              </MyAppText>
               <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", height: 69 / 3, }}>
                 <Image style={{ flex: 1 }} />
                 <Image source={require("../../assets/images/ic_heart_gray.png")} style={MyStyles.ic_heart_gray} />
-                <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.product_detail_result_data.detail.like_count}</Text>
+                <MyAppText style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.product_detail_result_data.detail.like_count}</MyAppText>
                 <TouchableOpacity activeOpacity={0.8} onPress={() => {
                   this.setState({
                     gradeVisible: !this.state.gradeVisible
@@ -240,7 +241,7 @@ export default class ProductDetailScreen extends React.Component {
                 {this.state.gradeVisible ?
                   <View style={[{ position: "absolute", bottom: -30, zIndex: 1000, right: -3, justifyContent: "center", alignItems: "center" }, MyStyles.ic_star_rate_bg1]}>
                     <Image source={require("../../assets/images/ic_star_rate_bg1.png")} style={[MyStyles.background_image]} />
-                    <Text style={{ color: Colors.color_star_full, alignSelf: "center", marginTop: 2, fontSize: 12 }}>{parseFloat(this.state.product_detail_result_data.detail.grade).toFixed(1)}</Text>
+                    <MyAppText style={{ color: Colors.color_star_full, alignSelf: "center", marginTop: 2, fontSize: 12 }}>{parseFloat(this.state.product_detail_result_data.detail.grade).toFixed(1)}</MyAppText>
                   </View>
                   : null}
               </View>
@@ -252,9 +253,9 @@ export default class ProductDetailScreen extends React.Component {
                 this.onAddBeautyBox()
               }}>
                 <Image source={require("../../assets/images/ic_beauty_box.png")} style={[MyStyles.ic_beauty_box]} />
-                <Text style={{ marginLeft: 10, fontSize: 13, color: "white" }}>
+                <MyAppText style={{ marginLeft: 10, fontSize: 13, color: "white" }}>
                   Add to My Beauty Box
-              </Text>
+              </MyAppText>
               </TouchableOpacity>
             </View>
             <View style={MyStyles.seperate_line_e5e5e5}></View>
@@ -265,12 +266,12 @@ export default class ProductDetailScreen extends React.Component {
                 <TouchableOpacity activeOpacity={0.8} style={this.state.tabbar.Ingredients ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
                   this.setState({ tabbar: { Ingredients: true, Reviews: false } })
                 }}>
-                  <Text style={this.state.tabbar.Ingredients ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >Ingredients</Text>
+                  <MyAppText style={this.state.tabbar.Ingredients ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >Ingredients</MyAppText>
                 </TouchableOpacity>
                 <TouchableOpacity activeOpacity={0.8} style={this.state.tabbar.Reviews ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
                   this.setState({ tabbar: { Ingredients: false, Reviews: true } })
                 }}>
-                  <Text style={this.state.tabbar.Reviews ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >Reviews</Text>
+                  <MyAppText style={this.state.tabbar.Reviews ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >Reviews</MyAppText>
                 </TouchableOpacity>
               </View>
 
@@ -291,13 +292,13 @@ export default class ProductDetailScreen extends React.Component {
               <View style={{ flex: 1 }}>
                 <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "M" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 0) }}>
                   {this.state.product_detail_result_data.detail.user_match == "M" ? <Image source={require('../../assets/images/ic_match_on.png')} style={[MyStyles.ic_match]} /> : <Image source={require('../../assets/images/ic_match_off.png')} style={[MyStyles.ic_match]} />}
-                  {this.state.product_detail_result_data.detail.user_match == "M" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_6bd5be }}>Match'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Match'd</Text>}
+                  {this.state.product_detail_result_data.detail.user_match == "M" ? <MyAppText style={{ marginTop: 5, fontSize: 13, color: Colors.color_6bd5be }}>Match'd</MyAppText> : <MyAppText style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Match'd</MyAppText>}
                 </TouchableOpacity>
               </View>
               <View style={{ flex: 1 }}>
                 <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "B" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 1) }}>
                   {this.state.product_detail_result_data.detail.user_match == "B" ? <Image source={require('../../assets/images/ic_blotch_on.png')} style={[MyStyles.ic_blotch]} /> : <Image source={require('../../assets/images/ic_blotch_off.png')} style={[MyStyles.ic_blotch]} />}
-                  {this.state.product_detail_result_data.detail.user_match == "B" ? <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_f691a1 }}>Blotch'd</Text> : <Text style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Blotch'd</Text>}
+                  {this.state.product_detail_result_data.detail.user_match == "B" ? <MyAppText style={{ marginTop: 5, fontSize: 13, color: Colors.color_f691a1 }}>Blotch'd</MyAppText> : <MyAppText style={{ marginTop: 5, fontSize: 13, color: Colors.color_dcdedd }}>Blotch'd</MyAppText>}
                 </TouchableOpacity>
               </View>
 

@@ -9,6 +9,7 @@ import Models from '../../Net/Models';
 import Net from '../../Net/Net';
 import MyConstants from '../../constants/MyConstants';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 import Common from '../../assets/Common';
 
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
@@ -105,11 +106,11 @@ export default class MyPageScreen extends React.Component {
     return (
       <View style={[{ marginTop: 10 }]}>
         <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
-          <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
+          <MyAppText style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>We recommend It!</MyAppText>
           {Common.isNeedToAddQuestionnaire() ? null :
             <TouchableOpacity style={[MyStyles.btn_more_cover]} onPress={() =>
               this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}>
-              <Text style={MyStyles.txt_more}>more</Text>
+              <MyAppText style={MyStyles.txt_more}>more</MyAppText>
               <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
             </TouchableOpacity>
           }
@@ -135,7 +136,7 @@ export default class MyPageScreen extends React.Component {
                 })
               }
               }>
-              <Text style={[MyStyles.text_13_656565, { flex: 1 }]}>Tell us about your skin and we'll show you some product that you might want to check out!</Text>
+              <MyAppText style={[MyStyles.text_13_656565, { flex: 1 }]}>Tell us about your skin and we'll show you some product that you might want to check out!</MyAppText>
               <View>
                 <Image source={require('../../assets/images/ic_btn_right.png')} style={[{ alignSelf: "center" }, MyStyles.ic_btn_right]} />
               </View>
@@ -162,8 +163,8 @@ export default class MyPageScreen extends React.Component {
               <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
                 <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image_list) }} />
               </TouchableOpacity>
-              <Text style={{ fontSize: 12, color: "#949393", marginTop: 5, textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
-              <Text style={{ fontSize: 13, color: "#212122", fontWeight: "bold", textAlign: "center" }} numberOfLines={1}>{item.title}</Text>
+              <MyAppText style={{ fontSize: 12, color: "#949393", marginTop: 5, textAlign: "center" }} numberOfLines={1}>{item.brand_title}</MyAppText>
+              <MyAppText style={{ fontSize: 13, color: "#212122", fontWeight: "bold", textAlign: "center" }} numberOfLines={1}>{item.title}</MyAppText>
             </View>
           ))}
         </ScrollView>
@@ -245,8 +246,8 @@ export default class MyPageScreen extends React.Component {
                     <Image source={global.login_info.profile_image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: Common.getImageUrl(global.login_info.profile_image) }} style={global.login_info.profile_image == null ? { width: 117 / 3, height: 166 / 3, alignSelf: "center" } : { width: 315 / 3, height: 315 / 3, borderRadius: 100, }} />
                   </View>
                   <View style={{ marginLeft: 15, flex: 1 }}>
-                    <Text style={{ fontSize: 59 / 3, color: "white", fontWeight: "500" }}>Hello {global.login_info.reg_type == "GOOGLE" ? global.login_info.email : global.login_info.user_id}</Text>
-                    <Text style={{ fontSize: 59 / 3, color: "white" }}>Do you need advice?</Text>
+                    <MyAppText style={{ fontSize: 59 / 3, color: "white", fontWeight: "500" }}>Hello {global.login_info.reg_type == "GOOGLE" ? global.login_info.email : global.login_info.user_id}</MyAppText>
+                    <MyAppText style={{ fontSize: 59 / 3, color: "white" }}>Do you need advice?</MyAppText>
                   </View>
                 </View>
               </View>
@@ -259,7 +260,7 @@ export default class MyPageScreen extends React.Component {
                     :
                     <Image style={[{ alignSelf: "center" }, MyStyles.weather_icon]} />
                   }
-                  <Text style={[MyStyles.meta_text]}>Weather</Text>
+                  <MyAppText style={[MyStyles.meta_text]}>Weather</MyAppText>
                   <TouchableOpacity style={{ position: "absolute", top: 0, right: 0, padding: 5 }} onPress={() => { this.requestGetMyPosition() }}>
                     <Image source={(require('../../assets/images/ic_weather_sync.png'))} style={[MyStyles.ic_weather_sync]} />
                   </TouchableOpacity>
@@ -272,7 +273,7 @@ export default class MyPageScreen extends React.Component {
                       :
                       <Image source={(require('../../assets/images/ic_pink_ellipse.png'))} style={[{ alignSelf: "center" }, MyStyles.ic_pink_ellipse]} />
                   }
-                  <Text style={[MyStyles.meta_text]}>Skin Type</Text>
+                  <MyAppText style={[MyStyles.meta_text]}>Skin Type</MyAppText>
                 </View>
                 <View style={{ flex: 1 }} />
                 <View style={[MyStyles.meta_info_box]}>
@@ -282,7 +283,7 @@ export default class MyPageScreen extends React.Component {
                       :
                       <Image source={(require('../../assets/images/ic_pink_ellipse.png'))} style={[{ alignSelf: "center" }, MyStyles.ic_pink_ellipse]} />
                   }
-                  <Text style={[MyStyles.meta_text]}>Concern</Text>
+                  <MyAppText style={[MyStyles.meta_text]}>Concern</MyAppText>
                 </View>
                 <View style={{ flex: 1 }} />
                 <View style={[MyStyles.meta_info_box]}>
@@ -292,7 +293,7 @@ export default class MyPageScreen extends React.Component {
                       :
                       <Image source={(require('../../assets/images/ic_pink_ellipse.png'))} style={[{ alignSelf: "center" }, MyStyles.ic_pink_ellipse]} />
                   }
-                  <Text style={[MyStyles.meta_text]}>Needs</Text>
+                  <MyAppText style={[MyStyles.meta_text]}>Needs</MyAppText>
                 </View>
               </View>
 
@@ -301,13 +302,13 @@ export default class MyPageScreen extends React.Component {
 
               <View style={[{ flex: 1, minHeight: 125, marginTop: 5 }, MyStyles.padding_h_main]}>
                 <View style={[{ flex: 1, backgroundColor: "white", borderRadius: 5 }, MyStyles.shadow_2, MyStyles.padding_h_main, MyStyles.padding_v_10]}>
-                  <Text style={[{ fontSize: 15, fontWeight: "500", color: Colors.primary_dark }]}>Beauty Advice</Text>
+                  <MyAppText style={[{ fontSize: 15, fontWeight: "500", color: Colors.primary_dark }]}>Beauty Advice</MyAppText>
                   <View style={[MyStyles.seperate_line_e5e5e5, { marginTop: 10, marginBottom: 10 }]} />
                   {this.state.refreshOneLineInfo ?
                     !(Common.isNeedToAddQuestionnaire()) ?
                       <View>
                         <View style={[{ flexDirection: "row", color: "white" }]}>
-                          <Text style={{ color: Colors.color_656565, fontSize: 13, }}><Text style={{}}>{this.state.oneline_review_en} </Text></Text>
+                          <MyAppText style={{ color: Colors.color_656565, fontSize: 13, }}><MyAppText style={{}}>{this.state.oneline_review_en} </MyAppText></MyAppText>
                         </View>
                       </View>
                       : null
@@ -315,7 +316,7 @@ export default class MyPageScreen extends React.Component {
                     !(Common.isNeedToAddQuestionnaire()) ?
                       <View>
                         <View style={[{ flexDirection: "row", color: "white" }]}>
-                          <Text style={{ color: Colors.color_656565, fontSize: 13, }}><Text style={{}}>{this.state.oneline_review_en} </Text></Text>
+                          <MyAppText style={{ color: Colors.color_656565, fontSize: 13, }}><MyAppText style={{}}>{this.state.oneline_review_en} </MyAppText></MyAppText>
                         </View>
                       </View>
                       : null
@@ -338,8 +339,8 @@ export default class MyPageScreen extends React.Component {
                 }}>
                   <Image source={require("../../assets/images/ic_point_big.png")} style={[MyStyles.ic_point_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
-                    <Text style={[MyStyles.ingredient_section_header_text1]}>My Point</Text>
-                    <Text style={[MyStyles.ingredient_section_header_text2]}>{this.state.result_data.mypage.my_point}P</Text>
+                    <MyAppText style={[MyStyles.ingredient_section_header_text1]}>My Point</MyAppText>
+                    <MyAppText style={[MyStyles.ingredient_section_header_text2]}>{this.state.result_data.mypage.my_point}P</MyAppText>
                   </View>
                   <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
                 </TouchableOpacity>
@@ -352,11 +353,11 @@ export default class MyPageScreen extends React.Component {
                 }}>
                   <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
-                    <Text style={[MyStyles.ingredient_section_header_text1]}>My Review</Text>
+                    <MyAppText style={[MyStyles.ingredient_section_header_text1]}>My Review</MyAppText>
                     {this.state.result_data.mypage.my_last_review_date != null && this.state.result_data.mypage.my_last_review_date.length > 0 ?
-                      <Text style={[MyStyles.ingredient_section_header_text2]}>Recent Review<Text style={{ marginLeft: 5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>  {this.state.result_data.mypage.my_last_review_date.substring(0, 10)}</Text></Text>
+                      <MyAppText style={[MyStyles.ingredient_section_header_text2]}>Recent Review<MyAppText style={{ marginLeft: 5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>  {this.state.result_data.mypage.my_last_review_date.substring(0, 10)}</MyAppText></MyAppText>
                       :
-                      <Text style={[MyStyles.ingredient_section_header_text2]}>Please write a review</Text>
+                      <MyAppText style={[MyStyles.ingredient_section_header_text2]}>Please write a review</MyAppText>
                     }
                   </View>
                   <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
@@ -370,11 +371,11 @@ export default class MyPageScreen extends React.Component {
                 }}>
                   <Image source={require("../../assets/images/ic_beauty_box_big.png")} style={[MyStyles.ic_beauty_box_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
-                    <Text style={[MyStyles.ingredient_section_header_text1]}>My Beauty Box</Text>
+                    <MyAppText style={[MyStyles.ingredient_section_header_text1]}>My Beauty Box</MyAppText>
                     {this.state.result_data.mypage.my_beautybox_count > 0 ?
-                      <Text style={[MyStyles.ingredient_section_header_text2]}>{this.state.result_data.mypage.my_beautybox_count} Product in use</Text>
+                      <MyAppText style={[MyStyles.ingredient_section_header_text2]}>{this.state.result_data.mypage.my_beautybox_count} Product in use</MyAppText>
                       :
-                      <Text style={[MyStyles.ingredient_section_header_text2]}>There is no Product in use</Text>
+                      <MyAppText style={[MyStyles.ingredient_section_header_text2]}>There is no Product in use</MyAppText>
                     }
                   </View>
                   <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
@@ -389,20 +390,20 @@ export default class MyPageScreen extends React.Component {
                   <Image source={require("../../assets/images/ic_questionnare_big.png")} style={[MyStyles.ic_questionnare_big]} />
                   <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
                     <View style={{ flexDirection: "row" }}>
-                      <Text style={[MyStyles.ingredient_section_header_text1]}>Questionnaire</Text>
-                      <Text style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>{this.state.questionnaire_title}</Text>
+                      <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Questionnaire</MyAppText>
+                      <MyAppText style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>{this.state.questionnaire_title}</MyAppText>
                       {/* 필요없어 보임 */}
                       {/* {this.state.result_data.mypage.my_questionnaire != null && this.state.result_data.mypage.my_questionnaire.length > 0 ?
-                        <Text style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>Me</Text>
+                        <MyAppText style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>Me</MyAppText>
                         :
-                        <Text style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>-</Text>
+                        <MyAppText style={{ marginLeft: 10, borderRadius: 10, borderColor: Colors.color_f8f8f8, paddingLeft: 10, paddingRight: 10, borderWidth: 0.5, fontSize: 12, color: Colors.color_949292, fontWeight: "400" }}>-</MyAppText>
                       } */}
                     </View>
 
                     {this.state.result_data.mypage.my_questionnaire_status > 0 ?
-                      <Text style={[MyStyles.ingredient_section_header_text2]}>Completed</Text>
+                      <MyAppText style={[MyStyles.ingredient_section_header_text2]}>Completed</MyAppText>
                       :
-                      <Text style={[MyStyles.ingredient_section_header_text2]}>-</Text>
+                      <MyAppText style={[MyStyles.ingredient_section_header_text2]}>-</MyAppText>
                     }
                   </View>
                   <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />

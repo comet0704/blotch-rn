@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import Carousel from 'react-native-banner-carousel';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
@@ -100,16 +101,16 @@ export class FragmentProductDetailIngredients extends React.Component {
       return (
         <View key={item.id}>
           <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
-            <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
+            <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</MyAppText>
             <Image style={{ flex: 1 }} />
             <TouchableOpacity activeOpacity={0.8} onPress={() => {
               this.setState({ saveToModalVisible: true, selectedIngredient_id: item.id })
             }}>
-              <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</Text>
+              <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</MyAppText>
             </TouchableOpacity>
           </TouchableOpacity>
           {this.state.curSelectedIngredient == item.id ? <View style={{ justifyContent: "center" }}>
-            <Text style={style_content_text}>{item.content}</Text>
+            <MyAppText style={style_content_text}>{item.content}</MyAppText>
           </View> : null}
         </View>
       )
@@ -128,7 +129,7 @@ export class FragmentProductDetailIngredients extends React.Component {
     return (
       <View key={item.id}>
         <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
-          <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
+          <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</MyAppText>
           <Image style={{ flex: 1 }} />
           <TouchableOpacity activeOpacity={0.8} onPress={() => {
             Alert.alert(
@@ -149,11 +150,11 @@ export class FragmentProductDetailIngredients extends React.Component {
               { cancelable: false },
             );
           }}>
-            <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
+            <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</MyAppText>
           </TouchableOpacity>
         </TouchableOpacity>
         {this.state.curSelectedIngredient == item.id ? <View style={{ justifyContent: "center" }}>
-          <Text style={style_content_text}>{item.content}</Text>
+          <MyAppText style={style_content_text}>{item.content}</MyAppText>
         </View> : null}
       </View>
     )
@@ -171,7 +172,7 @@ export class FragmentProductDetailIngredients extends React.Component {
     return (
       <View key={item.id}>
         <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
-          <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
+          <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</MyAppText>
           <Image style={{ flex: 1 }} />
           <TouchableOpacity activeOpacity={0.8} onPress={() => {
             Alert.alert(
@@ -192,11 +193,11 @@ export class FragmentProductDetailIngredients extends React.Component {
               { cancelable: false },
             );
           }}>
-            <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
+            <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</MyAppText>
           </TouchableOpacity>
         </TouchableOpacity>
         {this.state.curSelectedIngredient == item.id ? <View style={{ justifyContent: "center" }}>
-          <Text style={style_content_text}>{item.content}</Text>
+          <MyAppText style={style_content_text}>{item.content}</MyAppText>
         </View> : null}
       </View>
     )
@@ -231,17 +232,17 @@ export class FragmentProductDetailIngredients extends React.Component {
                 tabbar: { Good: true, Normal: false, Bad: false, }, selectedIngredientType: 1
               })
             }}>
-              <Text style={this.state.tabbar.Good ? MyStyles.tabbar_text_selected1 : MyStyles.tabbar_text1} >{"Good(" + this.countType(1) + ")"}</Text>
+              <MyAppText style={this.state.tabbar.Good ? MyStyles.tabbar_text_selected1 : MyStyles.tabbar_text1} >{"Good(" + this.countType(1) + ")"}</MyAppText>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.8} style={this.state.tabbar.Normal ? MyStyles.ingredient_normal_button_selected : MyStyles.tabbar_button1} onPress={() => {
               this.setState({ tabbar: { Good: false, Normal: true, Bad: false, }, selectedIngredientType: 0 })
             }}>
-              <Text style={this.state.tabbar.Normal ? MyStyles.tabbar_text_selected1 : MyStyles.tabbar_text1} >{"Normal(" + this.countType(0) + ")"}</Text>
+              <MyAppText style={this.state.tabbar.Normal ? MyStyles.tabbar_text_selected1 : MyStyles.tabbar_text1} >{"Normal(" + this.countType(0) + ")"}</MyAppText>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.8} style={this.state.tabbar.Bad ? MyStyles.ingredient_bad_button_selected : MyStyles.tabbar_button1} onPress={() => {
               this.setState({ tabbar: { Good: false, Normal: false, Bad: true, }, selectedIngredientType: 2 })
             }}>
-              <Text style={this.state.tabbar.Bad ? MyStyles.tabbar_text_selected1 : MyStyles.tabbar_text1} >{"Bad(" + this.countType(2) + ")"}</Text>
+              <MyAppText style={this.state.tabbar.Bad ? MyStyles.tabbar_text_selected1 : MyStyles.tabbar_text1} >{"Bad(" + this.countType(2) + ")"}</MyAppText>
             </TouchableOpacity>
           </View>
 
@@ -274,11 +275,11 @@ export class FragmentProductDetailIngredients extends React.Component {
                 :
                 null}
 
-              <Text style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500" }}>Allergic Ingredients</Text>
+              <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500" }}>Allergic Ingredients</MyAppText>
               <View style={{ flex: 1, marginTop: 10 }}>
                 {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderAllergicIngredients(item, index))}
               </View>
-              <Text style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500", marginTop: 15 }}>Potential Allergens</Text>
+              <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, fontWeight: "500", marginTop: 15 }}>Potential Allergens</MyAppText>
               <View style={{ flex: 1, marginTop: 10 }}>
                 {this.state.user_ingredient_list_result_data.user_ingredient_list.map((item, index) => this.renderPotentialAllergenIngredients(item, index))}
               </View>
@@ -300,7 +301,7 @@ export class FragmentProductDetailIngredients extends React.Component {
                 {/* modal header */}
                 <View style={{ flexDirection: "row", alignItems: "center", width: "100%", height: 50 }}>
                   <View style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute" }]}>
-                    <Text style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</Text>
+                    <MyAppText style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</MyAppText>
                   </View>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                     this.setState({ saveToModalVisible: false })
@@ -318,7 +319,7 @@ export class FragmentProductDetailIngredients extends React.Component {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 0, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")} />
-                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
+                    <MyAppText style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</MyAppText>
                     <Image style={{ flex: 1 }} />
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
@@ -328,7 +329,7 @@ export class FragmentProductDetailIngredients extends React.Component {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 1, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")} />
-                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
+                    <MyAppText style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</MyAppText>
                     <Image style={{ flex: 1 }} />
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
@@ -338,7 +339,7 @@ export class FragmentProductDetailIngredients extends React.Component {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 2, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")} />
-                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
+                    <MyAppText style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</MyAppText>
                     <Image style={{ flex: 1 }} />
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>

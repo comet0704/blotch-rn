@@ -21,6 +21,7 @@ import Toast from 'react-native-whc-toast';
 import MyConstants from '../../constants/MyConstants';
 import { LinearGradient } from 'expo';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 import { Dropdown } from 'react-native-material-dropdown';
 
 export default class ContactUsScreen extends React.Component {
@@ -59,7 +60,7 @@ export default class ContactUsScreen extends React.Component {
 
             <View style={MyStyles.container}>
 
-              {/* <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Category</Text> */}
+              {/* <MyAppText style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Category</MyAppText> */}
               <Dropdown
                 dropdownPosition={0}
                 labelFontSize={11}
@@ -73,7 +74,7 @@ export default class ContactUsScreen extends React.Component {
                 }}
                 data={this.state.category_list}
               />
-              <Text style={{ fontSize: 13, color: Colors.color_212122, marginTop: 10, marginBottom: 7 }}>Contents</Text>
+              <MyAppText style={{ fontSize: 13, color: Colors.color_212122, marginTop: 10, marginBottom: 7 }}>Contents</MyAppText>
               <TextInput
                 textAlignVertical="top"
                 multiline={true}
@@ -97,7 +98,7 @@ export default class ContactUsScreen extends React.Component {
                     }
                     this.requestContactUs(this.state.contact_category, this.state.contact_content);
                   }}>
-                  <Text style={MyStyles.btn_primary}>Submit</Text>
+                  <MyAppText style={MyStyles.btn_primary}>Submit</MyAppText>
                 </TouchableHighlight>
               </View>
 

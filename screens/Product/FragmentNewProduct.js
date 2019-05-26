@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import Carousel from 'react-native-carousel';
 import {
@@ -66,8 +67,8 @@ export class FragmentNewProduct extends React.Component {
           <View>
             <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
-              <Text style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{Common.removeHtmlTagsFromText(item.title)}</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</Text>
+              <MyAppText style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{Common.removeHtmlTagsFromText(item.title)}</MyAppText>
+              <MyAppText style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</MyAppText>
             </View>
           </View>
         </TouchableHighlight>
@@ -107,7 +108,7 @@ export class FragmentNewProduct extends React.Component {
                 {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
               </TouchableOpacity>
-              <Text style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</Text>
+              <MyAppText style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</MyAppText>
             </View>
           ))}
         </ScrollView>
@@ -132,7 +133,7 @@ export class FragmentNewProduct extends React.Component {
                     this.setState({ loading_end: false })
                     this.requestNewList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
                   }}>
-                    <Text style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</Text>
+                    <MyAppText style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</MyAppText>
                   </TouchableOpacity>
                 ))}
             </View>
@@ -208,7 +209,7 @@ export class FragmentNewProduct extends React.Component {
 
             {/* product 나열 */}
             <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>New Product</Text>
+              <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>New Product</MyAppText>
               <FlatGrid
                 itemDimension={this.ScreenWidth / 2 - 30}
                 items={this.state.product_list_result_data.new_list}

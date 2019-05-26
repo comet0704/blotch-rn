@@ -24,9 +24,9 @@ import Messages from '../../constants/Messages';
 export default class ChangePwdScreen extends React.Component {
 
   Necessarry = (
-    <Text style={{ color: "#efb5cc", fontSize: 13 }}>
+    <MyAppText style={{ color: "#efb5cc", fontSize: 13 }}>
       *
-    </Text>
+    </MyAppText>
   );
 
   state = {
@@ -110,11 +110,11 @@ export default class ChangePwdScreen extends React.Component {
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
 
             <View style={MyStyles.container}>
-              <Text style={MyStyles.text_header1}>Change Password</Text>
-              <Text style={MyStyles.text_desc}>It's a good idea to use a strong password{"\n"}that you're not using elsewhere.</Text>
+              <MyAppText style={MyStyles.text_header1}>Change Password</MyAppText>
+              <MyAppText style={MyStyles.text_desc}>It's a good idea to use a strong password{"\n"}that you're not using elsewhere.</MyAppText>
 
               <View style={[MyStyles.inputBox, (this.checkValidation(cur_password, "empty") == false && sendPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-                {this.checkValidation(cur_password, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Current Password {this.Necessarry}</Text> : null}
+                {this.checkValidation(cur_password, "empty") == false ? <MyAppText style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Current Password {this.Necessarry}</MyAppText> : null}
                 <TextInput
                   returnKeyType="next"
                   onSubmitEditing={() => { this.pwdTextInput.focus(); }}
@@ -124,11 +124,11 @@ export default class ChangePwdScreen extends React.Component {
               </View>
               {
                 ((this.checkValidation(cur_password, "empty") == false) && sendPressed == true) ?
-                  <Text style={MyStyles.warningText}>Please Confirm your Password</Text> : null
+                  <MyAppText style={MyStyles.warningText}>Please Confirm your Password</MyAppText> : null
               }
 
               <View style={[MyStyles.inputBox, (this.checkValidation(password, "password") == false && sendPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-                {this.checkValidation(password, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>New Password {this.Necessarry}</Text> : null}
+                {this.checkValidation(password, "empty") == false ? <MyAppText style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>New Password {this.Necessarry}</MyAppText> : null}
                 <TextInput
                   returnKeyType="next"
                   ref={(input) => { this.pwdTextInput = input; }}
@@ -139,11 +139,11 @@ export default class ChangePwdScreen extends React.Component {
               </View>
               {
                 ((this.checkValidation(password, "password") == false) && sendPressed == true) ?
-                  <Text style={MyStyles.warningText}>Please Enter a Password at least eight characters</Text> : null
+                  <MyAppText style={MyStyles.warningText}>Please Enter a Password at least eight characters</MyAppText> : null
               }
 
               <View style={[MyStyles.inputBox, (this.checkValidation(password_confirm, "password_confirm") == false && sendPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-                {this.checkValidation(password_confirm, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Confirm Password {this.Necessarry}</Text> : null}
+                {this.checkValidation(password_confirm, "empty") == false ? <MyAppText style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Confirm Password {this.Necessarry}</MyAppText> : null}
                 <TextInput
                   returnKeyType="done"
                   ref={(input) => { this.pwdConfirmTextInput = input; }}
@@ -153,12 +153,12 @@ export default class ChangePwdScreen extends React.Component {
               </View>
               {
                 ((this.checkValidation(password_confirm, "password_confirm") == false) && sendPressed == true) ?
-                  <Text style={MyStyles.warningText}>Please Confirm a Password</Text> : null
+                  <MyAppText style={MyStyles.warningText}>Please Confirm a Password</MyAppText> : null
               }
 
               <View style={{ flex: 1, marginTop: 35, flexDirection: "row" }}>
                 <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_primary_cover]} onPress={() => { this.onResetPwd(this.state.cur_password, this.state.password, this.state.password_confirm) }}>
-                  <Text style={MyStyles.btn_primary}>Reset Password</Text>
+                  <MyAppText style={MyStyles.btn_primary}>Reset Password</MyAppText>
                 </TouchableOpacity>
               </View>
 

@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import Carousel from 'react-native-banner-carousel';
 import { Image, Dimensions, TextInput, KeyboardAvoidingView, Modal, ScrollView, Text, View, TouchableOpacity, TouchableHighlight, Linking } from 'react-native';
@@ -45,11 +46,11 @@ export default class FavoriteArticlesScreen extends React.Component {
             : null}
 
           <View style={{ flex: 1 }}>
-            <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>
-              {item.title} </Text>
-            <Text onPress={() => { Linking.openURL(Common.getLinkUrl(item.url)) }} style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
+            <MyAppText style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>
+              {item.title} </MyAppText>
+            <MyAppText onPress={() => { Linking.openURL(Common.getLinkUrl(item.url)) }} style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
               {item.url}
-            </Text>
+            </MyAppText>
           </View>
 
           <TouchableOpacity activeOpacity={0.8} onPress={() => { this.deleteFromList(item.id) }}>
@@ -110,7 +111,7 @@ export default class FavoriteArticlesScreen extends React.Component {
                   </TouchableOpacity>
 
                   <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
-                  <Text style={{ fontSize: 16, color: "black", alignSelf: "center", textAlign: "center", marginLeft: 10, marginRight: 10, fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Are you sure you want to delete this article from the list?</Text>
+                  <MyAppText style={{ fontSize: 16, color: "black", alignSelf: "center", textAlign: "center", marginLeft: 10, marginRight: 10, fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Are you sure you want to delete this article from the list?</MyAppText>
 
                   <View style={{ flexDirection: "row" }}>
                     <TouchableHighlight onPress={() => {
@@ -118,7 +119,7 @@ export default class FavoriteArticlesScreen extends React.Component {
                       this.requestArticleUnlike(this.state.delete_item_id);
                     }}
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
-                      <Text style={MyStyles.btn_primary}>Yes</Text>
+                      <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                     </TouchableHighlight>
 
                     <TouchableHighlight
@@ -126,7 +127,7 @@ export default class FavoriteArticlesScreen extends React.Component {
                       onPress={() => {
                         this.setState({ showDeleteModal: false });
                       }}>
-                      <Text style={MyStyles.btn_primary_white}>No</Text>
+                      <MyAppText style={MyStyles.btn_primary_white}>No</MyAppText>
                     </TouchableHighlight>
                   </View>
                 </View>

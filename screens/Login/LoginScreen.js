@@ -10,6 +10,7 @@ import Net from '../../Net/Net';
 import MyConstants from '../../constants/MyConstants';
 import { Updates, Facebook, Google } from "expo";
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -75,9 +76,9 @@ export default class LoginScreen extends React.Component {
   };
 
   Signup = (
-    <Text onPress={() => this.onPressSignup()} style={{ color: "#a695fe", fontSize: 13 }}>
+    <MyAppText onPress={() => this.onPressSignup()} style={{ color: "#a695fe", fontSize: 13 }}>
       Sign Up!
-    </Text>
+    </MyAppText>
   );
 
   onLoginWithFacebook = async () => {
@@ -165,11 +166,11 @@ export default class LoginScreen extends React.Component {
                 <Image style={{ width: 10 }} />
                 <Image source={require('../../assets/images/Login/logo.png')} style={[MyStyles.h_auto, MyStyles.ic_logo]} />
               </View>
-              <Text style={{ marginLeft: "auto", marginRight: "auto", color: "white", marginTop: 8, fontSize: 12, fontWeight: "100" }} >Your Beauty Counselor</Text>
+              <MyAppText style={{ marginLeft: "auto", marginRight: "auto", color: "white", marginTop: 8, fontSize: 12, fontWeight: "100" }} >Your Beauty Counselor</MyAppText>
               <Image style={{ flex: 200 }} />
               <View style={[MyStyles.h_auto, { width: "85%", borderRadius: 15, backgroundColor: "white", paddingVertical: 40, paddingHorizontal: 18 }]}>
                 <View style={[MyStyles.inputBox, { marginTop: -20 }, (this.checkValidation(email, "email") == false && loginPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-                  {this.checkValidation(email, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Email {this.Necessarry}</Text> : null}
+                  {this.checkValidation(email, "empty") == false ? <MyAppText style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Email {this.Necessarry}</MyAppText> : null}
                   <TextInput
                     returnKeyType="next"
                     onChangeText={(text) => { this.setState({ email: text }) }}
@@ -179,11 +180,11 @@ export default class LoginScreen extends React.Component {
                 </View>
                 {
                   ((this.checkValidation(email, "email") == false) && loginPressed == true) ?
-                    <Text style={MyStyles.warningText}>Please Confirm your Email</Text> : null
+                    <MyAppText style={MyStyles.warningText}>Please Confirm your Email</MyAppText> : null
                 }
 
                 <View style={[MyStyles.inputBox, (this.checkValidation(password, "password") == false && loginPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-                  {this.checkValidation(password, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Password {this.Necessarry}</Text> : null}
+                  {this.checkValidation(password, "empty") == false ? <MyAppText style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Password {this.Necessarry}</MyAppText> : null}
                   <TextInput
                     returnKeyType="done"
                     ref={(input) => { this.pwdTextInput = input; }}
@@ -193,21 +194,21 @@ export default class LoginScreen extends React.Component {
                 </View>
                 {
                   ((this.checkValidation(password, "password") == false) && loginPressed == true) ?
-                    <Text style={MyStyles.warningText}>Please Confirm your password</Text> : null
+                    <MyAppText style={MyStyles.warningText}>Please Confirm your password</MyAppText> : null
                 }
 
-                <Text style={{ marginTop: 10, marginLeft: "auto", fontSize: 12 }} onPress={() => this.onPressForgetPassword()}>
+                <MyAppText style={{ marginTop: 10, marginLeft: "auto", fontSize: 12 }} onPress={() => this.onPressForgetPassword()}>
                   Forget Password
-                </Text>
+                </MyAppText>
 
                 <TouchableOpacity activeOpacity={0.8} style={{ marginTop: 27, backgroundColor: Colors.primary_purple, borderRadius: 5, height: 135 / 3, justifyContent: "center" }} onPress={() => {
                   this.onPressLogin(this.state.email, this.state.password)
                 }}>
-                  <Text style={{ color: "white", fontSize: 15, textAlign: "center", fontWeight: "500" }}>LOGIN</Text>
+                  <MyAppText style={{ color: "white", fontSize: 15, textAlign: "center", fontWeight: "500" }}>LOGIN</MyAppText>
                 </TouchableOpacity>
 
                 <View style={{ alignItems: "center", fontSize: 13, marginTop: 18 }}>
-                  <Text style={{ color: "#aeaeae" }}>Don't have an account?  {this.Signup}</Text>
+                  <MyAppText style={{ color: "#aeaeae" }}>Don't have an account?  {this.Signup}</MyAppText>
                 </View>
 
                 <View style={{ flexDirection: "row", alignItems: "center", marginTop: 20, justifyContent: 'space-between' }}>
@@ -219,9 +220,9 @@ export default class LoginScreen extends React.Component {
                       width: "30%",
                     }}
                   />
-                  <Text
+                  <MyAppText
                     style={{ textAlign: "center", color: "#aeaeae" }}
-                  >or Login with</Text>
+                  >or Login with</MyAppText>
                   <View
                     style={{
                       alignItems: "flex-end",
@@ -244,7 +245,7 @@ export default class LoginScreen extends React.Component {
                       //Image Style
                       style={MyStyles.ImageIconStyle}
                     />
-                    <Text style={MyStyles.TextStyle}>Facebook</Text>
+                    <MyAppText style={MyStyles.TextStyle}>Facebook</MyAppText>
                   </TouchableOpacity>
                   <TouchableOpacity activeOpacity={0.8} style={MyStyles.GooglePlusStyle} activeOpacity={0.5} onPress={() => { this.onLoginWithGoogle() }}>
                     {/*We can use any component which is used to shows something inside 
@@ -257,12 +258,12 @@ export default class LoginScreen extends React.Component {
                       //Image Style
                       style={MyStyles.ImageIconStyle}
                     />
-                    <Text style={MyStyles.TextStyle}>Google</Text>
+                    <MyAppText style={MyStyles.TextStyle}>Google</MyAppText>
                   </TouchableOpacity>
                 </View>
               </View>
               <Image style={{ flex: 100 }} />
-              <Text style={{ color: "white", marginBottom: 50 / 3, textAlign: "center", fontSize: 12, fontWeight: "100" }}>copyright © 2019 by Chemi. all rights reserved</Text>
+              <MyAppText style={{ color: "white", marginBottom: 50 / 3, textAlign: "center", fontSize: 12, fontWeight: "100" }}>copyright © 2019 by Chemi. all rights reserved</MyAppText>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -284,7 +285,7 @@ export default class LoginScreen extends React.Component {
                 </TouchableOpacity>
 
                 <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
-                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Tell us little more about you so {"\n"} we can find recommendation!</Text>
+                <MyAppText style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Tell us little more about you so {"\n"} we can find recommendation!</MyAppText>
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight onPress={() => {
@@ -292,7 +293,7 @@ export default class LoginScreen extends React.Component {
                     this.props.navigation.navigate("Questionnare", { [MyConstants.NAVIGATION_PARAMS.is_from_sign_up]: true })
                   }}
                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
-                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                    <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
@@ -302,7 +303,7 @@ export default class LoginScreen extends React.Component {
                       // 로그인 되었으면 앱을 리로딩
                       Updates.reload()
                     }}>
-                    <Text style={MyStyles.btn_primary_white}>Not now</Text>
+                    <MyAppText style={MyStyles.btn_primary_white}>Not now</MyAppText>
                   </TouchableHighlight>
                 </View>
               </View>

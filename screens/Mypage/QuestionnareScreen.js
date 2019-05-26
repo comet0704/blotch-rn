@@ -25,6 +25,7 @@ import Toast from 'react-native-whc-toast';
 import MyConstants from '../../constants/MyConstants';
 import { LinearGradient } from 'expo';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 import Common from '../../assets/Common';
 
 import { FlatGrid } from 'react-native-super-grid';
@@ -157,7 +158,7 @@ export default class QuestionnareScreen extends React.Component {
             <View key={item.id} style={{ marginRight: 10, flex: 1, alignItems: "center", justifyContent: "center" }}>
               <TouchableOpacity activeOpacity={0.8} onPress={() => { this.onBabySelected(item.title) }} style={[item.is_selected ? MyStyles.baby_container_selected1 : MyStyles.baby_container]}>
                 {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
-                {item.is_selected ? <Text style={MyStyles.baby_text_selected} numberOfLines={1}>{item.title}</Text> : <Text style={MyStyles.baby_text} numberOfLines={1}>{item.title}</Text>}
+                {item.is_selected ? <MyAppText style={MyStyles.baby_text_selected} numberOfLines={1}>{item.title}</MyAppText> : <MyAppText style={MyStyles.baby_text} numberOfLines={1}>{item.title}</MyAppText>}
               </TouchableOpacity>
             </View>
           ))}
@@ -168,7 +169,7 @@ export default class QuestionnareScreen extends React.Component {
               this.setState({ edit_baby_id: 0, request_list_name: "", addBabyModalVisible: true })
             }
             } style={[MyStyles.baby_container]}>
-              <Text style={[MyStyles.baby_text, { fontSize: 25 }]} numberOfLines={1}>+</Text>
+              <MyAppText style={[MyStyles.baby_text, { fontSize: 25 }]} numberOfLines={1}>+</MyAppText>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -384,11 +385,11 @@ export default class QuestionnareScreen extends React.Component {
                     }}>
                       <View style={[{ flex: 1 }]}>
                         {this.state.section_basic_info ?
-                          <Text style={[MyStyles.question_section_opened]}>Step 01</Text>
-                          : <Text style={[MyStyles.question_section_closed]}>Step 01</Text>
+                          <MyAppText style={[MyStyles.question_section_opened]}>Step 01</MyAppText>
+                          : <MyAppText style={[MyStyles.question_section_closed]}>Step 01</MyAppText>
                         }
                         <View style={{ flexDirection: "row" }}>
-                          <Text style={[MyStyles.ingredient_section_header_text1]}>Basic Info</Text>
+                          <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Basic Info</MyAppText>
                           { // 섹션1 완성상태 체크
                             this.state.questionnaire_detail.birth != null &&
                               this.state.questionnaire_detail.birth.length > 0 &&
@@ -414,7 +415,7 @@ export default class QuestionnareScreen extends React.Component {
                         <View style={[MyStyles.padding_main]}>
                           {/* Day of Birth */}
                           <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>Date of Birth</Text>
+                            <MyAppText style={[MyStyles.question_sub_text1]}>Date of Birth</MyAppText>
                             <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect, [MyConstants.NAVIGATION_PARAMS.selectedDate]: this.state.questionnaire_detail.birth, [MyConstants.NAVIGATION_PARAMS.isFromQuestionnaire]: true })}>
                               <TextInput value={this.state.questionnaire_detail.birth} editable={false} style={{ fontSize: 12, paddingRight: 10, flex: 1 }} placeholder="YYYY - MM - DD" />
                               <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
@@ -422,7 +423,7 @@ export default class QuestionnareScreen extends React.Component {
                           </View>
                           {/* Gender */}
                           <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>Gender</Text>
+                            <MyAppText style={[MyStyles.question_sub_text1]}>Gender</MyAppText>
                             <View style={{ marginTop: 10, flexDirection: "row" }}>
 
                               {this.state.questionnaire_detail.gender == "F" ?
@@ -434,7 +435,7 @@ export default class QuestionnareScreen extends React.Component {
                                   }
                                 >
                                   <Image source={require("../../assets/images/ic_gender_female_on.png")} style={[MyStyles.ic_gender_female]} />
-                                  <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_primary_pink }}>Female</Text>
+                                  <MyAppText style={{ fontSize: 12, marginTop: 5, color: Colors.color_primary_pink }}>Female</MyAppText>
                                 </TouchableOpacity>
                                 :
                                 <TouchableOpacity activeOpacity={0.8} style={MyStyles.question_gender_off}
@@ -445,7 +446,7 @@ export default class QuestionnareScreen extends React.Component {
                                   }
                                 >
                                   <Image source={require("../../assets/images/ic_gender_female.png")} style={[MyStyles.ic_gender_female]} />
-                                  <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_e3e5e4 }}>Female</Text>
+                                  <MyAppText style={{ fontSize: 12, marginTop: 5, color: Colors.color_e3e5e4 }}>Female</MyAppText>
                                 </TouchableOpacity>
                               }
 
@@ -460,7 +461,7 @@ export default class QuestionnareScreen extends React.Component {
                                   }
                                   }>
                                   <Image source={require("../../assets/images/ic_gender_male_on.png")} style={[MyStyles.ic_gender_male]} />
-                                  <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_primary_pink }}>Male</Text>
+                                  <MyAppText style={{ fontSize: 12, marginTop: 5, color: Colors.color_primary_pink }}>Male</MyAppText>
                                 </TouchableOpacity>
                                 :
                                 <TouchableOpacity activeOpacity={0.8} style={MyStyles.question_gender_off}
@@ -470,7 +471,7 @@ export default class QuestionnareScreen extends React.Component {
                                   }
                                   }>
                                   <Image source={require("../../assets/images/ic_gender_male.png")} style={[MyStyles.ic_gender_male]} />
-                                  <Text style={{ fontSize: 12, marginTop: 5, color: Colors.color_e3e5e4 }}>Male</Text>
+                                  <MyAppText style={{ fontSize: 12, marginTop: 5, color: Colors.color_e3e5e4 }}>Male</MyAppText>
                                 </TouchableOpacity>
                               }
 
@@ -486,7 +487,7 @@ export default class QuestionnareScreen extends React.Component {
                                   }>
                                   <Image source={require("../../assets/images/ic_gender_unspecified_on.png")} style={[MyStyles.ic_gender_unspecified, { marginTop: 31 / 6 }]} />
 
-                                  <Text style={{ fontSize: 12, marginTop: 5 + 31 / 6, color: Colors.color_primary_pink }}>Unspecitied</Text>
+                                  <MyAppText style={{ fontSize: 12, marginTop: 5 + 31 / 6, color: Colors.color_primary_pink }}>Unspecitied</MyAppText>
                                 </TouchableOpacity>
                                 :
                                 <TouchableOpacity activeOpacity={0.8} style={MyStyles.question_gender_off}
@@ -496,7 +497,7 @@ export default class QuestionnareScreen extends React.Component {
                                   }
                                   }>
                                   <Image source={require("../../assets/images/ic_gender_unspecified.png")} style={[MyStyles.ic_gender_unspecified, { marginTop: 31 / 6 }]} />
-                                  <Text style={{ fontSize: 12, marginTop: 5 + 31 / 6, color: Colors.color_e3e5e4 }}>Unspecitied</Text>
+                                  <MyAppText style={{ fontSize: 12, marginTop: 5 + 31 / 6, color: Colors.color_e3e5e4 }}>Unspecitied</MyAppText>
                                 </TouchableOpacity>
                               }
                             </View>
@@ -504,7 +505,7 @@ export default class QuestionnareScreen extends React.Component {
 
                           {/* Area */}
                           <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>Area</Text>
+                            <MyAppText style={[MyStyles.question_sub_text1]}>Area</MyAppText>
                             <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ countrySelectModalVisible: true }) }}>
                               <TextInput value={this.state.questionnaire_detail.location} editable={false} style={{ fontSize: 12, paddingRight: 10, flex: 1 }} placeholder="Seoul, Kor" />
                               <Image source={require("../../assets/images/ic_search_medium.png")} style={[MyStyles.ic_search_medium]} />
@@ -513,42 +514,42 @@ export default class QuestionnareScreen extends React.Component {
 
                           {/* Marriage status */}
                           <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>Marriage status</Text>
+                            <MyAppText style={[MyStyles.question_sub_text1]}>Marriage status</MyAppText>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.marital_status = "Y",
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.marital_status == "Y" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Yes</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Yes</MyAppText>
                               </TouchableOpacity>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.marital_status = "N",
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.marital_status == "N" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>No</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>No</MyAppText>
                               </TouchableOpacity>
                             </View>
                           </View>
 
                           {/* Descendant */}
                           <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>Descendant</Text>
+                            <MyAppText style={[MyStyles.question_sub_text1]}>Descendant</MyAppText>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.is_kids = "Y",
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.is_kids == "Y" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Yes</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Yes</MyAppText>
                               </TouchableOpacity>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.is_kids = "N",
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.is_kids == "N" ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>No</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>No</MyAppText>
                               </TouchableOpacity>
                             </View>
                           </View>
@@ -569,11 +570,11 @@ export default class QuestionnareScreen extends React.Component {
                     }}>
                       <View style={[{ flex: 1 }]}>
                         {this.state.section_skin_type ?
-                          <Text style={[MyStyles.question_section_opened]}>Step 02</Text>
-                          : <Text style={[MyStyles.question_section_closed]}>Step 02</Text>
+                          <MyAppText style={[MyStyles.question_section_opened]}>Step 02</MyAppText>
+                          : <MyAppText style={[MyStyles.question_section_closed]}>Step 02</MyAppText>
                         }
                         <View style={{ flexDirection: "row" }}>
-                          <Text style={[MyStyles.ingredient_section_header_text1]}>My Skin Type</Text>
+                          <MyAppText style={[MyStyles.ingredient_section_header_text1]}>My Skin Type</MyAppText>
 
                           { // 섹션2 완성상태 체크
                             this.state.questionnaire_detail.skin_type != null &&
@@ -598,7 +599,7 @@ export default class QuestionnareScreen extends React.Component {
                           {/* My skin is */}
                           {this.state.questionnaire_detail.skin_type != null && this.state.questionnaire_detail.skin_type.length > 0 ?
                             <View>
-                              <Text style={[MyStyles.question_sub_text1]}>My skin is</Text>
+                              <MyAppText style={[MyStyles.question_sub_text1]}>My skin is</MyAppText>
                               <View style={{ flexDirection: "row" }}>
                                 {/* questionnaire_detail을 위주로 flatgrid 를 순회. 안에서 skin_type 매칭 */}
                                 <FlatGrid
@@ -614,7 +615,7 @@ export default class QuestionnareScreen extends React.Component {
                                     return (
                                       <View style={{ alignItems: "center", flexDirection: "row" }} >
                                         <Image source={w_item.image_on} style={[MyStyles.ic_skin_types_small]} />
-                                        <Text style={{ textAlign: "center", color: Colors.color_949292, fontSize: 12, marginLeft: 5 }}>{w_item.typeName}</Text>
+                                        <MyAppText style={{ textAlign: "center", color: Colors.color_949292, fontSize: 12, marginLeft: 5 }}>{w_item.typeName}</MyAppText>
                                       </View>
                                     )
                                   }}
@@ -628,7 +629,7 @@ export default class QuestionnareScreen extends React.Component {
                           {/* I'm unhappy about my */}
                           {this.state.questionnaire_detail.concern != null && this.state.questionnaire_detail.concern.length > 0 ?
                             <View>
-                              <Text style={[MyStyles.question_sub_text1]}>I'm unhappy about my</Text>
+                              <MyAppText style={[MyStyles.question_sub_text1]}>I'm unhappy about my</MyAppText>
                               <View style={{ flexDirection: "row" }}>
                                 {/* questionnaire_detail을 위주로 flatgrid 를 순회. 안에서 skin_type 매칭 */}
                                 <FlatGrid
@@ -644,7 +645,7 @@ export default class QuestionnareScreen extends React.Component {
                                     return (
                                       <View style={{ alignItems: "center", flexDirection: "row" }} >
                                         <Image source={w_item.image_on} style={[MyStyles.ic_skin_types_small]} />
-                                        <Text style={{ textAlign: "center", color: Colors.color_949292, fontSize: 12, marginLeft: 5 }}>{w_item.typeName}</Text>
+                                        <MyAppText style={{ textAlign: "center", color: Colors.color_949292, fontSize: 12, marginLeft: 5 }}>{w_item.typeName}</MyAppText>
                                       </View>
                                     )
                                   }}
@@ -658,7 +659,7 @@ export default class QuestionnareScreen extends React.Component {
                           {/* I'm interested in */}
                           {this.state.questionnaire_detail.needs != null && this.state.questionnaire_detail.needs.length > 0 ?
                             <View>
-                              <Text style={[MyStyles.question_sub_text1]}>I'm interested in</Text>
+                              <MyAppText style={[MyStyles.question_sub_text1]}>I'm interested in</MyAppText>
                               <View style={{ flexDirection: "row" }}>
                                 {/* questionnaire_detail을 위주로 flatgrid 를 순회. 안에서 skin_type 매칭 */}
                                 <FlatGrid
@@ -674,7 +675,7 @@ export default class QuestionnareScreen extends React.Component {
                                     return (
                                       <View style={{ alignItems: "center", flexDirection: "row" }} >
                                         <Image source={w_item.image_on} style={[MyStyles.ic_skin_types_small]} />
-                                        <Text style={{ textAlign: "center", color: Colors.color_949292, fontSize: 12, marginLeft: 5 }}>{w_item.typeName}</Text>
+                                        <MyAppText style={{ textAlign: "center", color: Colors.color_949292, fontSize: 12, marginLeft: 5 }}>{w_item.typeName}</MyAppText>
                                       </View>
                                     )
                                   }}
@@ -715,11 +716,11 @@ export default class QuestionnareScreen extends React.Component {
                     }}>
                       <View style={[{ flex: 1 }]}>
                         {this.state.section_product_reference ?
-                          <Text style={[MyStyles.question_section_opened]}>Step 03</Text>
-                          : <Text style={[MyStyles.question_section_closed]}>Step 03</Text>
+                          <MyAppText style={[MyStyles.question_section_opened]}>Step 03</MyAppText>
+                          : <MyAppText style={[MyStyles.question_section_closed]}>Step 03</MyAppText>
                         }
                         <View style={{ flexDirection: "row" }}>
-                          <Text style={[MyStyles.ingredient_section_header_text1]}>Product Preference</Text>
+                          <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Product Preference</MyAppText>
                           { // 섹션3 완성상태 체크
                             this.state.questionnaire_detail.brand_favourite_list != null &&
                               this.state.questionnaire_detail.brand_favourite_list.length > 0 &&
@@ -747,7 +748,7 @@ export default class QuestionnareScreen extends React.Component {
                         <View style={[MyStyles.padding_main]}>
                           {/* Favorite Brands */}
                           <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>Favorite Brands</Text>
+                            <MyAppText style={[MyStyles.question_sub_text1]}>Favorite Brands</MyAppText>
                             <ScrollView
                               horizontal
                               style={[{ flex: 1, }]}
@@ -797,7 +798,7 @@ export default class QuestionnareScreen extends React.Component {
                                       this.setState({ searchBrandModalVisible: true })
                                     }}
                                   >
-                                    <Text style={{ fontSize: 46 / 3, color: "white" }}>+</Text>
+                                    <MyAppText style={{ fontSize: 46 / 3, color: "white" }}>+</MyAppText>
                                   </TouchableOpacity>
                                 </View>
                               </View>
@@ -806,7 +807,7 @@ export default class QuestionnareScreen extends React.Component {
 
                           {/* Brands I use mostly */}
                           <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>Brands I use mostly</Text>
+                            <MyAppText style={[MyStyles.question_sub_text1]}>Brands I use mostly</MyAppText>
                             <ScrollView
                               horizontal
                               style={[{ flex: 1, }]}
@@ -855,7 +856,7 @@ export default class QuestionnareScreen extends React.Component {
                                       this.setState({ searchBrandForFavorite: false })
                                       this.setState({ searchBrandModalVisible: true })
                                     }}>
-                                    <Text style={{ fontSize: 46 / 3, color: "white" }}>+</Text>
+                                    <MyAppText style={{ fontSize: 46 / 3, color: "white" }}>+</MyAppText>
                                   </TouchableOpacity>
                                 </View>
                               </View>
@@ -864,21 +865,21 @@ export default class QuestionnareScreen extends React.Component {
 
                           {/* I buy products from */}
                           <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>I buy products from</Text>
+                            <MyAppText style={[MyStyles.question_sub_text1]}>I buy products from</MyAppText>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.buy_products_from = 1,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Shopping mall</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Shopping mall</MyAppText>
                               </TouchableOpacity>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.buy_products_from = 2,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 2 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Internet</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Internet</MyAppText>
                               </TouchableOpacity>
                             </View>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 3 }]}>
@@ -887,14 +888,14 @@ export default class QuestionnareScreen extends React.Component {
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 3 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Permanent shop</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Permanent shop</MyAppText>
                               </TouchableOpacity>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.buy_products_from = 4,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 4 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Medical shop</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Medical shop</MyAppText>
                               </TouchableOpacity>
                             </View>
                           </View>
@@ -902,21 +903,21 @@ export default class QuestionnareScreen extends React.Component {
 
                           {/* I use           skincare products in one day */}
                           <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>I use ___ skincare products in one day</Text>
+                            <MyAppText style={[MyStyles.question_sub_text1]}>I use ___ skincare products in one day</MyAppText>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.product_count_in_day = 1,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>None</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>None</MyAppText>
                               </TouchableOpacity>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.product_count_in_day = 2,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 2 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>1~2</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>1~2</MyAppText>
                               </TouchableOpacity>
                             </View>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 3 }]}>
@@ -925,14 +926,14 @@ export default class QuestionnareScreen extends React.Component {
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 3 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>3~4</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>3~4</MyAppText>
                               </TouchableOpacity>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.product_count_in_day = 4,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.product_count_in_day == 4 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>More than 5</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>More than 5</MyAppText>
                               </TouchableOpacity>
                             </View>
                           </View>
@@ -940,21 +941,21 @@ export default class QuestionnareScreen extends React.Component {
 
                           {/* Time I spend in caring for my skin */}
                           <View style={{ marginBottom: 65 / 3 }}>
-                            <Text style={[MyStyles.question_sub_text1]}>Time I spend in caring for my skin</Text>
+                            <MyAppText style={[MyStyles.question_sub_text1]}>Time I spend in caring for my skin</MyAppText>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.time_for_care = 1,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.time_for_care == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Less than 1 hour</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Less than 1 hour</MyAppText>
                               </TouchableOpacity>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.time_for_care = 2,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.time_for_care == 2 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Between 1~3 hour</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Between 1~3 hour</MyAppText>
                               </TouchableOpacity>
                             </View>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 3 }]}>
@@ -963,14 +964,14 @@ export default class QuestionnareScreen extends React.Component {
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.time_for_care == 3 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Between 3~5 hour</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Between 3~5 hour</MyAppText>
                               </TouchableOpacity>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
                                 this.state.questionnaire_detail.time_for_care = 4,
                                   this.setState(this.state.questionnaire_detail)
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.time_for_care == 4 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>More than 5 hour</Text>
+                                <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>More than 5 hour</MyAppText>
                               </TouchableOpacity>
                             </View>
                           </View>
@@ -990,11 +991,11 @@ export default class QuestionnareScreen extends React.Component {
                     }}>
                       <View style={[{ flex: 1 }]}>
                         {this.state.section_skin_routine ?
-                          <Text style={[MyStyles.question_section_opened]}>Step 04</Text>
-                          : <Text style={[MyStyles.question_section_closed]}>Step 04</Text>
+                          <MyAppText style={[MyStyles.question_section_opened]}>Step 04</MyAppText>
+                          : <MyAppText style={[MyStyles.question_section_closed]}>Step 04</MyAppText>
                         }
                         <View style={{ flexDirection: "row" }}>
-                          <Text style={[MyStyles.ingredient_section_header_text1]}>My daily skincare routine</Text>
+                          <MyAppText style={[MyStyles.ingredient_section_header_text1]}>My daily skincare routine</MyAppText>
                           { // 섹션4 완성상태 체크
                             this.state.morning_cleansing_types.findIndex(item => item.is_selected == true) >= 0 &&
                               this.state.morning_care_types.findIndex(item => item.is_selected == true) >= 0 &&
@@ -1044,7 +1045,7 @@ export default class QuestionnareScreen extends React.Component {
                             <View>
                               {/* Morning cleansing */}
                               <View style={[{ marginBottom: 65 / 3, marginTop: 20 },]}>
-                                <Text style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Morning cleansing</Text>
+                                <MyAppText style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Morning cleansing</MyAppText>
                                 <View style={{ flexDirection: "row", marginTop: 5, paddingLeft: 5 }}>
                                   <View>
                                     <ScrollView
@@ -1062,8 +1063,8 @@ export default class QuestionnareScreen extends React.Component {
                                             {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                                               {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
-                                              {item.is_selected ? <Text style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</Text> :
-                                                <Text style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</Text>}
+                                              {item.is_selected ? <MyAppText style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</MyAppText> :
+                                                <MyAppText style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</MyAppText>}
                                             </View>
                                           </View>
                                         </TouchableOpacity>
@@ -1075,7 +1076,7 @@ export default class QuestionnareScreen extends React.Component {
 
                               {/* Morning care */}
                               <View style={[{ marginBottom: 65 / 3 },]}>
-                                <Text style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Morning care</Text>
+                                <MyAppText style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Morning care</MyAppText>
                                 <View style={{ flexDirection: "row", marginTop: 5, paddingLeft: 10, paddingRight: 10 }}>
                                   <View>
                                     <FlatGrid
@@ -1093,8 +1094,8 @@ export default class QuestionnareScreen extends React.Component {
                                             {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                                               {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
-                                              {item.is_selected ? <Text style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</Text> :
-                                                <Text style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</Text>}
+                                              {item.is_selected ? <MyAppText style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</MyAppText> :
+                                                <MyAppText style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</MyAppText>}
                                             </View>
                                           </View>
                                         </TouchableOpacity>
@@ -1107,7 +1108,7 @@ export default class QuestionnareScreen extends React.Component {
                             : <View>
                               {/* Night cleansing */}
                               <View style={[{ marginBottom: 65 / 3, marginTop: 20 },]}>
-                                <Text style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Night cleansing</Text>
+                                <MyAppText style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Night cleansing</MyAppText>
                                 <View style={{ flexDirection: "row", marginTop: 5, paddingLeft: 5 }}>
                                   <View>
                                     <ScrollView
@@ -1125,8 +1126,8 @@ export default class QuestionnareScreen extends React.Component {
                                             {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                                               {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
-                                              {item.is_selected ? <Text style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</Text> :
-                                                <Text style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</Text>}
+                                              {item.is_selected ? <MyAppText style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</MyAppText> :
+                                                <MyAppText style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</MyAppText>}
                                             </View>
                                           </View>
                                         </TouchableOpacity>
@@ -1138,7 +1139,7 @@ export default class QuestionnareScreen extends React.Component {
 
                               {/* Night care */}
                               <View style={[{ marginBottom: 65 / 3 },]}>
-                                <Text style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Night care</Text>
+                                <MyAppText style={[MyStyles.question_sub_text1, MyStyles.padding_h_main]}>Night care</MyAppText>
                                 <View style={{ flexDirection: "row", marginTop: 5, paddingLeft: 10, paddingRight: 10 }}>
                                   <View>
                                     <FlatGrid
@@ -1156,8 +1157,8 @@ export default class QuestionnareScreen extends React.Component {
                                             {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                                               {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
-                                              {item.is_selected ? <Text style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</Text> :
-                                                <Text style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</Text>}
+                                              {item.is_selected ? <MyAppText style={[MyStyles.category_text22, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.typeName}</MyAppText> :
+                                                <MyAppText style={[MyStyles.category_text11, { marginLeft: 5 }]} numberOfLines={1}>{item.typeName}</MyAppText>}
                                             </View>
                                           </View>
                                         </TouchableOpacity>
@@ -1174,7 +1175,7 @@ export default class QuestionnareScreen extends React.Component {
                   </View>
 
                   <TouchableOpacity activeOpacity={0.8} onPress={() => { this.checkCompleteStatus() }} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginTop: 30, marginBottom: 40, marginLeft: 15, marginRight: 15 }]}>
-                    <Text style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</Text>
+                    <MyAppText style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</MyAppText>
                   </TouchableOpacity>
                 </View>
                 : null}
@@ -1196,9 +1197,9 @@ export default class QuestionnareScreen extends React.Component {
                     {/* modal header */}
                     <View style={MyStyles.modal_header}>
                       {this.state.edit_baby_id > 0 ?
-                        <Text style={MyStyles.modal_title}>Edit User</Text>
+                        <MyAppText style={MyStyles.modal_title}>Edit User</MyAppText>
                         :
-                        <Text style={MyStyles.modal_title}>Add User</Text>
+                        <MyAppText style={MyStyles.modal_title}>Add User</MyAppText>
                       }
                       <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ addBabyModalVisible: false });
@@ -1209,7 +1210,7 @@ export default class QuestionnareScreen extends React.Component {
                     <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
                     <View style={[MyStyles.container, { paddingTop: 20, paddingBottom: 120 / 3 }]}>
-                      <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Name</Text>
+                      <MyAppText style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Name</MyAppText>
                       <TextInput
                         onSubmitEditing={() => {
                           if (this.state.edit_baby_id > 0) {
@@ -1239,14 +1240,14 @@ export default class QuestionnareScreen extends React.Component {
                             this.updateQuestionnaireItem()
                             this.setState({ addBabyModalVisible: false });
                           }}>
-                          <Text style={MyStyles.btn_primary}>Change</Text>
+                          <MyAppText style={MyStyles.btn_primary}>Change</MyAppText>
                         </TouchableHighlight>
                         <TouchableHighlight
                           style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]} onPress={() => {
                             this.requestDeleteQuestionnaireItem(this.state.questionnaire_list[this.state.beforeBabyIdx].id)
                             this.setState({ addBabyModalVisible: false });
                           }}>
-                          <Text style={MyStyles.btn_primary_white}>Delete</Text>
+                          <MyAppText style={MyStyles.btn_primary_white}>Delete</MyAppText>
                         </TouchableHighlight>
                       </View>
                       :
@@ -1255,7 +1256,7 @@ export default class QuestionnareScreen extends React.Component {
                           style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
                             this.addQuestionnaire()
                           }}>
-                          <Text style={MyStyles.btn_primary}>Create</Text>
+                          <MyAppText style={MyStyles.btn_primary}>Create</MyAppText>
                         </TouchableHighlight>
                       </View>
                     }
@@ -1304,7 +1305,7 @@ export default class QuestionnareScreen extends React.Component {
                       this.setState({ countrySelectModalVisible: false });
                     }}
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
-                      <Text style={MyStyles.btn_primary}>Yes</Text>
+                      <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                     </TouchableHighlight>
                   </View>
                 </View>
@@ -1327,7 +1328,7 @@ export default class QuestionnareScreen extends React.Component {
                   <View style={MyStyles.modalContainer}>
                     {/* modal header */}
                     <View style={MyStyles.modal_header}>
-                      <Text style={MyStyles.modal_title}>Brand</Text>
+                      <MyAppText style={MyStyles.modal_title}>Brand</MyAppText>
                       <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ searchBrandModalVisible: false });
                       }}>
@@ -1338,7 +1339,7 @@ export default class QuestionnareScreen extends React.Component {
 
                     {/* body */}
                     <View style={[MyStyles.padding_h_main, { paddingTop: 70 / 3, paddingBottom: 75 / 3 }]}>
-                      <Text style={[MyStyles.text_13_primary_dark, { fontWeight: "500" }]}>Brand Name</Text>
+                      <MyAppText style={[MyStyles.text_13_primary_dark, { fontWeight: "500" }]}>Brand Name</MyAppText>
                       <TextInput
                         onChangeText={(text) => { this.setState({ searchKeyword: text }) }}
                         value={this.state.searchKeyword}
@@ -1365,7 +1366,7 @@ export default class QuestionnareScreen extends React.Component {
                           this.requestSearchBrand(this.state.searchKeyword)
                         }
                         }>
-                        <Text style={MyStyles.btn_primary}>Search</Text>
+                        <MyAppText style={MyStyles.btn_primary}>Search</MyAppText>
                       </TouchableOpacity>
                     </View>
 
@@ -1418,7 +1419,7 @@ export default class QuestionnareScreen extends React.Component {
                             this.setState({ searchBrandModalVisible: false })
 
                           }}>
-                            <Text style={MyStyles.btn_primary}>Add</Text>
+                            <MyAppText style={MyStyles.btn_primary}>Add</MyAppText>
                           </TouchableHighlight>
                         </View>
                       </View>
@@ -1447,16 +1448,16 @@ export default class QuestionnareScreen extends React.Component {
                   </TouchableOpacity>
 
                   <Image style={{ width: 85 / 3, height: 96 / 3, alignSelf: "center" }} source={require("../../assets/images/ic_pin.png")} />
-                  <Text style={{ fontSize: 16, color: "black", textAlign: "center", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20, paddingLeft: 20, paddingRight: 20 }}>
+                  <MyAppText style={{ fontSize: 16, color: "black", textAlign: "center", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20, paddingLeft: 20, paddingRight: 20 }}>
                     If you do not complete the Questionnaire, it may be difficult to get the correct consultation.
-                    </Text>
+                    </MyAppText>
                   <View style={{ flexDirection: "row" }}>
                     <TouchableHighlight onPress={() => {
                       this.setState({ noCompletedQuestionnaireModalVisible: false });
                       this.updateQuestionnaireItem()
                     }}
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
-                      <Text style={MyStyles.btn_primary}>OK</Text>
+                      <MyAppText style={MyStyles.btn_primary}>OK</MyAppText>
                     </TouchableHighlight>
 
                     <TouchableHighlight
@@ -1464,7 +1465,7 @@ export default class QuestionnareScreen extends React.Component {
                       onPress={() => {
                         this.setState({ noCompletedQuestionnaireModalVisible: false });
                       }}>
-                      <Text style={MyStyles.btn_primary_white}>Cancel</Text>
+                      <MyAppText style={MyStyles.btn_primary_white}>Cancel</MyAppText>
                     </TouchableHighlight>
                   </View>
                 </View>

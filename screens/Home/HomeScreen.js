@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import Carousel from 'react-native-carousel';
 import {
@@ -34,7 +35,6 @@ import { NavigationEvents } from 'react-navigation';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 import { exitAlert } from '../../components/androidBackButton/exitAlert';
 import { LoginModal } from '../../components/Modals/LoginModal';
-import { MonoText } from '../../components/StyledText';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -186,8 +186,8 @@ export default class HomeScreen extends React.Component {
           <View>
             <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
-              <Text style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{item.title}</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</Text>
+              <MyAppText style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{item.title}</MyAppText>
+              <MyAppText style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</MyAppText>
             </View>
           </View>
         </TouchableOpacity>
@@ -207,7 +207,7 @@ export default class HomeScreen extends React.Component {
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</Text>
+            <MyAppText style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</MyAppText>
           </View>
         </TouchableOpacity>
       </View>
@@ -225,7 +225,7 @@ export default class HomeScreen extends React.Component {
         }}>
           <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
-            <Text style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</Text>
+            <MyAppText style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</MyAppText>
           </View>
         </TouchableOpacity>
       </View>
@@ -250,8 +250,8 @@ export default class HomeScreen extends React.Component {
                 </TouchableOpacity>
             }
             <View style={[MyStyles.productbanner1_text_cover]}>
-              <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
-              <Text style={{ fontSize: 14, color: "black", textAlign: "center", lineHeight: 14, marginTop: 3 }} numberOfLines={2}>{item.title}</Text>
+              <MyAppText style={{ fontSize: 12, color: "#949393", textAlign: "center" }} numberOfLines={1}>{item.brand_title}</MyAppText>
+              <MyAppText style={{ fontSize: 14, color: "black", textAlign: "center", lineHeight: 14, marginTop: 3 }} numberOfLines={2}>{item.title}</MyAppText>
             </View>
           </View>
         </TouchableOpacity>
@@ -277,8 +277,8 @@ export default class HomeScreen extends React.Component {
                 </TouchableOpacity>
             }
             <View style={[MyStyles.productbanner1_text_cover]}>
-              <Text style={{ fontSize: 12, color: "#949393", textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
-              <Text style={{ fontSize: 14, color: "black", textAlign: "center", lineHeight: 14, marginTop: 3 }} numberOfLines={2}>{item.title}</Text>
+              <MyAppText style={{ fontSize: 12, color: "#949393", textAlign: "center" }} numberOfLines={1}>{item.brand_title}</MyAppText>
+              <MyAppText style={{ fontSize: 14, color: "black", textAlign: "center", lineHeight: 14, marginTop: 3 }} numberOfLines={2}>{item.title}</MyAppText>
             </View>
           </View>
         </TouchableOpacity>
@@ -294,8 +294,8 @@ export default class HomeScreen extends React.Component {
           <View style={{ flex: 1, borderRadius: 20, overflow: "hidden" }}>
             <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
-              <Text style={{ fontSize: 13, color: "white" }}>{item.title}</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{Common.removeHtmlTagsFromText(item.content)}</Text>
+              <MyAppText style={{ fontSize: 13, color: "white" }}>{item.title}</MyAppText>
+              <MyAppText style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{Common.removeHtmlTagsFromText(item.content)}</MyAppText>
             </View>
           </View>
         </TouchableOpacity>
@@ -317,8 +317,8 @@ export default class HomeScreen extends React.Component {
                 <View style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}>
                   <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(item.image) }} />
                   <View style={{ position: "absolute", bottom: 5, left: 5, maxWidth: 120 }}>
-                    <Text style={{ fontSize: 12, color: "white" }}>{item.title}</Text>
-                    <Text style={{ fontSize: 14, color: "white", fontWeight: "bold" }} numberOfLines={1}>{item.content}</Text>
+                    <MyAppText style={{ fontSize: 12, color: "white" }}>{item.title}</MyAppText>
+                    <MyAppText style={{ fontSize: 14, color: "white", fontWeight: "bold" }} numberOfLines={1}>{item.content}</MyAppText>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -342,8 +342,8 @@ export default class HomeScreen extends React.Component {
               <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
                 <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(item.image_list) }} />
               </TouchableOpacity>
-              <Text style={{ fontSize: 12, color: "#949393", marginTop: 5, textAlign: "center" }} numberOfLines={1}>{item.brand_title}</Text>
-              <Text style={{ fontSize: 13, color: "#212122", fontWeight: "bold", textAlign: "center" }} numberOfLines={1}>{item.title}</Text>
+              <MyAppText style={{ fontSize: 12, color: "#949393", marginTop: 5, textAlign: "center" }} numberOfLines={1}>{item.brand_title}</MyAppText>
+              <MyAppText style={{ fontSize: 13, color: "#212122", fontWeight: "bold", textAlign: "center" }} numberOfLines={1}>{item.title}</MyAppText>
 
             </View>
           ))}
@@ -379,11 +379,11 @@ export default class HomeScreen extends React.Component {
       <View>
         <View style={[{ flexDirection: "row", color: "white" }]}>
           {/* <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} /> */}
-          <Text style={{ color: "white", fontSize: 13,/* marginLeft: 5*/ }}><Text>{this.state.oneline_review_en} </Text></Text>
+          <MyAppText style={{ color: "white", fontSize: 13,/* marginLeft: 5*/ }}><MyAppText>{this.state.oneline_review_en} </MyAppText></MyAppText>
         </View>
         {/* <View style={[{ flexDirection: "row", color: "white" }]}>
           <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
-          <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>You're interested in <Text style={{ fontWeight: "bold" }}> {global.login_info.concern.split(",")[0]}</Text></Text>
+          <MyAppText style={{ color: "white", fontSize: 13, marginLeft: 5 }}>You're interested in <MyAppText style={{ fontWeight: "bold" }}> {global.login_info.concern.split(",")[0]}</MyAppText></MyAppText>
         </View> */}
       </View>
     )
@@ -430,18 +430,18 @@ export default class HomeScreen extends React.Component {
                 {/* borderTop에 그림자 효과 가리기 위한 뷰 */}
                 <View style={{ position: "absolute", height: 2, top: -2, left: 0, right: 0, backgroundColor: "white" }} />
 
-                <Text style={[{ color: "#949393", fontSize: 12 }]}>Today's counselor</Text>
-                <Text style={[MyStyles.text_20, { marginTop: 5, fontFamily: "rubik-medium" }]}>Today's Beauty Information</Text>
+                <MyAppText style={[{ color: "#949393", fontSize: 12 }]}>Today's counselor</MyAppText>
+                <MyAppText style={[MyStyles.text_20, { marginTop: 5 }]}>Today's Beauty Information</MyAppText>
                 <View style={[{ borderRadius: 3, overflow: "hidden", width: "100%", minHeight: 125, marginTop: 20, padding: 15, marginBottom: 23 }]}>
                   <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} />
                   <View style={{ flexDirection: "row", flex: 1 }}>
                     <View style={{ flex: 1 }}>
-                      <Text style={[{ fontSize: 15, fontWeight: "500", color: "white" }]}>Beauty Advice</Text>
+                      <MyAppText style={[{ fontSize: 15, fontWeight: "500", color: "white" }]}>Beauty Advice</MyAppText>
                       <View style={[MyStyles.seperate_line_white, { marginTop: 10, marginBottom: 10 }]} />
                       {/* 날씨 감춤 */}
                       {/* <View style={[{ flexDirection: "row", color: "white" }]}>
                         <Image source={require('../../assets/images/Home/ic_weather_type.png')} style={{ width: 13, height: 7, alignSelf: "center" }} />
-                        <Text style={{ color: "white", fontSize: 13, marginLeft: 5 }}>It's<Text style={{ fontWeight: "bold" }}> {this.state.weatherInfo.main.toLowerCase()}</Text> today</Text>
+                        <MyAppText style={{ color: "white", fontSize: 13, marginLeft: 5 }}>It's<MyAppText style={{ fontWeight: "bold" }}> {this.state.weatherInfo.main.toLowerCase()}</MyAppText> today</MyAppText>
                       </View> */}
                       {this.state.refreshOneLineInfo ?
                         !(Common.isNeedToAddQuestionnaire()) ?
@@ -456,7 +456,7 @@ export default class HomeScreen extends React.Component {
                     {this.state.weatherInfo.icon.length > 0 ?
                       <View style={{ alignSelf: "center", marginLeft: 10, justifyContent: "center" }}>
                         <Image source={{ uri: this.state.weatherInfo.icon }} style={{ width: 50, height: 50, alignSelf: "center" }} />
-                        <Text style={{ fontSize: 13, color: "white", alignSelf: "center", marginTop: -10 }}>{this.state.weatherInfo.city + "." + parseFloat(this.state.weatherInfo.temp - 273.15).toFixed(0).toString() + "˚C"}</Text>
+                        <MyAppText style={{ fontSize: 13, color: "white", alignSelf: "center", marginTop: -10 }}>{this.state.weatherInfo.city + "." + parseFloat(this.state.weatherInfo.temp - 273.15).toFixed(0).toString() + "˚C"}</MyAppText>
                       </View>
                       :
                       <View style={{ alignSelf: "center", marginLeft: 10, width: 50, justifyContent: "center" }}>
@@ -471,11 +471,11 @@ export default class HomeScreen extends React.Component {
                   <View style={[{ borderBottomLeftRadius: 20 }, MyStyles.bg_white]}>
                     <View style={[MyStyles.seperate_line_e5e5e5, { marginRight: -15, marginTop: -5 }]} />
                     <View style={[{ flexDirection: "row", flex: 1, marginTop: 10, justifyContent: "center" }]}>
-                      <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</Text>
+                      <MyAppText style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>We recommend It!</MyAppText>
                       <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() =>
                         this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })}
                       >
-                        <Text style={MyStyles.txt_more}>more</Text>
+                        <MyAppText style={MyStyles.txt_more}>more</MyAppText>
                         <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
                       </TouchableOpacity>
                     </View>
@@ -511,8 +511,8 @@ export default class HomeScreen extends React.Component {
                   >
                     <View style={[MyStyles.we_can_search_it_cover, MyStyles.shadow_2]}>
                       <View style={{ flex: 1 }}>
-                        <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
-                        <Text style={{ fontSize: 12, color: "#949393" }}>Please set up your skin type</Text>
+                        <MyAppText style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</MyAppText>
+                        <MyAppText style={{ fontSize: 12, color: "#949393" }}>Please set up your skin type</MyAppText>
                       </View>
 
                       <Image source={require('../../assets/images/Home/ic_avatar_woman.png')} style={{ width: 30, height: 42, alignSelf: "center" }} />
@@ -534,8 +534,8 @@ export default class HomeScreen extends React.Component {
                   >
                     <View style={[MyStyles.we_can_search_it_cover, MyStyles.shadow_2]}>
                       <View style={{ flex: 1 }}>
-                        <Text style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</Text>
-                        <Text style={{ fontSize: 12, color: "#949393" }}>Please set up your skin type</Text>
+                        <MyAppText style={{ fontSize: 16, fontWeight: "bold" }}>We can Search it !</MyAppText>
+                        <MyAppText style={{ fontSize: 12, color: "#949393" }}>Please set up your skin type</MyAppText>
                       </View>
 
                       <Image source={require('../../assets/images/Home/ic_avatar_woman.png')} style={{ width: 30, height: 42, alignSelf: "center" }} />
@@ -568,9 +568,9 @@ export default class HomeScreen extends React.Component {
               {/* Hi, It's New 부분 */}
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                  <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Hi, It's New</Text>
+                  <MyAppText style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Hi, It's New</MyAppText>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 0 }) }}>
-                    <Text style={MyStyles.txt_more}>more</Text>
+                    <MyAppText style={MyStyles.txt_more}>more</MyAppText>
                     <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
                   </TouchableOpacity>
 
@@ -632,10 +632,10 @@ export default class HomeScreen extends React.Component {
               {/* Best Choice 부분 */}
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                  <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Best Choice</Text>
+                  <MyAppText style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Best Choice</MyAppText>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 1 }) }}
                   >
-                    <Text style={MyStyles.txt_more}>more</Text>
+                    <MyAppText style={MyStyles.txt_more}>more</MyAppText>
                     <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
                   </TouchableOpacity>
                 </View>
@@ -700,10 +700,10 @@ export default class HomeScreen extends React.Component {
               <View style={[{ marginTop: 10, borderBottomLeftRadius: 20, borderTopRightRadius: 20, marginBottom: 10 }, MyStyles.bg_white, MyStyles.shadow_2]}>
                 {/* Today's Article */}
                 <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                  <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Today's Article</Text>
+                  <MyAppText style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>Today's Article</MyAppText>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() => { this.props.navigation.navigate("Article") }}
                   >
-                    <Text style={MyStyles.txt_more}>more</Text>
+                    <MyAppText style={MyStyles.txt_more}>more</MyAppText>
                     <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
                   </TouchableOpacity>
                 </View>
@@ -732,7 +732,7 @@ export default class HomeScreen extends React.Component {
 
                 {/* What's trending */}
                 <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
-                  <Text style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>What's Trending</Text>
+                  <MyAppText style={[MyStyles.text_20, { flex: 1, alignSelf: "center" }]}>What's Trending</MyAppText>
                 </View>
                 <View style={{
                   flex: 1,
@@ -752,11 +752,11 @@ export default class HomeScreen extends React.Component {
                 <View style={[MyStyles.seperate_line_e5e5e5]}></View>
                 <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", flex: 1, height: 53 }}>
                   <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("Faq") }}>
-                    <Text style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>FAQ</Text>
+                    <MyAppText style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>FAQ</MyAppText>
                   </TouchableOpacity>
                   <Image style={[MyStyles.seperate_v_line_e5e5e5, { height: 30 / 3 }]} />
                   <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("AboutUs"); }}>
-                    <Text style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>About Us</Text>
+                    <MyAppText style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>About Us</MyAppText>
                   </TouchableOpacity>
                 </View>
               </View>

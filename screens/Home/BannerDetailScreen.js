@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import { Image, Alert, Share, TouchableHighlight, Modal, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
@@ -87,25 +88,25 @@ export default class BannerDetailScreen extends React.Component {
           <Image source={item.profile_image ? { uri: Common.getImageUrl(item.profile_image) } : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]} />
           <View style={{ flex: 1, marginLeft: 10 }}>
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
-              {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 42 / 3, lineHeight: 44 / 3 }]}>Me</Text> : null}
+              <MyAppText style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</MyAppText>
+              {item.user_id == global.login_info.user_id ? <MyAppText style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 42 / 3, lineHeight: 44 / 3 }]}>Me</MyAppText> : null}
             </View>
             {
               item.user_status == 1 ? // user_status=1 이면 "This user was suspended."
-                (<Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_user_was_suspended}</Text>)
+                (<MyAppText style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_user_was_suspended}</MyAppText>)
                 :
                 (
                   item.status == 0 ? // (approved): 정상노출
-                    <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{item.comment}</Text>
+                    <MyAppText style={{ fontSize: 13, color: Colors.color_515151 }}>{item.comment}</MyAppText>
                     : item.status == 1 ? // (pending): 앱에서 'This comment requires the administrator' 로 텍스트 표시
-                      <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_requires_the_administrator}</Text>
+                      <MyAppText style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_requires_the_administrator}</MyAppText>
                       : item.status == 2 ? // (reported): 앱에서 'This comment was reported.' 로 표시
-                        <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_was_reported}</Text>
+                        <MyAppText style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_was_reported}</MyAppText>
                         : null
                 )
             }
             <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
-              <Text style={MyStyles.text_date}>{item.create_date}</Text>
+              <MyAppText style={MyStyles.text_date}>{item.create_date}</MyAppText>
               {item.parent == 0 ?
                 <TouchableOpacity activeOpacity={0.8} style={{ padding: 5 }} onPress={() => { this.onAddCommentSelected(index) }}>
                   {/* <TouchableOpacity activeOpacity={0.8} style={{ padding: 5 }}> */}
@@ -154,7 +155,7 @@ export default class BannerDetailScreen extends React.Component {
               placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
             </TextInput>
             <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostBannerComment(item_id, this.state.post_sub_comment, item.id) }}>
-              <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
+              <MyAppText multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</MyAppText>
             </TouchableOpacity>
           </View> : null
         }
@@ -218,13 +219,13 @@ export default class BannerDetailScreen extends React.Component {
           <View style={[{ flex: 1 }]}>
             {/* Title and Image */}
             <View style={[MyStyles.padding_main]}>
-              <Text style={{ color: Colors.primary_dark, fontSize: 21 }}>{Common.removeHtmlTagsFromText(this.state.banner_detail_result_data.detail.title)}</Text>
+              <MyAppText style={{ color: Colors.primary_dark, fontSize: 21 }}>{Common.removeHtmlTagsFromText(this.state.banner_detail_result_data.detail.title)}</MyAppText>
               <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
                 <Image style={{ flex: 1 }} />
                 <Image source={require("../../assets/images/ic_heart_gray.png")} style={MyStyles.ic_heart_gray} />
-                <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.banner_detail_result_data.detail.like_count}</Text>
+                <MyAppText style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.banner_detail_result_data.detail.like_count}</MyAppText>
                 <Image source={require("../../assets/images/ic_eye.png")} style={[MyStyles.ic_eye_big, { marginLeft: 10 }]} />
-                <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.banner_detail_result_data.detail.visit_count}</Text>
+                <MyAppText style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{this.state.banner_detail_result_data.detail.visit_count}</MyAppText>
               </View>
             </View>
 
@@ -247,13 +248,13 @@ export default class BannerDetailScreen extends React.Component {
             <View style={[{ marginTop: 5 }, MyStyles.padding_main]}>
               {this.state.banner_detail_result_data.detail.url != null && this.state.banner_detail_result_data.detail.url.length > 0 ?
                 <View style={[{ marginTop: 5, flexDirection: "row", flex: 1 }]}>
-                  <Text style={{ color: Colors.color_949191, paddingLeft: 5, paddingRight: 5, borderWidth: 0.5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }}>Link</Text>
-                  <Text onPress={() => { Linking.openURL(Common.getLinkUrl(this.state.banner_detail_result_data.detail.url)) }} style={[MyStyles.link, { marginLeft: 5 }]}>{this.state.banner_detail_result_data.detail.url}</Text>
+                  <MyAppText style={{ color: Colors.color_949191, paddingLeft: 5, paddingRight: 5, borderWidth: 0.5, borderRadius: 2, borderColor: Colors.color_e5e6e5 }}>Link</MyAppText>
+                  <MyAppText onPress={() => { Linking.openURL(Common.getLinkUrl(this.state.banner_detail_result_data.detail.url)) }} style={[MyStyles.link, { marginLeft: 5 }]}>{this.state.banner_detail_result_data.detail.url}</MyAppText>
                 </View>
                 :
                 null
               }
-              <Text style={{ fontSize: 13, color: Colors.primary_dark, marginTop: 10, marginBottom: 5 }}>{Common.removeHtmlTagsFromText(this.state.banner_detail_result_data.detail.content)}</Text>
+              <MyAppText style={{ fontSize: 13, color: Colors.primary_dark, marginTop: 10, marginBottom: 5 }}>{Common.removeHtmlTagsFromText(this.state.banner_detail_result_data.detail.content)}</MyAppText>
             </View>
             <View style={MyStyles.seperate_line_e5e5e5}></View>
 
@@ -261,7 +262,7 @@ export default class BannerDetailScreen extends React.Component {
             <View style={[MyStyles.bg_f8f8f8, { marginTop: 5 }]}>
               {/* Comments Header */}
               <View style={[MyStyles.bg_white, MyStyles.container, { paddingTop: 5 }]}>
-                <Text style={{ color: Colors.primary_dark, fontSize: 13, fontWeight: "bold" }}>Comments <Text style={{ fontSize: 13, color: Colors.color_949292 }}>{this.state.banner_detail_result_data.detail.comment_count}</Text></Text>
+                <MyAppText style={{ color: Colors.primary_dark, fontSize: 13, fontWeight: "bold" }}>Comments <MyAppText style={{ fontSize: 13, color: Colors.color_949292 }}>{this.state.banner_detail_result_data.detail.comment_count}</MyAppText></MyAppText>
                 <View style={{ marginTop: 10, flexDirection: "row" }}>
                   <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1]} />
                   <TextInput placeholder="Add a Comment"
@@ -271,7 +272,7 @@ export default class BannerDetailScreen extends React.Component {
                     multiline={true}
                     style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostBannerComment(item_id, this.state.post_comment, 0) }}>
-                    <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
+                    <MyAppText multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</MyAppText>
                   </TouchableOpacity>
                 </View>
                 <View style={[MyStyles.seperate_line_e5e5e5, { marginTop: 5 }]}></View>
@@ -300,12 +301,12 @@ export default class BannerDetailScreen extends React.Component {
                 </TouchableOpacity>
 
                 <Image style={[{ alignSelf: "center" }, MyStyles.ic_report_big]} source={require("../../assets/images/ic_report_big.png")} />
-                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Would you like to report it?</Text>
+                <MyAppText style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Would you like to report it?</MyAppText>
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight
                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => { this.requestReportComment(this.state.selected_comment_id) }}>
-                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                    <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
@@ -313,7 +314,7 @@ export default class BannerDetailScreen extends React.Component {
                     onPress={() => {
                       this.setState({ reportModalVisible: false });
                     }}>
-                    <Text style={MyStyles.btn_primary_white}>Not now</Text>
+                    <MyAppText style={MyStyles.btn_primary_white}>Not now</MyAppText>
                   </TouchableHighlight>
                 </View>
               </View>

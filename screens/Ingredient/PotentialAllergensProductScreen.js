@@ -10,6 +10,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import Carousel from 'react-native-banner-carousel';
 import {
@@ -87,7 +88,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
                 {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
               </TouchableOpacity>
-              <Text style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</Text>
+              <MyAppText style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</MyAppText>
             </View>
           ))}
         </ScrollView>
@@ -112,7 +113,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
                     this.setState({ loading_end: false })
                     this.requestPotentialAllergenProductList(this.state.categoryItems[this.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
                   }}>
-                    <Text style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</Text>
+                    <MyAppText style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</MyAppText>
                   </TouchableOpacity>
                 ))}
             </View>
@@ -160,7 +161,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
 
             {/* product 나열 */}
             <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1, backgroundColor: "white" }]}>
-              <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.potentialAllergenProductList_result_data.total_count})</Text>
+              <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.potentialAllergenProductList_result_data.total_count})</MyAppText>
               <FlatGrid
                 itemDimension={this.ScreenWidth}
                 items={this.state.potentialAllergenProductList_result_data.list}

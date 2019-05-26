@@ -9,6 +9,7 @@ import MyConstants from '../../../constants/MyConstants'
 import Common from '../../../assets/Common';
 import Net from '../../../Net/Net';
 import Colors from '../../../constants/Colors';
+import { MyAppText } from '../../../components/Texts/MyAppText';
 import { Icon } from 'expo';
 import Carousel from 'react-native-banner-carousel';
 import {
@@ -101,7 +102,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
                   <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 10, alignSelf:"center",  }} onPress={() => { this.props.navigation.goBack() }}>
                     <Image source={require("../../../assets/images/ic_back3.png")} style={[MyStyles.ic_back3,]} />
                   </TouchableOpacity>
-                  <Text style={[MyStyles.text_14, { flex: 1, textAlignVertical:"center", marginTop:-8 }]}>Product({this.state.result_data.product_count})</Text>
+                  <MyAppText style={[MyStyles.text_14, { flex: 1, textAlignVertical:"center", marginTop:-8 }]}>Product({this.state.result_data.product_count})</MyAppText>
                 </View>
                 <FlatGrid
                   itemDimension={this.ScreenWidth}

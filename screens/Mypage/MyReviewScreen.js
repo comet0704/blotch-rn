@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import Carousel from 'react-native-banner-carousel';
 import { Image, Dimensions, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, TouchableHighlight, Linking } from 'react-native';
@@ -40,8 +41,8 @@ export default class MyReviewScreen extends React.Component {
       <View key={item.id} style={[{ marginLeft: 15, height: 140, flexDirection: "row", alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
         <TouchableOpacity activeOpacity={0.8} style={{ width: 258 / 3 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.product_id }) }}>
           <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[{ width: 258 / 3, height: 222 / 3 }]} />
-          <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 3 }]} numberOfLines={1}>{item.brand_title}</Text>
-          <Text style={[MyStyles.productName, { textAlign: "left", marginBottom: 0 }]} numberOfLines={1}>{item.title}</Text>
+          <MyAppText style={[MyStyles.productBrand, { textAlign: "left", marginTop: 3 }]} numberOfLines={1}>{item.brand_title}</MyAppText>
+          <MyAppText style={[MyStyles.productName, { textAlign: "left", marginBottom: 0 }]} numberOfLines={1}>{item.title}</MyAppText>
         </TouchableOpacity>
         <View style={[{ flex: 1 }, MyStyles.padding_h_main]}>
           <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
@@ -60,11 +61,11 @@ export default class MyReviewScreen extends React.Component {
             />
 
           </View>
-          <Text style={[MyStyles.productName, { textAlign: "left", marginTop: 5, height: 135 / 3 }]} numberOfLines={3}>{item.comment}</Text>
+          <MyAppText style={[MyStyles.productName, { textAlign: "left", marginTop: 5, height: 135 / 3 }]} numberOfLines={3}>{item.comment}</MyAppText>
           <View style={{ flexDirection: "row", alignItems: "center", marginTop: 15 }}>
-            <Text style={{ flex: 1, color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{item.create_date.substring(0, 10)}</Text>
+            <MyAppText style={{ flex: 1, color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{item.create_date.substring(0, 10)}</MyAppText>
             <Image source={require("../../assets/images/ic_comment.png")} style={MyStyles.ic_comment} />
-            <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{item.comment_count}</Text>
+            <MyAppText style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{item.comment_count}</MyAppText>
             {item.user_match == "M" ?
               <Image source={require("../../assets/images/ic_match_small.png")} style={[MyStyles.ic_match_small, { marginLeft: 10 }]} />
               : null}

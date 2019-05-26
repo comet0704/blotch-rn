@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 import { NavigationEvents } from 'react-navigation';
 import Carousel from 'react-native-banner-carousel';
 import {
@@ -191,7 +192,7 @@ export class FragmentRecommendProduct extends React.Component {
       <View
       >
         <View style={{ flexDirection: "row", justifyContent: "center", width: "100%" }}>
-          <Text style={{ fontSize: 14, color: Colors.primary_dark, fontWeight: "bold" }}>My Skin Info</Text>
+          <MyAppText style={{ fontSize: 14, color: Colors.primary_dark, fontWeight: "bold" }}>My Skin Info</MyAppText>
           <View style={{ flex: 1 }}></View>
           <ModalDropdown ref="dropdown_2"
             ref="mModalDropDown"
@@ -217,30 +218,30 @@ export class FragmentRecommendProduct extends React.Component {
             this.state.my_age != null && this.state.my_age.length > 0 ?
               <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
                 <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, backgroundColor: Colors.color_f8f8f8, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
-                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>{this.state.my_age}</Text>
+                  <MyAppText style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>{this.state.my_age}</MyAppText>
                 </View>
-                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_age}</Text>
+                <MyAppText style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_age}</MyAppText>
               </View>
               :
               <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
                 <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
-                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</Text>
+                  <MyAppText style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</MyAppText>
                 </View>
-                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Age</Text>
+                <MyAppText style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Age</MyAppText>
               </View>
           }
           {
             this.state.my_skin_type != null ?
               <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
                 <Image source={this.state.my_skin_type.image_off} style={[{ alignSelf: "center" }, MyStyles.skin_info_image]} />
-                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_skin_type.typeName}</Text>
+                <MyAppText style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_skin_type.typeName}</MyAppText>
               </View>
               :
               <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
                 <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
-                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</Text>
+                  <MyAppText style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</MyAppText>
                 </View>
-                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Skin Type</Text>
+                <MyAppText style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Skin Type</MyAppText>
               </View>
           }
 
@@ -248,14 +249,14 @@ export class FragmentRecommendProduct extends React.Component {
             this.state.my_concern != null ?
               <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
                 <Image source={this.state.my_concern.image_off} style={[{ alignSelf: "center" }, MyStyles.skin_info_image]} />
-                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_concern.typeName}</Text>
+                <MyAppText style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_concern.typeName}</MyAppText>
               </View>
               :
               <View style={[{ marginRight: 10 }, MyStyles.skin_info_container]}>
                 <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
-                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</Text>
+                  <MyAppText style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</MyAppText>
                 </View>
-                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Concern</Text>
+                <MyAppText style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Concern</MyAppText>
               </View>
           }
 
@@ -263,14 +264,14 @@ export class FragmentRecommendProduct extends React.Component {
             this.state.my_needs != null ?
               <View style={[{}, MyStyles.skin_info_container]}>
                 <Image source={this.state.my_needs.image_off} style={[{ alignSelf: "center" }, MyStyles.skin_info_image]} />
-                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_needs.typeName}</Text>
+                <MyAppText style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>{this.state.my_needs.typeName}</MyAppText>
               </View>
               :
               <View style={[{}, MyStyles.skin_info_container]}>
                 <View style={[{ borderRadius: 30, borderColor: Colors.color_f8f8f8, borderWidth: 0.5, justifyContent: "center", alignItems: "center" }, MyStyles.skin_info_image]}>
-                  <Text style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</Text>
+                  <MyAppText style={{ textAlign: "center", fontWeight: "bold", color: Colors.primary_dark, fontSize: 12 }}>N</MyAppText>
                 </View>
-                <Text style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Needs</Text>
+                <MyAppText style={{ textAlign: "center", color: Colors.color_949191, fontSize: 13, marginTop: 5 }}>Needs</MyAppText>
               </View>
           }
         </View>
@@ -368,8 +369,8 @@ export class FragmentRecommendProduct extends React.Component {
             <View style={{ height: "100%", justifyContent: "center", alignItems: "center" }}>
               <View style={{ alignItems: "center" }}>
                 <Image source={require("../../assets/images/ic_search_big.png")} style={[MyStyles.ic_search_big,]} />
-                <Text style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</Text>
-                <Text style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Tell us about your skin and we'll show you some products that you might want to check out!</Text>
+                <MyAppText style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</MyAppText>
+                <MyAppText style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Tell us about your skin and we'll show you some products that you might want to check out!</MyAppText>
                 <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]} onPress=
                   {() => {
                     if (global.login_info.token.length <= 0) {
@@ -384,7 +385,7 @@ export class FragmentRecommendProduct extends React.Component {
                     }
                   }
                   }>
-                  <Text style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Check Out!</Text>
+                  <MyAppText style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Check Out!</MyAppText>
                 </TouchableOpacity>
               </View>
             </View>
@@ -422,7 +423,7 @@ export class FragmentRecommendProduct extends React.Component {
               {/* product 나열 */}
               <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
                 <View style={{ flexDirection: "row", justifyContent: "center", width: "100%", alignItems: "center" }}>
-                  <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.recomment_count})</Text>
+                  <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.recomment_count})</MyAppText>
                   <View style={{ flex: 1 }}></View>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main,]} onPress={() => { this.setState({ filterModalVisible: true }) }}>
                     <Image source={require("../../assets/images/ic_filter.png")} style={[MyStyles.ic_filter]} />
@@ -452,11 +453,11 @@ export class FragmentRecommendProduct extends React.Component {
                   <View style={[MyStyles.modalContainer, { height: 500 }]}>
                     {/* modal header */}
                     <View style={MyStyles.modal_header}>
-                      <Text style={MyStyles.modal_title}>Filter</Text>
+                      <MyAppText style={MyStyles.modal_title}>Filter</MyAppText>
                       <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", width: 70 }]} onPress={() => {
                         this.resetFilterStatus();
                       }}>
-                        <Text style={{ color: Colors.color_dfdfdf, fontSize: 13, fontWeight: "500", }}>reset</Text>
+                        <MyAppText style={{ color: Colors.color_dfdfdf, fontSize: 13, fontWeight: "500", }}>reset</MyAppText>
                       </TouchableOpacity>
                       <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ filterModalVisible: false });
@@ -472,13 +473,13 @@ export class FragmentRecommendProduct extends React.Component {
                           {/* Main Category */}
                           <View style={{ flex: 1 }}>
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
-                              <Text style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500" }, MyStyles.modal_close_btn]}>Main Category</Text>
-                              <Text style={{ flex: 1, textAlign: "center" }}></Text>
+                              <MyAppText style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500" }, MyStyles.modal_close_btn]}>Main Category</MyAppText>
+                              <MyAppText style={{ flex: 1, textAlign: "center" }}></MyAppText>
                               <TouchableOpacity activeOpacity={0.8} style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
                                 this.selectAllCategories();
                               }}>
                                 <Image style={{ width: 14, height: 14 }} source={this.state.main_all_selected == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <Text style={{ marginLeft: 5 }}>All</Text>
+                                <MyAppText style={{ marginLeft: 5 }}>All</MyAppText>
                               </TouchableOpacity>
 
                             </View>
@@ -496,16 +497,16 @@ export class FragmentRecommendProduct extends React.Component {
                                     {item.is_selected == 2 ?
                                       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                                         <Image style={item.image_style_small} source={item.image_on} />
-                                        <Text style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.categoryName}</Text>
+                                        <MyAppText style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.categoryName}</MyAppText>
                                       </View>
                                       : item.is_selected == 1 ?
                                         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                                           <Image style={item.image_style_small} source={item.image_half} />
-                                          <Text style={[MyStyles.category_text2, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</Text>
+                                          <MyAppText style={[MyStyles.category_text2, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</MyAppText>
                                         </View>
                                         : <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                                           <Image style={item.image_style_small} source={item.image_off} />
-                                          <Text style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</Text>
+                                          <MyAppText style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</MyAppText>
                                         </View>}
 
                                   </View>
@@ -518,7 +519,7 @@ export class FragmentRecommendProduct extends React.Component {
                             <View>
                               {/* Sub Categories */}
                               {this.state.main_all_selected == -1 ? null :
-                                <Text style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500", marginLeft: 15, marginBottom: 20 }]}>Sub Category</Text>
+                                <MyAppText style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500", marginLeft: 15, marginBottom: 20 }]}>Sub Category</MyAppText>
                               }
 
 
@@ -526,14 +527,14 @@ export class FragmentRecommendProduct extends React.Component {
                                 item.is_selected > 0 && item.sub_category.length > 0 ?
                                   <View key={index} style={{ marginTop: -30 }}>
                                     <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                      <Text style={[{ color: Colors.primary_purple, fontSize: 12, fontWeight: "400", marginLeft: 15 }]}>{item.categoryName}</Text>
-                                      <Text style={{ flex: 1, textAlign: "center" }}></Text>
+                                      <MyAppText style={[{ color: Colors.primary_purple, fontSize: 12, fontWeight: "400", marginLeft: 15 }]}>{item.categoryName}</MyAppText>
+                                      <MyAppText style={{ flex: 1, textAlign: "center" }}></MyAppText>
                                       <TouchableOpacity activeOpacity={0.8} style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
 
                                         this.onFilterSubCategoryAllSelect(item)
                                       }}>
                                         <Image style={{ width: 14, height: 14 }} source={item.sub_all_selected ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                        <Text style={{ marginLeft: 5 }}>All</Text>
+                                        <MyAppText style={{ marginLeft: 5 }}>All</MyAppText>
                                       </TouchableOpacity>
                                     </View>
 
@@ -551,7 +552,7 @@ export class FragmentRecommendProduct extends React.Component {
                                             {sub_item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                                             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                                               {sub_item.is_selected ? <Image style={sub_item.image_style} source={sub_item.image_on} /> : <Image style={sub_item.image_style} source={sub_item.image_off} />}
-                                              {sub_item.is_selected ? <Text style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{sub_item.name}</Text> : <Text style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{sub_item.name}</Text>}
+                                              {sub_item.is_selected ? <MyAppText style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{sub_item.name}</MyAppText> : <MyAppText style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{sub_item.name}</MyAppText>}
                                             </View>
                                           </View>
                                         </TouchableOpacity>
@@ -571,7 +572,7 @@ export class FragmentRecommendProduct extends React.Component {
                           this.setState({ filterModalVisible: false })
                           this.getRecommendList(0)
                         }}>
-                        <Text style={MyStyles.btn_primary}>Refine Search</Text>
+                        <MyAppText style={MyStyles.btn_primary}>Refine Search</MyAppText>
                       </TouchableHighlight>
                     </View>
                   </View>

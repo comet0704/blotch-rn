@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import ModalDropdown from 'react-native-modal-dropdown';
+import { MyAppText } from '../components/Texts/MyAppText';
 // import ModalDropdown from './ModalDropdown';
 
 const DEMO_OPTIONS_1 = ['option 1', 'option 2', 'option 3', 'option 4', 'option 5', 'option 6', 'option 7', 'option 8', 'option 9'];
@@ -65,9 +66,9 @@ export default class Demo extends Component {
             <TouchableOpacity onPress={() => {
               this.refs.dropdown_2.select(0);
             }}>
-              <Text style={styles.textButton}>
+              <MyAppText style={styles.textButton}>
                 select Rex
-              </Text>
+              </MyAppText>
             </TouchableOpacity>
           </View>
         </View>
@@ -77,9 +78,9 @@ export default class Demo extends Component {
                       contentContainerStyle={styles.contentContainer}
                       showsVerticalScrollIndicator={true}
                       scrollEventThrottle={1}>
-            <Text>
+            <MyAppText>
               {'Scroll view example.'}
-            </Text>
+            </MyAppText>
             <ModalDropdown ref={el => this._dropdown_3 = el}
                            style={styles.dropdown_3}
                            options={DEMO_OPTIONS_1}
@@ -103,19 +104,19 @@ export default class Demo extends Component {
           </View>
           <View style={[styles.cell, {justifyContent: 'flex-end'}]}>
             <TouchableOpacity onPress={this._dropdown_5_show.bind(this)}>
-              <Text style={styles.textButton}>
+              <MyAppText style={styles.textButton}>
                 {'Show dropdown'}
-              </Text>
+              </MyAppText>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this._dropdown_5_select(2)}>
-              <Text style={styles.textButton}>
+              <MyAppText style={styles.textButton}>
                 {'Select the 3rd option'}
-              </Text>
+              </MyAppText>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this._dropdown_5_select(-1)}>
-              <Text style={styles.textButton}>
+              <MyAppText style={styles.textButton}>
                 {'Clear selection'}
-              </Text>
+              </MyAppText>
             </TouchableOpacity>
             <ModalDropdown ref={el => this._dropdown_5 = el}
                            style={styles.dropdown_5}
@@ -144,9 +145,9 @@ export default class Demo extends Component {
           <Image style={styles.dropdown_2_image}
                  mode='stretch'
           />
-          <Text style={[styles.dropdown_2_row_text, highlighted && {color: 'mediumaquamarine'}]}>
+          <MyAppText style={[styles.dropdown_2_row_text, highlighted && {color: 'mediumaquamarine'}]}>
             {`${rowData.name} (${rowData.age})`}
-          </Text>
+          </MyAppText>
         </View>
       </TouchableHighlight>
     );

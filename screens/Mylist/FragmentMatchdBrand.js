@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import {
   KeyboardAvoidingView,
@@ -112,7 +113,7 @@ export class FragmentMatchdBrand extends React.Component {
                   </TouchableOpacity>
 
                   <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
-                  <Text style={{ fontSize: 16, color: "black", alignSelf: "center", textAlign: "center", marginLeft: 10, marginRight: 10, fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Are you sure you want to delete this brand from the list?</Text>
+                  <MyAppText style={{ fontSize: 16, color: "black", alignSelf: "center", textAlign: "center", marginLeft: 10, marginRight: 10, fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Are you sure you want to delete this brand from the list?</MyAppText>
 
                   <View style={{ flexDirection: "row" }}>
                     <TouchableHighlight onPress={() => {
@@ -120,7 +121,7 @@ export class FragmentMatchdBrand extends React.Component {
                       this.requestBrandUnlike(this.state.delete_item_id);
                     }}
                       style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
-                      <Text style={MyStyles.btn_primary}>Yes</Text>
+                      <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                     </TouchableHighlight>
 
                     <TouchableHighlight
@@ -128,7 +129,7 @@ export class FragmentMatchdBrand extends React.Component {
                       onPress={() => {
                         this.setState({ showDeleteModal: false });
                       }}>
-                      <Text style={MyStyles.btn_primary_white}>No</Text>
+                      <MyAppText style={MyStyles.btn_primary_white}>No</MyAppText>
                     </TouchableHighlight>
                   </View>
                 </View>

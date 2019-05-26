@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
@@ -102,8 +103,8 @@ export default class AnnouncementsScreen extends React.Component {
 
                   </View>
                   <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
-                    <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
-                    <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0, 10)}</Text>
+                    <MyAppText style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</MyAppText>
+                    <MyAppText style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0, 10)}</MyAppText>
                   </View>
                   {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :
                     <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_down_gray_small.png')} />}
@@ -131,8 +132,8 @@ export default class AnnouncementsScreen extends React.Component {
                     </View>
 
                     <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
-                      <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>There are {item.title} comments on my answer.</Text>
-                      <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0, 10)}</Text>
+                      <MyAppText style={{ color: Colors.primary_dark, fontSize: 15 }}>There are {item.title} comments on my answer.</MyAppText>
+                      <MyAppText style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0, 10)}</MyAppText>
                     </View>
                     {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :
                       <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_down_gray_small.png')} />}
@@ -148,8 +149,8 @@ export default class AnnouncementsScreen extends React.Component {
                       }
                     </View>
                     <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
-                      <Text style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</Text>
-                      <Text style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0, 10)}</Text>
+                      <MyAppText style={{ color: Colors.primary_dark, fontSize: 15 }}>{item.title}</MyAppText>
+                      <MyAppText style={{ fontSize: 13, color: Colors.color_949292, fontWeight: "400" }}>{item.create_date.substring(0, 10)}</MyAppText>
                     </View>
                     {item.is_selected ? <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_up.png')} /> :
                       <Image style={MyStyles.ic_arrow_up} source={require('../../assets/images/ic_arrow_down_gray_small.png')} />}
@@ -158,7 +159,7 @@ export default class AnnouncementsScreen extends React.Component {
 
               {item.is_selected ?
                 <View style={[MyStyles.padding_main, MyStyles.margin_h_main, { backgroundColor: Colors.color_f8f8f8 }]}>
-                  <Text style={{ fontSize: 13, color: Colors.color_949191 }}>{item.content}</Text>
+                  <MyAppText style={{ fontSize: 13, color: Colors.color_949191 }}>{item.content}</MyAppText>
                 </View> : null}
             </View>
           ))}

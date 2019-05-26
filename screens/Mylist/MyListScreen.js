@@ -10,6 +10,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import {
   Image,
@@ -102,8 +103,8 @@ class Row extends React.Component {
             <Image source={require("../../assets/images/ic_dice.png")} style={[MyStyles.ic_dice, { position: "absolute", left: -11 }]} />
             <Image source={data.image} style={[data.img_style]} />
             <View activeOpacity={0.8} style={[MyStyles.padding_h_main, { flex: 1 }]} >
-              <Text style={[MyStyles.ingredient_section_header_text1]}>{data.desc}</Text>
-              <Text style={[MyStyles.ingredient_section_header_text2]}>+{data.count}</Text>
+              <MyAppText style={[MyStyles.ingredient_section_header_text1]}>{data.desc}</MyAppText>
+              <MyAppText style={[MyStyles.ingredient_section_header_text2]}>+{data.count}</MyAppText>
             </View>
             <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
           </View>
@@ -198,7 +199,7 @@ class MyListRow extends React.Component {
               right: 0,
             }}
             onPress={_ => _this.deleteMyListRow(data.id)}>
-            <Text style={{ color: "white" }}>Delete</Text>
+            <MyAppText style={{ color: "white" }}>Delete</MyAppText>
           </TouchableOpacity>
 
         </View>
@@ -234,7 +235,7 @@ class MyListRow extends React.Component {
               <Image source={require("../../assets/images/ic_dice.png")} style={[MyStyles.ic_dice, { position: "absolute", left: -11 }]} />
               <View activeOpacity={0.8} style={[{ flex: 1 }]} >
                 <View style={{ flexDirection: "row" }}>
-                  <Text style={[MyStyles.ingredient_section_header_text1, { alignSelf: "center" }]}>{data.title}</Text>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text1, { alignSelf: "center" }]}>{data.title}</MyAppText>
                   {data.rowOpened ?
                     <TouchableOpacity activeOpacity={0.8} style={{ paddingLeft: 5, paddingRight: 5, alignSelf: "center" }} onPress={() => {
                       _this.setState({ edit_album_id: data.id, request_list_name: data.title, addAlbumModalVisible: true })
@@ -243,7 +244,7 @@ class MyListRow extends React.Component {
                     </TouchableOpacity>
                     : null}
                 </View>
-                <Text style={[MyStyles.ingredient_section_header_text2]}>+{data.count}</Text>
+                <MyAppText style={[MyStyles.ingredient_section_header_text2]}>+{data.count}</MyAppText>
               </View>
               <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
             </View>
@@ -511,7 +512,7 @@ export default class MyListScreen extends React.Component {
               //             right: 0,
               //           }}
               //           onPress={_ => this.deleteMyListRow(secId, rowId, rowMap, data.id)}>
-              //           <Text style={{ color: "white" }}>Delete</Text>
+              //           <MyAppText style={{ color: "white" }}>Delete</MyAppText>
               //         </TouchableOpacity>
               //       </View>
               //       <View style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.my_own_list_section, data.rowOpened ? { marginLeft: 60 } : null]}>
@@ -525,7 +526,7 @@ export default class MyListScreen extends React.Component {
               //             )
               //           }}>
               //             <View style={{ flexDirection: "row" }}>
-              //               <Text style={[MyStyles.ingredient_section_header_text1, { alignSelf: "center" }]}>{data.title}</Text>
+              //               <MyAppText style={[MyStyles.ingredient_section_header_text1, { alignSelf: "center" }]}>{data.title}</MyAppText>
               //               {data.rowOpened ?
               //                 <TouchableOpacity activeOpacity={0.8} style={{ paddingLeft: 5, paddingRight: 5, alignSelf: "center" }} onPress={() => {
               //                   this.setState({ edit_album_id: data.id, request_list_name: data.title, addAlbumModalVisible: true })
@@ -534,7 +535,7 @@ export default class MyListScreen extends React.Component {
               //                 </TouchableOpacity>
               //                 : null}
               //             </View>
-              //             <Text style={[MyStyles.ingredient_section_header_text2]}>+{data.count}</Text>
+              //             <MyAppText style={[MyStyles.ingredient_section_header_text2]}>+{data.count}</MyAppText>
               //           </TouchableOpacity>
               //           <Image source={require("../../assets/images/ic_polygon_right.png")} style={[MyStyles.ic_polygon_right]} />
               //         </View>
@@ -547,7 +548,7 @@ export default class MyListScreen extends React.Component {
             <TouchableOpacity activeOpacity={0.8} style={{ flexDirection: "row", width: 100, alignSelf: "center", justifyContent: "center", marginTop: 15, marginBottom: 30 }}
               onPress={() => { this.setState({ edit_album_id: 0, request_list_name: "", addAlbumModalVisible: true }) }}>
               <Image style={[MyStyles.ic_plus_btn_big, { alignSelf: "center" }]} source={require("../../assets/images/ic_plus_btn_big.png")} />
-              <Text style={{ marginLeft: 10, marginTop: 4, fontSize: 13, color: Colors.color_949292 }}>Add My List</Text>
+              <MyAppText style={{ marginLeft: 10, marginTop: 4, fontSize: 13, color: Colors.color_949292 }}>Add My List</MyAppText>
             </TouchableOpacity>
           </View>
 
@@ -570,7 +571,7 @@ export default class MyListScreen extends React.Component {
                 </TouchableOpacity>
 
                 <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
-                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>{Messages.you_need_to_login}</Text>
+                <MyAppText style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>{Messages.you_need_to_login}</MyAppText>
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight onPress={() => {
@@ -578,7 +579,7 @@ export default class MyListScreen extends React.Component {
                     this.props.navigation.navigate('Login')
                   }}
                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
-                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                    <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
@@ -587,7 +588,7 @@ export default class MyListScreen extends React.Component {
                       this.setState({ showLoginModal: false });
                       this.props.navigation.navigate('Home')
                     }}>
-                    <Text style={MyStyles.btn_primary_white}>Not now</Text>
+                    <MyAppText style={MyStyles.btn_primary_white}>Not now</MyAppText>
                   </TouchableHighlight>
                 </View>
               </View>
@@ -611,9 +612,9 @@ export default class MyListScreen extends React.Component {
                   {/* modal header */}
                   <View style={MyStyles.modal_header}>
                     {this.state.edit_album_id > 0 ?
-                      <Text style={MyStyles.modal_title}>Change My List</Text>
+                      <MyAppText style={MyStyles.modal_title}>Change My List</MyAppText>
                       :
-                      <Text style={MyStyles.modal_title}>Add My List</Text>
+                      <MyAppText style={MyStyles.modal_title}>Add My List</MyAppText>
                     }
                     <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                       this.setState({ addAlbumModalVisible: false });
@@ -624,7 +625,7 @@ export default class MyListScreen extends React.Component {
                   <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
                   <View style={[MyStyles.container, { paddingTop: 20, paddingBottom: 120 / 3 }]}>
-                    <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>List Name</Text>
+                    <MyAppText style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>List Name</MyAppText>
                     <TextInput
                       onSubmitEditing={() => {
                         this.addMyList()
@@ -641,9 +642,9 @@ export default class MyListScreen extends React.Component {
                         this.addMyList()
                       }}>
                       {this.state.edit_album_id > 0 ?
-                        <Text style={MyStyles.btn_primary}>Change</Text>
+                        <MyAppText style={MyStyles.btn_primary}>Change</MyAppText>
                         :
-                        <Text style={MyStyles.btn_primary}>Create</Text>
+                        <MyAppText style={MyStyles.btn_primary}>Create</MyAppText>
                       }
                     </TouchableHighlight>
                   </View>

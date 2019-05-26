@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import StarRating from 'react-native-star-rating';
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
@@ -148,13 +149,13 @@ export class FragmentProductDetailReviews extends React.Component {
           <View>
             <Image source={item.profile_image ? { uri: Common.getImageUrl(item.profile_image) } : require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1, { marginTop: 5 }]} />
             {item.user_score > 1000 ?
-              <Text style={{ fontSize: 10, color: Colors.primary_purple, textAlign: "center", fontWeight: "500", marginTop: 20 / 3 }}>Best</Text>
+              <MyAppText style={{ fontSize: 10, color: Colors.primary_purple, textAlign: "center", fontWeight: "500", marginTop: 20 / 3 }}>Best</MyAppText>
               : null}
           </View>
           <View style={{ flex: 1, marginLeft: 10 }}>
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</Text>
-              {item.user_id == global.login_info.user_id ? <Text style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 42 / 3, lineHeight: 44 / 3 }]}>Me</Text> : null}
+              <MyAppText style={{ fontSize: 15, color: Colors.primary_dark, fontWeight: "bold" }}>{item.user_id}</MyAppText>
+              {item.user_id == global.login_info.user_id ? <MyAppText style={[MyStyles.purple_bg_text_12, { marginLeft: 5, height: 42 / 3, lineHeight: 44 / 3 }]}>Me</MyAppText> : null}
               {item.parent == 0 ?
                 <StarRating
                   disabled={false}
@@ -175,15 +176,15 @@ export class FragmentProductDetailReviews extends React.Component {
             </View>
             {
               item.user_status == 1 ? // user_status=1 이면 "This user was suspended."
-                (<Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_user_was_suspended}</Text>)
+                (<MyAppText style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_user_was_suspended}</MyAppText>)
                 :
                 (
                   item.status == 0 ? // (approved): 정상노출
-                    <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{item.comment}</Text>
+                    <MyAppText style={{ fontSize: 13, color: Colors.color_515151 }}>{item.comment}</MyAppText>
                     : item.status == 1 ? // (pending): 앱에서 'This comment requires the administrator' 로 텍스트 표시
-                      <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_requires_the_administrator}</Text>
+                      <MyAppText style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_requires_the_administrator}</MyAppText>
                       : item.status == 2 ? // (reported): 앱에서 'This comment was reported.' 로 표시
-                        <Text style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_was_reported}</Text>
+                        <MyAppText style={{ fontSize: 13, color: Colors.color_515151 }}>{Messages.this_comment_was_reported}</MyAppText>
                         : null
                 )
             }
@@ -213,7 +214,7 @@ export class FragmentProductDetailReviews extends React.Component {
               : null}
 
             <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
-              <Text style={[MyStyles.text_date, { marginRight: 5, }]}>{item.create_date}</Text>
+              <MyAppText style={[MyStyles.text_date, { marginRight: 5, }]}>{item.create_date}</MyAppText>
               {item.parent == 0 ?
                 <TouchableOpacity activeOpacity={0.8} style={{ padding: 4 }} onPress={() => { this.onAddCommentSelected(index) }}>
                   {/* <TouchableOpacity activeOpacity={0.8} style={{ padding: 5 }}> */}
@@ -263,7 +264,7 @@ export class FragmentProductDetailReviews extends React.Component {
               placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
             </TextInput>
             <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostProductComment(item_id, this.state.post_sub_comment, item.id, 0, null) }}>
-              <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
+              <MyAppText multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</MyAppText>
             </TouchableOpacity>
           </View> : null
         }
@@ -376,9 +377,9 @@ export class FragmentProductDetailReviews extends React.Component {
           <View>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
               <Image source={require("../../assets/images/ic_match_prog.png")} style={[MyStyles.ic_match_prog]} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Match'd</Text>
+              <MyAppText style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Match'd</MyAppText>
               <Image style={{ flex: 1 }} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().match_count.toFixed(0)}%</Text>
+              <MyAppText style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().match_count.toFixed(0)}%</MyAppText>
             </View>
             <View style={{ backgroundColor: "#e6e5e5", borderRadius: 100 }}>
               <ProgressBarAnimated
@@ -394,9 +395,9 @@ export class FragmentProductDetailReviews extends React.Component {
           <View style={{ marginTop: 10 }}>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
               <Image source={require("../../assets/images/ic_blotch_prog.png")} style={[MyStyles.ic_blotch_prog]} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Blotch'd</Text>
+              <MyAppText style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Blotch'd</MyAppText>
               <Image style={{ flex: 1 }} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().blotch_count.toFixed(0)}%</Text>
+              <MyAppText style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().blotch_count.toFixed(0)}%</MyAppText>
             </View>
             <View style={{ backgroundColor: "#e6e5e5", borderRadius: 100 }}>
               <ProgressBarAnimated
@@ -412,9 +413,9 @@ export class FragmentProductDetailReviews extends React.Component {
           <View style={{ marginTop: 10 }}>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
               <Image source={require("../../assets/images/ic_watch_prog.png")} style={[MyStyles.ic_watch_prog]} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Heart List</Text>
+              <MyAppText style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Heart List</MyAppText>
               <Image style={{ flex: 1 }} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().like_count.toFixed(0)}%</Text>
+              <MyAppText style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().like_count.toFixed(0)}%</MyAppText>
             </View>
             <View style={{ backgroundColor: "#e6e5e5", borderRadius: 100 }}>
               <ProgressBarAnimated
@@ -430,9 +431,9 @@ export class FragmentProductDetailReviews extends React.Component {
           <View style={{ marginTop: 10 }}>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
               <Image source={require("../../assets/images/ic_save_prog.png")} style={[MyStyles.ic_save_prog]} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Save as Others</Text>
+              <MyAppText style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>Save as Others</MyAppText>
               <Image style={{ flex: 1 }} />
-              <Text style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().album_product_count.toFixed(0)}%</Text>
+              <MyAppText style={[MyStyles.text_13_primary_dark, { marginLeft: 5, fontWeight: "500" }]}>{this.getProgress().album_product_count.toFixed(0)}%</MyAppText>
             </View>
             <View style={{ backgroundColor: "#e6e5e5", borderRadius: 100 }}>
               <ProgressBarAnimated
@@ -450,7 +451,7 @@ export class FragmentProductDetailReviews extends React.Component {
         <View style={[{ marginTop: 5 }]}>
           {/* Comments Header */}
           <View style={[MyStyles.bg_white, MyStyles.container, { paddingTop: 10 }]}>
-            <Text style={{ color: Colors.primary_dark, fontSize: 13, fontWeight: "bold" }}>Comments <Text style={{ fontSize: 13, color: Colors.color_949292 }}>{this.state.comment_count}</Text></Text>
+            <MyAppText style={{ color: Colors.primary_dark, fontSize: 13, fontWeight: "bold" }}>Comments <MyAppText style={{ fontSize: 13, color: Colors.color_949292 }}>{this.state.comment_count}</MyAppText></MyAppText>
             <View style={{ marginTop: 10, flexDirection: "row" }}>
               <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1]} />
               <TextInput placeholder="Add a Comment"
@@ -475,7 +476,7 @@ export class FragmentProductDetailReviews extends React.Component {
                 <Image source={require("../../assets/images/ic_gallery.png")} style={[MyStyles.ic_gallery]} />
               </TouchableOpacity>
               <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.onPostSend() }}>
-                <Text multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</Text>
+                <MyAppText multiline style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Post</MyAppText>
               </TouchableOpacity>
             </View>
             <View style={[MyStyles.seperate_line_e5e5e5, { marginTop: 5 }]}></View>
@@ -488,14 +489,14 @@ export class FragmentProductDetailReviews extends React.Component {
                     this._pickImageFromCamera()
                   }}>
                     <Image source={require("../../assets/images/ic_camera_big.png")} style={MyStyles.ic_camera_big} />
-                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</Text>
+                    <MyAppText style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</MyAppText>
                   </TouchableOpacity>
                   <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 50, justifyContent: "center" }} onPress={() => {
                     _this.setState({ visible_bottom_bar: true })
                     this._pickImageFromGallery()
                   }}>
                     <Image source={require("../../assets/images/ic_gallery_big.png")} style={MyStyles.ic_gallery_big} />
-                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</Text>
+                    <MyAppText style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</MyAppText>
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_main, { position: "absolute", top: 0, right: 0 }]} onPress={() => {
@@ -625,7 +626,7 @@ export class FragmentProductDetailReviews extends React.Component {
                 </TouchableOpacity>
 
                 <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
-                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", textAlign: "center", marginLeft: 10, marginRight: 10, fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Are you sure you want to delete it?</Text>
+                <MyAppText style={{ fontSize: 16, color: "black", alignSelf: "center", textAlign: "center", marginLeft: 10, marginRight: 10, fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Are you sure you want to delete it?</MyAppText>
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight onPress={() => {
@@ -634,7 +635,7 @@ export class FragmentProductDetailReviews extends React.Component {
                     this.setState({ review_photos: this.state.review_photos })
                   }}
                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
-                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                    <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
@@ -642,7 +643,7 @@ export class FragmentProductDetailReviews extends React.Component {
                     onPress={() => {
                       this.setState({ showImageRemoveModal: false });
                     }}>
-                    <Text style={MyStyles.btn_primary_white}>No</Text>
+                    <MyAppText style={MyStyles.btn_primary_white}>No</MyAppText>
                   </TouchableHighlight>
                 </View>
               </View>
@@ -670,12 +671,12 @@ export class FragmentProductDetailReviews extends React.Component {
                 </TouchableOpacity>
 
                 <Image style={[{ alignSelf: "center" }, MyStyles.ic_report_big]} source={require("../../assets/images/ic_report_big.png")} />
-                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Would you like to report it?</Text>
+                <MyAppText style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>Would you like to report it?</MyAppText>
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight
                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => { this.requestReportComment(this.state.selected_comment_id) }}>
-                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                    <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
@@ -683,7 +684,7 @@ export class FragmentProductDetailReviews extends React.Component {
                     onPress={() => {
                       this.setState({ reportModalVisible: false });
                     }}>
-                    <Text style={MyStyles.btn_primary_white}>Not now</Text>
+                    <MyAppText style={MyStyles.btn_primary_white}>Not now</MyAppText>
                   </TouchableHighlight>
                 </View>
               </View>
@@ -706,11 +707,11 @@ export class FragmentProductDetailReviews extends React.Component {
                 <View style={{ flexDirection: "row" }}>
                   <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center" }} onPress={() => { this._pickImageFromCamera() }}>
                     <Image source={require("../../assets/images/ic_camera_big.png")} style={MyStyles.ic_camera_big} />
-                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</Text>
+                    <MyAppText style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Camera</MyAppText>
                   </TouchableOpacity>
                   <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 50, justifyContent: "center" }} onPress={() => { this._pickImageFromGallery() }}>
                     <Image source={require("../../assets/images/ic_gallery_big.png")} style={MyStyles.ic_gallery_big} />
-                    <Text style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</Text>
+                    <MyAppText style={{ color: Colors.color_949292, marginTop: 5, textAlign: "center" }}>Album</MyAppText>
                   </TouchableOpacity>
                 </View>
               </View>

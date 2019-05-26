@@ -10,6 +10,7 @@ import MyStyles from '../../../constants/MyStyles';
 import { Camera, BarCodeScanner, Permissions } from 'expo';
 import Net from '../../../Net/Net';
 import Colors from '../../../constants/Colors';
+import { MyAppText } from '../../../components/Texts/MyAppText';
 
 export default class SearchCameraScreen extends React.Component {
 
@@ -64,12 +65,12 @@ export default class SearchCameraScreen extends React.Component {
           justifyContent: 'center',
         }}>
           {this.state.hasCameraPermission === null ?
-            <Text>Requesting for camera permission</Text>
+            <MyAppText>Requesting for camera permission</MyAppText>
             :
             this.state.hasCameraPermission === false ?
-              <Text style={{}}>
+              <MyAppText style={{}}>
                 Camera permission is not granted
-              </Text>
+              </MyAppText>
               :
               <Camera
                 onBarCodeScanned={this._handleBarCodeRead}
@@ -95,7 +96,7 @@ export default class SearchCameraScreen extends React.Component {
                   <View style={{ flex: 1 }} />
                   <View style={{ flex: 1, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
                     <Image source={require('../../../assets/images/ic_bar_code.png')} style={[MyStyles.ic_bar_code]} />
-                    <Text style={{ color: Colors.primary_dark, fontSize: 15, fontWeight: "500", marginTop: 10, textAlign: "center" }}>Point the camera on the other side of your{"\n"}phone at a Barcode</Text>
+                    <MyAppText style={{ color: Colors.primary_dark, fontSize: 15, fontWeight: "500", marginTop: 10, textAlign: "center" }}>Point the camera on the other side of your{"\n"}phone at a Barcode</MyAppText>
                   </View>
                 </View>
               </Camera>

@@ -21,6 +21,7 @@ import Toast from 'react-native-whc-toast';
 import MyConstants from '../../constants/MyConstants';
 import { LinearGradient } from 'expo';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 
 export default class NotificationScreen extends React.Component {
@@ -108,31 +109,31 @@ export default class NotificationScreen extends React.Component {
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
             <View style={MyStyles.container}>
               <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
-                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>All</Text>
+                <MyAppText style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>All</MyAppText>
                 <View style={[{ backgroundColor: this.state.alarm_all_selected == 0 ? Colors.primary_purple : "#9891bb" }, MyStyles.switch_cover]}>
                   <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("all") }} value={this.state.alarm_all_selected == 0 ? true : false} />
                 </View>
               </View>
               <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
-                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Reply</Text>
+                <MyAppText style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Reply</MyAppText>
                 <View style={[{ backgroundColor: this.state.alarm_result_data.alarm_reply == 0 ? Colors.primary_purple : "#9891bb" }, MyStyles.switch_cover]}>
                   <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("reply") }} value={this.state.alarm_result_data.alarm_reply == 0 ? true : false} />
                 </View>
               </View>
               <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
-                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Ask Answer</Text>
+                <MyAppText style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Ask Answer</MyAppText>
                 <View style={[{ backgroundColor: this.state.alarm_result_data.alarm_answer == 0 ? Colors.primary_purple : "#9891bb" }, MyStyles.switch_cover]}>
                   <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("alarm_answer") }} value={this.state.alarm_result_data.alarm_answer == 0 ? true : false} />
                 </View>
               </View>
               <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
-                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Event</Text>
+                <MyAppText style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Event</MyAppText>
                 <View style={[{ backgroundColor: this.state.alarm_result_data.alarm_event == 0 ? Colors.primary_purple : "#9891bb" }, MyStyles.switch_cover]}>
                   <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("event") }} value={this.state.alarm_result_data.alarm_event == 0 ? true : false} />
                 </View>
               </View>
               <View style={[{ flexDirection: "row", height: 180 / 3, alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
-                <Text style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Point</Text>
+                <MyAppText style={{ flex: 1, fontSize: 15, color: Colors.primary_dark }}>Point</MyAppText>
                 <View style={[{ backgroundColor: this.state.alarm_result_data.alarm_point == 0 ? Colors.primary_purple : "#9891bb" }, MyStyles.switch_cover]}>
                   <Switch thumbColor={"white"} trackColor={{ false: "#9891bb", true: Colors.primary_purple }} onValueChange={() => { this.toggoleSwitch("point") }} value={this.state.alarm_result_data.alarm_point == 0 ? true : false} />
                 </View>

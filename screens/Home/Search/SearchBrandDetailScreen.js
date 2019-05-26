@@ -9,6 +9,7 @@ import MyConstants from '../../../constants/MyConstants'
 import Common from '../../../assets/Common';
 import Net from '../../../Net/Net';
 import Colors from '../../../constants/Colors';
+import { MyAppText } from '../../../components/Texts/MyAppText';
 
 import Carousel from 'react-native-banner-carousel';
 import {
@@ -116,7 +117,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                 {item.is_selected ? <Image source={require("../../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <Image style={item.image_style} source={item.image_on} /> : <Image style={item.image_style} source={item.image_off} />}
               </TouchableOpacity>
-              <Text style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</Text>
+              <MyAppText style={MyStyles.category_text} numberOfLines={1}>{item.categoryName}</MyAppText>
             </View>
           ))}
         </ScrollView>
@@ -141,7 +142,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                     this.setState({ loading_end: false })
                     this.requestProductList(this.state.brand_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
                   }}>
-                    <Text style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</Text>
+                    <MyAppText style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</MyAppText>
                   </TouchableOpacity>
                 ))}
             </View>
@@ -229,7 +230,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                         this.state.brand_detail_result_data.detail.image == null || this.state.brand_detail_result_data.detail.image.length <= 0
                           ?
                           <View style={[MyStyles.brandTitleCover]}>
-                            <Text style={MyStyles.brandTitle1}>{this.state.brand_detail_result_data.detail.title}</Text>
+                            <MyAppText style={MyStyles.brandTitle1}>{this.state.brand_detail_result_data.detail.title}</MyAppText>
                           </View>
                           :
                           null
@@ -238,7 +239,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                     </View>
 
                   </TouchableOpacity>
-                  <Text style={{ fontSize: 16, color: "white", bottom: -5, textAlign: "center", position: "absolute", width: "100%", textAlign: "center" }} numberOfLines={1}>{this.state.brand_detail_result_data.detail.title} <Image source={require('../../../assets/images/ic_more_right_white.png')} style={MyStyles.ic_more_right_white} /></Text>
+                  <MyAppText style={{ fontSize: 16, color: "white", bottom: -5, textAlign: "center", position: "absolute", width: "100%", textAlign: "center" }} numberOfLines={1}>{this.state.brand_detail_result_data.detail.title} <Image source={require('../../../assets/images/ic_more_right_white.png')} style={MyStyles.ic_more_right_white} /></MyAppText>
                   {
                     this.state.brand_detail_result_data.detail.is_liked > 0
                       ?
@@ -255,9 +256,9 @@ export default class SearchBrandDetailScreen extends React.Component {
             </View>
 
             {/* 브랜드 설명 */}
-            <Text style={[{ fontSize: 13, color: Colors.color_656565, backgroundColor: "white", minHeight: 215 / 3 }, MyStyles.container, MyStyles.padding_v_main]} numberOfLines={3}>
+            <MyAppText style={[{ fontSize: 13, color: Colors.color_656565, backgroundColor: "white", minHeight: 215 / 3 }, MyStyles.container, MyStyles.padding_v_main]} numberOfLines={3}>
               {this.state.brand_detail_result_data.detail.information}
-            </Text>
+            </MyAppText>
 
             <View style={{ flex: 1 }}>
               <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
@@ -287,7 +288,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                   }
                 }}>
                 <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-                  <Text style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Products({this.state.product_list_result_data.product_list.length})</Text>
+                  <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Products({this.state.product_list_result_data.product_list.length})</MyAppText>
                   <FlatGrid
                     itemDimension={this.ScreenWidth / 2 - 30}
                     items={this.state.product_list_result_data.product_list}
@@ -321,7 +322,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                                   this.state.brand_detail_result_data.detail.image == null || this.state.brand_detail_result_data.detail.image.length <= 0
                                     ?
                                     <View style={[MyStyles.brandTitleCover]}>
-                                      <Text style={MyStyles.brandTitle1}>{this.state.brand_detail_result_data.detail.title}</Text>
+                                      <MyAppText style={MyStyles.brandTitle1}>{this.state.brand_detail_result_data.detail.title}</MyAppText>
                                     </View>
                                     :
                                     null
@@ -353,18 +354,18 @@ export default class SearchBrandDetailScreen extends React.Component {
 
                       <View style={{ marginTop: 200 / 3, }}>
                         <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
-                          <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>{this.state.brand_detail_result_data.detail.title}</Text>
-                          <Text style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => {
+                          <MyAppText style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>{this.state.brand_detail_result_data.detail.title}</MyAppText>
+                          <MyAppText style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => {
                             this.setState({ detailModalVisible: false });
                             this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })
-                          }}>Products({this.state.product_list_result_data.product_list.length})</Text>
+                          }}>Products({this.state.product_list_result_data.product_list.length})</MyAppText>
                         </View>
                         <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginTop: 20 }]}></View>
 
                         <ScrollView style={{ maxHeight: 650 / 3 }}>
-                          <Text style={[MyStyles.container, { paddingTop: 20, paddingBottom: 40, overflow: "scroll" }, MyStyles.text_13_656565]}>
+                          <MyAppText style={[MyStyles.container, { paddingTop: 20, paddingBottom: 40, overflow: "scroll" }, MyStyles.text_13_656565]}>
                             {this.state.brand_detail_result_data.detail.information}
-                          </Text>
+                          </MyAppText>
                         </ScrollView>
                       </View>
 

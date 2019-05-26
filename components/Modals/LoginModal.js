@@ -3,6 +3,7 @@ import React from 'react';
 import { Image, Modal, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import MyStyles from '../../constants/MyStyles';
 import Messages from '../../constants/Messages';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 export class LoginModal extends React.Component {
     constructor(props) {

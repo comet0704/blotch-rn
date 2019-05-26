@@ -9,6 +9,7 @@ import MyConstants from '../../../constants/MyConstants'
 import Common from '../../../assets/Common';
 import Net from '../../../Net/Net';
 import Colors from '../../../constants/Colors';
+import { MyAppText } from '../../../components/Texts/MyAppText';
 import { Icon } from 'expo';
 import Carousel from 'react-native-banner-carousel';
 import {
@@ -123,7 +124,7 @@ export default class SearchResultScreen extends React.Component {
     return (
       <View key={item.id} style={{ flex: 1 }}>
         <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
-          <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
+          <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</MyAppText>
           <Image style={{ flex: 1 }} />
           <TouchableOpacity activeOpacity={0.8} onPress={() => {
           }}>
@@ -136,7 +137,7 @@ export default class SearchResultScreen extends React.Component {
           </TouchableOpacity>
         </TouchableOpacity>
         {this.state.curSelectedIngredient == item.id ? <View style={{ justifyContent: "center" }}>
-          <Text style={style_content_text}>{item.content}</Text>
+          <MyAppText style={style_content_text}>{item.content}</MyAppText>
         </View> : null}
       </View>
     )
@@ -201,7 +202,7 @@ export default class SearchResultScreen extends React.Component {
                     {/* brand 검색결과 나열 */}
                     <View style={[MyStyles.bg_white]}>
                       <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                        <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Brands({this.state.result_data.brand_count})</Text>
+                        <MyAppText style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Brands({this.state.result_data.brand_count})</MyAppText>
                       </View>
                       <View style={{
                         flex: 1,
@@ -227,10 +228,10 @@ export default class SearchResultScreen extends React.Component {
                     {/* product 검색결과 나열 */}
                     <View style={[{ flex: 1, backgroundColor: "white" }]}>
                       <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                        <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Product({this.state.result_data.product_count})</Text>
+                        <MyAppText style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Product({this.state.result_data.product_count})</MyAppText>
                         <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() =>
                           this.props.navigation.navigate("SearchResultProductMore", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })}>
-                          <Text style={MyStyles.txt_more}>more</Text>
+                          <MyAppText style={MyStyles.txt_more}>more</MyAppText>
                           <Image source={require('../../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
                         </TouchableOpacity>
                       </View>
@@ -253,10 +254,10 @@ export default class SearchResultScreen extends React.Component {
                     {/* Ingredients 검색결과 나열 */}
                     <View style={[{ flex: 1, backgroundColor: "white" }]}>
                       <View style={[{ flexDirection: "row", flex: 1, marginTop: 25, justifyContent: "center" }, MyStyles.container]}>
-                        <Text style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Ingredients({this.state.result_data.ingredient_count})</Text>
+                        <MyAppText style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>Ingredients({this.state.result_data.ingredient_count})</MyAppText>
                         <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() =>
                           this.props.navigation.navigate("SearchResultIngredientMore", { [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.searchWord })}>
-                          <Text style={MyStyles.txt_more}>more</Text>
+                          <MyAppText style={MyStyles.txt_more}>more</MyAppText>
                           <Image source={require('../../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
                         </TouchableOpacity>
                       </View>
@@ -274,10 +275,10 @@ export default class SearchResultScreen extends React.Component {
               <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                 <View style={{ alignItems: "center" }}>
                   <Image source={require("../../../assets/images/ic_search_big.png")} style={[MyStyles.ic_search_big,]} />
-                  <Text style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</Text>
-                  <Text style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Not finding what you are looking for?{"\n"}Let us know and we'll do the search for you.</Text>
+                  <MyAppText style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</MyAppText>
+                  <MyAppText style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Not finding what you are looking for?{"\n"}Let us know and we'll do the search for you.</MyAppText>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]} onPress={() => { this.setState({ requestProductModalVisible: true }) }}>
-                    <Text style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Report us</Text>
+                    <MyAppText style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Report us</MyAppText>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -296,7 +297,7 @@ export default class SearchResultScreen extends React.Component {
                   <View style={MyStyles.modalContainer}>
                     {/* modal header */}
                     <View style={MyStyles.modal_header}>
-                      <Text style={MyStyles.modal_title}>Product Registeration Request</Text>
+                      <MyAppText style={MyStyles.modal_title}>Product Registeration Request</MyAppText>
                       <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                         this.setState({ requestProductModalVisible: false });
                       }}>
@@ -306,14 +307,14 @@ export default class SearchResultScreen extends React.Component {
                     <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
                     <View style={[MyStyles.container, { paddingTop: 20, paddingBottom: 120 / 3 }]}>
-                      <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Brand Name</Text>
+                      <MyAppText style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginBottom: 10 }}>Brand Name</MyAppText>
                       <TextInput
                         returnKeyType="next"
                         onSubmitEditing={() => { this.product_name_input.focus(); }}
                         onChangeText={(text) => { console.log(text); this.setState({ request_brand_name: text }) }}
                         style={MyStyles.text_input_with_border}>
                       </TextInput>
-                      <Text style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginTop: 20, marginBottom: 10 }}>Product Name</Text>
+                      <MyAppText style={{ fontSize: 13, fontWeight: "500", color: Colors.color_212122, marginTop: 20, marginBottom: 10 }}>Product Name</MyAppText>
                       <TextInput
                         onSubmitEditing={() => {
                           this.submitReport()
@@ -329,7 +330,7 @@ export default class SearchResultScreen extends React.Component {
                         style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
                           this.submitReport()
                         }}>
-                        <Text style={MyStyles.btn_primary}>Submit</Text>
+                        <MyAppText style={MyStyles.btn_primary}>Submit</MyAppText>
                       </TouchableHighlight>
                     </View>
                   </View>

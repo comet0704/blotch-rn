@@ -18,14 +18,15 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import MyConstants from '../../constants/MyConstants';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 import Common from '../../assets/Common';
 
 export default class MyPointScreen extends React.Component {
 
   Necessarry = (
-    <Text style={{ color: "#efb5cc", fontSize: 13 }}>
+    <MyAppText style={{ color: "#efb5cc", fontSize: 13 }}>
       *
-    </Text>
+    </MyAppText>
   );
 
   constructor(props) {
@@ -52,10 +53,10 @@ export default class MyPointScreen extends React.Component {
         }}>
           <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
           <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
-            <Text style={[MyStyles.ingredient_section_header_text1]}>My Review</Text>
-            <Text style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</Text>
+            <MyAppText style={[MyStyles.ingredient_section_header_text1]}>My Review</MyAppText>
+            <MyAppText style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</MyAppText>
           </View>
-          <Text style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<Text style={{ color: Colors.primary_purple }}>P</Text></Text>
+          <MyAppText style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<MyAppText style={{ color: Colors.primary_purple }}>P</MyAppText></MyAppText>
         </TouchableOpacity>
       </View>
     } else if (item.type == 2) { // 미등록 제품스캔, 사진 업로드로 인한  인한 지급
@@ -67,12 +68,12 @@ export default class MyPointScreen extends React.Component {
             <Image source={require("../../assets/images/ic_product_approval.png")} style={[MyStyles.ic_product_approval]} />
             <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={[MyStyles.ingredient_section_header_text1]}>Product approval</Text>
+                <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Product approval</MyAppText>
               </View>
 
-              <Text style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</Text>
+              <MyAppText style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</MyAppText>
             </View>
-            <Text style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<Text style={{ color: Colors.primary_purple }}>P</Text></Text>
+            <MyAppText style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<MyAppText style={{ color: Colors.primary_purple }}>P</MyAppText></MyAppText>
           </TouchableOpacity>
         </View>
       );
@@ -87,12 +88,12 @@ export default class MyPointScreen extends React.Component {
             <Image source={require("../../assets/images/ic_questionnare_big.png")} style={[MyStyles.ic_questionnare_big]} />
             <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={[MyStyles.ingredient_section_header_text1]}>Questionnaire</Text>
+                <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Questionnaire</MyAppText>
               </View>
 
-              <Text style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</Text>
+              <MyAppText style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>{item.desc}</MyAppText>
             </View>
-            <Text style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<Text style={{ color: Colors.primary_purple }}>P</Text></Text>
+            <MyAppText style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<MyAppText style={{ color: Colors.primary_purple }}>P</MyAppText></MyAppText>
           </TouchableOpacity>
         </View>
       );
@@ -127,10 +128,10 @@ export default class MyPointScreen extends React.Component {
               <View style={[{ flexDirection: "row", height: 200 / 3, margin: 15, overflow: "hidden", alignItems: "center", borderRadius: 5, marginBottom: 30 }, MyStyles.padding_main]}>
                 <Image style={[MyStyles.background_image]} source={require("../../assets/images/ic_gradient_bg.png")} />
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{global.login_info.user_id}'s</Text>
-                  <Text style={{ color: "white", fontSize: 13 }}>holding point</Text>
+                  <MyAppText style={{ color: "white", fontSize: 13, fontWeight: "bold" }}>{global.login_info.user_id}'s</MyAppText>
+                  <MyAppText style={{ color: "white", fontSize: 13 }}>holding point</MyAppText>
                 </View>
-                <Text style={{ color: "white", fontSize: 32, fontWeight: "bold" }}>{global.login_info.point}<Text style={{ fontWeight: "300" }}>P</Text></Text>
+                <MyAppText style={{ color: "white", fontSize: 32, fontWeight: "bold" }}>{global.login_info.point}<MyAppText style={{ fontWeight: "300" }}>P</MyAppText></MyAppText>
               </View>
 
 

@@ -21,6 +21,7 @@ import Toast from 'react-native-whc-toast';
 import MyConstants from '../../constants/MyConstants';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 import ModalDropdown from 'react-native-modal-dropdown'
 
 export default class CalendarScreen extends React.Component {
@@ -94,15 +95,15 @@ export default class CalendarScreen extends React.Component {
 
           {this.isFromQuestionnaire ? null :
             <View style={[MyStyles.container]}>
-              <Text style={MyStyles.text_header1}>Product Usage{"\n"}Date Registration</Text>
-              <Text style={MyStyles.text_desc}>Check the validity period by registering the date of use.</Text>
+              <MyAppText style={MyStyles.text_header1}>Product Usage{"\n"}Date Registration</MyAppText>
+              <MyAppText style={MyStyles.text_desc}>Check the validity period by registering the date of use.</MyAppText>
             </View>
           }
           <View style={[{ marginTop: 20 }]} />
 
           <View style={[{ flexDirection: "row", marginTop: 0, width: "100%" }, MyStyles.container]}>
             <View style={[MyStyles.border_bottom_e5e5e5, { flex: 1, marginRight: 30 / 6, }]}>
-              <Text style={{ fontSize: 13, color: "#e4e6e5", fontWeight: "400" }}>Month</Text>
+              <MyAppText style={{ fontSize: 13, color: "#e4e6e5", fontWeight: "400" }}>Month</MyAppText>
               <View style={{ width: "100%", justifyContent: "center" }}>
                 <ModalDropdown
                   style={[MyStyles.dropdown_date]}
@@ -119,11 +120,11 @@ export default class CalendarScreen extends React.Component {
                   }}
                   renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_date_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
                 />
-                <Text style={{ position: "absolute", right: 20 / 3, fontSize: 15, fontWeight: "500", color: Colors.color_949191 }}>▾</Text>
+                <MyAppText style={{ position: "absolute", right: 20 / 3, fontSize: 15, fontWeight: "500", color: Colors.color_949191 }}>▾</MyAppText>
               </View>
             </View>
             <View style={[MyStyles.border_bottom_e5e5e5, { flex: 1, marginLeft: 30 / 6, }]}>
-              <Text style={{ fontSize: 13, color: "#e4e6e5", fontWeight: "400" }}>Year</Text>
+              <MyAppText style={{ fontSize: 13, color: "#e4e6e5", fontWeight: "400" }}>Year</MyAppText>
               <View style={{ width: "100%", justifyContent: "center" }}>
                 <ModalDropdown
                   style={[MyStyles.dropdown_date]}
@@ -140,7 +141,7 @@ export default class CalendarScreen extends React.Component {
                   }}
                   renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_date_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
                 />
-                <Text style={{ position: "absolute", right: 20 / 3, fontSize: 15, fontWeight: "500", color: Colors.color_949191 }}>▾</Text>
+                <MyAppText style={{ position: "absolute", right: 20 / 3, fontSize: 15, fontWeight: "500", color: Colors.color_949191 }}>▾</MyAppText>
               </View>
             </View>
           </View>

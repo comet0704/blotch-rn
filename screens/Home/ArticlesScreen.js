@@ -9,6 +9,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import Carousel from 'react-native-banner-carousel';
 import { Image, Dimensions, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, TouchableHighlight, Linking } from 'react-native';
@@ -63,7 +64,7 @@ export default class ArticlesScreen extends React.Component {
         {showTime ?
           <View style={[{ position: "absolute", width: 275 / 3, height: 60 / 3, top: -10, right: 15, borderRadius: 10, flexDirection: "row", justifyContent: "center", alignItems: "center" }, MyStyles.shadow_2]}>
             <Image source={require('../../assets/images/ic_clock.png')} style={[MyStyles.ic_clock]} />
-            <Text style={[MyStyles.text_12_949292, { marginLeft: 3 }]}>{articleTime}</Text>
+            <MyAppText style={[MyStyles.text_12_949292, { marginLeft: 3 }]}>{articleTime}</MyAppText>
           </View>
           :
           null}
@@ -89,13 +90,13 @@ export default class ArticlesScreen extends React.Component {
             null}
 
           <View style={{ flex: 1 }}>
-            <Text style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>
-              {item.title} </Text>
+            <MyAppText style={{ minHeight: 158 / 3, fontSize: 15, color: Colors.primary_dark }}>
+              {item.title} </MyAppText>
 
             {item.is_direct_link > 0 ?
-              <Text onPress={() => { Linking.openURL(Common.getLinkUrl(item.url)) }} style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
+              <MyAppText onPress={() => { Linking.openURL(Common.getLinkUrl(item.url)) }} style={{ marginTop: 5, fontSize: 13, color: Colors.color_949292 }} numberOfLines={1}>
                 {item.url}
-              </Text>
+              </MyAppText>
               : null}
           </View>
 
@@ -123,8 +124,8 @@ export default class ArticlesScreen extends React.Component {
                 </TouchableHighlight>
             }
             <View style={[MyStyles.banner_title]}>
-              <Text style={{ fontSize: 13, color: "white" }}>{item.title}</Text>
-              <Text style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{Common.removeHtmlTagsFromText(item.content)}</Text>
+              <MyAppText style={{ fontSize: 13, color: "white" }}>{item.title}</MyAppText>
+              <MyAppText style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }}>{Common.removeHtmlTagsFromText(item.content)}</MyAppText>
             </View>
           </View>
         </TouchableOpacity>

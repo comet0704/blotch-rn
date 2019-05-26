@@ -10,6 +10,7 @@ import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 
 import Carousel from 'react-native-banner-carousel';
 import {
@@ -107,7 +108,7 @@ export default class IngredientScreen extends React.Component {
             <View key={item.id} style={{ marginRight: 10, flex: 1, alignItems: "center", justifyContent: "center" }}>
               <TouchableOpacity activeOpacity={0.8} onPress={() => { this.onBabySelected(item.title) }} style={[item.is_selected ? MyStyles.baby_container_selected : MyStyles.baby_container]}>
                 {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
-                {item.is_selected ? <Text style={MyStyles.baby_text_selected} numberOfLines={1}>{item.title}</Text> : <Text style={MyStyles.baby_text} numberOfLines={1}>{item.title}</Text>}
+                {item.is_selected ? <MyAppText style={MyStyles.baby_text_selected} numberOfLines={1}>{item.title}</MyAppText> : <MyAppText style={MyStyles.baby_text} numberOfLines={1}>{item.title}</MyAppText>}
               </TouchableOpacity>
             </View>
           ))}
@@ -145,16 +146,16 @@ export default class IngredientScreen extends React.Component {
     return (
       <View key={item.id} style={{ flex: 1 }}>
         <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
-          <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
+          <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</MyAppText>
           <Image style={{ flex: 1 }} />
           <TouchableOpacity activeOpacity={0.8} onPress={() => {
             this.setState({ saveToModalVisible: true, selectedIngredient_id: item.id })
           }}>
-            <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</Text>
+            <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</MyAppText>
           </TouchableOpacity>
         </TouchableOpacity>
         {this.state.curSelectedIngredient == item.id ? <View style={{ justifyContent: "center" }}>
-          <Text style={style_content_text}>{item.content}</Text>
+          <MyAppText style={style_content_text}>{item.content}</MyAppText>
         </View> : null}
       </View>
     )
@@ -189,14 +190,14 @@ export default class IngredientScreen extends React.Component {
     return (
       <View key={item.id} style={{ flex: 1 }}>
         <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
-          <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
+          <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</MyAppText>
           <Image style={{ flex: 1 }} />
           <TouchableOpacity activeOpacity={0.8} onPress={() => { this.requestAddUserIngredient(item.id, this.state.ingredient_add_type, this.state.selected_questionnaire.id) }}>
-            <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</Text>
+            <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>+</MyAppText>
           </TouchableOpacity>
         </TouchableOpacity>
         {this.state.curSelectedIngredient == item.id ? <View style={{ justifyContent: "center" }}>
-          <Text style={style_content_text}>{item.content}</Text>
+          <MyAppText style={style_content_text}>{item.content}</MyAppText>
         </View> : null}
       </View>
     )
@@ -214,7 +215,7 @@ export default class IngredientScreen extends React.Component {
     return (
       <View key={item.id}>
         <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
-          <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
+          <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</MyAppText>
           <Image style={{ flex: 1 }} />
           <TouchableOpacity activeOpacity={0.8} onPress={() => {
             Alert.alert(
@@ -236,11 +237,11 @@ export default class IngredientScreen extends React.Component {
             );
           }}
           >
-            <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
+            <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</MyAppText>
           </TouchableOpacity>
         </TouchableOpacity>
         {this.state.curSelectedIngredient == item.id ? <View style={{ justifyContent: "center" }}>
-          <Text style={style_content_text}>{item.content}</Text>
+          <MyAppText style={style_content_text}>{item.content}</MyAppText>
         </View> : null}
       </View>
     )
@@ -258,7 +259,7 @@ export default class IngredientScreen extends React.Component {
     return (
       <View key={item.id}>
         <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
-          <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
+          <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</MyAppText>
           <Image style={{ flex: 1 }} />
           <TouchableOpacity activeOpacity={0.8} onPress={() => {
             Alert.alert(
@@ -280,11 +281,11 @@ export default class IngredientScreen extends React.Component {
             );
 
           }}>
-            <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
+            <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</MyAppText>
           </TouchableOpacity>
         </TouchableOpacity>
         {this.state.curSelectedIngredient == item.id ? <View style={{ justifyContent: "center" }}>
-          <Text style={style_content_text}>{item.content}</Text>
+          <MyAppText style={style_content_text}>{item.content}</MyAppText>
         </View> : null}
       </View>
     )
@@ -302,7 +303,7 @@ export default class IngredientScreen extends React.Component {
     return (
       <View key={item.id}>
         <TouchableOpacity activeOpacity={0.8} style={[this.state.curSelectedIngredient == item.id ? style_container_selected : style_container, { flexDirection: "row", alignItems: "center" }]} onPress={() => { this.setState({ curSelectedIngredient: item.id }) }}>
-          <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</Text>
+          <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>{item.title}</MyAppText>
           <Image style={{ flex: 1 }} />
           <TouchableOpacity activeOpacity={0.8} onPress={() => {
             Alert.alert(
@@ -323,11 +324,11 @@ export default class IngredientScreen extends React.Component {
               { cancelable: false },
             );
           }}>
-            <Text style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</Text>
+            <MyAppText style={[this.state.curSelectedIngredient == item.id ? style_text_selected : style_text]}>-</MyAppText>
           </TouchableOpacity>
         </TouchableOpacity>
         {this.state.curSelectedIngredient == item.id ? <View style={{ justifyContent: "center" }}>
-          <Text style={style_content_text}>{item.content}</Text>
+          <MyAppText style={style_content_text}>{item.content}</MyAppText>
         </View> : null}
       </View>
     )
@@ -356,8 +357,8 @@ export default class IngredientScreen extends React.Component {
                   </TouchableOpacity>
                 }
               </View>
-              <Text style={[MyStyles.productBrand]} numberOfLines={1}>{item.brand_title}</Text>
-              <Text style={[MyStyles.productName]} numberOfLines={1}>{item.title}</Text>
+              <MyAppText style={[MyStyles.productBrand]} numberOfLines={1}>{item.brand_title}</MyAppText>
+              <MyAppText style={[MyStyles.productName]} numberOfLines={1}>{item.title}</MyAppText>
             </TouchableOpacity>
           ))}
         </ScrollView>
@@ -431,8 +432,8 @@ export default class IngredientScreen extends React.Component {
               }}>
                 <Image source={require("../../assets/images/ic_allergic_face.png")} style={[MyStyles.ic_allergic_face]} />
                 <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
-                  <Text style={[MyStyles.ingredient_section_header_text1]}>Allergic Ingredients(Dislikes)</Text>
-                  <Text style={[MyStyles.ingredient_section_header_text2]}>+{this.countType(0)}</Text>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Allergic Ingredients(Dislikes)</MyAppText>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text2]}>+{this.countType(0)}</MyAppText>
                 </View>
                 {
                   this.state.section_allergic_show ? <Image source={require("../../assets/images/ic_polygon_up.png")} style={[MyStyles.ic_polygon_up]} />
@@ -465,17 +466,17 @@ export default class IngredientScreen extends React.Component {
                 <Image source={require("../../assets/images/ic_potential_face.png")} style={[MyStyles.ic_potential_face]} />
                 <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
                   <View style={{ flexDirection: "row", alignItems: "center", }}>
-                    <Text style={[MyStyles.ingredient_section_header_text1]}>Potential Allergens</Text>
+                    <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Potential Allergens</MyAppText>
                     {this.state.potentialInfoModal ? null :
                       <TouchableOpacity activeOpacity={0.8} style={{
                         backgroundColor: Colors.color_efeeee, overflow: "hidden", borderRadius: 10, marginLeft: 5,
                         width: 15, height: 15, justifyContent: "center"
                       }} onPress={() => { this.setState({ potentialInfoModal: true }) }}>
-                        <Text style={[MyStyles.ingredient_section_header_text1, { fontSize: 12, textAlign: "center" }]}>?</Text>
+                        <MyAppText style={[MyStyles.ingredient_section_header_text1, { fontSize: 12, textAlign: "center" }]}>?</MyAppText>
                       </TouchableOpacity>
                     }
                   </View>
-                  <Text style={[MyStyles.ingredient_section_header_text2]}>+{this.countType(1)}</Text>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text2]}>+{this.countType(1)}</MyAppText>
                 </View>
                 {
                   this.state.section_potential_show ? <Image source={require("../../assets/images/ic_polygon_up.png")} style={[MyStyles.ic_polygon_up]} />
@@ -494,10 +495,10 @@ export default class IngredientScreen extends React.Component {
                       {this.state.mylist_result_data.potential_allergen_ingredient_list != null && this.state.mylist_result_data.potential_allergen_ingredient_list.length > 0 ?
                         <View style={[{ marginTop: 10 }, MyStyles.bg_white]}>
                           <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }]}>
-                            <Text style={[{ fontSize: 14, flex: 1, alignSelf: "center", fontWeight: "bold" }]}>Ingredients that can cause Allergies</Text>
+                            <MyAppText style={[{ fontSize: 14, flex: 1, alignSelf: "center", fontWeight: "bold" }]}>Ingredients that can cause Allergies</MyAppText>
                             <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_more_cover]} onPress={() =>
                               this.props.navigation.navigate("PotentialAllergenProduct")}>
-                              <Text style={MyStyles.txt_more}>more</Text>
+                              <MyAppText style={MyStyles.txt_more}>more</MyAppText>
                               <Image source={require('../../assets/images/ic_more_right.png')} style={MyStyles.ic_more_right} />
                             </TouchableOpacity>
                           </View>
@@ -531,8 +532,8 @@ export default class IngredientScreen extends React.Component {
               }}>
                 <Image source={require("../../assets/images/ic_preferred_face.png")} style={[MyStyles.ic_preferred_face]} />
                 <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
-                  <Text style={[MyStyles.ingredient_section_header_text1]}>Preferred Ingredients</Text>
-                  <Text style={[MyStyles.ingredient_section_header_text2]}>+{this.countType(2)}</Text>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Preferred Ingredients</MyAppText>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text2]}>+{this.countType(2)}</MyAppText>
                 </View>
                 {
                   this.state.section_preferred_show ? <Image source={require("../../assets/images/ic_polygon_up.png")} style={[MyStyles.ic_polygon_up]} />
@@ -573,7 +574,7 @@ export default class IngredientScreen extends React.Component {
               <View style={MyStyles.modalContainer}>
                 {/* modal header */}
                 <View style={MyStyles.modal_header}>
-                  <Text style={MyStyles.modal_title}>Ingredient</Text>
+                  <MyAppText style={MyStyles.modal_title}>Ingredient</MyAppText>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                     this.setState({ searchModalVisible: false });
                   }}>
@@ -584,7 +585,7 @@ export default class IngredientScreen extends React.Component {
 
                 {/* body */}
                 <View style={[MyStyles.padding_h_main, { paddingTop: 70 / 3, paddingBottom: 75 / 3 }]}>
-                  <Text style={[MyStyles.text_13_primary_dark, { fontWeight: "500" }]}>Ingredient Name</Text>
+                  <MyAppText style={[MyStyles.text_13_primary_dark, { fontWeight: "500" }]}>Ingredient Name</MyAppText>
                   <TextInput
                     returnKeyType="search"
                     onSubmitEditing={() => {
@@ -615,7 +616,7 @@ export default class IngredientScreen extends React.Component {
                       }
                     }
                   >
-                    <Text style={MyStyles.btn_primary}>Search</Text>
+                    <MyAppText style={MyStyles.btn_primary}>Search</MyAppText>
                   </TouchableOpacity>
                 </View>
 
@@ -652,7 +653,7 @@ export default class IngredientScreen extends React.Component {
                 {/* modal header */}
                 <View style={{ flexDirection: "row", alignItems: "center", width: "100%", height: 50 }}>
                   <View style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute" }]}>
-                    <Text style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</Text>
+                    <MyAppText style={{ color: Colors.primary_dark, fontSize: 16, fontWeight: "500", }}>Save to</MyAppText>
                   </View>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
                     this.setState({ saveToModalVisible: false })
@@ -670,7 +671,7 @@ export default class IngredientScreen extends React.Component {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 0, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_allergic_ingredient} source={require("../../assets/images/ic_allergic_ingredient.png")} />
-                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</Text>
+                    <MyAppText style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Allergic Ingredients(Dislike)</MyAppText>
                     <Image style={{ flex: 1 }} />
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
@@ -680,7 +681,7 @@ export default class IngredientScreen extends React.Component {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 1, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_potential_allergins} source={require("../../assets/images/ic_potential_allergins.png")} />
-                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</Text>
+                    <MyAppText style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Potential Allergens</MyAppText>
                     <Image style={{ flex: 1 }} />
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
@@ -690,7 +691,7 @@ export default class IngredientScreen extends React.Component {
                       this.requestAddUserIngredient(this.state.selectedIngredient_id, 2, this.state.selected_questionnaire.id)
                     }}>
                     <Image style={MyStyles.ic_preferred_ingredient} source={require("../../assets/images/ic_preferred_ingredient.png")} />
-                    <Text style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</Text>
+                    <MyAppText style={{ fontSize: 13, marginLeft: 10, color: Colors.primary_dark }}>Preferred Ingredients</MyAppText>
                     <Image style={{ flex: 1 }} />
                     <Image style={MyStyles.ic_arrow_right_gray} source={require("../../assets/images/ic_arrow_right_gray.png")} />
                   </TouchableOpacity>
@@ -716,13 +717,13 @@ export default class IngredientScreen extends React.Component {
                   backgroundColor: Colors.color_efeeee, overflow: "hidden", borderRadius: 10, marginLeft: "55%", marginBottom: 5,
                   width: 15, height: 15, justifyContent: "center"
                 }} >
-                  <Text style={[MyStyles.ingredient_section_header_text1, { fontSize: 12, textAlign: "center" }]}>?</Text>
+                  <MyAppText style={[MyStyles.ingredient_section_header_text1, { fontSize: 12, textAlign: "center" }]}>?</MyAppText>
                 </View> */}
                 <View>
                   {/* <Image source={require('../../assets/images/ic_white_polygon.png')} style={[MyStyles.ic_white_polygon, { marginLeft: "55%" }]} /> */}
-                  <Text style={[MyStyles.padding_main, MyStyles.text_13_primary_dark, { width: "100%", marginTop: -3, borderRadius: 10, backgroundColor: "white" }]}>We will analyze the common ingredients of
+                  <MyAppText style={[MyStyles.padding_main, MyStyles.text_13_primary_dark, { width: "100%", marginTop: -3, borderRadius: 10, backgroundColor: "white" }]}>We will analyze the common ingredients of
     two or more products and inform you of the
-ingredients that can cause allergies.</Text>
+ingredients that can cause allergies.</MyAppText>
                 </View>
 
               </View>
@@ -748,7 +749,7 @@ ingredients that can cause allergies.</Text>
                 </TouchableOpacity>
 
                 <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
-                <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>{Messages.you_need_to_login}</Text>
+                <MyAppText style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>{Messages.you_need_to_login}</MyAppText>
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight onPress={() => {
@@ -756,7 +757,7 @@ ingredients that can cause allergies.</Text>
                     this.props.navigation.navigate('Login')
                   }}
                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
-                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                    <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
@@ -765,7 +766,7 @@ ingredients that can cause allergies.</Text>
                       this.setState({ showLoginModal: false });
                       this.props.navigation.navigate('Home')
                     }}>
-                    <Text style={MyStyles.btn_primary_white}>Not now</Text>
+                    <MyAppText style={MyStyles.btn_primary_white}>Not now</MyAppText>
                   </TouchableHighlight>
                 </View>
               </View>

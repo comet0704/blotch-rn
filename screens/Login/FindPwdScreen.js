@@ -21,9 +21,9 @@ import MyConstants from '../../constants/MyConstants';
 export default class FindPwdScreen extends React.Component {
 
   Necessarry = (
-    <Text style={{ color: "#efb5cc", fontSize: 13 }}>
+    <MyAppText style={{ color: "#efb5cc", fontSize: 13 }}>
       *
-    </Text>
+    </MyAppText>
   );
 
   state = {
@@ -88,12 +88,12 @@ export default class FindPwdScreen extends React.Component {
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
 
             <View style={MyStyles.container}>
-              <Text style={MyStyles.text_header1}>Forgot</Text>
-              <Text style={[MyStyles.text_header1, { marginTop: 0 }]}>Password?</Text>
-              <Text style={MyStyles.text_desc}>Please enter your email address and we will send you an email about how to reset your password.</Text>
+              <MyAppText style={MyStyles.text_header1}>Forgot</MyAppText>
+              <MyAppText style={[MyStyles.text_header1, { marginTop: 0 }]}>Password?</MyAppText>
+              <MyAppText style={MyStyles.text_desc}>Please enter your email address and we will send you an email about how to reset your password.</MyAppText>
 
               <View style={[MyStyles.inputBox, (this.checkValidation(email, "email") == false && sendPressed == true) ? { borderColor: "#f33f5b" } : {}]}>
-                {this.checkValidation(email, "empty") == false ? <Text style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Email {this.Necessarry}</Text> : null}
+                {this.checkValidation(email, "empty") == false ? <MyAppText style={{ color: "#e4e6e5", position: "absolute", top: 10 }}>Email {this.Necessarry}</MyAppText> : null}
                 <TextInput
                   returnKeyType="done"
                   onChangeText={(text) => { this.setState({ email: text }) }}
@@ -102,15 +102,15 @@ export default class FindPwdScreen extends React.Component {
               </View>
               {
                 ((this.checkValidation(email, "email") == false) && sendPressed == true) ?
-                  <Text style={MyStyles.warningText}>Please Confirm your Email</Text> : null
+                  <MyAppText style={MyStyles.warningText}>Please Confirm your Email</MyAppText> : null
               }
 
               <View style={{ flex: 1, marginTop: 35, flexDirection: "row" }}>
                 <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_primary_cover]} onPress={() => { this.onPressSend(this.state.email) }}>
-                  <Text style={MyStyles.btn_primary}>Send</Text>
+                  <MyAppText style={MyStyles.btn_primary}>Send</MyAppText>
                 </TouchableOpacity>
                 <TouchableOpacity activeOpacity={0.8} style={[MyStyles.btn_primary_white_cover, { marginLeft: 20 }]} onPress={() => {this.props.navigation.goBack()}}>
-                  <Text style={MyStyles.btn_primary_white}>Back to Login</Text>
+                  <MyAppText style={MyStyles.btn_primary_white}>Back to Login</MyAppText>
                 </TouchableOpacity>
               </View>
 
