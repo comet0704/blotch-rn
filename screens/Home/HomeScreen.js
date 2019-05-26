@@ -34,6 +34,7 @@ import { NavigationEvents } from 'react-navigation';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 import { exitAlert } from '../../components/androidBackButton/exitAlert';
 import { LoginModal } from '../../components/Modals/LoginModal';
+import { MonoText } from '../../components/StyledText';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -430,7 +431,7 @@ export default class HomeScreen extends React.Component {
                 <View style={{ position: "absolute", height: 2, top: -2, left: 0, right: 0, backgroundColor: "white" }} />
 
                 <Text style={[{ color: "#949393", fontSize: 12 }]}>Today's counselor</Text>
-                <Text style={[MyStyles.text_20, { marginTop: 5 }]}>Today's Beauty Information</Text>
+                <Text style={[MyStyles.text_20, { marginTop: 5, fontFamily: "rubik-medium" }]}>Today's Beauty Information</Text>
                 <View style={[{ borderRadius: 3, overflow: "hidden", width: "100%", minHeight: 125, marginTop: 20, padding: 15, marginBottom: 23 }]}>
                   <Image source={require("../../assets/images/Home/ic_advice_bg.png")} style={[MyStyles.background_image]} />
                   <View style={{ flexDirection: "row", flex: 1 }}>

@@ -712,14 +712,14 @@ export default class IngredientScreen extends React.Component {
           <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.setState({ potentialInfoModal: false }) }}>
             <View style={MyStyles.modal_bg}>
               <View style={[MyStyles.modalContainer, { backgroundColor: "transparent", overflow: "visible" }]}>
-                <View style={{
+                {/* <View style={{
                   backgroundColor: Colors.color_efeeee, overflow: "hidden", borderRadius: 10, marginLeft: "55%", marginBottom: 5,
                   width: 15, height: 15, justifyContent: "center"
                 }} >
                   <Text style={[MyStyles.ingredient_section_header_text1, { fontSize: 12, textAlign: "center" }]}>?</Text>
-                </View>
+                </View> */}
                 <View>
-                  <Image source={require('../../assets/images/ic_white_polygon.png')} style={[MyStyles.ic_white_polygon, { marginLeft: "55%" }]} />
+                  {/* <Image source={require('../../assets/images/ic_white_polygon.png')} style={[MyStyles.ic_white_polygon, { marginLeft: "55%" }]} /> */}
                   <Text style={[MyStyles.padding_main, MyStyles.text_13_primary_dark, { width: "100%", marginTop: -3, borderRadius: 10, backgroundColor: "white" }]}>We will analyze the common ingredients of
     two or more products and inform you of the
 ingredients that can cause allergies.</Text>

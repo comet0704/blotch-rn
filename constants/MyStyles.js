@@ -182,7 +182,7 @@ export default StyleSheet.create({
     color: Colors.primary_dark, fontSize: 14, fontWeight: "500"
   },
   text_20: {
-    color: Colors.primary_dark, fontSize: 20, fontWeight: "500"
+    color: Colors.primary_dark, fontSize: 20
   },
   text_normal: {
     color: "#949191", fontSize: 13
