@@ -30,7 +30,7 @@ export class LoginModal extends React.Component {
                             </TouchableOpacity>
 
                             <Image style={{ width: 31, height: 32, alignSelf: "center" }} source={require("../../assets/images/ic_check_on.png")} />
-                            <Text style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>{Messages.you_need_to_login}</Text>
+                            <MyAppText style={{ fontSize: 16, color: "black", alignSelf: "center", fontWeight: "bold", marginTop: 10, marginBottom: 20 }}>{Messages.you_need_to_login}</MyAppText>
 
                             <View style={{ flexDirection: "row" }}>
                                 <TouchableHighlight onPress={() => {
@@ -38,7 +38,7 @@ export class LoginModal extends React.Component {
                                     _this.props.navigation.navigate('Login')
                                 }}
                                     style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
-                                    <Text style={MyStyles.btn_primary}>Yes</Text>
+                                    <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                                 </TouchableHighlight>
 
                                 <TouchableHighlight
@@ -46,7 +46,7 @@ export class LoginModal extends React.Component {
                                     onPress={() => {
                                         _this.setState({ showLoginModal: false });
                                     }}>
-                                    <Text style={MyStyles.btn_primary_white}>Not now</Text>
+                                    <MyAppText style={MyStyles.btn_primary_white}>Not now</MyAppText>
                                 </TouchableHighlight>
                             </View>
                         </View>

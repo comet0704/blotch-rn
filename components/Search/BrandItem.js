@@ -40,7 +40,7 @@ export class BrandItem extends React.Component {
             item.image == null || item.image.length <= 0
               ?
               <View style={[MyStyles.brandTitleCover]}>
-                <Text style={MyStyles.brandTitle1}>{item.title}</Text>
+                <MyAppText style={MyStyles.brandTitle1}>{item.title}</MyAppText>
               </View>
               :
               null
@@ -48,7 +48,7 @@ export class BrandItem extends React.Component {
           <ImageLoad style={[{ width: item_width, height: item_width }, MyStyles.brandImage]} source={{ uri: Common.getImageUrl(item.image) }} />
         </TouchableOpacity>
 
-        <Text style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + "(" + item.product_count + ")"}</Text>
+        <MyAppText style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + "(" + item.product_count + ")"}</MyAppText>
         {
           is_add_modal != true ?
             item.is_liked > 0

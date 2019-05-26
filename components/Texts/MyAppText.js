@@ -3,7 +3,6 @@ import { Text } from 'react-native';
 
 export class MyAppText extends React.Component {
   render() {
-    console.log(this.props.style);
     this.isMedium = false
     this.style = null // this.props.style 에 MyStyles.text_20 이라든가 MyStyles.* 이 들어오면 element를 지울수 없어서 this.style로 변환하여 조작
     if (this.props.hasOwnProperty("style")) {
@@ -16,7 +15,6 @@ export class MyAppText extends React.Component {
             if (key == "fontWeight") {
               if (value == "500" || value == "600" || value == "bold") {
                 this.isMedium = true
-                console.log("true")
               }
             } else {
               obj[key] = value
@@ -31,7 +29,6 @@ export class MyAppText extends React.Component {
           if (key == "fontWeight") {
             if (value == "500" || value == "600" || value == "bold") {
               this.isMedium = true
-              console.log("true")
             }
           } else {
             this.style[key] = value
@@ -39,8 +36,6 @@ export class MyAppText extends React.Component {
         }
       }
     }
-
-    console.log(this.style)
 
 
     if (this.isMedium) {

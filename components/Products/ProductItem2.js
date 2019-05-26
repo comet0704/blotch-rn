@@ -55,8 +55,8 @@ export class ProductItem2 extends React.Component {
           </View>
         </TouchableOpacity>
         <View style={{ marginLeft: 10, flex: 1 }}>
-          <Text style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]} numberOfLines={1}>{item.brand_title}</Text>
-          <Text style={[MyStyles.productName, { textAlign: "left", height: 110 / 3 }]} numberOfLines={2}>{item.title}</Text>
+          <MyAppText style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]} numberOfLines={1}>{item.brand_title}</MyAppText>
+          <MyAppText style={[MyStyles.productName, { textAlign: "left", height: 110 / 3 }]} numberOfLines={2}>{item.title}</MyAppText>
           <TouchableOpacity activeOpacity={0.8} style={{ flexDirection: "row", alignItems: "center", height: 69 / 3 }}
             onPress={() => {
               this.state.isStarPressed = !this.state.isStarPressed
@@ -79,7 +79,7 @@ export class ProductItem2 extends React.Component {
             {this.state.isStarPressed ?
               <View style={[{ justifyContent: "center", alignItems: "center", marginLeft: 5 }, MyStyles.ic_star_rate_bg]}>
                 <Image source={require("../../assets/images/ic_star_rate_bg.png")} style={[MyStyles.background_image]} />
-                <Text style={{ color: Colors.color_star_full, alignSelf: "center", marginTop: -2, fontSize: 12 }}>{parseFloat(item.grade).toFixed(1)}</Text>
+                <MyAppText style={{ color: Colors.color_star_full, alignSelf: "center", marginTop: -2, fontSize: 12 }}>{parseFloat(item.grade).toFixed(1)}</MyAppText>
               </View>
               : null}
 
@@ -87,7 +87,7 @@ export class ProductItem2 extends React.Component {
           </TouchableOpacity>
           <View style={{ flexDirection: "row", alignItems: "center", marginTop: 15 }}>
             <Image source={require("../../assets/images/ic_comment.png")} style={MyStyles.ic_comment} />
-            <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{item.comment_count}</Text>
+            <MyAppText style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{item.comment_count}</MyAppText>
             {this.props.is_match_list ?
               <Image source={require("../../assets/images/ic_match_small.png")} style={[MyStyles.ic_match_small, { marginLeft: 10 }]} />
               :
@@ -99,7 +99,7 @@ export class ProductItem2 extends React.Component {
                   :
                   <Image source={require("../../assets/images/ic_heart_gray.png")} style={[MyStyles.ic_heart_gray, { marginLeft: 10 }]} />
             }
-            <Text style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{item.like_count}</Text>
+            <MyAppText style={{ color: Colors.color_949292, fontSize: 13, marginLeft: 5 }}>{item.like_count}</MyAppText>
           </View>
         </View>
 

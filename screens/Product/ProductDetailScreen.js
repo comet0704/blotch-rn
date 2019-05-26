@@ -114,7 +114,7 @@ export default class ProductDetailScreen extends React.Component {
   BannerWidth = Dimensions.get('window').width;
   renderImages(image, index) {
     const uri = Common.getImageUrl(image);
-    CacheManager.cache(uri, localURI => this.setState({ uri: localURI }));
+    // CacheManager.cache(uri, localURI => this.setState({ uri: localURI }));
     const path = CacheManager.get(uri).getPath();
     const preview = { uri: uri };
     return (

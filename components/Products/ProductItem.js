@@ -47,12 +47,12 @@ export class ProductItem extends React.Component {
           {/* {is_new_tab && item.is_new > 0 ?
             <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
               <Image source={require('../../assets/images/ic_best_ranking.png')} style={[MyStyles.background_image]} />
-              <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>N</Text>
+              <MyAppText style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>N</MyAppText>
             </View>
             : null} */}
         </View>
-        <Text style={[MyStyles.productBrand]} numberOfLines={1}>{item.brand_title}</Text>
-        <Text style={[MyStyles.productName]} numberOfLines={1}>{item.title}</Text>
+        <MyAppText style={[MyStyles.productBrand]} numberOfLines={1}>{item.brand_title}</MyAppText>
+        <MyAppText style={[MyStyles.productName]} numberOfLines={1}>{item.title}</MyAppText>
       </TouchableOpacity>
     )
   }

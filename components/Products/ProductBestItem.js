@@ -46,14 +46,14 @@ export class ProductBestItem extends React.Component {
           {index < 3 ?
             <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
               <Image source={require('../../assets/images/ic_best_ranking.png')} style={[MyStyles.background_image]} />
-              <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>{index + 1}</Text>
+              <MyAppText style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>{index + 1}</MyAppText>
             </View>
             : <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
-              <Text style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "black" }}>{index + 1}</Text>
+              <MyAppText style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "black" }}>{index + 1}</MyAppText>
             </View>}
         </View>
-        <Text style={[MyStyles.productBrand]} numberOfLines={1}>{item.brand_title}</Text>
-        <Text style={[MyStyles.productName]} numberOfLines={1}>{item.title}</Text>
+        <MyAppText style={[MyStyles.productBrand]} numberOfLines={1}>{item.brand_title}</MyAppText>
+        <MyAppText style={[MyStyles.productName]} numberOfLines={1}>{item.title}</MyAppText>
       </TouchableOpacity>
     )
   }
