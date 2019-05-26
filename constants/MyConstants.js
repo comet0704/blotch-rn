@@ -107,6 +107,8 @@ export default {
     product_container_initial_page: "product_container_initial_page",
     search_word: "search_word",
     onDaySelect: "onDaySelect",
+    selectedDate: "selectedDate",
+    isFromQuestionnaire: "isFromQuestionnaire",
     onProfileEdited: "profileEdited",
     questionnaire_skin_type: "questionnaire_skin_type",
     questionnaire_concern: "questionnaire_concern_type",

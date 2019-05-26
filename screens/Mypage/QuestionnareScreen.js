@@ -415,7 +415,7 @@ export default class QuestionnareScreen extends React.Component {
                           {/* Day of Birth */}
                           <View style={{ marginBottom: 65 / 3 }}>
                             <Text style={[MyStyles.question_sub_text1]}>Date of Birth</Text>
-                            <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect })}>
+                            <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect, [MyConstants.NAVIGATION_PARAMS.selectedDate]: this.state.questionnaire_detail.birth, [MyConstants.NAVIGATION_PARAMS.isFromQuestionnaire]: true })}>
                               <TextInput value={this.state.questionnaire_detail.birth} editable={false} style={{ fontSize: 12, paddingRight: 10, flex: 1 }} placeholder="YYYY - MM - DD" />
                               <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
                             </TouchableOpacity>

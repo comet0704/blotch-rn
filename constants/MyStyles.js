@@ -1587,6 +1587,41 @@ export default StyleSheet.create({
     height: 0.5,
     backgroundColor: Colors.color_e3e5e4,
   },
+  dropdown_date: {
+    paddingBottom: 10, paddingTop: 10,
+    width: "100%",
+  },
+  dropdown_date_text: {
+    fontSize: 20, fontWeight: "500", color: Colors.primary_dark
+  },
+  dropdown_date_dropdown: {
+    width: 150,
+    maxHeight: 300,
+    marginTop: -5,
+    borderRadius: 10,
+    padding: 10,
+    overflow: "hidden",
+    shadowColor: '#3a3a3a',
+    shadowOffset: {
+      width: 1,
+      height: 3,
+    },
+    shadowOpacity: 0.8,
+    elevation: 15,
+    // background color must be set
+    backgroundColor: "white" // invisible color,
+  },
+  dropdown_date_row_text: {
+    marginHorizontal: 4,
+    marginVertical: 10,
+    fontSize: 16,
+    color: Colors.primary_dark,
+    textAlignVertical: 'center',
+  },
+  dropdown_date_separator: {
+    height: 0.5,
+    backgroundColor: Colors.color_e3e5e4,
+  },
   category_tag: {
     borderRadius: 30, backgroundColor: Colors.color_f6f6f6, paddingHorizontal: 5, marginRight: 5
   },
@@ -1606,5 +1641,8 @@ export default StyleSheet.create({
   },
   productbanner1_text_cover: {
     position: "absolute", bottom: 0, maxWidth: 120, height: 245 / 3, alignItems: "center", justifyContent: "center", paddingBottom: 0, alignSelf: "center"
+  },
+  moth_dropdown: {
+
   }
 });

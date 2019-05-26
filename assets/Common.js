@@ -110,6 +110,20 @@ export default {
     return ColorCode
   },
 
+
+  // 입력 : new Date()
+  // 출력 : 2019-03-15
+  convertDate(date) {
+    var yyyy = date.getFullYear().toString();
+    var mm = (date.getMonth()+1).toString();
+    var dd  = date.getDate().toString();
+  
+    var mmChars = mm.split('');
+    var ddChars = dd.split('');
+  
+    return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+  },
+
   // 입력 : p_time ( 2019-03-15 10:59:25 )
   // 출력 : Today, Yesterday, 2019-03-15
   getFormattedTime(p_time) {
@@ -837,6 +851,22 @@ export default {
         </View>
       </TouchableHighlight>
     );
+  },
+  _dropdown_date_renderRow(rowData, rowID, highlighted) {
+    // rowData : {num:"", txt:""}
+    return (
+      <TouchableHighlight underlayColor='cornflowerblue'>
+        <View style={[MyStyles.dropdown_date_row, { backgroundColor: 'white' }]}>
+          <Text style={[MyStyles.dropdown_date_row_text]}>
+            {rowData.txt}
+          </Text>
+        </View>
+      </TouchableHighlight>
+    );
+  },
+  
+  _dropdown_date_renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
+    return (<View style={MyStyles.dropdown_2_separator} />);
   },
 }
 

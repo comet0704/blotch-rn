@@ -1,6 +1,5 @@
 // common
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
 import { AsyncStorage } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
@@ -10,8 +9,11 @@ import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
 
+import ImageLoad from 'react-native-image-placeholder';
+import { Image } from "react-native-expo-image-cache";
+import {CacheManager} from "react-native-expo-image-cache";
 import Carousel from 'react-native-carousel';
-import { Image, Dimensions, Share, TouchableHighlight, Modal, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
+import { Dimensions, Share, TouchableHighlight, Modal, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import { LinearGradient } from 'expo';
 import StarRating from 'react-native-star-rating';
@@ -110,10 +112,16 @@ export default class ProductDetailScreen extends React.Component {
   BannerHeight = 760 / 3;
   BannerWidth = Dimensions.get('window').width;
   renderImages(image, index) {
+    const uri = Common.getImageUrl(image);
+    CacheManager.cache(uri, localURI => this.setState({ uri: localURI }));
+    const path = CacheManager.get(uri).getPath();
+    const preview = { uri: uri };
     return (
       <View key={index} style={[MyStyles.shadow_2, { borderRadius: 10, overflow: "hidden", marginHorizontal: 5 }]}>
         <View>
-          <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(image) }} />
+          {/* <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(image) }} /> */}
+          <Image
+           style={{ width: this.BannerWidth, height: this.BannerHeight }} {...{ preview, uri }} />
         </View>
       </View>
     );
@@ -336,7 +344,6 @@ export default class ProductDetailScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log("999999999" + JSON.stringify(responseJson.result_data));
         // this.setState({
         //   isLoading: false,
         // });

@@ -212,7 +212,6 @@ const MyPageStack = createStackNavigator({
   WeCanSearchIt: WeCanSearchItScreen,
   Questionnare: QuestionnareScreen,
   MyBeautyBox: MyBeautyBoxScreen,
-  Calendar: CalendarScreen,
   ContactUs: ContactUsScreen,
   Announcements: AnnouncementsScreen,
   Notification: NotificationScreen,
@@ -224,6 +223,7 @@ const MyPageStack = createStackNavigator({
   EditProfile: EditProfileScreen,
   ProductDetail: ProductDetailScreen,
   SearchBrandDetail: SearchBrandDetailScreen,
+  Calendar: CalendarScreen,
 },
   {
     headerMode: 'screen ',
