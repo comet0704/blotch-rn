@@ -526,7 +526,7 @@ export default class IngredientScreen extends React.Component {
 
 
             {/* Preferred Ingredients 부분 */}
-            <View style={[{ borderLeftColor: Colors.ingredient_preferred_dark }, MyStyles.ingredient_section]}>
+            <View style={[{ borderLeftColor: Colors.ingredient_preferred_dark, marginBottom: MyConstants.TABBAR_TOP_BORDER_HEIGHT }, MyStyles.ingredient_section]}>
               <TouchableOpacity activeOpacity={0.8} style={MyStyles.ingredient_section_header} onPress={() => {
                 this.setState({ section_preferred_show: !this.state.section_preferred_show })
               }}>
@@ -774,7 +774,7 @@ ingredients that can cause allergies.</MyAppText>
             </View>
           </View>
         </Modal>
-
+        <Image source={require("../../assets/images/ic_tabbar_border.png")} style={{ width: "100%", height: MyConstants.TABBAR_TOP_BORDER_HEIGHT, position: "absolute", bottom: 0 }} />
       </KeyboardAvoidingView >
     );
   }

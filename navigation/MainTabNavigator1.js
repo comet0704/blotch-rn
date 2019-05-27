@@ -51,7 +51,7 @@ import MyStyles from '../constants/MyStyles';
 import TutorialScreen from '../screens/Tutorial/TutorialScreen';
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,  
+  Home: HomeScreen,
   Tutorial: TutorialScreen,
   WeCanSearchIt: WeCanSearchItScreen,
   Article: ArticlesScreen,
@@ -280,8 +280,9 @@ export default createBottomTabNavigator({
     tabBarOptions: {
       activeTintColor: "#a695fe",
       inactiveTintColor: "#c3c3c3",
-      labelStyle: { marginBottom: 10, marginTop: -7, fontWeight: "bold" },
+      labelStyle: { marginBottom: 8, marginTop: 10, fontWeight: "bold" },
       // tabStyle: { backgroundColor: "blue", borderTopLeftRadius: 50 / 3, borderTopRightRadius: 50 / 3, },
-      style: [{ backgroundColor: "transparent", height: MyConstants.TABBAR_HEIGHT, borderTopColor: "#f2f2f2" }],
+      // style: [{ backgroundColor: "transparent", height: MyConstants.TABBAR_HEIGHT, borderTopColor: "transparent" }],
+      style: [{ backgroundColor: "transparent", height: MyConstants.TABBAR_HEIGHT, borderTopColor: "transparent" }],
     }
   });

@@ -398,7 +398,7 @@ export default class HomeScreen extends React.Component {
   render() {
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -416,7 +416,7 @@ export default class HomeScreen extends React.Component {
                 refreshing={this.state.refreshing}
                 onRefresh={this._onRefresh}
               />} >
-            <View style={{ backgroundColor: "#f8f8f8", marginTop: 25 }}>
+            <View style={{ backgroundColor: "#f8f8f8", marginTop: 25, paddingBottom: MyConstants.TABBAR_TOP_BORDER_HEIGHT }}>
               {/* Search bar */}
               <View style={[MyStyles.searchBoxCommon, MyStyles.container, MyStyles.bg_white, { marginTop: 0 }]}>
                 <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />
@@ -777,6 +777,7 @@ export default class HomeScreen extends React.Component {
             <LoginModal is_transparent={true} this={this} />
           </ScrollView>
         </KeyboardAvoidingView>
+        <Image source={require("../../assets/images/ic_tabbar_border.png")} style={{ width: "100%", height: MyConstants.TABBAR_TOP_BORDER_HEIGHT, position: "absolute", bottom: 0 }} />
       </View >
     );
   }

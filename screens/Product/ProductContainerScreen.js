@@ -79,7 +79,7 @@ export default class ProductContainerScreen extends React.Component {
             <FragmentRecommendProduct ref='recommendationTAB' navigation={this.props.navigation} ></FragmentRecommendProduct>
           </View>
         </ScrollableTabView>
-
+        <Image source={require("../../assets/images/ic_tabbar_border.png")} style={{ width: "100%", height: MyConstants.TABBAR_TOP_BORDER_HEIGHT, position: "absolute", bottom: 0 }} />
       </KeyboardAvoidingView>
     );
   }

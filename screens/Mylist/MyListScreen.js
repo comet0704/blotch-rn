@@ -417,7 +417,7 @@ export default class MyListScreen extends React.Component {
 
         <ScrollView ref='_scrollview' scrollEnabled={this.state.scroll_enabled} style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag">
 
-          <View style={{ justifyContent: "center" }}>
+          <View style={{ justifyContent: "center", paddingBottom: MyConstants.TABBAR_TOP_BORDER_HEIGHT }}>
 
             <SortableList
               onActivateRow={() => { this.setState({ scroll_enabled: false }) }}
@@ -554,6 +554,7 @@ export default class MyListScreen extends React.Component {
 
         </ScrollView>
 
+        <Image source={require("../../assets/images/ic_tabbar_border.png")} style={{ width: "100%", height: MyConstants.TABBAR_TOP_BORDER_HEIGHT, position: "absolute", bottom: 0 }} />
         <Modal
           animationType="slide"
           transparent={true}
@@ -653,7 +654,6 @@ export default class MyListScreen extends React.Component {
             </View>
           </TouchableWithoutFeedback>
         </Modal>
-
       </KeyboardAvoidingView>
     );
   }

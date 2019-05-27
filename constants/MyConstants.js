@@ -11,7 +11,8 @@ export default {
   // 앱내 상수들  
   //
   ITEMS_PER_PAGE: 30,
-  TABBAR_HEIGHT: 164 / 3,
+  TABBAR_HEIGHT: 100 / 3,
+  TABBAR_TOP_BORDER_HEIGHT: 96 / 3,
   SERVER_URL: "http://api.barocomms.com:8002",
   UPLOAD_SERVER_URL: "http://upload.barocomms.com:8002",
   // SERVER_URL: "http://chemi.rsad.kr",

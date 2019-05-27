@@ -82,7 +82,7 @@ export default class MyPageScreen extends React.Component {
     AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.settingButtonOffset, (err, result) => {
       if (result != null) {
         this.settingButtonOffset = JSON.parse(result);
-        this.settingBtnPos.bottom = Math.max(0, Math.min(this.ScreenHeight - MyConstants.TABBAR_HEIGHT - this.settingButtonOffset.y - MyStyles.ic_setting.height, this.ScreenHeight - MyStyles.ic_setting.height - MyConstants.TABBAR_HEIGHT))
+        this.settingBtnPos.bottom = Math.max(0, Math.min(this.ScreenHeight - (MyConstants.TABBAR_HEIGHT + MyConstants.TABBAR_TOP_BORDER_HEIGHT) - this.settingButtonOffset.y - MyStyles.ic_setting.height, this.ScreenHeight - MyStyles.ic_setting.height - (MyConstants.TABBAR_HEIGHT + MyConstants.TABBAR_TOP_BORDER_HEIGHT)))
         this.settingBtnPos.right = Math.max(0, Math.min(this.ScreenWidth - this.settingButtonOffset.x - MyStyles.ic_setting.width, this.ScreenWidth - MyStyles.ic_setting.width))
         this.setState({ refreshSettingBtn: !this.state.refreshSettingBtn })
 
@@ -222,7 +222,7 @@ export default class MyPageScreen extends React.Component {
                 onRefresh={this._onRefresh}
               />
             }>
-            <View style={{ flex: 1, backgroundColor: Colors.color_f8f8f8 }}>
+            <View style={{ flex: 1, backgroundColor: Colors.color_f8f8f8, paddingBottom: MyConstants.TABBAR_TOP_BORDER_HEIGHT }}>
               {/* 사진, 텍스트 */}
               <View style={[MyStyles.profile_back, MyStyles.padding_h_main, { justifyContent: "center" }]}>
                 <Image source={require('../../assets/images/ic_profile_back.png')} style={MyStyles.background_image} />
@@ -412,6 +412,7 @@ export default class MyPageScreen extends React.Component {
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
+        <Image source={require("../../assets/images/ic_tabbar_border.png")} style={{ width: "100%", height: MyConstants.TABBAR_TOP_BORDER_HEIGHT, position: "absolute", bottom: 0 }} />
 
         <MovableView
           ref={ref => this.move = ref}
@@ -665,10 +666,10 @@ export default class MyPageScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-        
+
         this.state.questionnaire_title = responseJson.result_data.questionnaire_detail.title
         console.log("222222222222:" + this.state.questionnaire_title)
-        this.setState({questionnaire_title: this.state.questionnaire_title})
+        this.setState({ questionnaire_title: this.state.questionnaire_title })
       })
       .catch((error) => {
         this.setState({
