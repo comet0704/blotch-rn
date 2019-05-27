@@ -155,7 +155,7 @@ export default class HomeScreen extends React.Component {
       this.registerForPushNotificationsAsync()
     }
 
-    this.requestHomeList()
+    this.requestHomeList(global.login_info.questionnaire_id);
     this.requestGetMyPosition();
     handleAndroidBackButton(this, exitAlert);
 
@@ -376,7 +376,7 @@ export default class HomeScreen extends React.Component {
 
   _onRefresh = () => {
     this.setState({ refreshing: true });
-    this.requestHomeList()
+    this.requestHomeList(global.login_info.questionnaire_id);
     this.setState({ refreshing: false });
   }
 
@@ -791,7 +791,7 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  requestHomeList() {
+  requestHomeList(p_questionnaire_id) {
     this.setState({
       isLoading: true,
     });
@@ -804,6 +804,7 @@ export default class HomeScreen extends React.Component {
 
       },
       body: JSON.stringify({
+        questionnaire_id: p_questionnaire_id,
       }),
     })
       .then((response) => response.json())
@@ -877,7 +878,7 @@ export default class HomeScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-        this.requestHomeList();
+        this.requestHomeList(global.login_info.questionnaire_id);
         global.refreshStatus.mylist = true
       })
       .catch((error) => {
@@ -914,7 +915,7 @@ export default class HomeScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-        this.requestHomeList();
+        this.requestHomeList(global.login_info.questionnaire_id);
         global.refreshStatus.mylist = true
       })
       .catch((error) => {
@@ -994,7 +995,7 @@ export default class HomeScreen extends React.Component {
         global.login_info.concern = p_concern
         global.login_info.needs = p_needs
         this.setState({ refreshOneLineInfo: !this.state.refreshOneLineInfo });
-        this.requestHomeList();
+        this.requestHomeList(global.login_info.questionnaire_id);
       })
       .catch((error) => {
         this.setState({

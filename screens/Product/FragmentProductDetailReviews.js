@@ -68,7 +68,7 @@ export class FragmentProductDetailReviews extends React.Component {
         }
       },
       comment_text: null,
-      selected_star: 3,
+      selected_star: 0,
     };
   }
 
@@ -164,11 +164,6 @@ export class FragmentProductDetailReviews extends React.Component {
                   starSize={30 / 3}
                   emptyStarColor={Colors.color_star_empty}
                   rating={item.grade}
-                  selectedStar={(rating) => {
-                    this.state.product_comment_list_result_data.user_comment.grade = rating
-                    this.state.selected_star = rating
-                    this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data, selectedStar: this.state.selected_star });
-                  }}
                   fullStarColor={Colors.color_star_full}
                 />
                 : null
