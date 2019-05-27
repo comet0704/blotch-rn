@@ -1,8 +1,9 @@
 {
   "expo": {
-    "androidStatusBar": {
-      "backgroundColor": "white"
-    },
+    // "androidStatusBar": {
+    //   "backgroundColor": "white",
+    //   "barStyle": "dark-content"
+    // },
     "name": "chemi",
     "slug": "blotch-hybrid",
     "privacy": "public",

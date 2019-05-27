@@ -14,7 +14,7 @@ export default {
   TABBAR_HEIGHT: 100 / 3,
   TABBAR_TOP_BORDER_HEIGHT: 96 / 3,
   TOPBAR_HEIGHT: 155 / 3,
-  STATUSBAR_HEIGHT: 0,
+  STATUSBAR_HEIGHT: 25,
   SERVER_URL: "http://api.barocomms.com:8002",
   UPLOAD_SERVER_URL: "http://upload.barocomms.com:8002",
   // SERVER_URL: "http://chemi.rsad.kr",
