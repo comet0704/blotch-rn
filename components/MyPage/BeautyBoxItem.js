@@ -109,22 +109,22 @@ export class BeautyBoxItem extends React.Component {
           {this.state.date_changed == false ? // 초기자료이면 item.open_date로 현시, open_date설정하였으면 this.state.item.open_date 현시, 원래 this.state.item.open_date로 했으면 좋겟으나 잘 안되는 문제가 있음.
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5 }}>
               <MyAppText style={{ color: Colors.color_949292, fontSize: 13, }}>Opened: </MyAppText>
-              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect, [MyConstants.NAVIGATION_PARAMS.selectedDate]: item.open_date })}>
+              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { paddingVertical: 2, flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect, [MyConstants.NAVIGATION_PARAMS.selectedDate]: item.open_date })}>
                 {item.open_date != null ?
                   <MyAppText style={{ paddingLeft: 5, paddingRight: 10 }}>{item.open_date.substring(0, 10)}</MyAppText>
                   :
                   <MyAppText style={{ paddingLeft: 5, paddingRight: 10 }}>-</MyAppText>
                 }
 
-                <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
+                <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar_small]} />
               </TouchableOpacity>
               <View style={{ flex: 1 }}></View>
               {item.open_date != null ?
-                <View style={{ justifyContent: "center", marginLeft: 10, paddingHorizontal: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
+                <View style={{ justifyContent: "center", marginLeft: 10, paddingHorizontal: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 60 / 3 }}>
                   <MyAppText style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>{Common.getRestUsePeriod(item.open_date.substring(0, 10), 180)}</MyAppText>
                 </View>
                 :
-                <View style={{ justifyContent: "center", marginLeft: 10, paddingHorizontal: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
+                <View style={{ justifyContent: "center", marginLeft: 10, paddingHorizontal: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 60 / 3 }}>
                   <MyAppText style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>{Common.getRestUsePeriod(0, 180)}</MyAppText>
                 </View>
               }
@@ -133,11 +133,11 @@ export class BeautyBoxItem extends React.Component {
             :
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5 }}>
               <MyAppText style={{ color: Colors.color_949292, fontSize: 13, }}>Opened: </MyAppText>
-              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect, [MyConstants.NAVIGATION_PARAMS.selectedDate]: item.open_date })}>
+              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { paddingVertical: 2, flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect, [MyConstants.NAVIGATION_PARAMS.selectedDate]: item.open_date })}>
                 <MyAppText style={{ paddingLeft: 5, paddingRight: 10 }}>{this.state.item.open_date}</MyAppText>
                 <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar_small]} />
               </TouchableOpacity>
-              <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
+              <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 60 / 3 }}>
                 <MyAppText style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>{Common.getRestUsePeriod(this.state.item.open_date, 180)}</MyAppText>
               </View>
             </View>

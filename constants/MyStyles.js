@@ -708,19 +708,7 @@ export default StyleSheet.create({
     width: 24 / 3,
     height: 52 / 3,
   },
-  ic_lotion: {
-    width: 39 / 3,
-    height: 52 / 3,
-  },
   ic_eye_cream: {
-    width: 18 / 3,
-    height: 52 / 3,
-  },
-  ic_cream: {
-    width: 50 / 3,
-    height: 52 / 3,
-  },
-  ic_toner: {
     width: 18 / 3,
     height: 52 / 3,
   },
@@ -1264,7 +1252,7 @@ export default StyleSheet.create({
     padding: 15,
   },
   ingredient_section_header: {
-    overflow: "hidden",
+    // overflow: "hidden",
     padding: 15,
     flex: 1, flexDirection: "row", alignItems: "center"
   },
@@ -1414,7 +1402,7 @@ export default StyleSheet.create({
     borderWidth: 1,
   },
   ic_toner: {
-    width: 19 / 3,
+    width: 18 / 3,
     height: 52 / 3,
   },
   ic_lotion: {
@@ -1426,7 +1414,7 @@ export default StyleSheet.create({
     height: 52 / 3,
   },
   ic_sun_block: {
-    width: 49 / 3,
+    width: 48 / 3,
     height: 52 / 3,
   },
   ic_after_care: {

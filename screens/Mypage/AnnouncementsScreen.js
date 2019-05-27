@@ -158,7 +158,7 @@ export default class AnnouncementsScreen extends React.Component {
               }
 
               {item.is_selected ?
-                <View style={[MyStyles.padding_main, MyStyles.margin_h_main, { backgroundColor: Colors.color_f8f8f8 }]}>
+                <View style={[MyStyles.padding_main, { backgroundColor: Colors.color_f8f8f8 }]}>
                   <MyAppText style={{ fontSize: 13, color: Colors.color_949191 }}>{item.content}</MyAppText>
                 </View> : null}
             </View>

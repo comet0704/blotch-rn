@@ -336,7 +336,7 @@ export default class QuestionnareScreen extends React.Component {
   render() {
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: Colors.color_f8f8f8 }}>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -1217,14 +1217,24 @@ export default class QuestionnareScreen extends React.Component {
                     }
                   </View>
 
-                  <TouchableOpacity activeOpacity={0.8} onPress={() => { this.checkCompleteStatus() }} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginTop: 30, marginBottom: 40, marginLeft: 15, marginRight: 15 }]}>
-                    <MyAppText style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</MyAppText>
-                  </TouchableOpacity>
+                  {this.state.section_basic_info || this.state.section_skin_type || this.state.section_product_reference || this.state.section_skin_routine ?
+                    <TouchableOpacity activeOpacity={0.8} onPress={() => { this.checkCompleteStatus() }} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, marginTop: 40, marginBottom: 40, marginLeft: 15, marginRight: 15 }]}>
+                      <MyAppText style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</MyAppText>
+                    </TouchableOpacity>
+                    : null}
                 </View>
                 : null}
 
             </View>
           </ScrollView>
+
+          {this.state.section_basic_info || this.state.section_skin_type || this.state.section_product_reference || this.state.section_skin_routine ?
+            null
+            :
+            <TouchableOpacity activeOpacity={0.8} onPress={() => { this.checkCompleteStatus() }} style={[{ backgroundColor: Colors.primary_purple, height: 135 / 3, borderRadius: 2, justifyContent: "center", flex: 1, position: "absolute", bottom: 0, left: 15, right: 15, marginBottom: 40 }]}>
+              <MyAppText style={{ textAlign: "center", color: "white", fontSize: 13 }}>Save</MyAppText>
+            </TouchableOpacity>}
+
           {/* 설문 편집/추가 모달 */}
           <Modal
             animationType="slide"
