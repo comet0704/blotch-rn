@@ -83,35 +83,12 @@ export default class App extends React.Component {
       } else if (this.state.isLogined == -1) {
         return (
           <View style={styles.container}>
-            {/* <StatusBar backgroundColor="white" barStyle="default" /> */}
             <AppNavigator />
           </View>
         );
       } else {
         return (
           <View style={styles.container}>
-
-            <StatusBar
-              backgroundColor="blue"
-              barStyle="light-content"
-            />
-            {/* <View style={styles.statusBar} /> */}
-            {/* <StatusBar style={[styles.statusBar]} backgroundColor="red" /> */}
-            {/* <StatusBar
-              backgroundColor="blue"
-              barStyle="light-content"
-            /> */}
-            {/* <View
-              style={{
-                backgroundColor: 'red',
-                height: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
-              }}>
-              <StatusBar
-                translucent={false}
-                backgroundColor="white"
-                barStyle="light-content"
-              />
-            </View> */}
             <AppNavigator1 />
           </View>
         );

@@ -225,13 +225,13 @@ export default class MyPageScreen extends React.Component {
             <View style={{ flex: 1, backgroundColor: Colors.color_f8f8f8, paddingBottom: MyConstants.TABBAR_TOP_BORDER_HEIGHT }}>
               {/* 사진, 텍스트 */}
               <View style={[MyStyles.profile_back, MyStyles.padding_h_main, { justifyContent: "center" }]}>
-                <Image source={require('../../assets/images/ic_profile_back.png')} style={MyStyles.background_image} />
                 {
                   global.login_info.profile_image != null ?
-                    <Image source={{ uri: Common.getImageUrl(global.login_info.profile_image) }} opacity={0.2} style={MyStyles.background_image} />
+                    <Image source={{ uri: Common.getImageUrl(global.login_info.profile_image) }} style={[MyStyles.background_image]} />
                     :
                     null
                 }
+                <Image source={require('../../assets/images/ic_profile_back.png')} style={MyStyles.background_image} />
 
                 <TouchableOpacity style={{ position: "absolute", padding: 15, top: 5, right: 0 }} onPress={() => {
                   this.props.navigation.navigate("EditProfile", { [MyConstants.NAVIGATION_PARAMS.onProfileEdited]: this.onProfileEdited })
