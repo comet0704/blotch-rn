@@ -1561,6 +1561,10 @@ export default StyleSheet.create({
     width: 49 / 3,
     height: 49 / 3,
   },
+  ic_weather_sync1: {
+    width: 36 / 3,
+    height: 37 / 3,
+  },
   ic_weather_type1: {
     width: 49 / 3,
     height: 49 / 3,

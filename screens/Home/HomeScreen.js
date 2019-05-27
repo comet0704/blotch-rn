@@ -463,7 +463,16 @@ export default class HomeScreen extends React.Component {
                     {this.state.weatherInfo.icon.length > 0 ?
                       <View style={{ alignSelf: "center", marginLeft: 10, justifyContent: "center" }}>
                         <Image source={{ uri: this.state.weatherInfo.icon }} style={{ width: 50, height: 50, alignSelf: "center" }} />
-                        <MyAppText style={{ fontSize: 13, color: "white", alignSelf: "center", marginTop: -10 }}>{this.state.weatherInfo.city + "." + parseFloat(this.state.weatherInfo.temp - 273.15).toFixed(0).toString() + "˚C"}</MyAppText>
+                        <View style={{ flexDirection: "row", justifyContent: "center", marginTop: -5, alignItems: "center" }}>
+                          <MyAppText style={{ fontSize: 13, color: "white", alignSelf: "center" }}>{this.state.weatherInfo.city + "." + parseFloat(this.state.weatherInfo.temp - 273.15).toFixed(0).toString() + "˚C"}</MyAppText>
+                          <TouchableOpacity style={{ marginLeft: 5 }} onPress={() => {
+                            this.state.weatherInfo.icon = ""
+                            this.setState({ weatherInfo: this.state.weatherInfo })
+                            this.requestGetMyPosition();
+                          }}>
+                            <Image source={(require('../../assets/images/ic_weather_sync1.png'))} style={[MyStyles.ic_weather_sync1]} />
+                          </TouchableOpacity>
+                        </View>
                       </View>
                       :
                       <View style={{ alignSelf: "center", marginLeft: 10, width: 50, justifyContent: "center" }}>
