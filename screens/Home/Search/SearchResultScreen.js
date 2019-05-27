@@ -328,7 +328,7 @@ export default class SearchResultScreen extends React.Component {
 
                     <View style={{ flexDirection: "row" }}>
                       <TouchableHighlight
-                        style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                        style={[MyStyles.dlg_btn_primary_cover]} onPress={() => {
                           this.submitReport()
                         }}>
                         <MyAppText style={MyStyles.btn_primary}>Submit</MyAppText>

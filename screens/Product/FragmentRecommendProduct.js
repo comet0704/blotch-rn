@@ -568,7 +568,7 @@ export class FragmentRecommendProduct extends React.Component {
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <TouchableHighlight
-                        style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                        style={[MyStyles.dlg_btn_primary_cover]} onPress={() => {
                           this.setState({ filterModalVisible: false })
                           this.getRecommendList(0)
                         }}>

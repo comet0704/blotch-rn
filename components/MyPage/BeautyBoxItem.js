@@ -135,7 +135,7 @@ export class BeautyBoxItem extends React.Component {
               <MyAppText style={{ color: Colors.color_949292, fontSize: 13, }}>Opened: </MyAppText>
               <TouchableOpacity activeOpacity={0.8} style={[MyStyles.border_bottom_e5e5e5, { flexDirection: "row", alignItems: "center" }]} onPress={() => _this.props.navigation.navigate("Calendar", { [MyConstants.NAVIGATION_PARAMS.onDaySelect]: this.onDaySelect, [MyConstants.NAVIGATION_PARAMS.selectedDate]: item.open_date })}>
                 <MyAppText style={{ paddingLeft: 5, paddingRight: 10 }}>{this.state.item.open_date}</MyAppText>
-                <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar]} />
+                <Image source={require("../../assets/images/ic_calendar.png")} style={[MyStyles.ic_calendar_small]} />
               </TouchableOpacity>
               <View style={{ flex: 1, justifyContent: "center", marginLeft: 10, backgroundColor: Colors.primary_purple, borderRadius: 3, height: 55 / 3 }}>
                 <MyAppText style={{ color: "white", fontSize: 12, fontWeight: "500", textAlign: "center" }}>{Common.getRestUsePeriod(this.state.item.open_date, 180)}</MyAppText>

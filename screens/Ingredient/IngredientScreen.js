@@ -97,7 +97,7 @@ export default class IngredientScreen extends React.Component {
   renderMyBabies() {
     return (
       <View
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        style={{ flex: 1, justifyContent: "center" }}
       >
         <ScrollView
           horizontal
@@ -105,7 +105,7 @@ export default class IngredientScreen extends React.Component {
           showsHorizontalScrollIndicator={false}>
 
           {this.state.questionnaire_list.map(item => (
-            <View key={item.id} style={{ marginRight: 10, flex: 1, alignItems: "center", justifyContent: "center" }}>
+            <View key={item.id} style={{ marginRight: 10, flex: 1, justifyContent: "center" }}>
               <TouchableOpacity activeOpacity={0.8} onPress={() => { this.onBabySelected(item.title) }} style={[item.is_selected ? MyStyles.baby_container_selected : MyStyles.baby_container]}>
                 {item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
                 {item.is_selected ? <MyAppText style={MyStyles.baby_text_selected} numberOfLines={1}>{item.title}</MyAppText> : <MyAppText style={MyStyles.baby_text} numberOfLines={1}>{item.title}</MyAppText>}
@@ -412,11 +412,9 @@ export default class IngredientScreen extends React.Component {
             {this.state.questionnaire_list.length > 0 ?
               // {/* 베이비 나열 부분 */}
               <View style={{
-                alignItems: 'center',
-                justifyContent: 'center',
                 backgroundColor: Colors.color_f8f8f8,
                 padding: 15,
-                height: 400 / 3
+                height: 375 / 3
               }}>
                 {
                   this.renderMyBabies()
@@ -756,12 +754,12 @@ ingredients that can cause allergies.</MyAppText>
                     this.setState({ showLoginModal: false });
                     this.props.navigation.navigate('Login')
                   }}
-                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    style={[MyStyles.dlg_btn_primary_cover]}>
                     <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
-                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    style={[MyStyles.dlg_btn_primary_white_cover]}
                     onPress={() => {
                       this.setState({ showLoginModal: false });
                       this.props.navigation.navigate('Home')

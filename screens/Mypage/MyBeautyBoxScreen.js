@@ -315,7 +315,7 @@ export default class MyBeautyBoxScreen extends React.Component {
                   </View>
                   <View style={{ flexDirection: "row" }}>
                     <TouchableOpacity
-                      style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                      style={[MyStyles.dlg_btn_primary_cover]} onPress={() => {
                         if (this.state.post_grade == null || this.state.post_grade == 0) {
                           this.refs.modal_toast.showBottom("Please select star");
                           return
@@ -358,12 +358,12 @@ export default class MyBeautyBoxScreen extends React.Component {
                     this.setState({ showDeleteModal: false });
                     this.requestDeleteBeautyBox(this.state.delete_item_id);
                   }}
-                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    style={[MyStyles.dlg_btn_primary_cover]}>
                     <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
-                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    style={[MyStyles.dlg_btn_primary_white_cover]}
                     onPress={() => {
                       this.setState({ showDeleteModal: false });
                     }}>

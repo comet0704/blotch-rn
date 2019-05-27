@@ -308,12 +308,12 @@ export default class ArticleDetailScreen extends React.Component {
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight
-                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => { this.requestReportComment(this.state.selected_comment_id) }}>
+                    style={[MyStyles.dlg_btn_primary_cover]} onPress={() => { this.requestReportComment(this.state.selected_comment_id) }}>
                     <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
-                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    style={[MyStyles.dlg_btn_primary_white_cover]}
                     onPress={() => {
                       this.setState({ reportModalVisible: false });
                     }}>

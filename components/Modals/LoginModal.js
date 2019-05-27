@@ -37,12 +37,12 @@ export class LoginModal extends React.Component {
                                     _this.setState({ showLoginModal: false });
                                     _this.props.navigation.navigate('Login')
                                 }}
-                                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                                    style={[MyStyles.dlg_btn_primary_cover]}>
                                     <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                                 </TouchableHighlight>
 
                                 <TouchableHighlight
-                                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                                    style={[MyStyles.dlg_btn_primary_white_cover]}
                                     onPress={() => {
                                         _this.setState({ showLoginModal: false });
                                     }}>

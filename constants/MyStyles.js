@@ -378,6 +378,13 @@ export default StyleSheet.create({
     justifyContent: "center",
   },
 
+  dlg_btn_primary_cover: {
+    flex: 1,
+    height: 45,
+    backgroundColor: "#a695fe",
+    justifyContent: "center",
+  },
+
   btn_primary_cover1: {
     borderRadius: 5,
     height: 45,
@@ -390,6 +397,15 @@ export default StyleSheet.create({
     fontSize: 13,
     justifyContent: "center",
     textAlign: "center",
+  },
+
+  dlg_btn_primary_white_cover: {
+    flex: 1,
+    borderBottomRightRadius: 20,
+    borderWidth: 1,
+    height: 45,
+    borderColor: "#a695fe",
+    justifyContent: "center",
   },
 
   btn_primary_white_cover: {
@@ -647,20 +663,20 @@ export default StyleSheet.create({
     height: 52 / 3,
   },
   ic_baby: {
-    width: 38 / 3,
+    width: 92 / 3,
     height: 84 / 3,
   },
   ic_baby_small: {
-    width: 24 / 3,
-    height: 53 / 3,
+    width: 56 / 3,
+    height: 52 / 3,
   },
   ic_men: {
-    width: 69 / 3,
+    width: 66 / 3,
     height: 84 / 3,
   },
   ic_men_small: {
-    width: 44 / 3,
-    height: 54 / 3,
+    width: 41 / 3,
+    height: 52 / 3,
   },
   ic_all: {
     width: 40 / 3,
@@ -1342,8 +1358,12 @@ export default StyleSheet.create({
     height: 110 / 3,
   },
   ic_calendar: {
-    width: 35 / 3,
-    height: 33 / 3,
+    width: 58 / 3,
+    height: 55 / 3,
+  },
+  ic_calendar_small: {
+    width: 44 / 3,
+    height: 41 / 3,
   },
   ic_search_small: {
     width: 40 / 3,

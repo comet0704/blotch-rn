@@ -199,12 +199,12 @@ export default class SignupScreen extends React.Component {
                     this.props.navigation.pop(1);
                     this.props.navigation.navigate("Questionnare", {[MyConstants.NAVIGATION_PARAMS.is_from_sign_up] : true})
                   }}
-                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    style={[MyStyles.dlg_btn_primary_cover]}>
                     <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
-                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    style={[MyStyles.dlg_btn_primary_white_cover]}
                     onPress={() => {
                       this.setState({ askInputQueModal: false });
                       // 로그인 되었으면 앱을 리로딩

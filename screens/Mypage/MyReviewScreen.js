@@ -40,7 +40,7 @@ export default class MyReviewScreen extends React.Component {
     return (
       <View key={item.id} style={[{ marginLeft: 15, height: 140, flexDirection: "row", alignItems: "center" }, MyStyles.border_bottom_e5e5e5]}>
         <TouchableOpacity activeOpacity={0.8} style={{ width: 258 / 3 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.product_id }) }}>
-          <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[{ width: 258 / 3, height: 222 / 3 }]} />
+          <ImageLoad source={{ uri: Common.getImageUrl(item.image_list) }} style={[{ width: 258 / 3, height: 222 / 3, borderRadius: 5, overflow: "hidden" }]} />
           <MyAppText style={[MyStyles.productBrand, { textAlign: "left", marginTop: 3 }]} numberOfLines={1}>{item.brand_title}</MyAppText>
           <MyAppText style={[MyStyles.productName, { textAlign: "left", marginBottom: 0 }]} numberOfLines={1}>{item.title}</MyAppText>
         </TouchableOpacity>

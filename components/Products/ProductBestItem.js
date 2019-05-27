@@ -44,11 +44,11 @@ export class ProductBestItem extends React.Component {
             </TouchableOpacity>
           }
           {index < 3 ?
-            <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
+            <View style={[{ position: "absolute", top: 0, left: 5, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
               <Image source={require('../../assets/images/ic_best_ranking.png')} style={[MyStyles.background_image]} />
               <MyAppText style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "white" }}>{index + 1}</MyAppText>
             </View>
-            : <View style={[{ position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
+            : <View style={[{ position: "absolute", top: 0, left: 5, alignItems: "center", justifyContent: "center" }, MyStyles.ic_best_ranking]}>
               <MyAppText style={{ position: "absolute", fontSize: 15, fontWeight: "500", textAlign: "center", color: "black" }}>{index + 1}</MyAppText>
             </View>}
         </View>

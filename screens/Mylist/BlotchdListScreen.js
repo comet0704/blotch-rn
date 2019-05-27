@@ -210,12 +210,12 @@ export default class BlotchdListScreen extends React.Component {
                       this.setState({ showDeleteModal: false });
                       this.requestDeleteMatch(this.state.delete_item_id);
                     }}
-                      style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                      style={[MyStyles.dlg_btn_primary_cover]}>
                       <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                     </TouchableHighlight>
 
                     <TouchableHighlight
-                      style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                      style={[MyStyles.dlg_btn_primary_white_cover]}
                       onPress={() => {
                         this.setState({ showDeleteModal: false });
                       }}>

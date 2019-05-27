@@ -634,12 +634,12 @@ export class FragmentProductDetailReviews extends React.Component {
                     this.state.review_photos.splice(this.selected_img_idx, 1)
                     this.setState({ review_photos: this.state.review_photos })
                   }}
-                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    style={[MyStyles.dlg_btn_primary_cover]}>
                     <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
-                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    style={[MyStyles.dlg_btn_primary_white_cover]}
                     onPress={() => {
                       this.setState({ showImageRemoveModal: false });
                     }}>
@@ -675,12 +675,12 @@ export class FragmentProductDetailReviews extends React.Component {
 
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight
-                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => { this.requestReportComment(this.state.selected_comment_id) }}>
+                    style={[MyStyles.dlg_btn_primary_cover]} onPress={() => { this.requestReportComment(this.state.selected_comment_id) }}>
                     <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
-                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    style={[MyStyles.dlg_btn_primary_white_cover]}
                     onPress={() => {
                       this.setState({ reportModalVisible: false });
                     }}>

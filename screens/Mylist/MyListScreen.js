@@ -579,12 +579,12 @@ export default class MyListScreen extends React.Component {
                     this.setState({ showLoginModal: false });
                     this.props.navigation.navigate('Login')
                   }}
-                    style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                    style={[MyStyles.dlg_btn_primary_cover]}>
                     <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                   </TouchableHighlight>
 
                   <TouchableHighlight
-                    style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                    style={[MyStyles.dlg_btn_primary_white_cover]}
                     onPress={() => {
                       this.setState({ showLoginModal: false });
                       this.props.navigation.navigate('Home')
@@ -639,7 +639,7 @@ export default class MyListScreen extends React.Component {
 
                   <View style={{ flexDirection: "row" }}>
                     <TouchableHighlight
-                      style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                      style={[MyStyles.dlg_btn_primary_cover]} onPress={() => {
                         this.addMyList()
                       }}>
                       {this.state.edit_album_id > 0 ?

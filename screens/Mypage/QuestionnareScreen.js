@@ -147,7 +147,7 @@ export default class QuestionnareScreen extends React.Component {
   renderMyBabies() {
     return (
       <View
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        style={{ flex: 1, justifyContent: "center" }}
       >
         <ScrollView
           horizontal
@@ -362,8 +362,6 @@ export default class QuestionnareScreen extends React.Component {
             <View style={{ backgroundColor: Colors.color_f8f8f8 }}>
               {/* 카테고리 나열 부분 */}
               <View style={{
-                alignItems: 'center',
-                justifyContent: 'center',
                 backgroundColor: Colors.color_f8f8f8,
                 padding: 15,
                 height: 330 / 3
@@ -1278,7 +1276,7 @@ export default class QuestionnareScreen extends React.Component {
                     {this.state.edit_baby_id > 0 ?
                       <View style={{ flexDirection: "row" }}>
                         <TouchableHighlight
-                          style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                          style={[MyStyles.dlg_btn_primary_cover]} onPress={() => {
                             this.state.questionnaire_detail.id = this.state.questionnaire_list[this.state.beforeBabyIdx].id
                             this.state.questionnaire_detail.title = this.state.request_list_name
                             this.setState(this.state.questionnaire_detail)
@@ -1288,7 +1286,7 @@ export default class QuestionnareScreen extends React.Component {
                           <MyAppText style={MyStyles.btn_primary}>Change</MyAppText>
                         </TouchableHighlight>
                         <TouchableHighlight
-                          style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]} onPress={() => {
+                          style={[MyStyles.dlg_btn_primary_white_cover]} onPress={() => {
                             this.requestDeleteQuestionnaireItem(this.state.questionnaire_list[this.state.beforeBabyIdx].id)
                             this.setState({ addBabyModalVisible: false });
                           }}>
@@ -1298,7 +1296,7 @@ export default class QuestionnareScreen extends React.Component {
                       :
                       <View style={{ flexDirection: "row" }}>
                         <TouchableHighlight
-                          style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                          style={[MyStyles.dlg_btn_primary_cover]} onPress={() => {
                             this.addQuestionnaire()
                           }}>
                           <MyAppText style={MyStyles.btn_primary}>Create</MyAppText>
@@ -1349,7 +1347,7 @@ export default class QuestionnareScreen extends React.Component {
                     <TouchableHighlight onPress={() => {
                       this.setState({ countrySelectModalVisible: false });
                     }}
-                      style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                      style={[MyStyles.dlg_btn_primary_cover]}>
                       <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
                     </TouchableHighlight>
                   </View>
@@ -1435,7 +1433,7 @@ export default class QuestionnareScreen extends React.Component {
                         </View>
                         <View style={{ flexDirection: "row" }}>
 
-                          <TouchableHighlight style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]} onPress={() => {
+                          <TouchableHighlight style={[MyStyles.dlg_btn_primary_cover]} onPress={() => {
                             if (this.state.searchBrandForFavorite) { // brand_favorite_list 에 추가할때
                               // 이미 추가된 브랜드인가 체크
                               const check_index = this.state.questionnaire_detail.brand_favourite_list.findIndex(w_item => w_item.id == this.state.selected_brand_item.id)
@@ -1501,12 +1499,12 @@ export default class QuestionnareScreen extends React.Component {
                       this.setState({ noCompletedQuestionnaireModalVisible: false });
                       this.updateQuestionnaireItem()
                     }}
-                      style={[MyStyles.btn_primary_cover, { borderRadius: 0 }]}>
+                      style={[MyStyles.dlg_btn_primary_cover]}>
                       <MyAppText style={MyStyles.btn_primary}>OK</MyAppText>
                     </TouchableHighlight>
 
                     <TouchableHighlight
-                      style={[MyStyles.btn_primary_white_cover, { borderRadius: 0 }]}
+                      style={[MyStyles.dlg_btn_primary_white_cover]}
                       onPress={() => {
                         this.setState({ noCompletedQuestionnaireModalVisible: false });
                       }}>
