@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import Colors from './Colors';
+import MyConstants from './MyConstants';
 import { randomUI04 } from 'uuid-js';
 
 export default StyleSheet.create({
@@ -155,10 +156,10 @@ export default StyleSheet.create({
   we_can_search_it_cover: {
     height: 202 / 3,
     paddingLeft: 23, paddingRight: 23, flexDirection: "row", borderRadius: 35,
-    paddingBottom: 23 / 3,
+    paddingBottom: 10,
     justifyContent: "center",
+    marginTop: 10,
     alignItems: "center",
-    backgroundColor: "white",
   },
   background_image: {
     left: 0,
@@ -1492,32 +1493,26 @@ export default StyleSheet.create({
   backButton: {
     width: 11,
     height: 18,
-    marginTop: 22,
   },
   shareBtn: {
     width: 46 / 3,
     height: 53 / 3,
-    marginTop: 22,
   },
   ic_edit_pwd: {
     width: 196 / 3,
     height: 37 / 3,
-    marginTop: 22,
   },
   flashBtn: {
     width: 38 / 3,
     height: 54 / 3,
-    marginTop: 20,
   },
   ic_topbar_beautybox: {
     width: 45 / 3,
     height: 53 / 3,
-    marginTop: 20,
   },
   ic_edit: {
     width: 44 / 3,
     height: 65 / 3,
-    marginTop: 20,
   },
   ic_setting: {
     width: 155 / 3,

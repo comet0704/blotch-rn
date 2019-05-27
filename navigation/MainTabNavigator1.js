@@ -281,8 +281,6 @@ export default createBottomTabNavigator({
       activeTintColor: "#a695fe",
       inactiveTintColor: "#c3c3c3",
       labelStyle: { marginBottom: 8, marginTop: 10, fontWeight: "bold" },
-      // tabStyle: { backgroundColor: "blue", borderTopLeftRadius: 50 / 3, borderTopRightRadius: 50 / 3, },
-      // style: [{ backgroundColor: "transparent", height: MyConstants.TABBAR_HEIGHT, borderTopColor: "transparent" }],
       style: [{ backgroundColor: "transparent", height: MyConstants.TABBAR_HEIGHT, borderTopColor: "transparent" }],
     }
   });

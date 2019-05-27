@@ -416,7 +416,7 @@ export default class HomeScreen extends React.Component {
                 refreshing={this.state.refreshing}
                 onRefresh={this._onRefresh}
               />} >
-            <View style={{ backgroundColor: "#f8f8f8", marginTop: 25, paddingBottom: MyConstants.TABBAR_TOP_BORDER_HEIGHT }}>
+            <View style={{ backgroundColor: "#f8f8f8", marginTop: MyConstants.STATUSBAR_HEIGHT, paddingBottom: MyConstants.TABBAR_TOP_BORDER_HEIGHT }}>
               {/* Search bar */}
               <View style={[MyStyles.searchBoxCommon, MyStyles.container, MyStyles.bg_white, { marginTop: 0 }]}>
                 <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />

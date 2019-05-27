@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
-import { Modal, TouchableHighlight, TouchableWithoutFeedback, Keyboard, AsyncStorage, Button, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modal, TouchableHighlight, StatusBar, TouchableWithoutFeedback, Keyboard, AsyncStorage, Button, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import { TopbarWithWhiteBack } from '../../components/Topbars/TopbarWithWhiteBack';
@@ -146,6 +146,10 @@ export default class LoginScreen extends React.Component {
     const { loginPressed, email, password } = this.state;
     return (
       <View style={{ flex: 1 }}>
+        <StatusBar
+          backgroundColor="transparent"
+          barStyle="dark-content"
+        />
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -436,7 +440,7 @@ export default class LoginScreen extends React.Component {
           global.setting = responseJson.result_data.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
-          
+
           // 추가정보입력 팝업 현시
           this.setState({ askInputQueModal: true });
         }

@@ -83,6 +83,10 @@ export default class App extends React.Component {
       } else if (this.state.isLogined == -1) {
         return (
           <View style={styles.container}>
+            <StatusBar
+              backgroundColor="white"
+              barStyle="dark-content"
+            />
             <AppNavigator />
           </View>
         );
@@ -90,6 +94,10 @@ export default class App extends React.Component {
         return (
           <View style={styles.container}>
             <AppNavigator1 />
+            <StatusBar
+              backgroundColor="white"
+              barStyle="dark-content"
+            />
           </View>
         );
       }
