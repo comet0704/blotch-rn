@@ -5,13 +5,10 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { MyAppText } from '../components/Texts/MyAppText';
-import MyStyles from '../constants/MyStyles';
-// import ModalDropdown from './ModalDropdown';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
+import { MyPagination } from '../components/MyPagination';
 
 export default class MyCarousel extends Component {
-
   constructor(props) {
     super(props)
 
@@ -20,22 +17,39 @@ export default class MyCarousel extends Component {
       activeSlide: 3,
     }
   }
-
+  onTestPress = () => {
+    alert("this is not called");
+  }
   _renderItem({ item, index }) {
     return (
-      <TouchableOpacity style={{height:50, backgroundColor:"red"}} onPress={() => alert("OK")}>
+      <TouchableOpacity style={{ height: 50, backgroundColor: "red", borderRadius: 30, }} onPress={() => this.onTestPress()}>
         <Text>{item}</Text>
       </TouchableOpacity>
     )
   }
-
+  render() {
+    return (
+      <View style={{ width: 300 }}>
+        <Carousel
+          data={this.state.entries}
+          renderItem={this._renderItem}
+          sliderWidth={300}
+          itemWidth={280}
+          autoplay={true}
+          loop={true}
+          onSnapToItem={(index) => this.setState({ activeSlide: index })}
+        />
+        <MyPagination list={this.state.entries} activeDotIndex={this.state.activeSlide} />
+      </View>
+    );
+  }
   get pagination() {
     const { entries, activeSlide } = this.state;
     return (
       <Pagination
         dotsLength={entries.length}
         activeDotIndex={activeSlide}
-        containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
+        containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 1)', marginTop: -30 }}
         dotStyle={{
           width: 10,
           height: 10,
@@ -49,23 +63,6 @@ export default class MyCarousel extends Component {
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}
       />
-    );
-  }
-
-  render() {
-    return (
-      <View>
-        <Carousel
-          data={this.state.entries}
-          renderItem={this._renderItem}
-          sliderWidth={200}
-          itemWidth={200}
-          autoplay={true}
-          loop={true}
-          onSnapToItem={(index) => this.setState({ activeSlide: index })}
-        />
-        {this.pagination}
-      </View>
     );
   }
 }
