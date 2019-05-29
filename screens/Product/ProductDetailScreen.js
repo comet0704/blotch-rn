@@ -13,7 +13,7 @@ import { MyAppText } from '../../components/Texts/MyAppText';
 import ImageLoad from 'react-native-image-placeholder';
 // import { Image } from "react-native-expo-image-cache";
 import { CacheManager } from "react-native-expo-image-cache";
-import Carousel from 'react-native-carousel';
+import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
 import { Dimensions, Share, TouchableHighlight, Modal, Image, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import { LinearGradient } from 'expo';
@@ -38,7 +38,7 @@ export default class ProductDetailScreen extends React.Component {
         detail: {
           "id": 1,
           "title": this.item_info ? this.item_info.title : "",
-          "image_list": this.item_info ? this.item_info.image_list : "",
+          "image_list": this.item_info ? this.item_info.image_list : [],
           "visit_count": this.item_info ? this.item_info.visit_count : "",
           "like_count": this.item_info ? this.item_info.like_count : "",
           "comment_count": this.item_info ? this.item_info.comment_count : "",
@@ -111,22 +111,19 @@ export default class ProductDetailScreen extends React.Component {
   };
 
   BannerHeight = 760 / 3;
-  BannerWidth = Dimensions.get('window').width;
-  renderImages(image, index) {
-    const uri = Common.getImageUrl(image);
-    // CacheManager.cache(uri, localURI => this.setState({ uri: localURI }));
-    const path = CacheManager.get(uri).getPath();
-    const preview = { uri: uri };
+  ScreenWidth = Dimensions.get('window').width;
+  renderImages = ({ item, index }) => {
     return (
-      <View key={index} style={[MyStyles.shadow_2, { borderRadius: 10, overflow: "hidden", marginHorizontal: 5 }]}>
+      <View key={index} style={[MyStyles.shadow_2, { width: "100%", height: "100%", borderRadius: 10, overflow: "hidden", marginHorizontal: 5 }]}>
         <View>
-          <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(image) }} />
+          <ImageLoad style={{ width: this.ScreenWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item) }} />
           {/* <Image
-            style={{ width: this.BannerWidth, height: this.BannerHeight }} {...{ preview, uri }} /> */}
+            style={{ width: this.ScreenWidth, height: this.BannerHeight }} {...{ preview, uri }} /> */}
         </View>
       </View>
-    );
-  }
+    )
+  };
+
   onAddBeautyBox = () => {
     this.requestAddBeautyBox(item_id)
   }
@@ -148,15 +145,28 @@ export default class ProductDetailScreen extends React.Component {
           <View style={[{ flex: 1 }]}>
 
             {/* 이미지 부분 */}
-            <View style={[{ overflow: "hidden", marginTop: 5, justifyContent: "center", alignItems: "center", alignSelf: "center", width: this.BannerWidth, height: this.BannerHeight }]}>
+            <View style={[{ overflow: "hidden", marginTop: 5, justifyContent: "center", alignItems: "center", alignSelf: "center", width: this.ScreenWidth, height: this.BannerHeight }]}>
               {this.state.product_detail_result_data.detail.image_list.length > 0 ?
                 <View
                   style={{
                     height: this.BannerHeight,
-                    width: this.BannerWidth - 20
+                    width: this.ScreenWidth - 20
                   }}
                 >
                   <Carousel
+                    data={this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER)}
+                    sliderWidth={this.ScreenWidth - 20}
+                    itemWidth={this.ScreenWidth - 20}
+                    renderItem={this.renderImages}
+                    autoplay={true}
+                    loop={true}
+                    autoplayInterval={2000}
+                  // onSnapToItem={(index) => {
+                  //   this.state.curImageIdx = index + 1;
+                  //   this.setState({ curImageIdx: this.state.curImageIdx })
+                  // }}
+                  />
+                  {/* <Carousel
                     delay={3000}
                     indicatorColor="#fe76ab80"
                     inactiveIndicatorColor="#ffffff3c"
@@ -169,7 +179,7 @@ export default class ProductDetailScreen extends React.Component {
                     hideIndicators={true}
                   >
                     {this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).map((image, index) => this.renderImages(image, index))}
-                  </Carousel>
+                  </Carousel> */}
                   <View style={{ position: "absolute", bottom: 10, justifyContent: "center", width: "100%", flexDirection: "row", alignItems: "center" }}>
                     <MyAppText style={{ backgroundColor: Colors.color_636364, paddingLeft: 10, paddingRight: 10, borderRadius: 10, color: "white", textAlign: "center" }}>{(this.state.curImageIdx) + "/" + this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).length}</MyAppText>
                   </View>

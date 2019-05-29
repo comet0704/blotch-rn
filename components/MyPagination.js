@@ -9,7 +9,7 @@ export class MyPagination extends React.Component {
                 dotsLength={this.props.list.length}
                 activeDotIndex={activeDotIndex}
                 dotContainerStyle={{ height: 20 }}
-                containerStyle={{ backgroundColor: 'black', marginTop: -30, paddingVertical: 0 }}
+                containerStyle={{ backgroundColor: 'transparent', marginTop: 0, paddingVertical: 0 }}
                 dotStyle={{
                     width: 40 / 3,
                     height: 40 / 3,

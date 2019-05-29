@@ -1,6 +1,5 @@
 import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
-import Carousel from 'react-native-banner-carousel';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import Colors from '../../constants/Colors';

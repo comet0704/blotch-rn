@@ -11,7 +11,8 @@ import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
 import { MyAppText } from '../../components/Texts/MyAppText';
 
-import Carousel from 'react-native-banner-carousel';
+import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
+import { MyPagination } from '../../components/MyPagination';
 import { Image, Dimensions, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, TouchableHighlight, Linking } from 'react-native';
 import { LinearGradient } from 'expo';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
@@ -22,6 +23,7 @@ export default class ArticlesScreen extends React.Component {
     super(props);
     this.state = {
       loading_end: false,
+      activeDotIndex: 0,
       isLoading: false,
       result_data: {
         list: [],
@@ -31,7 +33,7 @@ export default class ArticlesScreen extends React.Component {
   }
 
   beforeArticleTime = "";
-  BannerWidth = Dimensions.get('window').width;
+  ScreenWidth = Dimensions.get('window').width;
 
   componentDidMount() {
     this.setState({ loading_end: false })
@@ -107,7 +109,7 @@ export default class ArticlesScreen extends React.Component {
       </TouchableOpacity>
     );
   }
-  renderTodayArticleBanner(item, index) {
+  renderTodayArticleBanner = ({item, index}) => {
     return (
       <View key={index} style={{ width: "100%", height: 550 / 3, flex: 1 }}>
         <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
@@ -159,17 +161,30 @@ export default class ArticlesScreen extends React.Component {
           <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, justifyContent: "center" }}>
             <View style={{ flex: 1, justifyContent: "center" }}>
               <Carousel
+                data={this.state.today_list}
+                sliderWidth={this.ScreenWidth}
+                itemWidth={this.ScreenWidth}
+                renderItem={this.renderTodayArticleBanner}
+                autoplay={true}
+                loop={true}
+                autoplayInterval={2000}
+                onSnapToItem={(index) => this.setState({ activeDotIndex: index })}
+                ref={(carousel) => { this.carouselIndicator = carousel }}
+              />
+              <MyPagination list={this.state.today_list} activeDotIndex={this.state.activeDotIndex} />
+
+              {/* <Carousel
                 pageIndicatorStyle={MyStyles.pageIndicatorStyle}
                 activePageIndicatorStyle={MyStyles.activePageIndicatorStyle}
                 autoplay={true}
                 autoplayTimeout={3000}
                 loop
                 index={0}
-                pageSize={this.BannerWidth}
+                pageSize={this.ScreenWidth}
                 style={{ alignSelf: "center", flex: 1 }}
               >
                 {this.state.today_list.map((item, index) => this.renderTodayArticleBanner(item, index))}
-              </Carousel>
+              </Carousel> */}
             </View>
           </View>
           <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 20 }} ></LinearGradient>

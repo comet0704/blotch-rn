@@ -9,7 +9,7 @@ import { StatusBar } from 'react-native';
 
 import { MyAppText } from '../../components/Texts/MyAppText';
 import MyStyles from '../../constants/MyStyles';
-import Carousel from 'react-native-carousel';
+import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
 import Colors from '../../constants/Colors';
 import MyConstants from '../../constants/MyConstants';
 // import ModalDropdown from './ModalDropdown';
@@ -19,6 +19,7 @@ export default class TutorialScreen extends Component {
 
     this.state = {
       isLastPage: false,
+      activeDotIndex : 0,
     };
 
     this.tutorialList = [
@@ -40,7 +41,7 @@ export default class TutorialScreen extends Component {
     StatusBar.setHidden(false)
   }
 
-  renderTutorialImages(item, index) {
+  renderTutorialImages = ({item, index}) => {
     return (
       <View key={index} style={{ width: "100%", height: "100%", }}>
         <Image source={item} style={{ width: "100%", height: "100%", resizeMode: "stretch" }} />
@@ -48,10 +49,23 @@ export default class TutorialScreen extends Component {
     );
   }
 
+  ScreenWidth = Dimensions.get('window').width;
   render() {
     return (
       <View style={{ width: "100%", height: "100%" }}>
         <Carousel
+          data={this.tutorialList}
+          sliderWidth={this.ScreenWidth}
+          itemWidth={this.ScreenWidth}
+          renderItem={this.renderTutorialImages}
+          autoplay={false}
+          loop={false}
+          autoplayInterval={2000}
+          onSnapToItem={(index) => this.setState({ activeDotIndex: index })}
+          ref={(carousel) => { this.carouselIndicator = carousel }}
+        />
+        <MyPagination list={this.tutorialList} activeDotIndex={this.state.activeDotIndex} />
+        {/* <Carousel
           animate={true} // Enable carousel autoplay
           delay={50000} // animate를 false로 줘도 _animateNextPage 가 호출되면 true로 바뀌므로 delay값을 길게 주자. 
           indicatorColor={Colors.primary_purple}
@@ -66,7 +80,7 @@ export default class TutorialScreen extends Component {
           ref={(carousel) => { this.carouselIndicator = carousel }}
         >
           {this.tutorialList.map((item, index) => this.renderTutorialImages(item, index))}
-        </Carousel>
+        </Carousel> */}
 
         <View style={{ position: "absolute", flexDirection: "row", bottom: 112 / 3, alignItems: "center" }}>
           <MyAppText style={{ fontSize: 14, color: "white", marginLeft: 15 }} onPress={() => {
@@ -81,7 +95,7 @@ export default class TutorialScreen extends Component {
             }}>FINISH</MyAppText>
             :
             <MyAppText style={{ fontSize: 14, color: "white", marginRight: 15 }} onPress={() => {
-              this.carouselIndicator._animateNextPage();
+              this.carouselIndicator.snapToNext();
             }}>NEXT</MyAppText>
           }
         </View>

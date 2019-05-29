@@ -750,6 +750,7 @@ export default class HomeScreen extends React.Component {
                           data={this.state.result_data.latest_article_list}
                           sliderWidth={this.ScreenWidth - 30}
                           itemWidth={this.ScreenWidth - 30}
+                          itemHeight={500/3}
                           renderItem={this.renderTodayArticleBanner}
                           autoplay={true}
                           autoplayDelay={3000}

@@ -11,7 +11,6 @@ import Net from '../../../Net/Net';
 import Colors from '../../../constants/Colors';
 import { MyAppText } from '../../../components/Texts/MyAppText';
 
-import Carousel from 'react-native-banner-carousel';
 import {
   StyleSheet,
   KeyboardAvoidingView,

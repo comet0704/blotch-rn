@@ -11,7 +11,8 @@ import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
 import { MyAppText } from '../../components/Texts/MyAppText';
 
-import Carousel from 'react-native-carousel';
+import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
+import { MyPagination } from '../../components/MyPagination';
 import {
   KeyboardAvoidingView,
   View,
@@ -40,6 +41,7 @@ export class FragmentBestProduct extends React.Component {
   }
   state = {
     categoryItems: Common.getCategoryItems(),
+    activeDotIndex: 0,
     product_list_result_data: {
       best_list: []
     },
@@ -51,10 +53,9 @@ export class FragmentBestProduct extends React.Component {
   };
 
   BannerHeight = 560 / 3;
-  BannerWidth = Dimensions.get('window').width;
   ScreenWidth = Dimensions.get('window').width;
 
-  renderBanner(item, index) {
+  renderBanner = ({item, index}) => {
     return (
       <View key={index}>
         <TouchableHighlight onPressIn={() => {
@@ -65,7 +66,7 @@ export class FragmentBestProduct extends React.Component {
           }
         }}>
           <View>
-            <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
+            <ImageLoad style={{ width: this.ScreenWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
               <MyAppText style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{Common.removeHtmlTagsFromText(item.title)}</MyAppText>
               <MyAppText style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</MyAppText>
@@ -174,9 +175,20 @@ export class FragmentBestProduct extends React.Component {
               {this.state.banner_list2_result_data.list.length > 0 ?
                 <View style={{
                   height: this.BannerHeight,
-                  width: this.BannerWidth
+                  width: this.ScreenWidth
                 }}>
                   <Carousel
+                    data={this.state.banner_list2_result_data.list}
+                    sliderWidth={this.ScreenWidth}
+                    itemWidth={this.ScreenWidth}
+                    renderItem={this.renderBanner}
+                    autoplay={true}
+                    loop={true}
+                    autoplayInterval={2000}
+                    onSnapToItem={(index) => this.setState({ activeDotIndex: index })}
+                  />
+                  <MyPagination list={this.state.banner_list2_result_data.list} activeDotIndex={this.state.activeDotIndex} />
+                  {/* <Carousel
                     delay={3000}
                     indicatorColor="#fe76ab80"
                     inactiveIndicatorColor="#ffffff3c"
@@ -184,7 +196,7 @@ export class FragmentBestProduct extends React.Component {
                     index={0}
                   >
                     {this.state.banner_list2_result_data.list.map((item, index) => this.renderBanner(item, index))}
-                  </Carousel>
+                  </Carousel> */}
                 </View>
                 :
                 null}

@@ -13,7 +13,6 @@ import Colors from '../../constants/Colors';
 import { MyAppText } from '../../components/Texts/MyAppText';
 import { TopbarWithWhiteBack } from '../../components/Topbars/TopbarWithWhiteBack';
 
-import Carousel from 'react-native-banner-carousel';
 import {
   Image,
   ScrollView,

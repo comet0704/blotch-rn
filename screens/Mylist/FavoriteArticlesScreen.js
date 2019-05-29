@@ -11,7 +11,6 @@ import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
 import { MyAppText } from '../../components/Texts/MyAppText';
 
-import Carousel from 'react-native-banner-carousel';
 import { Image, Dimensions, TextInput, KeyboardAvoidingView, Modal, ScrollView, Text, View, TouchableOpacity, TouchableHighlight, Linking } from 'react-native';
 import { LinearGradient } from 'expo';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
