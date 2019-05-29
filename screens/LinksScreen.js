@@ -16,11 +16,12 @@ export default class MyCarousel extends Component {
       entries: [1, 2, 3, 4, 5],
       activeSlide: 3,
     }
+    this.testData = "this testData displayes 'undefined'"
   }
   onTestPress = () => {
     alert("this is not called");
   }
-  _renderItem({ item, index }) {
+  _renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity style={{ height: 50, backgroundColor: "red", borderRadius: 30, }} onPress={() => this.onTestPress()}>
         <Text>{item}</Text>

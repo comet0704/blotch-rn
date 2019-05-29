@@ -11,7 +11,7 @@ import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
 import { MyAppText } from '../../components/Texts/MyAppText';
 
-import Carousel from 'react-native-carousel';
+import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
 import {
   Image,
   ScrollView,
@@ -35,12 +35,15 @@ import { NavigationEvents } from 'react-navigation';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 import { exitAlert } from '../../components/androidBackButton/exitAlert';
 import { LoginModal } from '../../components/Modals/LoginModal';
+import { MyPagination } from '../../components/MyPagination';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.currentRouteName = 'Main';
     this.state = {
+      activeBannerIndex: 0,
+      activeArticleIndex: 0,
       refreshing: false,
       showLoginModal: false,
       refreshOneLineInfo: false,
@@ -175,22 +178,26 @@ export default class HomeScreen extends React.Component {
   };
 
   BannerHeight = 265;
-  BannerWidth = Dimensions.get('window').width;
+  ScreenWidth = Dimensions.get('window').width;
   newCarouselIndicator = null;
   bestCarouselIndicator = null;
 
-  renderBanner(item, index) {
+  onTestClick = () => {
+    alert("A");
+  }
+  renderBanner = ({ item, index }) => {
     return (
-      <View key={index}>
+      <View key={index} style={{ height: this.BannerHeight }}>
         <TouchableOpacity activeOpacity={0.8} onPress={() => {
           if (item.is_direct_link > 0) {
             Linking.openURL(Common.getLinkUrl(item.url))
           } else {
+            this.parent.onTestClick()
             this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item })
           }
         }}>
           <View>
-            <ImageLoad style={{ width: this.BannerWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
+            <ImageLoad style={{ width: this.ScreenWidth, height: "100%" }} source={{ uri: Common.getImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
               <MyAppText style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{item.title}</MyAppText>
               <MyAppText style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</MyAppText>
@@ -201,7 +208,7 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  renderBanner2(item, index) {
+  renderBanner2 = ({ item, index }) => {
     return (
       <View key={index}>
         <TouchableOpacity activeOpacity={0.8} onPress={() => {
@@ -211,7 +218,7 @@ export default class HomeScreen extends React.Component {
             this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item })
           }
         }}>
-          <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
+          <View style={{ width: this.ScreenWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
             <MyAppText style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</MyAppText>
           </View>
@@ -219,7 +226,7 @@ export default class HomeScreen extends React.Component {
       </View>
     );
   }
-  renderBanner3(item, index) {
+  renderBanner3 = ({ item, index }) => {
     return (
       <View key={index}>
         <TouchableOpacity activeOpacity={0.8} onPress={() => {
@@ -229,7 +236,7 @@ export default class HomeScreen extends React.Component {
             this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item })
           }
         }}>
-          <View style={{ width: this.BannerWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
+          <View style={{ width: this.ScreenWidth / 2, height: "100%", justifyContent: "center", alignItems: "center" }}>
             <ImageLoad source={{ uri: Common.getImageUrl(item.image) }} style={MyStyles.background_image} />
             <MyAppText style={{ fontSize: 20, color: "white", fontWeight: "bold", lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</MyAppText>
           </View>
@@ -238,7 +245,7 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  renderNewProductBanner(item, index) {
+  renderNewProductBanner = ({ item, index }) => {
     return (
       <View key={index} style={[{ width: "100%", flex: 1 }, MyStyles.product_banneritem1]}>
         <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
@@ -265,7 +272,7 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  renderBestProductBanner(item, index) {
+  renderBestProductBanner = ({ item, index }) => {
     return (
       <View key={index} style={[{ width: "100%", flex: 1 }, MyStyles.product_banneritem1]}>
         <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
@@ -293,7 +300,7 @@ export default class HomeScreen extends React.Component {
   }
 
 
-  renderTodayArticleBanner(item, index) {
+  renderTodayArticleBanner = ({ item, index }) => {
     return (
       <View key={index} style={{ width: "100%", height: 166, flex: 1 }}>
         <TouchableOpacity activeOpacity={0.8} style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item }) }}>
@@ -571,13 +578,16 @@ export default class HomeScreen extends React.Component {
                     height: this.BannerHeight,
                   }}>
                     <Carousel
-                      delay={3000}
-                      indicatorColor="#fe76ab80"
-                      inactiveIndicatorColor="#ffffff3c"
-                      indicatorOffset={-15} // Indicator relative position from top or bottom
-                    >
-                      {this.state.result_data.banner_list.map((item, index) => this.renderBanner(item, index))}
-                    </Carousel>
+                      data={this.state.result_data.banner_list}
+                      sliderWidth={this.ScreenWidth}
+                      itemWidth={this.ScreenWidth}
+                      renderItem={this.renderBanner}
+                      autoplay={true}
+                      loop={true}
+                      autoplayInterval={2000}
+                      onSnapToItem={(index) => this.setState({ activeBannerIndex: index })}
+                    />
+                    <MyPagination list={this.state.result_data.banner_list} activeDotIndex={this.state.activeBannerIndex} />
                   </View>
                   :
                   null
@@ -603,11 +613,14 @@ export default class HomeScreen extends React.Component {
                         height: 600 / 3,
                       }}>
                         <Carousel
-                          delay={2500}
-                          hideIndicators={true}
-                        >
-                          {this.state.result_data.banner_list2.map((item, index) => this.renderBanner2(item, index))}
-                        </Carousel>
+                          data={this.state.result_data.banner_list2}
+                          sliderWidth={this.ScreenWidth / 2}
+                          itemWidth={this.ScreenWidth / 2}
+                          renderItem={this.renderBanner2}
+                          autoplay={true}
+                          loop={true}
+                          autoplayInterval={2500}
+                        />
                       </View>
                       :
                       null
@@ -618,28 +631,27 @@ export default class HomeScreen extends React.Component {
                     {this.state.result_data.new_product_list.length > 0 ?
                       <View style={{
                         height: 600 / 3,
-                        width: this.BannerWidth / 2,
+                        width: this.ScreenWidth / 2,
                         overflow: "hidden"
                       }}>
                         <Carousel
-                          hideIndicators={true}
-                          animate={false}
-                          delay={50000}
-                          width={this.BannerWidth / 2}
+                          data={this.state.result_data.new_product_list}
+                          sliderWidth={this.ScreenWidth / 2}
+                          itemWidth={this.ScreenWidth / 2}
+                          renderItem={this.renderNewProductBanner}
+                          autoplay={false}
+                          loop={true}
                           ref={(carousel) => { this.newCarouselIndicator = carousel }}
-                        >
-                          {this.state.result_data.new_product_list.map((item, index) => this.renderNewProductBanner(item, index))}
-                        </Carousel>
+                        />
                       </View>
                       :
                       null}
                     <View style={MyStyles.carousel_selector}>
-                      {/*  _animatePrevPage : 자체로 만들어준 함수, 원래서고에는 없음. 다시 다운받았을때 새롭게 만들어주어야함. */}
-                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.newCarouselIndicator._animatePrevPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.newCarouselIndicator.snapToPrev(); }}>
                         <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                       <View style={{ flex: 1 }}></View>
-                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.newCarouselIndicator._animateNextPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.newCarouselIndicator.snapToNext(); }}>
                         <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                     </View>
@@ -664,28 +676,27 @@ export default class HomeScreen extends React.Component {
                       <View style={{
                         height: 600 / 3,
                         overflow: "hidden",
-                        width: this.BannerWidth / 2
+                        width: this.ScreenWidth / 2
                       }}>
                         <Carousel
-                          hideIndicators={true}
-                          animate={false}
-                          delay={50000}
-                          width={this.BannerWidth / 2}
+                          data={this.state.result_data.best_product_list}
+                          sliderWidth={this.ScreenWidth / 2}
+                          itemWidth={this.ScreenWidth / 2}
+                          renderItem={this.renderBestProductBanner}
+                          autoplay={false}
+                          loop={true}
                           ref={(carousel) => { this.bestCarouselIndicator = carousel }}
-                        >
-                          {this.state.result_data.best_product_list.map((item, index) => this.renderBestProductBanner(item, index))}
-                        </Carousel>
+                        />
                       </View>
                       :
                       null
                     }
                     <View style={MyStyles.carousel_selector}>
-                      {/*  _animatePrevPage : 자체로 만들어준 함수, 원래서고에는 없음. 다시 다운받았을때 새롭게 만들어주어야함. */}
-                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.bestCarouselIndicator._animatePrevPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.bestCarouselIndicator.snapToPrev(); }}>
                         <Image source={require('../../assets/images/ic_prev_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                       <View style={{ flex: 1 }}></View>
-                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.bestCarouselIndicator._animateNextPage(); }}>
+                      <TouchableOpacity activeOpacity={0.8} style={{ padding: 15 }} onPress={() => { this.bestCarouselIndicator.snapToNext(); }}>
                         <Image source={require('../../assets/images/ic_next_grey.png')} style={[{ width: 30, height: 42, alignSelf: "center" }, MyStyles.banner_control]} />
                       </TouchableOpacity>
                     </View>
@@ -695,16 +706,17 @@ export default class HomeScreen extends React.Component {
                     {this.state.result_data.banner_list3.length > 0 ?
                       <View style={{
                         height: 600 / 3,
-                        width: this.BannerWidth / 2
+                        width: this.ScreenWidth / 2
                       }}>
                         <Carousel
-                          hideIndicators={true}
-                          animate={true}
-                          delay={2500}
-                          width={this.BannerWidth / 2}
-                        >
-                          {this.state.result_data.banner_list3.map((item, index) => this.renderBanner3(item, index))}
-                        </Carousel>
+                          data={this.state.result_data.banner_list3}
+                          sliderWidth={this.ScreenWidth / 2}
+                          itemWidth={this.ScreenWidth / 2}
+                          renderItem={this.renderBanner3}
+                          autoplay={true}
+                          loop={true}
+                          autoplayInterval={2500}
+                        />
                       </View>
                       :
                       null
@@ -732,16 +744,20 @@ export default class HomeScreen extends React.Component {
                       <View style={{
                         height: 500 / 3,
                         overflow: "hidden",
-                        width: this.BannerWidth - 30
+                        width: this.ScreenWidth - 30
                       }}>
                         <Carousel
-                          delay={3000}
-                          indicatorColor="#fe76ab80"
-                          inactiveIndicatorColor="#ffffff3c"
-                          indicatorOffset={-15} // Indicator relative position from top or bottom
-                        >
-                          {this.state.result_data.latest_article_list.map((item, index) => this.renderTodayArticleBanner(item, index))}
-                        </Carousel>
+                          data={this.state.result_data.latest_article_list}
+                          sliderWidth={this.ScreenWidth - 30}
+                          itemWidth={this.ScreenWidth - 30}
+                          renderItem={this.renderTodayArticleBanner}
+                          autoplay={true}
+                          autoplayDelay={3000}
+                          loop={true}
+                          ref={(carousel) => { this.bestCarouselIndicator = carousel }}
+                          onSnapToItem={(index) => this.setState({ activeArticleIndex: index })}
+                        />
+                        <MyPagination list={this.state.result_data.latest_article_list} activeDotIndex={this.state.activeArticleIndex} />
                       </View>
                       :
                       null
