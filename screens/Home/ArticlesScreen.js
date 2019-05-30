@@ -161,6 +161,7 @@ export default class ArticlesScreen extends React.Component {
           <View style={{ flexDirection: "row", backgroundColor: "#f9f9f9", flex: 1, justifyContent: "center" }}>
             <View style={{ flex: 1, justifyContent: "center" }}>
               <Carousel
+                inactiveSlideScale={1}
                 data={this.state.today_list}
                 sliderWidth={this.ScreenWidth}
                 itemWidth={this.ScreenWidth}

@@ -576,6 +576,7 @@ export default class HomeScreen extends React.Component {
                     height: this.BannerHeight,
                   }}>
                     <Carousel
+                      inactiveSlideScale={1}
                       data={this.state.result_data.banner_list}
                       sliderWidth={this.ScreenWidth}
                       itemWidth={this.ScreenWidth}
@@ -611,6 +612,7 @@ export default class HomeScreen extends React.Component {
                         height: 600 / 3,
                       }}>
                         <Carousel
+                          inactiveSlideScale={1}
                           data={this.state.result_data.banner_list2}
                           sliderWidth={this.ScreenWidth / 2}
                           itemWidth={this.ScreenWidth / 2}
@@ -633,6 +635,7 @@ export default class HomeScreen extends React.Component {
                         overflow: "hidden"
                       }}>
                         <Carousel
+                          inactiveSlideScale={1}
                           data={this.state.result_data.new_product_list}
                           sliderWidth={this.ScreenWidth / 2}
                           itemWidth={this.ScreenWidth / 2}
@@ -677,6 +680,7 @@ export default class HomeScreen extends React.Component {
                         width: this.ScreenWidth / 2
                       }}>
                         <Carousel
+                          inactiveSlideScale={1}
                           data={this.state.result_data.best_product_list}
                           sliderWidth={this.ScreenWidth / 2}
                           itemWidth={this.ScreenWidth / 2}
@@ -707,6 +711,7 @@ export default class HomeScreen extends React.Component {
                         width: this.ScreenWidth / 2
                       }}>
                         <Carousel
+                          inactiveSlideScale={1}
                           data={this.state.result_data.banner_list3}
                           sliderWidth={this.ScreenWidth / 2}
                           itemWidth={this.ScreenWidth / 2}
@@ -745,10 +750,11 @@ export default class HomeScreen extends React.Component {
                         width: this.ScreenWidth - 30
                       }}>
                         <Carousel
+                          inactiveSlideScale={1}
                           data={this.state.result_data.latest_article_list}
                           sliderWidth={this.ScreenWidth - 30}
                           itemWidth={this.ScreenWidth - 30}
-                          itemHeight={500/3}
+                          itemHeight={500 / 3}
                           renderItem={this.renderTodayArticleBanner}
                           autoplay={true}
                           autoplayDelay={3000}
@@ -824,6 +830,7 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log("111111111" + responseJson.result_data.recommend_product_list)
         this.setState({
           isLoading: false,
           result_data: responseJson.result_data

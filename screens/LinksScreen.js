@@ -32,6 +32,7 @@ export default class MyCarousel extends Component {
     return (
       <View style={{ width: 300 }}>
         <Carousel
+          inactiveSlideScale={1}
           data={this.state.entries}
           renderItem={this._renderItem}
           sliderWidth={300}

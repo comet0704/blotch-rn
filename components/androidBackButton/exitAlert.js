@@ -12,7 +12,6 @@ const exitAlert = (_this) => {
             },
             {
                 text: 'OK', onPress: () => {
-                    _this.props.navigation.pop(-1)
                     BackHandler.exitApp()
                     return true
                 }

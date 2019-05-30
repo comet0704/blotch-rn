@@ -55,7 +55,7 @@ export class FragmentBestProduct extends React.Component {
   BannerHeight = 560 / 3;
   ScreenWidth = Dimensions.get('window').width;
 
-  renderBanner = ({item, index}) => {
+  renderBanner = ({ item, index }) => {
     return (
       <View key={index}>
         <TouchableHighlight onPressIn={() => {
@@ -178,6 +178,7 @@ export class FragmentBestProduct extends React.Component {
                   width: this.ScreenWidth
                 }}>
                   <Carousel
+                    inactiveSlideScale={1}
                     data={this.state.banner_list2_result_data.list}
                     sliderWidth={this.ScreenWidth}
                     itemWidth={this.ScreenWidth}

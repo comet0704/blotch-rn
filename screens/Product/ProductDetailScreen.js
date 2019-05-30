@@ -146,7 +146,7 @@ export default class ProductDetailScreen extends React.Component {
 
             {/* 이미지 부분 */}
             <View style={[{ overflow: "hidden", marginTop: 5, justifyContent: "center", alignItems: "center", alignSelf: "center", width: this.ScreenWidth, height: this.BannerHeight }]}>
-              {this.state.product_detail_result_data.detail.image_list.length > 0 ?
+              {this.state.product_detail_result_data.detail.image_list != null && this.state.product_detail_result_data.detail.image_list.length > 0 ?
                 <View
                   style={{
                     height: this.BannerHeight,
