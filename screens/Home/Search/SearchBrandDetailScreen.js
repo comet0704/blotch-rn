@@ -316,7 +316,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                         <View style={{ position: "absolute", bottom: -85 / 2 }}>
                           <View style={{ width: 85, height: 85 }}>
                             <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, borderRadius: 50, }]}>
-                              <View style={[MyStyles.shadow_5, { borderRadius: 50 }]}>
+                              <View style={[MyStyles.shadow_2, { borderRadius: 50 }]}>
                                 { // 이미지가 없을 경우 브랜드 명을 가운데 현시해주자
                                   this.state.brand_detail_result_data.detail.image == null || this.state.brand_detail_result_data.detail.image.length <= 0
                                     ?

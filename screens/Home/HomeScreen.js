@@ -99,7 +99,6 @@ export default class HomeScreen extends React.Component {
     // Get the token that uniquely identifies this device
     let token = await Notifications.getExpoPushTokenAsync();
 
-    console.log("token : " + token)
     // POST the token to your backend server from where you can retrieve it to send push notifications.
 
     return fetch(Net.user.updateFcmToken, {
@@ -116,7 +115,6 @@ export default class HomeScreen extends React.Component {
   }
 
   _handleNotification = (p_notification) => {
-    console.log(p_notification);
     // p_notification 의 구조
 
     // Object {
@@ -949,7 +947,6 @@ export default class HomeScreen extends React.Component {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         //현재 위치 가져옴 position = 현재위치, JSON 형태
-        console.log(position)
         this._getWeather(position.coords.latitude, position.coords.longitude)
       },
       (error) => {
@@ -965,7 +962,6 @@ export default class HomeScreen extends React.Component {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${MyConstants.WEATHER_MAP_API_KET}`)
       .then(response => response.json()) // 응답값을 json으로 변환
       .then(json => {
-        console.log(json)
         this.state.weatherInfo.main = json.weather[0].main
         this.state.weatherInfo.temp = json.main.temp // 켈빈으로 내려옴
         this.state.weatherInfo.icon = "http://openweathermap.org/img/w/" + json.weather[0].icon + ".png"
@@ -978,7 +974,6 @@ export default class HomeScreen extends React.Component {
   }
 
   requestUpdateQuestionnaireItem(p_questionnaire_id, p_skin_type, p_concern, p_needs) {
-    console.log(p_questionnaire_id)
     this.setState({
       isLoading: true,
     });

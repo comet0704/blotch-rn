@@ -114,35 +114,13 @@ export default StyleSheet.create({
     width: 25,
     resizeMode: "contain",
   },
-  shadow_5: {
-    shadowColor: '#3a3a3a',
-    shadowOffset: {
-      width: 1,
-      height: 3,
-    },
-    shadowOpacity: 0.8,
-    elevation: 15,
-    // background color must be set
-    backgroundColor: "white" // invisible color,
-  },
   shadow_2: {
     shadowColor: '#3a3a3a',
     shadowOffset: {
       width: 1,
-      height: -20,
+      height: 1,
     },
-    shadowOpacity: 0,
-    elevation: 1,
-    // background color must be set
-    backgroundColor: "white" // invisible color,
-  },
-  shadow_1: {
-    shadowColor: '#3a3a3a',
-    shadowOffset: {
-      width: 1,
-      height: 3,
-    },
-    shadowOpacity: 0.8,
+    shadowOpacity: 0.1,
     elevation: 1,
     // background color must be set
     backgroundColor: "white" // invisible color,
@@ -484,7 +462,7 @@ export default StyleSheet.create({
     borderWidth: 2,
     width: 78,
     height: 78,
-    borderRadius: 100,
+    borderRadius: 78 / 2,
     alignSelf: "center",
     justifyContent: "center",
   },
@@ -496,7 +474,7 @@ export default StyleSheet.create({
     borderWidth: 2,
     width: 315 / 3,
     height: 315 / 3,
-    borderRadius: 100,
+    borderRadius: 315 / 6,
     alignSelf: "center",
     justifyContent: "center",
     backgroundColor: "white"
@@ -508,7 +486,7 @@ export default StyleSheet.create({
     borderWidth: 2,
     width: 70 / 3,
     height: 70 / 3,
-    borderRadius: 100,
+    borderRadius: 70 / 6,
     position: "absolute",
     top: -2,
     right: -2,
@@ -1238,12 +1216,12 @@ export default StyleSheet.create({
     margin: 15, borderLeftWidth: 3,
     borderRadius: 3,
     backgroundColor: Colors.color_white,
-    shadowColor: 'black',
+    shadowColor: '#3a3a3a',
     shadowOffset: {
-      width: 1,
-      height: 3,
+      width: 0.5,
+      height: 1,
     },
-    shadowOpacity: 1,
+    shadowOpacity: 0.1,
     elevation: 1,
     // background color must be set
     backgroundColor: "white" // invisible color,
@@ -1254,6 +1232,7 @@ export default StyleSheet.create({
   },
   ingredient_section_header: {
     // overflow: "hidden",
+    backgroundColor: "white",
     padding: 15,
     flex: 1, flexDirection: "row", alignItems: "center"
   },
@@ -1269,12 +1248,12 @@ export default StyleSheet.create({
     borderColor: Colors.primary_purple,
     borderRadius: 5,
     backgroundColor: Colors.color_white,
-    shadowColor: 'black',
+    shadowColor: '#3a3a3a',
     shadowOffset: {
-      width: 1,
-      height: 3,
+      width: 0.5,
+      height: 1,
     },
-    shadowOpacity: 1,
+    shadowOpacity: 0.1,
     elevation: 1,
     // background color must be set
     backgroundColor: "white" // invisible color,
@@ -1284,12 +1263,12 @@ export default StyleSheet.create({
     borderColor: Colors.primary_purple,
     borderRadius: 5,
     backgroundColor: Colors.color_white,
-    shadowColor: 'black',
+    shadowColor: '#3a3a3a',
     shadowOffset: {
-      width: 1,
-      height: 3,
+      width: 0.5,
+      height: 1,
     },
-    shadowOpacity: 1,
+    shadowOpacity: 0.1,
     elevation: 1,
     // background color must be set
     backgroundColor: "white" // invisible color,
@@ -1536,13 +1515,13 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
-    shadowColor: '#f2f2f2',
+    shadowColor: '#3a3a3a',
     shadowOffset: {
-      width: 1,
-      height: 3,
+      width: 0.5,
+      height: 1,
     },
-    shadowOpacity: 0.8,
-    elevation: 2,
+    shadowOpacity: 0.1,
+    elevation: 1,
     // background color must be set
     backgroundColor: "white" // invisible color, 
   },
@@ -1611,10 +1590,10 @@ export default StyleSheet.create({
     overflow: "hidden",
     shadowColor: '#3a3a3a',
     shadowOffset: {
-      width: 1,
-      height: 3,
+      width: 0.5,
+      height: 1,
     },
-    shadowOpacity: 0.8,
+    shadowOpacity: 0.1,
     elevation: 15,
     // background color must be set
     backgroundColor: "white" // invisible color,
@@ -1646,11 +1625,11 @@ export default StyleSheet.create({
     overflow: "hidden",
     shadowColor: '#3a3a3a',
     shadowOffset: {
-      width: 1,
-      height: 3,
+      width: 0.5,
+      height: 1,
     },
-    shadowOpacity: 0.8,
-    elevation: 15,
+    shadowOpacity: 0.1,
+    elevation: 1,
     // background color must be set
     backgroundColor: "white" // invisible color,
   },

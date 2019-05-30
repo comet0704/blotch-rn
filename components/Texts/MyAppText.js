@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-export class MyAppText extends React.Component {
+export class MyAppText extends React.PureComponent {
   render() {
     this.isMedium = false
     this.style = null // this.props.style 에 MyStyles.text_20 이라든가 MyStyles.* 이 들어오면 element를 지울수 없어서 this.style로 변환하여 조작

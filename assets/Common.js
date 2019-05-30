@@ -22,7 +22,7 @@ export default {
     if (image_list == null) {
       return null;
     }
-    return MyConstants.UPLOAD_SERVER_URL + "/" + image_list.split(this.IMAGE_SPLITTER)[0]
+    return MyConstants.UPLOAD_SERVER_URL + "/" + image_list.split(this.IMAGE_SPLITTER)[0] + "_thumb.jpg"
   },
 
   getLinkUrl(p_linkUrl) {

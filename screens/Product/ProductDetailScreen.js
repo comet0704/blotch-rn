@@ -38,7 +38,7 @@ export default class ProductDetailScreen extends React.Component {
         detail: {
           "id": 1,
           "title": this.item_info ? this.item_info.title : "",
-          "image_list": this.item_info ? this.item_info.image_list : [],
+          "image_list": this.item_info ? this.item_info.image_list : "", // 반점으로 구분하여 배열로 사용
           "visit_count": this.item_info ? this.item_info.visit_count : "",
           "like_count": this.item_info ? this.item_info.like_count : "",
           "comment_count": this.item_info ? this.item_info.comment_count : "",
@@ -114,9 +114,9 @@ export default class ProductDetailScreen extends React.Component {
   ScreenWidth = Dimensions.get('window').width;
   renderImages = ({ item, index }) => {
     return (
-      <View key={index} style={[MyStyles.shadow_2, { width: "100%", height: "100%", borderRadius: 10, overflow: "hidden", marginHorizontal: 5 }]}>
+      <View key={index} style={[MyStyles.shadow_2, { width: "100%", height: "100%", borderRadius: 10, overflow: "hidden" }]}>
         <View>
-          <ImageLoad style={{ width: this.ScreenWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item) }} />
+          <ImageLoad style={{ width: "100%", height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item) }} />
           {/* <Image
             style={{ width: this.ScreenWidth, height: this.BannerHeight }} {...{ preview, uri }} /> */}
         </View>
@@ -150,36 +150,22 @@ export default class ProductDetailScreen extends React.Component {
                 <View
                   style={{
                     height: this.BannerHeight,
-                    width: this.ScreenWidth - 20
                   }}
                 >
                   <Carousel
                     data={this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER)}
-                    sliderWidth={this.ScreenWidth - 20}
-                    itemWidth={this.ScreenWidth - 20}
+                    sliderWidth={this.ScreenWidth}
+                    itemWidth={this.ScreenWidth - 30}
                     renderItem={this.renderImages}
                     autoplay={true}
+                    inactiveSlideScale={0.95}
                     loop={true}
                     autoplayInterval={2000}
-                  // onSnapToItem={(index) => {
-                  //   this.state.curImageIdx = index + 1;
-                  //   this.setState({ curImageIdx: this.state.curImageIdx })
-                  // }}
-                  />
-                  {/* <Carousel
-                    delay={3000}
-                    indicatorColor="#fe76ab80"
-                    inactiveIndicatorColor="#ffffff3c"
-                    indicatorOffset={-15} // Indicator relative position from top or bottom
-                    onPageChange={(index) => {
+                    onSnapToItem={(index) => {
                       this.state.curImageIdx = index + 1;
                       this.setState({ curImageIdx: this.state.curImageIdx })
                     }}
-                    index={0}
-                    hideIndicators={true}
-                  >
-                    {this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).map((image, index) => this.renderImages(image, index))}
-                  </Carousel> */}
+                  />
                   <View style={{ position: "absolute", bottom: 10, justifyContent: "center", width: "100%", flexDirection: "row", alignItems: "center" }}>
                     <MyAppText style={{ backgroundColor: Colors.color_636364, paddingLeft: 10, paddingRight: 10, borderRadius: 10, color: "white", textAlign: "center" }}>{(this.state.curImageIdx) + "/" + this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER).length}</MyAppText>
                   </View>
@@ -298,7 +284,7 @@ export default class ProductDetailScreen extends React.Component {
           {/* 하단바 */}
           {/* <LinearGradient colors={['#fefefe', '#f8f8f8']} style={{ height: 3 }} ></LinearGradient> */}
           {this.state.visible_bottom_bar ?
-            <View style={[{ height: 215 / 3, flexDirection: "row", alignItems: "center" }, MyStyles.shadow_5]}>
+            <View style={[{ height: 215 / 3, flexDirection: "row", alignItems: "center" }, MyStyles.shadow_2]}>
               <View style={{ flex: 1 }}>
                 <TouchableOpacity activeOpacity={0.8} style={{ justifyContent: "center", alignItems: "center" }} onPress={() => { this.state.product_detail_result_data.detail.user_match == "M" ? this.requestDeleteMatch(this.state.product_detail_result_data.detail.id) : this.requestAddMatch(this.state.product_detail_result_data.detail.id, 0) }}>
                   {this.state.product_detail_result_data.detail.user_match == "M" ? <Image source={require('../../assets/images/ic_match_on.png')} style={[MyStyles.ic_match]} /> : <Image source={require('../../assets/images/ic_match_off.png')} style={[MyStyles.ic_match]} />}

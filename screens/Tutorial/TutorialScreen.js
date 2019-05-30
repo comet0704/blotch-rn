@@ -5,11 +5,12 @@ import {
   Image,
   View,
 } from 'react-native';
-import { StatusBar } from 'react-native';
+import { Dimensions, StatusBar } from 'react-native';
 
 import { MyAppText } from '../../components/Texts/MyAppText';
 import MyStyles from '../../constants/MyStyles';
 import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
+import { MyPagination } from '../../components/MyPagination';
 import Colors from '../../constants/Colors';
 import MyConstants from '../../constants/MyConstants';
 // import ModalDropdown from './ModalDropdown';
@@ -19,7 +20,7 @@ export default class TutorialScreen extends Component {
 
     this.state = {
       isLastPage: false,
-      activeDotIndex : 0,
+      activeDotIndex: 0,
     };
 
     this.tutorialList = [
@@ -41,7 +42,7 @@ export default class TutorialScreen extends Component {
     StatusBar.setHidden(false)
   }
 
-  renderTutorialImages = ({item, index}) => {
+  renderTutorialImages = ({ item, index }) => {
     return (
       <View key={index} style={{ width: "100%", height: "100%", }}>
         <Image source={item} style={{ width: "100%", height: "100%", resizeMode: "stretch" }} />
@@ -59,28 +60,20 @@ export default class TutorialScreen extends Component {
           itemWidth={this.ScreenWidth}
           renderItem={this.renderTutorialImages}
           autoplay={false}
+          containerCustomStyle={{ backgroundColor: "black" }}
           loop={false}
-          autoplayInterval={2000}
-          onSnapToItem={(index) => this.setState({ activeDotIndex: index })}
-          ref={(carousel) => { this.carouselIndicator = carousel }}
-        />
-        <MyPagination list={this.tutorialList} activeDotIndex={this.state.activeDotIndex} />
-        {/* <Carousel
-          animate={true} // Enable carousel autoplay
-          delay={50000} // animate를 false로 줘도 _animateNextPage 가 호출되면 true로 바뀌므로 delay값을 길게 주자. 
-          indicatorColor={Colors.primary_purple}
-          inactiveIndicatorColor="#ffffff38"
-          indicatorOffset={13} // Indicator relative position from top or bottom
-          loop={false}
-          onPageChange={(index) => {
+          inactiveSlideScale={1}
+          onSnapToItem={(index) => {
+            this.setState({ activeDotIndex: index })
             if (index == 5) { // 마지막 페이지
               this.setState({ isLastPage: true })
+            } else {
+              this.setState({ isLastPage: false })
             }
           }}
           ref={(carousel) => { this.carouselIndicator = carousel }}
-        >
-          {this.tutorialList.map((item, index) => this.renderTutorialImages(item, index))}
-        </Carousel> */}
+        />
+        <MyPagination list={this.tutorialList} activeDotIndex={this.state.activeDotIndex} is_tutorial={true} />
 
         <View style={{ position: "absolute", flexDirection: "row", bottom: 112 / 3, alignItems: "center" }}>
           <MyAppText style={{ fontSize: 14, color: "white", marginLeft: 15 }} onPress={() => {

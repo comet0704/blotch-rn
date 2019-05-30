@@ -827,7 +827,7 @@ export default class QuestionnareScreen extends React.Component {
 
                                 <View style={{ width: 30, height: 30, justifyContent: "center" }}>
                                   {/* 목록 다 돌린 후에는  추가버튼 추가*/}
-                                  <TouchableOpacity activeOpacity={0.8} style={{ width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
+                                  <TouchableOpacity activeOpacity={0.8} style={{ width: 25, height: 25, borderRadius: 25 / 2, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
                                     onPress={() => {
                                       this.setState({ searchBrandForFavorite: true })
                                       this.setState({ searchBrandModalVisible: true })
@@ -886,7 +886,7 @@ export default class QuestionnareScreen extends React.Component {
 
                                 {/* 목록 다 돌린 후에는  추가버튼 추가*/}
                                 <View style={{ width: 30, height: 30, justifyContent: "center" }}>
-                                  <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 15, width: 25, height: 25, borderRadius: 100, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
+                                  <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 15, width: 25, height: 25, borderRadius: 25 / 2, backgroundColor: Colors.primary_purple, alignItems: "center", justifyContent: "center" }}
                                     onPress={() => {
                                       this.setState({ searchBrandForFavorite: false })
                                       this.setState({ searchBrandModalVisible: true })
