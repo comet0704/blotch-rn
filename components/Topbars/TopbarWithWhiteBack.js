@@ -11,7 +11,7 @@ export class TopbarWithWhiteBack extends React.Component {
   render() {
     return (
       <View>
-        <View style={{ height: MyConstants.STATUSBAR_HEIGHT }} />
+        <View style={{ height: MyConstants.STATUSBAR_HEIGHT, backgroundColor: "white" }} />
         <View style={{ flexDirection: "row", justifyContnt: "center", alignItems: "center", height: MyConstants.TOPBAR_HEIGHT, }}>
           <MyAppText style={{ flex: 1, textAlign: "center", left: 0, right: 0, fontSize: 16, fontWeight: "500", position: "absolute" }}>{this.props.title}</MyAppText>
 
