@@ -249,14 +249,14 @@ export default class SearchMainScreen extends React.Component {
             <View style={[MyStyles.searchBoxCover, { marginRight: 15 }]}>
               <Image source={require("../../../assets/images/ic_search_box_bg1.png")} style={MyStyles.background_image_stretch} />
               <Image style={{ flex: 1 }} />
-              <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchBarcode") }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                 <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
               </TouchableOpacity>
             </View>
             :
             <View style={[MyStyles.searchBoxCover]}>
               <Image style={{ flex: 1 }} />
-              <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchBarcode") }}>
+              <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
                 <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
               </TouchableOpacity>
             </View>}

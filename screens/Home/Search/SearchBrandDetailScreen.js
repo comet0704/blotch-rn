@@ -202,7 +202,7 @@ export default class SearchBrandDetailScreen extends React.Component {
           <View style={[MyStyles.searchBoxCover, { paddingLeft: 0 }]}>
             {/* <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} /> */}
             <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} value={this.state.brand_detail_result_data.detail.title} placeholder="Search keyword"></TextInput>
-            <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchBarcode") }}>
+            <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
               <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
             </TouchableOpacity>
           </View>
@@ -356,7 +356,6 @@ export default class SearchBrandDetailScreen extends React.Component {
                           <MyAppText style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>{this.state.brand_detail_result_data.detail.title}</MyAppText>
                           <MyAppText style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => {
                             this.setState({ detailModalVisible: false });
-                            this.props.navigation.navigate("ProductContainer", { [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: 2 })
                           }}>Products({this.state.product_list_result_data.product_list.length})</MyAppText>
                         </View>
                         <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginTop: 20 }]}></View>

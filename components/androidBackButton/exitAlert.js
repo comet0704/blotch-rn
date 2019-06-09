@@ -13,6 +13,7 @@ const exitAlert = (_this) => {
             {
                 text: 'OK', onPress: () => {
                     BackHandler.exitApp()
+                    global.isExited =  true
                     return true
                 }
             },

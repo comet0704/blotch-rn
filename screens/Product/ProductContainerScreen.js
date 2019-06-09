@@ -37,7 +37,7 @@ export default class ProductContainerScreen extends React.Component {
     handleAndroidBackButton(this, exitAlert);
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     removeAndroidBackButtonHandler()
   }
 

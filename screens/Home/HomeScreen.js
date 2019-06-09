@@ -29,7 +29,7 @@ import {
   RefreshControl,
   Linking,
 } from 'react-native';
-import { Notifications, Permissions } from 'expo';
+import { Updates, Notifications, Permissions } from 'expo';
 import { WebBrowser } from 'expo';
 import { NavigationEvents } from 'react-navigation';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
@@ -167,7 +167,14 @@ export default class HomeScreen extends React.Component {
     });
   }
 
-  componentWillMount() {
+  componentWillUpdate() {
+    if (global.isExited == true) {
+      global.isExited = false
+      Updates.reload()
+    }
+  }
+
+  componentWillUnmount() {
     removeAndroidBackButtonHandler()
   }
 
@@ -830,7 +837,6 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log("111111111" + responseJson.result_data.recommend_product_list)
         this.setState({
           isLoading: false,
           result_data: responseJson.result_data
@@ -1026,6 +1032,8 @@ export default class HomeScreen extends React.Component {
   }
 
   requestOnelineReview(p_skin_type, p_concerns, p_needs, p_weather) {
+    console.log(p_skin_type + ":" + p_concerns + ":" + p_needs + ":" + p_weather + ":")
+    console.log("22222222")
     return fetch(Net.user.onelineReview, {
       method: 'POST',
       headers: {
@@ -1043,11 +1051,13 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-
+        console.log("3333333")
+        console.log(JSON.stringify(responseJson))
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
         }
+        console.log(responseJson.result_data.oneline_review.comment_en);
         this.setState({
           oneline_review_en: responseJson.result_data.oneline_review.comment_en,
           oneline_review_ko: responseJson.result_data.oneline_review.comment_ko

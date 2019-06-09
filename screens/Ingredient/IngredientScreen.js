@@ -70,7 +70,7 @@ export default class IngredientScreen extends React.Component {
     handleAndroidBackButton(this, exitAlert);
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     removeAndroidBackButtonHandler()
   }
 

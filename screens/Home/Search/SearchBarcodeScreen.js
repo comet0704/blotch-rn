@@ -103,7 +103,10 @@ export default class SearchBarcodeScreen extends React.Component {
               </Camera>
           }
           <View style={{ position: "absolute", top: 0, left: 0, right: 0 }}>
-            <TopbarWithBlackBack rightBtn="true" isTorch={true} title="Barcode" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this._handleTorchPress() }}></TopbarWithBlackBack>
+            <TopbarWithBlackBack rightBtn="true" isTorch={true} title="Barcode" onPress={() => { 
+                this.props.navigation.pop(1);
+                this.props.navigation.navigate("SearchCamera")
+              }} onRightBtnPress={() => { this._handleTorchPress() }}></TopbarWithBlackBack>
             <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
           </View>
         </View>

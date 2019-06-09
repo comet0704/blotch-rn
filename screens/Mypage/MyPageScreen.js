@@ -90,7 +90,7 @@ export default class MyPageScreen extends React.Component {
     });
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     removeAndroidBackButtonHandler()
   }
 

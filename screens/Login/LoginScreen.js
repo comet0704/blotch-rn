@@ -11,6 +11,8 @@ import MyConstants from '../../constants/MyConstants';
 import { Updates, Facebook, Google } from "expo";
 import Colors from '../../constants/Colors';
 import { MyAppText } from '../../components/Texts/MyAppText';
+import Common from '../../assets/Common';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -25,9 +27,13 @@ export default class LoginScreen extends React.Component {
   }
 
   componentDidMount() {
+    handleAndroidBackButton(this, () => {
+      this.props.navigation.navigate('Home')
+    });
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
+    removeAndroidBackButtonHandler()
   }
 
   checkValidation = (value, check_type) => {
@@ -397,7 +403,9 @@ export default class LoginScreen extends React.Component {
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
           // 추가정보입력 팝업 현시
-          this.setState({ askInputQueModal: true });
+          if(Common.isNeedToAddQuestionnaire()) {
+            this.setState({ askInputQueModal: true });
+          }
         }
 
       })
@@ -442,7 +450,9 @@ export default class LoginScreen extends React.Component {
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
 
           // 추가정보입력 팝업 현시
-          this.setState({ askInputQueModal: true });
+          if(Common.isNeedToAddQuestionnaire()) {
+            this.setState({ askInputQueModal: true });
+          }
         }
 
       })

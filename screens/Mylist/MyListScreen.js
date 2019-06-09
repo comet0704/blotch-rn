@@ -360,7 +360,7 @@ export default class MyListScreen extends React.Component {
     handleAndroidBackButton(this, exitAlert);
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     removeAndroidBackButtonHandler()
   }
 
