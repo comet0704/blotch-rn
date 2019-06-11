@@ -1576,6 +1576,7 @@ export default class QuestionnareScreen extends React.Component {
             this.requestQuestionnaireDetail(this.state.questionnaire_list[w_selectedQueIdx].id);
           } else {
             const index = this.state.questionnaire_list.findIndex(item => item.id == this.state.edit_baby_id)
+            this.state.beforeBabyIdx = index
             this.state.questionnaire_list[index].is_selected = true
             this.requestQuestionnaireDetail(this.state.questionnaire_list[index].id);
           }
@@ -1618,7 +1619,6 @@ export default class QuestionnareScreen extends React.Component {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
         }
-
         this.setState({ edit_baby_id: responseJson.result_data.questionnaire_detail.id })
         this.requestQuestionnaireList();
 

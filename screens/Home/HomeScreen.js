@@ -816,7 +816,17 @@ export default class HomeScreen extends React.Component {
                     <MyAppText style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>FAQ</MyAppText>
                   </TouchableOpacity>
                   <Image style={[MyStyles.seperate_v_line_e5e5e5, { height: 30 / 3 }]} />
-                  <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, justifyContent: "center" }} onPress={() => { this.props.navigation.navigate("AboutUs"); }}>
+                  <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, justifyContent: "center" }} onPress={() => {
+                    // this.props.navigation.navigate("AboutUs"); 
+                    Alert.alert(
+                      '',
+                      "It's being completed",
+                      [
+                        { text: 'OK', onPress: () => { } },
+                      ],
+                      { cancelable: false },
+                    );
+                  }}>
                     <MyAppText style={{ color: "#949393", fontSize: 13, textAlign: "center" }}>About Us</MyAppText>
                   </TouchableOpacity>
                 </View>

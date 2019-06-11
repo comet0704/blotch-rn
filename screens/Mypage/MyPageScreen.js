@@ -233,7 +233,7 @@ export default class MyPageScreen extends React.Component {
                 }
                 <Image source={require('../../assets/images/ic_profile_back.png')} style={MyStyles.background_image} />
 
-                <TouchableOpacity style={{ position: "absolute", padding: 15, top: 5, right: 0 }} onPress={() => {
+                <TouchableOpacity style={{ position: "absolute", padding: 15, top: MyConstants.STATUSBAR_HEIGHT + 5, right: 0 }} onPress={() => {
                   this.props.navigation.navigate("EditProfile", { [MyConstants.NAVIGATION_PARAMS.onProfileEdited]: this.onProfileEdited })
                 }}>
                   <Image source={require('../../assets/images/ic_edit.png')} style={MyStyles.ic_edit} />
