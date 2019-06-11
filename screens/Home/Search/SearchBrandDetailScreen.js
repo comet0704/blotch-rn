@@ -63,7 +63,7 @@ export default class SearchBrandDetailScreen extends React.Component {
     is_from_camera_search = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.is_from_camera_search)
     w_item_id = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_id)
     this.setState({ brand_id: w_item_id });
-    this.requestProductList(w_item_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+    this.requestProductList(w_item_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, "", this.offset)
     this.requestBrandDetail(w_item_id);
   }
 
@@ -98,7 +98,7 @@ export default class SearchBrandDetailScreen extends React.Component {
     } else {
       this.selectedSubCatName = "";
     }
-    this.requestProductList(this.state.brand_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+    this.requestProductList(this.state.brand_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, "", 0)
   }
 
 
@@ -139,7 +139,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                     categoryItems[p_categoryIndex].sub_category[index].is_selected = true
                     this.setState({ categoryItems: categoryItems })
                     this.setState({ loading_end: false })
-                    this.requestProductList(this.state.brand_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
+                    this.requestProductList(this.state.brand_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, "", 0)
                   }}>
                     <MyAppText style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</MyAppText>
                   </TouchableOpacity>
@@ -199,9 +199,16 @@ export default class SearchBrandDetailScreen extends React.Component {
             />
           </TouchableOpacity>
 
-          <View style={[MyStyles.searchBoxCover, { paddingLeft: 0 }]}>
-            {/* <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} /> */}
-            <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} value={this.state.brand_detail_result_data.detail.title} placeholder="Search keyword"></TextInput>
+          <View style={[MyStyles.searchBoxCover]}>
+            <Image source={require("../../../assets/images/ic_search_box_bg1.png")} style={MyStyles.background_image_stretch} />
+            <TextInput
+              style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }}
+              placeholder={"In:" + this.state.brand_detail_result_data.detail.title}
+              returnKeyType="search"
+              onChangeText={(text) => { this.searchKeyword = text }}
+              onSubmitEditing={() => {
+                this.requestProductList(this.state.brand_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.searchKeyword, 0)
+              }}></TextInput>
             <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
               <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
             </TouchableOpacity>
@@ -283,7 +290,7 @@ export default class SearchBrandDetailScreen extends React.Component {
               <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag"
                 onScroll={({ nativeEvent }) => {
                   if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-                    this.requestProductList(this.state.brand_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+                    this.requestProductList(this.state.brand_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, "", this.offset)
                   }
                 }}>
                 <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
@@ -435,7 +442,7 @@ export default class SearchBrandDetailScreen extends React.Component {
 
   }
 
-  requestProductList(p_brand_id, p_category, p_sub_category, p_offset) {
+  requestProductList(p_brand_id, p_category, p_sub_category, p_product_name, p_offset) {
     this.setState({
       isLoading: true,
     });
@@ -450,6 +457,7 @@ export default class SearchBrandDetailScreen extends React.Component {
         brand_id: p_brand_id,
         category: p_category == "" ? "All" : p_category,
         sub_category: p_sub_category,
+        product_name: p_product_name,
         offset: p_offset.toString()
       }),
     })
