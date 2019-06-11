@@ -840,6 +840,12 @@ export default StyleSheet.create({
   tabbar_button_selected: {
     flex: 1, height: "100%", justifyContent: "center", alignItems: "center", borderBottomColor: Colors.primary_purple, borderBottomWidth: 3
   },
+  tabbar_button_fixed: {
+    width: 200 / 3, height: "100%", justifyContent: "center", alignItems: "center", borderBottomColor: Colors.primary_purple,
+  },
+  tabbar_button_fixed_selected: {
+    width: 200 / 3, height: "100%", justifyContent: "center", alignItems: "center", borderBottomColor: Colors.primary_purple, borderBottomWidth: 3
+  },
   tabbar_text_selected: {
     fontSize: 14,
     color: Colors.primary_dark,

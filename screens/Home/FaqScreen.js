@@ -62,7 +62,7 @@ export default class FaqScreen extends React.Component {
 
   renderCategoryTabbars(item, index) {
     return (
-      <TouchableOpacity activeOpacity={0.8} key={item.category} style={item.is_selected ? MyStyles.tabbar_button_selected : MyStyles.tabbar_button} onPress={() => {
+      <TouchableOpacity activeOpacity={0.8} key={item.category} style={item.is_selected ? MyStyles.tabbar_button_fixed_selected : MyStyles.tabbar_button_fixed} onPress={() => {
         faq_category_list = this.state.faq_category_result_data.faq_category;
         faq_category_list.map((item) => (item.is_selected = false))
         faq_category_list[index].is_selected = true;
@@ -95,10 +95,14 @@ export default class FaqScreen extends React.Component {
 
         <TopbarWithBlackBack title="FAQ" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
 
-        <View style={MyStyles.tabbar_button_container}>
-          {this.state.faq_category_result_data.faq_category.map((item, index) => (
-            this.renderCategoryTabbars(item, index)
-          ))}
+        <View style={{ height: 145 / 3 }} >
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={MyStyles.tabbar_button_container}>
+              {this.state.faq_category_result_data.faq_category.map((item, index) => (
+                this.renderCategoryTabbars(item, index)
+              ))}
+            </View>
+          </ScrollView>
         </View>
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 

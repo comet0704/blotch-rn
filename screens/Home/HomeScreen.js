@@ -766,7 +766,6 @@ export default class HomeScreen extends React.Component {
                           autoplay={true}
                           autoplayDelay={3000}
                           loop={true}
-                          ref={(carousel) => { this.bestCarouselIndicator = carousel }}
                           onSnapToItem={(index) => this.setState({ activeArticleIndex: index })}
                         />
                         <MyPagination list={this.state.result_data.latest_article_list} activeDotIndex={this.state.activeArticleIndex} />
