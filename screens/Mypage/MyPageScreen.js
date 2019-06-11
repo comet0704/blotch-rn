@@ -246,7 +246,7 @@ export default class MyPageScreen extends React.Component {
                     <Image source={global.login_info.profile_image == null ? (require('../../assets/images/Login/ic_avatar.png')) : { uri: Common.getImageUrl(global.login_info.profile_image) }} style={global.login_info.profile_image == null ? { width: 117 / 3, height: 166 / 3, alignSelf: "center" } : { width: 315 / 3, height: 315 / 3, borderRadius: 315 / 6, }} />
                   </View>
                   <View style={{ marginLeft: 15, flex: 1 }}>
-                    <MyAppText style={{ fontSize: 59 / 3, color: "white", fontWeight: "500" }}>Hello {global.login_info.reg_type == "GOOGLE" ? global.login_info.email : global.login_info.user_id}</MyAppText>
+                    <MyAppText style={{ fontSize: 59 / 3, color: "white", fontWeight: "500" }}>Hello {global.login_info.user_id}</MyAppText>
                     <MyAppText style={{ fontSize: 59 / 3, color: "white" }}>Do you need advice?</MyAppText>
                   </View>
                 </View>
@@ -311,7 +311,9 @@ export default class MyPageScreen extends React.Component {
                           <MyAppText style={{ color: Colors.color_656565, fontSize: 13, }}><MyAppText style={{}}>{this.state.oneline_review_en} </MyAppText></MyAppText>
                         </View>
                       </View>
-                      : null
+                      : global.login_info.token.length > 0 ? // 로그인한 회원의 경우만 설문 작성유무 판정
+                        <MyAppText style={{ color: Colors.color_656565, fontSize: 13 }}>Please complete the Questionnaire</MyAppText>
+                        : null
                     :
                     !(Common.isNeedToAddQuestionnaire()) ?
                       <View>
@@ -319,7 +321,9 @@ export default class MyPageScreen extends React.Component {
                           <MyAppText style={{ color: Colors.color_656565, fontSize: 13, }}><MyAppText style={{}}>{this.state.oneline_review_en} </MyAppText></MyAppText>
                         </View>
                       </View>
-                      : null
+                      : global.login_info.token.length > 0 ? // 로그인한 회원의 경우만 설문 작성유무 판정
+                        <MyAppText style={{ color: Colors.color_656565, fontSize: 13 }}>Please complete the Questionnaire</MyAppText>
+                        : null
                   }
                 </View>
               </View>

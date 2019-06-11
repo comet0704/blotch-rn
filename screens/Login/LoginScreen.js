@@ -402,9 +402,11 @@ export default class LoginScreen extends React.Component {
           global.setting = responseJson.result_data.setting;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
-          // 추가정보입력 팝업 현시
-          if(Common.isNeedToAddQuestionnaire()) {
-            this.setState({ askInputQueModal: true });
+          // 처음 가입하는 회원의 경우 추가정보입력 팝업 현시
+          if (responseJson.result_data.new_user == 1) {
+            this.props.navigation.navigate('SnsMoreInfo')
+          } else {
+            Updates.reload()
           }
         }
 
@@ -449,9 +451,11 @@ export default class LoginScreen extends React.Component {
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
 
-          // 추가정보입력 팝업 현시
-          if(Common.isNeedToAddQuestionnaire()) {
-            this.setState({ askInputQueModal: true });
+          // 처음 가입하는 회원의 경우 추가정보입력 팝업 현시
+          if (responseJson.result_data.new_user == 1) {
+            this.props.navigation.navigate('SnsMoreInfo')
+          } else {
+            Updates.reload()
           }
         }
 

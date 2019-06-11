@@ -465,11 +465,15 @@ export default class HomeScreen extends React.Component {
                       {this.state.refreshOneLineInfo ?
                         !(Common.isNeedToAddQuestionnaire()) ?
                           this.renderOneLineInfoSection()
-                          : null
+                          : global.login_info.token.length > 0 ? // 로그인한 회원의 경우만 설문 작성유무 판정
+                            <MyAppText style={{ color: "white", fontSize: 13 }}>Please complete the Questionnaire</MyAppText>
+                            : null
                         :
                         !(Common.isNeedToAddQuestionnaire()) ?
                           this.renderOneLineInfoSection()
-                          : null
+                          : global.login_info.token.length > 0 ? // 로그인한 회원의 경우만 설문 작성유무 판정
+                            <MyAppText style={{ color: "white", fontSize: 13 }}>Please complete the Questionnaire</MyAppText>
+                            : null
                       }
                     </View>
                     {this.state.weatherInfo.icon.length > 0 ?
@@ -529,12 +533,18 @@ export default class HomeScreen extends React.Component {
                 global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.container, { marginTop: 10 }]} onPress=
                     {() => {
-                      this.props.navigation.navigate("WeCanSearchIt", {
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
-                        [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
-                      })
+                      // 로직변경후 
+                      if (global.login_info.token.length <= 0) { // 비회원의 경우 로그인페이지로 유도
+                        this.setState({ showLoginModal: true });
+                      } else {
+                        this.props.navigation.navigate("WeCanSearchIt", {
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                          [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                        })
+                      }
+
                     }
                     }
                   >
@@ -553,12 +563,17 @@ export default class HomeScreen extends React.Component {
                 global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.container, { marginTop: 10 }]} onPress=
                     {() => {
-                      this.props.navigation.navigate("WeCanSearchIt", {
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
-                        [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
-                      })
+                      // 로직변경후 
+                      if (global.login_info.token.length <= 0) { // 비회원의 경우 로그인페이지로 유도
+                        this.setState({ showLoginModal: true });
+                      } else {
+                        this.props.navigation.navigate("WeCanSearchIt", {
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                          [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                          [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                        })
+                      }
                     }
                     }
                   >

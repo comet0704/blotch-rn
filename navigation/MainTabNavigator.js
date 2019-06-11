@@ -49,6 +49,7 @@ import MyOwnListScreen from '../screens/Mylist/MyOwnListScreen';
 import MyConstants from '../constants/MyConstants';
 import MyStyles from '../constants/MyStyles';
 import TutorialScreen from '../screens/Tutorial/TutorialScreen';
+import SnsMoreInfoScreen from '../screens/Login/SnsMoreInfoScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -157,6 +158,7 @@ const LoginStack = createStackNavigator({
   Login: LoginScreen,
   Signup: SignupScreen,
   FindPwd: FindPwdScreen,
+  SnsMoreInfo: SnsMoreInfoScreen,
   WeCanSearchIt: WeCanSearchItScreen,
   Questionnare: QuestionnareScreen,
   Calendar: CalendarScreen,
