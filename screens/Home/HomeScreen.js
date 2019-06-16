@@ -431,7 +431,7 @@ export default class HomeScreen extends React.Component {
             <View style={{ backgroundColor: "#f8f8f8", marginTop: MyConstants.STATUSBAR_HEIGHT, paddingBottom: MyConstants.TABBAR_TOP_BORDER_HEIGHT }}>
               {/* Search bar */}
               <View style={[MyStyles.searchBoxCommon, MyStyles.container, MyStyles.bg_white, { marginTop: 0 }]}>
-                <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 58, height: 18, alignSelf: "center" }} />
+                <Image source={require("../../assets/images/Home/ic_logo_purple.png")} style={{ width: 964 / 16, height: 345 / 16, alignSelf: "center" }} />
                 <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate("SearchMain") }}>
                   <View style={[{ marginLeft: 12, }, MyStyles.searchBoxCover,]}>
                     <Image source={require("../../assets/images/ic_search_box_bg.png")} style={MyStyles.background_image_stretch} />
