@@ -1238,7 +1238,8 @@ export default StyleSheet.create({
   },
   ingredient_section_header: {
     // overflow: "hidden",
-    borderRadius:5,
+    borderTopRightRadius:5,
+    borderBottomRightRadius:5,
     backgroundColor: "white",
     padding: 15,
     flex: 1, flexDirection: "row", alignItems: "center"

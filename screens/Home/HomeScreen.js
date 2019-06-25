@@ -168,10 +168,10 @@ export default class HomeScreen extends React.Component {
   }
 
   componentWillUpdate() {
-    if (global.isExited == true) {
-      global.isExited = false
-      Updates.reload()
-    }
+    // if (global.isExited == true) {
+    //   global.isExited = false
+    //   Updates.reload()
+    // }
   }
 
   componentWillUnmount() {
@@ -187,9 +187,6 @@ export default class HomeScreen extends React.Component {
   newCarouselIndicator = null;
   bestCarouselIndicator = null;
 
-  onTestClick = () => {
-    alert("A");
-  }
   renderBanner = ({ item, index }) => {
     return (
       <View key={index} style={{ height: this.BannerHeight }}>
@@ -197,7 +194,6 @@ export default class HomeScreen extends React.Component {
           if (item.is_direct_link > 0) {
             Linking.openURL(Common.getLinkUrl(item.url))
           } else {
-            this.parent.onTestClick()
             this.props.navigation.navigate("BannerDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: item.id, [MyConstants.NAVIGATION_PARAMS.item_info]: item })
           }
         }}>

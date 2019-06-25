@@ -95,7 +95,7 @@ class Row extends React.Component {
 
     return (
       <Animated.View style={[{ paddingTop: 10 }, this._style]}>
-        <TouchableOpacity activeOpacity={0.9} style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.mylist_section]} onLongPress={this.props.toggleRowActive}
+        <TouchableOpacity activeOpacity={0.9} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.mylist_section]} onLongPress={this.props.toggleRowActive}
           onPress={() => {
             _this.props.navigation.navigate(data.screen);
           }}>
@@ -206,7 +206,7 @@ class MyListRow extends React.Component {
 
         <Animated.View style={[this._style]}>
           <TouchableOpacity activeOpacity={0.9} onLongPress={this.props.toggleRowActive}
-            style={[{ borderLeftColor: Colors.ingredient_allergic_dark }, MyStyles.my_own_list_section, data.rowOpened ? { marginLeft: 60 } : null]}
+            style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.my_own_list_section, data.rowOpened ? { marginLeft: 60 } : null]}
             onPress={() => {
               if (data.count == 0) {
                 Alert.alert(
