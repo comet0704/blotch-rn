@@ -40,6 +40,7 @@ export class FragmentRecommendProduct extends React.Component {
       refreshing: false,
       showLoginModal: false,
       filterModalVisible: false,
+      refreshFragment: false,
 
       product_list_result_data: {
         recomment_list: [
@@ -341,6 +342,7 @@ export class FragmentRecommendProduct extends React.Component {
     } else {
       if (Common.isNeedToAddQuestionnaire() == false && global.refreshStatus.product_recommend == true) { // 이미 설문이 추가된 회원이면 설문목록 얻어오기
         global.refreshStatus.product_recommend = false
+        this.setState({ refreshFragment: !this.state.refreshFragment });
         this.requestQuestionnaireList();
       }
     }
@@ -350,6 +352,230 @@ export class FragmentRecommendProduct extends React.Component {
     this.requestQuestionnaireList()
   }
 
+  renderNoResult = () => {
+    return (<View>
+      <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+      <View style={{ height: "100%", justifyContent: "center", alignItems: "center" }}>
+        <View style={{ alignItems: "center" }}>
+          <Image source={require("../../assets/images/ic_search_big.png")} style={[MyStyles.ic_search_big,]} />
+          <MyAppText style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</MyAppText>
+          <MyAppText style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Tell us about your skin and we'll show you some products that you might want to check out!</MyAppText>
+          <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]} onPress=
+            {() => {
+              if (global.login_info.token.length <= 0) {
+                this.setState({ showLoginModal: true })
+              } else {
+                this.props.navigation.navigate("WeCanSearchIt", {
+                  [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
+                  [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
+                  [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
+                  [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
+                })
+              }
+            }
+            }>
+            <MyAppText style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Check Out!</MyAppText>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+    )
+  }
+
+  renderMainScreen = () => {
+    return (<ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
+      onScroll={({ nativeEvent }) => {
+        if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+          this.getRecommendList(this.offset)
+        }
+      }}
+      refreshControl={
+        <RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this._onRefresh}
+        />
+      }
+    >
+
+      <View>
+        <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+
+        {/* My Skin Info 부분 */}
+        <View style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: Colors.color_f8f8f8,
+          padding: 15,
+        }}>
+          {
+            this.renderMyInfo()
+          }
+        </View>
+
+        {/* product 나열 */}
+        <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
+          <View style={{ flexDirection: "row", justifyContent: "center", width: "100%", alignItems: "center" }}>
+            <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.recomment_count})</MyAppText>
+            <View style={{ flex: 1 }}></View>
+            <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main,]} onPress={() => { this.setState({ filterModalVisible: true }) }}>
+              <Image source={require("../../assets/images/ic_filter.png")} style={[MyStyles.ic_filter]} />
+            </TouchableOpacity>
+          </View>
+          <FlatGrid
+            itemDimension={this.ScreenWidth / 2 - 30}
+            items={this.state.product_list_result_data.recomment_list}
+            style={MyStyles.gridView}
+            spacing={10}
+            renderItem={({ item, index }) => (
+              <ProductItem item={item} index={index} this={this}></ProductItem>
+            )}
+          />
+        </View>
+
+      </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.filterModalVisible}
+        onRequestClose={() => {
+        }}>
+        <View style={{ flex: 1 }}>
+          <View style={MyStyles.modal_bg1}>
+            <View style={[MyStyles.modalContainer, { height: 500 }]}>
+              {/* modal header */}
+              <View style={MyStyles.modal_header}>
+                <MyAppText style={MyStyles.modal_title}>Filter</MyAppText>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", width: 70 }]} onPress={() => {
+                  this.resetFilterStatus();
+                }}>
+                  <MyAppText style={{ color: Colors.color_dfdfdf, fontSize: 13, fontWeight: "500", }}>reset</MyAppText>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                  this.setState({ filterModalVisible: false });
+                }}>
+                  <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                </TouchableOpacity>
+              </View>
+
+              <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
+              <View style={{ flex: 1 }}>
+                <ScrollView style={{ flex: 1 }}>
+                  <View style={{ flex: 1 }}>
+                    {/* Main Category */}
+                    <View style={{ flex: 1 }}>
+                      <View style={{ flexDirection: "row", alignItems: "center" }}>
+                        <MyAppText style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500" }, MyStyles.modal_close_btn]}>Main Category</MyAppText>
+                        <MyAppText style={{ flex: 1, textAlign: "center" }}></MyAppText>
+                        <TouchableOpacity activeOpacity={0.8} style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
+                          this.selectAllCategories();
+                        }}>
+                          <Image style={{ width: 14, height: 14 }} source={this.state.main_all_selected == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                          <MyAppText style={{ marginLeft: 5 }}>All</MyAppText>
+                        </TouchableOpacity>
+
+                      </View>
+
+                      <FlatGrid
+                        itemDimension={this.ScreenWidth / 3 - 40}
+                        items={this.state.mainCategoryItems}
+                        style={MyStyles.gridView}
+                        spacing={10}
+                        renderItem={({ item, index }) => (
+                          <TouchableOpacity activeOpacity={0.8} onPress={() => { this.onFilterMainCategorySelect(item.categoryName) }} style={{ borderColor: item.is_selected == 1 ? "#d9b1db" : Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
+                            <View style={[{ height: 100 / 3, justifyContent: "center", alignItems: "center" }]}>
+                              {item.is_selected == 2 ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
+
+                              {item.is_selected == 2 ?
+                                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                  <Image style={item.image_style_small} source={item.image_on} />
+                                  <MyAppText style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.categoryName}</MyAppText>
+                                </View>
+                                : item.is_selected == 1 ?
+                                  <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                    <Image style={item.image_style_small} source={item.image_half} />
+                                    <MyAppText style={[MyStyles.category_text2, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</MyAppText>
+                                  </View>
+                                  : <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                    <Image style={item.image_style_small} source={item.image_off} />
+                                    <MyAppText style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</MyAppText>
+                                  </View>}
+
+                            </View>
+                          </TouchableOpacity>
+                        )}
+                      />
+                    </View>
+
+                    {this.state.showSubCategory ?
+                      <View>
+                        {/* Sub Categories */}
+                        {this.state.main_all_selected == -1 ? null :
+                          <MyAppText style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500", marginLeft: 15, marginBottom: 20 }]}>Sub Category</MyAppText>
+                        }
+
+
+                        {this.state.mainCategoryItems.map((item, index) => (
+                          item.is_selected > 0 && item.sub_category.length > 0 ?
+                            <View key={index} style={{ marginTop: -30 }}>
+                              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                <MyAppText style={[{ color: Colors.primary_purple, fontSize: 12, fontWeight: "400", marginLeft: 15 }]}>{item.categoryName}</MyAppText>
+                                <MyAppText style={{ flex: 1, textAlign: "center" }}></MyAppText>
+                                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
+
+                                  this.onFilterSubCategoryAllSelect(item)
+                                }}>
+                                  <Image style={{ width: 14, height: 14 }} source={item.sub_all_selected ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                  <MyAppText style={{ marginLeft: 5 }}>All</MyAppText>
+                                </TouchableOpacity>
+                              </View>
+
+                              <FlatGrid
+                                itemDimension={this.ScreenWidth / item.sub_category.length - 40}
+                                items={item.sub_category}
+                                style={[MyStyles.gridView, { marginTop: -20 }]}
+                                spacing={10}
+                                renderItem={({ item: sub_item, index: sub_index }) => (
+                                  <TouchableOpacity activeOpacity={0.8} onPress={() => {
+                                    this.onFilterSubCategorySelect(item, sub_item)
+
+                                  }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
+                                    <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
+                                      {sub_item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
+                                      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                                        {sub_item.is_selected ? <Image style={sub_item.image_style} source={sub_item.image_on} /> : <Image style={sub_item.image_style} source={sub_item.image_off} />}
+                                        {sub_item.is_selected ? <MyAppText style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{sub_item.name}</MyAppText> : <MyAppText style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{sub_item.name}</MyAppText>}
+                                      </View>
+                                    </View>
+                                  </TouchableOpacity>
+                                )}
+                              />
+
+                            </View>
+                            : null))}
+
+                      </View> : null}
+                  </View>
+                </ScrollView>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableHighlight
+                  style={[MyStyles.dlg_btn_primary_cover]} onPress={() => {
+                    this.setState({ filterModalVisible: false })
+                    this.getRecommendList(0)
+                  }}>
+                  <MyAppText style={MyStyles.btn_primary}>Refine Search</MyAppText>
+                </TouchableHighlight>
+              </View>
+            </View>
+
+          </View>
+        </View>
+      </Modal>
+
+    </ScrollView>
+    )
+  }
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -362,225 +588,17 @@ export class FragmentRecommendProduct extends React.Component {
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
-        {global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
-          <View>
-            <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-            <View style={{ height: "100%", justifyContent: "center", alignItems: "center" }}>
-              <View style={{ alignItems: "center" }}>
-                <Image source={require("../../assets/images/ic_search_big.png")} style={[MyStyles.ic_search_big,]} />
-                <MyAppText style={{ fontSize: 69 / 3, color: Colors.primary_dark, textAlign: "center", marginTop: 30, fontWeight: "bold" }}>Sorry, no result found</MyAppText>
-                <MyAppText style={[{ fontSize: 39 / 3, color: Colors.color_c2c1c1, textAlign: "center", marginTop: 10 }, MyStyles.padding_h_main]}>Tell us about your skin and we'll show you some products that you might want to check out!</MyAppText>
-                <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 460 / 3, height: 130 / 3, marginTop: 100 / 3 }]} onPress=
-                  {() => {
-                    if (global.login_info.token.length <= 0) {
-                      this.setState({ showLoginModal: true })
-                    } else {
-                      this.props.navigation.navigate("WeCanSearchIt", {
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_skin_type]: global.login_info.skin_type,
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_concern]: global.login_info.concern,
-                        [MyConstants.NAVIGATION_PARAMS.questionnaire_needs]: global.login_info.needs,
-                        [MyConstants.NAVIGATION_PARAMS.onWeCanSearchItCallback]: this.onWeCanSearchItCallback, // 스킨타입 입력하고 돌아오는 콜백
-                      })
-                    }
-                  }
-                  }>
-                  <MyAppText style={[{ textAlign: "center", alignItems: "center", color: "white", fontSize: 13 }]}>Check Out!</MyAppText>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          :
-          <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
-            onScroll={({ nativeEvent }) => {
-              if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-                this.getRecommendList(this.offset)
-              }
-            }}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh}
-              />
-            }
-          >
-
-            <View>
-              <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-
-              {/* My Skin Info 부분 */}
-              <View style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: Colors.color_f8f8f8,
-                padding: 15,
-              }}>
-                {
-                  this.renderMyInfo()
-                }
-              </View>
-
-              {/* product 나열 */}
-              <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-                <View style={{ flexDirection: "row", justifyContent: "center", width: "100%", alignItems: "center" }}>
-                  <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Product({this.state.product_list_result_data.recomment_count})</MyAppText>
-                  <View style={{ flex: 1 }}></View>
-                  <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main,]} onPress={() => { this.setState({ filterModalVisible: true }) }}>
-                    <Image source={require("../../assets/images/ic_filter.png")} style={[MyStyles.ic_filter]} />
-                  </TouchableOpacity>
-                </View>
-                <FlatGrid
-                  itemDimension={this.ScreenWidth / 2 - 30}
-                  items={this.state.product_list_result_data.recomment_list}
-                  style={MyStyles.gridView}
-                  spacing={10}
-                  renderItem={({ item, index }) => (
-                    <ProductItem item={item} index={index} this={this}></ProductItem>
-                  )}
-                />
-              </View>
-
-            </View>
-
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={this.state.filterModalVisible}
-              onRequestClose={() => {
-              }}>
-              <View style={{ flex: 1 }}>
-                <View style={MyStyles.modal_bg1}>
-                  <View style={[MyStyles.modalContainer, { height: 500 }]}>
-                    {/* modal header */}
-                    <View style={MyStyles.modal_header}>
-                      <MyAppText style={MyStyles.modal_title}>Filter</MyAppText>
-                      <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", width: 70 }]} onPress={() => {
-                        this.resetFilterStatus();
-                      }}>
-                        <MyAppText style={{ color: Colors.color_dfdfdf, fontSize: 13, fontWeight: "500", }}>reset</MyAppText>
-                      </TouchableOpacity>
-                      <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
-                        this.setState({ filterModalVisible: false });
-                      }}>
-                        <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
-                      </TouchableOpacity>
-                    </View>
-
-                    <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-                    <View style={{ flex: 1 }}>
-                      <ScrollView style={{ flex: 1 }}>
-                        <View style={{ flex: 1 }}>
-                          {/* Main Category */}
-                          <View style={{ flex: 1 }}>
-                            <View style={{ flexDirection: "row", alignItems: "center" }}>
-                              <MyAppText style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500" }, MyStyles.modal_close_btn]}>Main Category</MyAppText>
-                              <MyAppText style={{ flex: 1, textAlign: "center" }}></MyAppText>
-                              <TouchableOpacity activeOpacity={0.8} style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
-                                this.selectAllCategories();
-                              }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.main_all_selected == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                <MyAppText style={{ marginLeft: 5 }}>All</MyAppText>
-                              </TouchableOpacity>
-
-                            </View>
-
-                            <FlatGrid
-                              itemDimension={this.ScreenWidth / 3 - 40}
-                              items={this.state.mainCategoryItems}
-                              style={MyStyles.gridView}
-                              spacing={10}
-                              renderItem={({ item, index }) => (
-                                <TouchableOpacity activeOpacity={0.8} onPress={() => { this.onFilterMainCategorySelect(item.categoryName) }} style={{ borderColor: item.is_selected == 1 ? "#d9b1db" : Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
-                                  <View style={[{ height: 100 / 3, justifyContent: "center", alignItems: "center" }]}>
-                                    {item.is_selected == 2 ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
-
-                                    {item.is_selected == 2 ?
-                                      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                                        <Image style={item.image_style_small} source={item.image_on} />
-                                        <MyAppText style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{item.categoryName}</MyAppText>
-                                      </View>
-                                      : item.is_selected == 1 ?
-                                        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                                          <Image style={item.image_style_small} source={item.image_half} />
-                                          <MyAppText style={[MyStyles.category_text2, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</MyAppText>
-                                        </View>
-                                        : <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                                          <Image style={item.image_style_small} source={item.image_off} />
-                                          <MyAppText style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{item.categoryName}</MyAppText>
-                                        </View>}
-
-                                  </View>
-                                </TouchableOpacity>
-                              )}
-                            />
-                          </View>
-
-                          {this.state.showSubCategory ?
-                            <View>
-                              {/* Sub Categories */}
-                              {this.state.main_all_selected == -1 ? null :
-                                <MyAppText style={[{ color: Colors.primary_dark, fontSize: 13, fontWeight: "500", marginLeft: 15, marginBottom: 20 }]}>Sub Category</MyAppText>
-                              }
-
-
-                              {this.state.mainCategoryItems.map((item, index) => (
-                                item.is_selected > 0 && item.sub_category.length > 0 ?
-                                  <View key={index} style={{ marginTop: -30 }}>
-                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                      <MyAppText style={[{ color: Colors.primary_purple, fontSize: 12, fontWeight: "400", marginLeft: 15 }]}>{item.categoryName}</MyAppText>
-                                      <MyAppText style={{ flex: 1, textAlign: "center" }}></MyAppText>
-                                      <TouchableOpacity activeOpacity={0.8} style={[MyStyles.modal_close_btn, { alignItems: "center", justifyContent: "center", flexDirection: "row" }]} onPress={() => {
-
-                                        this.onFilterSubCategoryAllSelect(item)
-                                      }}>
-                                        <Image style={{ width: 14, height: 14 }} source={item.sub_all_selected ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
-                                        <MyAppText style={{ marginLeft: 5 }}>All</MyAppText>
-                                      </TouchableOpacity>
-                                    </View>
-
-                                    <FlatGrid
-                                      itemDimension={this.ScreenWidth / item.sub_category.length - 40}
-                                      items={item.sub_category}
-                                      style={[MyStyles.gridView, { marginTop: -20 }]}
-                                      spacing={10}
-                                      renderItem={({ item: sub_item, index: sub_index }) => (
-                                        <TouchableOpacity activeOpacity={0.8} onPress={() => {
-                                          this.onFilterSubCategorySelect(item, sub_item)
-
-                                        }} style={{ borderColor: Colors.color_e3e5e4, marginRight: 5, borderWidth: 0.5, borderRadius: 50, overflow: "hidden" }}>
-                                          <View style={{ height: 100 / 3, justifyContent: "center", alignItems: "center" }}>
-                                            {sub_item.is_selected ? <Image source={require("../../assets/images/ic_gradient_bg.png")} style={[MyStyles.background_image]} /> : null}
-                                            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                                              {sub_item.is_selected ? <Image style={sub_item.image_style} source={sub_item.image_on} /> : <Image style={sub_item.image_style} source={sub_item.image_off} />}
-                                              {sub_item.is_selected ? <MyAppText style={[MyStyles.category_text1, { marginLeft: 5, color: "white" }]} numberOfLines={1}>{sub_item.name}</MyAppText> : <MyAppText style={[MyStyles.category_text1, { marginLeft: 5 }]} numberOfLines={1}>{sub_item.name}</MyAppText>}
-                                            </View>
-                                          </View>
-                                        </TouchableOpacity>
-                                      )}
-                                    />
-
-                                  </View>
-                                  : null))}
-
-                            </View> : null}
-                        </View>
-                      </ScrollView>
-                    </View>
-                    <View style={{ flexDirection: "row" }}>
-                      <TouchableHighlight
-                        style={[MyStyles.dlg_btn_primary_cover]} onPress={() => {
-                          this.setState({ filterModalVisible: false })
-                          this.getRecommendList(0)
-                        }}>
-                        <MyAppText style={MyStyles.btn_primary}>Refine Search</MyAppText>
-                      </TouchableHighlight>
-                    </View>
-                  </View>
-
-                </View>
-              </View>
-            </Modal>
-
-          </ScrollView>
+        {this.state.refreshFragment ?
+          [global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
+            this.renderNoResult()
+            :
+            this.renderMainScreen()
+          ] :
+          [global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
+            this.renderNoResult()
+            :
+            this.renderMainScreen()
+          ]
         }
 
         <LoginModal is_transparent={true} this={this} />
@@ -750,7 +768,7 @@ export class FragmentRecommendProduct extends React.Component {
         });
 
         // 전반적으로 선택된 인원 같이 변경해야 하므로
-        w_selectedQueIdx = data.findIndex((item) => item.id == global.login_info.questionnaire_id)        
+        w_selectedQueIdx = data.findIndex((item) => item.id == global.login_info.questionnaire_id)
         this.refs.mModalDropDown.select(w_selectedQueIdx)
 
         if (data.length > 0) {

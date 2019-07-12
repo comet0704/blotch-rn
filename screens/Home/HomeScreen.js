@@ -47,6 +47,7 @@ export default class HomeScreen extends React.Component {
       refreshing: false,
       showLoginModal: false,
       refreshOneLineInfo: false,
+      isGpsOn: true,
       oneline_review_ko: "",
       oneline_review_en: "",
       weatherInfo: {
@@ -168,10 +169,6 @@ export default class HomeScreen extends React.Component {
   }
 
   componentWillUpdate() {
-    // if (global.isExited == true) {
-    //   global.isExited = false
-    //   Updates.reload()
-    // }
   }
 
   componentWillUnmount() {
@@ -488,7 +485,9 @@ export default class HomeScreen extends React.Component {
                       </View>
                       :
                       <View style={{ alignSelf: "center", marginLeft: 10, width: 50, justifyContent: "center" }}>
-                        <Image source={require('../../assets/images/weather_loading.gif')} style={{ width: 15, height: 15, alignSelf: "center" }} />
+                        {this.state.isGpsOn ?
+                          <Image source={require('../../assets/images/weather_loading.gif')} style={{ width: 15, height: 15, alignSelf: "center" }} />
+                          : null}
                       </View>
                     }
 
@@ -984,7 +983,8 @@ export default class HomeScreen extends React.Component {
       },
       (error) => {
         //가져오기 실패 했을 경우.
-        // this.refs.toast.showBottom("Please allow location permissions in Settings.")
+        this.refs.toast.showBottom("Please allow location permissions in Settings.")
+        this.setState({ isGpsOn: false })
       }, {
         //Accuracy가 높아야하는지, 위치를 가져오는데 max 시간, 가져온 위치의 마지막 시간과 현재의 차이
         enableHighAccuracy: false, timeout: 20000, maximumAge: 1000

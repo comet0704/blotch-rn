@@ -462,7 +462,7 @@ export class FragmentProductDetailIngredients extends React.Component {
           this.refs.modalToast.showBottom(responseJson.result_msg);
           return
         }
-
+        global.refreshStatus.ingredient = true
         this.requestUserIngredientList(this.state.selected_questionnaire.id);
       })
       .catch((error) => {
@@ -500,7 +500,8 @@ export class FragmentProductDetailIngredients extends React.Component {
           isLoading: false,
           saveToModalVisible: false,
         });
-
+        
+        global.refreshStatus.ingredient = true
         if (responseJson.result_code < 0) {
           if (responseJson.result_code == -10) {
             Alert.alert(

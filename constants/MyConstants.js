@@ -1,3 +1,4 @@
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 export default {
   //
   // important
@@ -14,7 +15,7 @@ export default {
   TABBAR_HEIGHT: 100 / 3,
   TABBAR_TOP_BORDER_HEIGHT: 96 / 3,
   TOPBAR_HEIGHT: 155 / 3,
-  STATUSBAR_HEIGHT: 24,
+  STATUSBAR_HEIGHT: getStatusBarHeight(),
   // SERVER_URL: "http://api.barocomms.com:8002",
   // UPLOAD_SERVER_URL: "http://upload.barocomms.com:8002",
   SERVER_URL: "http://chemi.rsad.kr",
@@ -88,6 +89,7 @@ export default {
   },
   Loading_text: "",
   ASYNC_PARAMS: {
+    want_to_exit_app: "want_to_exit_app",
     login_info: "LoginInfo",
     read_msgs: "read_msgs",
     settingButtonOffset: "settingButtonOffset",

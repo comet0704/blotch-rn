@@ -356,8 +356,8 @@ export default class IngredientScreen extends React.Component {
                   </TouchableOpacity>
                 }
               </View>
-              <MyAppText style={[MyStyles.productBrand]} numberOfLines={1}>{item.brand_title}</MyAppText>
-              <MyAppText style={[MyStyles.productName]} numberOfLines={1}>{item.title}</MyAppText>
+              <MyAppText style={[MyStyles.productBrand, { width: 350 / 3 }]} numberOfLines={1}>{item.brand_title}</MyAppText>
+              <MyAppText style={[MyStyles.productName, { width: 350 / 3 }]} numberOfLines={1}>{item.title}</MyAppText>
             </TouchableOpacity>
           ))}
         </ScrollView>
