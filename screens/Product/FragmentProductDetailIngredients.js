@@ -427,7 +427,6 @@ export class FragmentProductDetailIngredients extends React.Component {
 
       })
       .catch((error) => {
-        console.log("22222222")
         // this.setState({
         //   isLoading: false,
         // });

@@ -1053,7 +1053,6 @@ export default class HomeScreen extends React.Component {
 
   requestOnelineReview(p_skin_type, p_concerns, p_needs, p_weather) {
     console.log(p_skin_type + ":" + p_concerns + ":" + p_needs + ":" + p_weather + ":")
-    console.log("22222222")
     return fetch(Net.user.onelineReview, {
       method: 'POST',
       headers: {
@@ -1071,7 +1070,6 @@ export default class HomeScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log("3333333")
         console.log(JSON.stringify(responseJson))
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);

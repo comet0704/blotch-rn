@@ -651,7 +651,6 @@ export default class MyPageScreen extends React.Component {
   }
 
   requestQuestionnaireDetail(p_questionnaire_id) {
-    console.log("222222222222:" + p_questionnaire_id)
     return fetch(Net.user.questionnaireDetail, {
       method: 'POST',
       headers: {
@@ -672,7 +671,6 @@ export default class MyPageScreen extends React.Component {
         }
 
         this.state.questionnaire_title = responseJson.result_data.questionnaire_detail.title
-        console.log("222222222222:" + this.state.questionnaire_title)
         this.setState({ questionnaire_title: this.state.questionnaire_title })
       })
       .catch((error) => {

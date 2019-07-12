@@ -38,11 +38,44 @@ export default class SettingScreen extends React.Component {
   }
 
   async doLogout() {
-    global.login_info = null;
     await AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, "");
 
     // 이제는 앱을 로그아웃 상태로 만들어야 하겠는데 그러자면 재기동하자.
-    Updates.reload()
+    this.requestLogout(global.login_info.email);
+  }
+
+  requestLogout(p_email) {
+    this.setState({
+      isLoading: true,
+    });
+    return fetch(Net.user.logout, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-access-token': global.login_info.token
+
+      },
+      body: JSON.stringify({
+        email: p_email
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          isLoading: false,
+        });
+        global.login_info = null;
+        Updates.reload()
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.refs.toast.showBottom(error);
+      })
+      .done();
+
   }
 
   render() {

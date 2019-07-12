@@ -63,7 +63,6 @@ export default class CalendarScreen extends React.Component {
           { selected: true, selectedTextColor: 'red' }
       }
     }
-    console.log("1111111:" + this.state.selectedDate);
     this.defaultMonth = this.monthList[this.monthList.findIndex(item => item.num == this.state.selectedDate.substring(5, 7))].txt
     this.defaultYear = this.yearList[this.yearList.findIndex(item => item.num == this.state.selectedDate.substring(0, 4))].txt
     this.isFromQuestionnaire = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.isFromQuestionnaire)

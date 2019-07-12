@@ -770,7 +770,6 @@ export class FragmentRecommendProduct extends React.Component {
   }
 
   requestQuestionnaireDetail(p_questionnaire_id) {
-    console.log("1111111:" + p_questionnaire_id);
     // this.setState({
     //   isLoading: true,
     // });

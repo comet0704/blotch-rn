@@ -74,6 +74,7 @@ export default {
         addUserIngredient: MyConstants.SERVER_URL + "/ingredient/addUserIngredient",
     },
     user: {
+        logout: MyConstants.SERVER_URL + "/user/logout",
         myList: MyConstants.SERVER_URL + "/user/myList",
         onelineReview: MyConstants.SERVER_URL + "/user/onelineReview",
         updateFcmToken: MyConstants.SERVER_URL + "/user/updateFcmToken",
