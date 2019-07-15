@@ -17,7 +17,7 @@ import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBac
 import StarRating from 'react-native-star-rating';
 
 export default class MyReviewScreen extends React.Component {
-  offset = 0;
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -28,6 +28,7 @@ export default class MyReviewScreen extends React.Component {
         ]
       }
     };
+    this.offset = 0;
   }
 
   componentDidMount() {

@@ -32,9 +32,6 @@ import { FlatGrid } from 'react-native-super-grid';
 import { ProductItem2 } from '../../components/Products/ProductItem2';
 
 export default class PotentialAllergensProductScreen extends React.Component {
-  offset = 0;
-  beforeCatIdx = 0;
-  selectedSubCatName = "";
   constructor(props) {
     super(props)
     this.state = {
@@ -44,8 +41,12 @@ export default class PotentialAllergensProductScreen extends React.Component {
         list: [
         ]
       },
-      loading_end: false,
     };
+
+    this.loading_end = false
+    this.offset = 0;
+    this.beforeCatIdx = 0;
+    this.selectedSubCatName = "";
   }
 
   componentDidMount() {
@@ -63,10 +64,10 @@ export default class PotentialAllergensProductScreen extends React.Component {
     this.beforeCatIdx = index
     this.setState({ categoryItems })
 
-    this.setState({ loading_end: false })
+    this.loading_end = false
     if (this.state.categoryItems[index].sub_category.length > 0) {
       this.selectedSubCatName = this.state.categoryItems[index].sub_category[0].name;
-    } else {            
+    } else {
       this.selectedSubCatName = "";
     }
     this.requestPotentialAllergenProductList(this.state.categoryItems[index].categoryName, this.selectedSubCatName, 0)
@@ -109,7 +110,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
                     categoryItems[p_categoryIndex].sub_category.map((item) => (item.is_selected = false))
                     categoryItems[p_categoryIndex].sub_category[index].is_selected = true
                     this.setState({ categoryItems: categoryItems })
-                    this.setState({ loading_end: false })
+                    this.loading_end = false
                     this.requestPotentialAllergenProductList(this.state.categoryItems[this.beforeCatIdx].categoryName, this.selectedSubCatName, 0)
                   }}>
                     <MyAppText style={item.is_selected ? MyStyles.tabbar_text_selected : MyStyles.tabbar_text} >{item.name}</MyAppText>
@@ -137,7 +138,13 @@ export default class PotentialAllergensProductScreen extends React.Component {
         />
         <Toast ref='toast' />
 
-        <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: "white", }} keyboardDismissMode="on-drag">
+        <ScrollView
+          onScroll={({ nativeEvent }) => {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.loading_end == false) {
+              this.requestPotentialAllergenProductList(this.state.categoryItems[this.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
+            }
+          }}
+          style={{ flex: 1, flexDirection: 'column', backgroundColor: "white", }} keyboardDismissMode="on-drag">
 
           <View>
 
@@ -167,7 +174,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
                 style={MyStyles.gridView}
                 spacing={10}
                 renderItem={({ item, index }) => (
-                  <ProductItem2 item={item} index={index} this={this}/>
+                  <ProductItem2 item={item} index={index} this={this} />
                 )}
               />
             </View>
@@ -195,6 +202,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
   }
 
   requestPotentialAllergenProductList(p_category, p_sub_category, p_offset) {
+    console.log("global.login_info.questionnaire_id = " + global.login_info.questionnaire_id);
     console.log("category = " + p_category);
     console.log("p_sub_category = " + p_sub_category)
     this.setState({
@@ -208,6 +216,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
+        questionnaire_id: global.login_info.questionnaire_id,
         category: p_category == "" ? "All" : p_category,
         category_sub: p_sub_category == "" ? "All" : p_sub_category,
         offset: p_offset.toString()
@@ -229,7 +238,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
         }
         this.offset += responseJson.result_data.list.length
         if (responseJson.result_data.list.length < MyConstants.ITEMS_PER_PAGE) {
-          this.setState({ loading_end: true })
+          this.loading_end = true
         }
         if (p_offset == 0) {
           this.setState({
