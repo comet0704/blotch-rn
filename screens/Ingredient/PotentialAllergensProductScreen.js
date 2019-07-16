@@ -205,6 +205,7 @@ export default class PotentialAllergensProductScreen extends React.Component {
     console.log("global.login_info.questionnaire_id = " + global.login_info.questionnaire_id);
     console.log("category = " + p_category);
     console.log("p_sub_category = " + p_sub_category)
+    console.log("offset = " + p_offset)
     this.setState({
       isLoading: true,
     });
@@ -218,13 +219,13 @@ export default class PotentialAllergensProductScreen extends React.Component {
       body: JSON.stringify({
         questionnaire_id: global.login_info.questionnaire_id,
         category: p_category == "" ? "All" : p_category,
-        category_sub: p_sub_category == "" ? "All" : p_sub_category,
+        sub_category: p_sub_category == "" ? "All" : p_sub_category,
         offset: p_offset.toString()
       }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
+        console.log(responseJson);
         this.setState({
           isLoading: false,
         });
