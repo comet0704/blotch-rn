@@ -1,7 +1,21 @@
 // common
 import { LinearGradient } from 'expo';
 import React from 'react';
-import { Platform, Image, Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import {
+  Platform,
+  Image,
+  Alert,
+  Linking,
+  Dimensions,
+  LayoutAnimation,
+  Text,
+  TextInput,
+  View,
+  StatusBar,
+  StyleSheet,
+  TouchableOpacity,
+  KeyboardAvoidingView
+} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import { TopbarWithBlackBack } from '../../../components/Topbars/TopbarWithBlackBack';
@@ -11,108 +25,205 @@ import { Camera, BarCodeScanner, Permissions } from 'expo';
 import Net from '../../../Net/Net';
 import Colors from '../../../constants/Colors';
 import { MyAppText } from '../../../components/Texts/MyAppText';
+/**
+ * OCR
+ */
+import firebase from '../../../utils/firebase';
+import uuid from 'uuid';
+import Environment from '../../../config/environment';
+import Autocomplete from 'react-native-autocomplete-input';
+import Common from '../../../assets/Common';
+import { FlatGrid } from 'react-native-super-grid';
+import { AsyncStorage } from 'react-native';
+import { ProductBestItem } from '../../../components/Products/ProductBestItem';
 
-export default class SearchBarcodeScreen extends React.Component {
-
-  item_id = "";
-  offset = 0;
+export default class SearchCameraScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isTorchOn: false,
-      loading_end: false,
+      isLoading: true,
+      imgUri: undefined,
+      ocrResult: '',
+      query: ''
     };
   }
 
   componentDidMount() {
-    this._requestCameraPermission();
+    const { navigation } = this.props;
+    const ocr = navigation.getParam('ocr');
+    this.handleImagePicked(ocr);
+    this.setState({ imgUri: ocr.uri });
+    // const tmp =
+    //   'https://firebasestorage.googleapis.com/v0/b/sonic-terrain-245007.appspot.com/o/077c8ba1-7d0d-476d-9b1c-12dc15c3162d?alt=media&token=b45a2e3a-41df-4267-b41f-d5b9585f4275';
+    // this.setState({ imgUri: tmp, isLoading: false });
   }
 
-  _requestCameraPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({
-      hasCameraPermission: status === 'granted',
+  handleImagePicked = async pickerResult => {
+    try {
+      if (!pickerResult.cancelled) {
+        uploadUrl = await uploadImageAsync(pickerResult.uri);
+        await this.submitToGoogle(uploadUrl);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Upload failed, sorry :(');
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  submitToGoogle = async uploadUrl => {
+    try {
+      this.setState({ isLoading: true });
+      let body = JSON.stringify({
+        requests: [
+          {
+            features: [
+              { type: 'LABEL_DETECTION', maxResults: 10 },
+              { type: 'LANDMARK_DETECTION', maxResults: 5 },
+              { type: 'FACE_DETECTION', maxResults: 5 },
+              { type: 'LOGO_DETECTION', maxResults: 5 },
+              { type: 'TEXT_DETECTION', maxResults: 5 },
+              { type: 'DOCUMENT_TEXT_DETECTION', maxResults: 5 },
+              { type: 'SAFE_SEARCH_DETECTION', maxResults: 5 },
+              { type: 'IMAGE_PROPERTIES', maxResults: 5 },
+              { type: 'CROP_HINTS', maxResults: 5 },
+              { type: 'WEB_DETECTION', maxResults: 5 }
+            ],
+            image: {
+              source: {
+                imageUri: uploadUrl
+              }
+            }
+          }
+        ]
+      });
+      let visionApi =
+        'https://vision.googleapis.com/v1/images:annotate?key=' +
+        Environment['GOOGLE_CLOUD_VISION_API_KEY'];
+      let response = await fetch(visionApi, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: body
+      });
+      let responseJson = await response.json();
+      let ocrResult = responseJson.responses[0].fullTextAnnotation.text;
+      ocrResult = ocrResult.replace(/[\n\r]/g, ' ');
+      this.setState({
+        ocrResult,
+        isLoading: false
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  goSearchMain = () => {
+    this.props.navigation.navigate('SearchMain', {
+      keyword: this.state.ocrResult
     });
   };
 
-  _handleBarCodeRead = result => {
-    this.props.navigation.navigate("SearchResult", { [MyConstants.NAVIGATION_PARAMS.is_from_camera_search]: true, [MyConstants.NAVIGATION_PARAMS.scanned_barcode]: result.data });
-    return
+  goSearchResultScreen = () => {
+    if (!this.state.ocrResult) {
+      this.refs.toast.showBottom('Please input search keyword.');
+      return;
+    }
+    this.props.navigation.navigate('SearchResult', {
+      [MyConstants.NAVIGATION_PARAMS.search_word]: this.state.ocrResult,
+      [MyConstants.NAVIGATION_PARAMS.backCallbackfromSearchResult]: () => {
+        console.log('callback');
+      }
+    });
   };
-
-  _handleTorchPress() {
-    this.state.isTorchOn = !this.state.isTorchOn
-    this.setState({ isTorchOn: this.state.isTorchOn })
-  }
 
   render() {
     return (
-      <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
-
+      <View
+        style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}
+        behavior='padding'
+        enabled
+      >
         <Spinner
-          //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
-          //Text with the Spinner 
           textContent={MyConstants.Loading_text}
-          //Text style of the Spinner Text
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
-
-        <View style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          {this.state.hasCameraPermission === null ?
-            <MyAppText>Requesting for camera permission</MyAppText>
-            :
-            this.state.hasCameraPermission === false ?
-              <MyAppText style={{}}>
-                Camera permission is not granted
-              </MyAppText>
-              :
-              <Camera
-                // onBarCodeScanned={this._handleBarCodeRead}
-                style={[StyleSheet.absoluteFill, styles.container]}
-                flashMode={this.state.isTorchOn ? 'torch' : 'off'}
-              >
-                <View style={styles.layerTop} />
-                <View style={styles.layerTopbarSpace} />
-                <View style={styles.layerCenter}>
-                  <View style={[styles.layerLeft, { zIndex: 1000 }]}>
-                  </View>
-                  <View style={styles.focused}>
-
-                  </View>
-                  <View style={styles.layerRight} />
-                </View>
-                <View style={styles.layerBottom} />
-                <View style={styles.layerDesc}>
-                  <View style={{ flex: 1, backgroundColor: "white", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-                    <View style={{ flex: 1 }} />
-                    <Image source={require('../../../assets/images/ic_camera_button.png')} style={[MyStyles.ic_camera_button]} />
-                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                      <TouchableOpacity onPress={() => {
-                        this.props.navigation.pop(1);
-                        this.props.navigation.navigate("SearchBarcode")
-                      }}>
-                        <Image source={require('../../../assets/images/ic_barcode_button.png')} style={[MyStyles.ic_barcode_button]} />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </Camera>
-          }
-          <View style={{ position: "absolute", top: 0, left: 0, right: 0 }}>
-            <TopbarWithBlackBack rightBtn="true" isTorch={true} title="Camera" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this._handleTorchPress() }}></TopbarWithBlackBack>
-            <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-          </View>
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+          <TopbarWithBlackBack
+            title='Camera'
+            onPress={() => {
+              this.props.navigation.pop(1);
+              // this.props.navigation.navigate("SearchCamera")
+            }}
+          />
+          <LinearGradient
+            colors={['#eeeeee', '#f7f7f7']}
+            style={{ height: 6 }}
+          />
         </View>
-      </KeyboardAvoidingView >
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
+          <View style={styles.layerTopbarSpace} />
+          <TextInput
+            style={{
+              height: 40,
+              fontSize: 13,
+              paddingLeft: 5,
+              paddingRight: 5,
+              borderWidth: 4,
+              borderColor: Colors.color_f8f8f8,
+              width: '90%'
+            }}
+            value={this.state.ocrResult}
+            placeholder='Type here'
+            onChangeText={text => this.setState({ ocrResult: text })}
+          />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={[
+              {
+                marginTop: 27,
+                borderRadius: 5,
+                height: 135 / 3,
+                justifyContent: 'center',
+                width: '80%'
+              },
+              this.state.ocrResult
+                ? { backgroundColor: Colors.primary_purple }
+                : { backgroundColor: '#eff0f1' }
+            ]}
+            disabled={!this.state.ocrResult}
+            onPress={() => this.goSearchMain()}
+          >
+            <MyAppText
+              style={{
+                color: 'white',
+                fontSize: 15,
+                textAlign: 'center',
+                fontWeight: '500'
+              }}
+            >
+              SEARCH
+            </MyAppText>
+          </TouchableOpacity>
+          <Image
+            source={{ uri: this.state.imgUri }}
+            style={{ width: '100%', height: 400 }}
+          />
+        </View>
+      </View>
     );
   }
-
 }
 const opacity = 'rgba(0, 0, 0, .6)';
 const styles = StyleSheet.create({
@@ -140,7 +251,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 4,
     borderColor: Colors.color_primary_pink,
-    justifyContent: "center",
+    justifyContent: 'center'
   },
   layerRight: {
     width: 15,
@@ -153,5 +264,28 @@ const styles = StyleSheet.create({
   layerDesc: {
     height: 470 / 3,
     backgroundColor: opacity
-  },
+  }
 });
+
+async function uploadImageAsync(uri) {
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function(e) {
+      console.error(e);
+      reject(new TypeError('Network request failed'));
+    };
+    xhr.responseType = 'blob';
+    xhr.open('GET', uri, true);
+    xhr.send(null);
+  });
+  const ref = firebase
+    .storage()
+    .ref()
+    .child(uuid.v4());
+  const snapshot = await ref.put(blob);
+  blob.close();
+  return await snapshot.ref.getDownloadURL();
+}

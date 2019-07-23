@@ -4,13 +4,12 @@ import ImageLoad from 'react-native-image-placeholder';
 import { AsyncStorage } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles'
-import MyConstants from '../../constants/MyConstants'
+import MyStyles from '../../constants/MyStyles';
+import MyConstants from '../../constants/MyConstants';
 import Common from '../../assets/Common';
 import Net from '../../Net/Net';
 import Colors from '../../constants/Colors';
 import { MyAppText } from '../../components/Texts/MyAppText';
-
 import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
 import {
   Image,
@@ -36,6 +35,10 @@ import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../c
 import { exitAlert } from '../../components/androidBackButton/exitAlert';
 import { LoginModal } from '../../components/Modals/LoginModal';
 import { MyPagination } from '../../components/MyPagination';
+/**
+ *
+ */
+import { SearchModal } from '../../components/Modals/SearchModal';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -74,6 +77,7 @@ export default class HomeScreen extends React.Component {
         image_list: "",
         title: "",
       },
+      modalVisible:false
     };
   }
 
@@ -132,7 +136,7 @@ export default class HomeScreen extends React.Component {
     // }
 
     if (p_notification.origin == "selected") {
-      if (p_notification.data.type == MyConstants.FCM_TYPES.FCM_TYPE_COMMENT) { // 댓글알림이면 
+      if (p_notification.data.type == MyConstants.FCM_TYPES.FCM_TYPE_COMMENT) { // 댓글알림이면
         custom_data = JSON.parse(p_notification.data.custom_data)
         if (custom_data.type == 'article') {
           this.props.navigation.navigate("ArticleDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: custom_data.id })
@@ -149,8 +153,9 @@ export default class HomeScreen extends React.Component {
       }
     }
   }
-  componentDidMount() {
-    // Home 에서 Notification을 조종해 주겠음    
+
+  async componentDidMount() {
+    // Home 에서 Notification을 조종해 주겠음
     Notifications.addListener(this._handleNotification);
 
     if (global.login_info.token.length > 0) { // 회원이면 expo 토큰 등록
@@ -166,6 +171,9 @@ export default class HomeScreen extends React.Component {
         this.props.navigation.navigate("Tutorial")
       }
     });
+
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    await Permissions.askAsync(Permissions.CAMERA);
   }
 
   componentWillUpdate() {
@@ -407,14 +415,13 @@ export default class HomeScreen extends React.Component {
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
-          //Text with the Spinner 
+          //Text with the Spinner
           textContent={MyConstants.Loading_text}
           //Text style of the Spinner Text
           textStyle={MyStyles.spinnerTextStyle}
         />
         <Toast ref='toast' />
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
-
           <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag"
             refreshControl={
               <RefreshControl
@@ -430,7 +437,10 @@ export default class HomeScreen extends React.Component {
                     <Image source={require("../../assets/images/ic_search_box_bg.png")} style={MyStyles.background_image_stretch} />
                     <Image source={require('../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
                     <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
-                    <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
+                    {/* OCR */}
+                    <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }}
+                    // onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
+                    onPress={() => { this.setState({modalVisible:true}) }}>
                       <Image source={require('../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                     </TouchableOpacity>
                   </View>
@@ -528,7 +538,7 @@ export default class HomeScreen extends React.Component {
                 global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.container, { marginTop: 10 }]} onPress=
                     {() => {
-                      // 로직변경후 
+                      // 로직변경후
                       if (global.login_info.token.length <= 0) { // 비회원의 경우 로그인페이지로 유도
                         this.setState({ showLoginModal: true });
                       } else {
@@ -558,7 +568,7 @@ export default class HomeScreen extends React.Component {
                 global.login_info.token.length <= 0 || Common.isNeedToAddQuestionnaire() ?
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.container, { marginTop: 10 }]} onPress=
                     {() => {
-                      // 로직변경후 
+                      // 로직변경후
                       if (global.login_info.token.length <= 0) { // 비회원의 경우 로그인페이지로 유도
                         this.setState({ showLoginModal: true });
                       } else {
@@ -812,7 +822,7 @@ export default class HomeScreen extends React.Component {
                   </TouchableOpacity>
                   <Image style={[MyStyles.seperate_v_line_e5e5e5, { height: 30 / 3 }]} />
                   <TouchableOpacity activeOpacity={0.8} style={{ flex: 1, justifyContent: "center" }} onPress={() => {
-                    // this.props.navigation.navigate("AboutUs"); 
+                    // this.props.navigation.navigate("AboutUs");
                     Alert.alert(
                       '',
                       "It's being completed",
@@ -834,6 +844,11 @@ export default class HomeScreen extends React.Component {
           </ScrollView>
         </KeyboardAvoidingView>
         <Image source={require("../../assets/images/ic_tabbar_border.png")} style={{ width: "100%", height: MyConstants.TABBAR_TOP_BORDER_HEIGHT, position: "absolute", bottom: 0 }} />
+        {/* OCR */}
+        <SearchModal
+          navigation={this.props.navigation}
+          visible={this.state.modalVisible}
+          onClose={()=>{this.setState({modalVisible:false})}}/>
       </View >
     );
   }
@@ -897,7 +912,6 @@ export default class HomeScreen extends React.Component {
         this.refs.toast.showBottom(error);
       })
       .done();
-
   }
 
   requestProductLike(p_product_id) {

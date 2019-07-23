@@ -1,7 +1,10 @@
 import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
 import { Platform, Icon, Image } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createBottomTabNavigator
+} from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/Home/HomeScreen';
@@ -51,27 +54,29 @@ import MyStyles from '../constants/MyStyles';
 import TutorialScreen from '../screens/Tutorial/TutorialScreen';
 import SnsMoreInfoScreen from '../screens/Login/SnsMoreInfoScreen';
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
-  Tutorial: TutorialScreen,
-  WeCanSearchIt: WeCanSearchItScreen,
-  Article: ArticlesScreen,
-  ArticleDetail: ArticleDetailScreen,
-  Faq: FaqScreen,
-  BannerDetail: BannerDetailScreen,
-  ProductDetail: ProductDetailScreen,
-  SearchMain: SearchMainScreen,
-  SearchResult: SearchResultScreen,
-  SearchBrandDetail: SearchBrandDetailScreen,
-  SearchResultProductMore: SearchResultProductMoreScreen,
-  SearchResultIngredientMore: SearchResultIngredientMoreScreen,
-  SearchCamera: SearchCameraScreen,
-  SearchBarcode: SearchBarcodeScreen,
-  AboutUs: AboutUsScreen,
-},
+const HomeStack = createStackNavigator(
   {
-    headerMode: 'screen ',
-  });
+    Home: HomeScreen,
+    Tutorial: TutorialScreen,
+    WeCanSearchIt: WeCanSearchItScreen,
+    Article: ArticlesScreen,
+    ArticleDetail: ArticleDetailScreen,
+    Faq: FaqScreen,
+    BannerDetail: BannerDetailScreen,
+    ProductDetail: ProductDetailScreen,
+    SearchMain: SearchMainScreen,
+    SearchResult: SearchResultScreen,
+    SearchBrandDetail: SearchBrandDetailScreen,
+    SearchResultProductMore: SearchResultProductMoreScreen,
+    SearchResultIngredientMore: SearchResultIngredientMoreScreen,
+    SearchCamera: SearchCameraScreen,
+    SearchBarcode: SearchBarcodeScreen,
+    AboutUs: AboutUsScreen
+  },
+  {
+    headerMode: 'screen '
+  }
+);
 
 HomeStack.navigationOptions = ({ navigation }) => {
   let tabBarVisible = false;
@@ -79,17 +84,26 @@ HomeStack.navigationOptions = ({ navigation }) => {
   let routeName = navigation.state.routes[navigation.state.index].routeName;
 
   if (routeName == 'Home') {
-    tabBarVisible = true
+    tabBarVisible = true;
   }
 
   return {
-    tabBarLabel: "Home",
-    tabBarIcon: ({ focused }) => (
-      focused ? <Image style={{ width: 57 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_home_on.png")} /> : <Image style={{ width: 57 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_home_off.png")} />
-    ),
+    tabBarLabel: 'Home',
+    tabBarIcon: ({ focused }) =>
+      focused ? (
+        <Image
+          style={{ width: 57 / 3, height: 53 / 3 }}
+          source={require('../assets/images/ic_menu_home_on.png')}
+        />
+      ) : (
+        <Image
+          style={{ width: 57 / 3, height: 53 / 3 }}
+          source={require('../assets/images/ic_menu_home_off.png')}
+        />
+      ),
     tabBarVisible: tabBarVisible
-  }
-}
+  };
+};
 
 // HomeStack.navigationOptions = {
 //   tabBarLabel: 'Home',
@@ -98,16 +112,18 @@ HomeStack.navigationOptions = ({ navigation }) => {
 //   ),
 // };
 
-const ProductStack = createStackNavigator({
-  ProductContainer: ProductContainerScreen,
-  WeCanSearchIt: WeCanSearchItScreen,
-  ProductDetail: ProductDetailScreen,
-  BannerDetail: BannerDetailScreen,
-  SearchBrandDetail: SearchBrandDetailScreen,
-},
+const ProductStack = createStackNavigator(
   {
-    headerMode: 'screen ',
-  });
+    ProductContainer: ProductContainerScreen,
+    WeCanSearchIt: WeCanSearchItScreen,
+    ProductDetail: ProductDetailScreen,
+    BannerDetail: BannerDetailScreen,
+    SearchBrandDetail: SearchBrandDetailScreen
+  },
+  {
+    headerMode: 'screen '
+  }
+);
 
 ProductStack.navigationOptions = ({ navigation }) => {
   let tabBarVisible = false;
@@ -115,26 +131,37 @@ ProductStack.navigationOptions = ({ navigation }) => {
   let routeName = navigation.state.routes[navigation.state.index].routeName;
 
   if (routeName == 'ProductContainer') {
-    tabBarVisible = true
+    tabBarVisible = true;
   }
 
   return {
     tabBarLabel: 'Product',
-    tabBarIcon: ({ focused }) => (
-      focused ? <Image style={{ width: 49 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_product_on.png")} /> : <Image style={{ width: 49 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_product_off.png")} />
-    ),
+    tabBarIcon: ({ focused }) =>
+      focused ? (
+        <Image
+          style={{ width: 49 / 3, height: 53 / 3 }}
+          source={require('../assets/images/ic_menu_product_on.png')}
+        />
+      ) : (
+        <Image
+          style={{ width: 49 / 3, height: 53 / 3 }}
+          source={require('../assets/images/ic_menu_product_off.png')}
+        />
+      ),
     tabBarVisible: tabBarVisible
-  }
-}
+  };
+};
 
-const IngredientStack = createStackNavigator({
-  Ingredient: IngredientScreen,
-  PotentialAllergenProduct: PotentialAllergensProductScreen,
-  ProductDetail: ProductDetailScreen,
-},
+const IngredientStack = createStackNavigator(
   {
-    headerMode: 'screen ',
-  });
+    Ingredient: IngredientScreen,
+    PotentialAllergenProduct: PotentialAllergensProductScreen,
+    ProductDetail: ProductDetailScreen
+  },
+  {
+    headerMode: 'screen '
+  }
+);
 
 IngredientStack.navigationOptions = ({ navigation }) => {
   let tabBarVisible = false;
@@ -142,58 +169,79 @@ IngredientStack.navigationOptions = ({ navigation }) => {
   let routeName = navigation.state.routes[navigation.state.index].routeName;
 
   if (routeName == 'Ingredient') {
-    tabBarVisible = true
+    tabBarVisible = true;
   }
 
   return {
     tabBarLabel: 'Ingredient',
-    tabBarIcon: ({ focused }) => (
-      focused ? <Image style={{ width: 42 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_ingredient_on.png")} /> : <Image style={{ width: 42 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_ingredient_off.png")} />
-    ),
+    tabBarIcon: ({ focused }) =>
+      focused ? (
+        <Image
+          style={{ width: 42 / 3, height: 53 / 3 }}
+          source={require('../assets/images/ic_menu_ingredient_on.png')}
+        />
+      ) : (
+        <Image
+          style={{ width: 42 / 3, height: 53 / 3 }}
+          source={require('../assets/images/ic_menu_ingredient_off.png')}
+        />
+      ),
     tabBarVisible: tabBarVisible
-  }
-}
+  };
+};
 
-const LoginStack = createStackNavigator({
-  Login: LoginScreen,
-  Signup: SignupScreen,
-  FindPwd: FindPwdScreen,
-  SnsMoreInfo: SnsMoreInfoScreen,
-  WeCanSearchIt: WeCanSearchItScreen,
-  Questionnare: QuestionnareScreen,
-  Calendar: CalendarScreen,
-},
+const LoginStack = createStackNavigator(
   {
-    headerMode: 'screen ',
-  });
+    Login: LoginScreen,
+    Signup: SignupScreen,
+    FindPwd: FindPwdScreen,
+    SnsMoreInfo: SnsMoreInfoScreen,
+    WeCanSearchIt: WeCanSearchItScreen,
+    Questionnare: QuestionnareScreen,
+    Calendar: CalendarScreen
+  },
+  {
+    headerMode: 'screen '
+  }
+);
 
 LoginStack.navigationOptions = {
   tabBarLabel: 'Login',
-  tabBarIcon: ({ focused }) => (
-    focused ? <Image style={{ width: 16.7, height: 17.7 }} source={require("../assets/images/ic_menu_login_off.png")} /> : <Image style={{ width: 16.7, height: 17.7 }} source={require("../assets/images/ic_menu_login_off.png")} />
-  ),
+  tabBarIcon: ({ focused }) =>
+    focused ? (
+      <Image
+        style={{ width: 16.7, height: 17.7 }}
+        source={require('../assets/images/ic_menu_login_off.png')}
+      />
+    ) : (
+      <Image
+        style={{ width: 16.7, height: 17.7 }}
+        source={require('../assets/images/ic_menu_login_off.png')}
+      />
+    ),
 
-  tabBarVisible: false,
-
+  tabBarVisible: false
 };
 
-const MyListStack = createStackNavigator({
-  MyList: MyListScreen,
-  FavoriteArticles: FavoriteArticlesScreen,
-  Article: ArticlesScreen,
-  ArticleDetail: ArticleDetailScreen,
-  HeartList: HeartListScreen,
-  BlotchdList: BlotchdListScreen,
-  MatchdList: MatchdListScreen,
-  SearchBrandDetail: SearchBrandDetailScreen,
-  SearchCamera: SearchCameraScreen,
-  SearchBarcode: SearchBarcodeScreen,
-  ProductDetail: ProductDetailScreen,
-  MyOwnList: MyOwnListScreen,
-},
+const MyListStack = createStackNavigator(
   {
-    headerMode: 'screen ',
-  });
+    MyList: MyListScreen,
+    FavoriteArticles: FavoriteArticlesScreen,
+    Article: ArticlesScreen,
+    ArticleDetail: ArticleDetailScreen,
+    HeartList: HeartListScreen,
+    BlotchdList: BlotchdListScreen,
+    MatchdList: MatchdListScreen,
+    SearchBrandDetail: SearchBrandDetailScreen,
+    SearchCamera: SearchCameraScreen,
+    SearchBarcode: SearchBarcodeScreen,
+    ProductDetail: ProductDetailScreen,
+    MyOwnList: MyOwnListScreen
+  },
+  {
+    headerMode: 'screen '
+  }
+);
 
 MyListStack.navigationOptions = ({ navigation }) => {
   let tabBarVisible = false;
@@ -201,40 +249,50 @@ MyListStack.navigationOptions = ({ navigation }) => {
   let routeName = navigation.state.routes[navigation.state.index].routeName;
 
   if (routeName == 'MyList') {
-    tabBarVisible = true
+    tabBarVisible = true;
   }
 
   return {
     tabBarLabel: 'My List',
-    tabBarIcon: ({ focused }) => (
-      focused ? <Image style={{ width: 60 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_mylist_on.png")} /> : <Image style={{ width: 60 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_mylist_off.png")} />
-    ),
+    tabBarIcon: ({ focused }) =>
+      focused ? (
+        <Image
+          style={{ width: 60 / 3, height: 53 / 3 }}
+          source={require('../assets/images/ic_menu_mylist_on.png')}
+        />
+      ) : (
+        <Image
+          style={{ width: 60 / 3, height: 53 / 3 }}
+          source={require('../assets/images/ic_menu_mylist_off.png')}
+        />
+      ),
     tabBarVisible: tabBarVisible
-  }
-}
+  };
+};
 
-
-const MyPageStack = createStackNavigator({
-  MyPage: MyPageScreen,
-  WeCanSearchIt: WeCanSearchItScreen,
-  Questionnare: QuestionnareScreen,
-  MyBeautyBox: MyBeautyBoxScreen,
-  Calendar: CalendarScreen,
-  ContactUs: ContactUsScreen,
-  Announcements: AnnouncementsScreen,
-  Notification: NotificationScreen,
-  Policy: PolicyScreen,
-  Setting: SettingScreen,
-  MyReview: MyReviewScreen,
-  MyPoint: MyPointScreen,
-  ChangePwd: ChangePwdScreen,
-  EditProfile: EditProfileScreen,
-  ProductDetail: ProductDetailScreen,
-  SearchBrandDetail: SearchBrandDetailScreen,
-},
+const MyPageStack = createStackNavigator(
   {
-    headerMode: 'screen ',
-  });
+    MyPage: MyPageScreen,
+    WeCanSearchIt: WeCanSearchItScreen,
+    Questionnare: QuestionnareScreen,
+    MyBeautyBox: MyBeautyBoxScreen,
+    Calendar: CalendarScreen,
+    ContactUs: ContactUsScreen,
+    Announcements: AnnouncementsScreen,
+    Notification: NotificationScreen,
+    Policy: PolicyScreen,
+    Setting: SettingScreen,
+    MyReview: MyReviewScreen,
+    MyPoint: MyPointScreen,
+    ChangePwd: ChangePwdScreen,
+    EditProfile: EditProfileScreen,
+    ProductDetail: ProductDetailScreen,
+    SearchBrandDetail: SearchBrandDetailScreen
+  },
+  {
+    headerMode: 'screen '
+  }
+);
 
 MyPageStack.navigationOptions = ({ navigation }) => {
   let tabBarVisible = false;
@@ -242,20 +300,29 @@ MyPageStack.navigationOptions = ({ navigation }) => {
   let routeName = navigation.state.routes[navigation.state.index].routeName;
 
   if (routeName == 'MyPage') {
-    tabBarVisible = true
+    tabBarVisible = true;
   }
 
   return {
     tabBarLabel: 'My Page',
-    tabBarIcon: ({ focused }) => (
-      focused ? <Image style={{ width: 39 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_mypage_on.png")} /> : <Image style={{ width: 39 / 3, height: 53 / 3 }} source={require("../assets/images/ic_menu_mypage_off.png")} />
-    ),
+    tabBarIcon: ({ focused }) =>
+      focused ? (
+        <Image
+          style={{ width: 39 / 3, height: 53 / 3 }}
+          source={require('../assets/images/ic_menu_mypage_on.png')}
+        />
+      ) : (
+        <Image
+          style={{ width: 39 / 3, height: 53 / 3 }}
+          source={require('../assets/images/ic_menu_mypage_off.png')}
+        />
+      ),
     tabBarVisible: tabBarVisible
-  }
-}
+  };
+};
 
 const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+  Links: LinksScreen
 });
 
 LinksStack.navigationOptions = {
@@ -265,24 +332,35 @@ LinksStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
     />
-  ),
+  )
 };
 
-
-export default createBottomTabNavigator({
-  // LinksStack,
-  HomeStack,
-  ProductStack,
-  IngredientStack,
-  MyListStack,
-  LoginStack,
-  // MyPageStack,
-}, {
-    backBehavior: "history",
+export default createBottomTabNavigator(
+  {
+    // LinksStack,
+    // MyPageStack,
+    /**
+     *
+     */
+    HomeStack,
+    ProductStack,
+    IngredientStack,
+    MyListStack,
+    LoginStack
+  },
+  {
+    backBehavior: 'history',
     tabBarOptions: {
-      activeTintColor: "#a695fe",
-      inactiveTintColor: "#c3c3c3",      
-      labelStyle: { marginBottom: 8, marginTop: 10, fontWeight: "bold" },
-      style: [{ backgroundColor: "transparent", height: MyConstants.TABBAR_HEIGHT, borderTopColor: "transparent" }],
+      activeTintColor: '#a695fe',
+      inactiveTintColor: '#c3c3c3',
+      labelStyle: { marginBottom: 8, marginTop: 10, fontWeight: 'bold' },
+      style: [
+        {
+          backgroundColor: 'transparent',
+          height: MyConstants.TABBAR_HEIGHT,
+          borderTopColor: 'transparent'
+        }
+      ]
     }
-  });
+  }
+);
