@@ -188,22 +188,47 @@ export class FragmentProductDetailReviews extends React.Component {
             {item_review_photos.length > 0 && item_review_photos[0] != "" ?
               <View style={{ flexDirection: "row", flex: 1 }}>
                 <TouchableWithoutFeedback onPress={() => { this.showImageZoomViewer(item_review_photos, 0) }}>
-                  <Image source={{ uri: item_review_photos.length > 0 ? Common.getImageUrl(item_review_photos[0]) : null }} style={[MyStyles.review_photo, { marginLeft: 0 }]} />
+                  {
+                    item_review_photos.length > 0 ?
+                      <Image source={{ uri: Common.getImageUrl(item_review_photos[0]) }} style={[MyStyles.review_photo, { marginLeft: 0 }]} />
+                      :
+                      <Image style={[MyStyles.review_photo]} />
+                  }
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={() => { this.showImageZoomViewer(item_review_photos, 1) }}>
-                  <Image source={{ uri: item_review_photos.length > 1 ? Common.getImageUrl(item_review_photos[1]) : null }} style={[MyStyles.review_photo]} />
+                  {
+                    item_review_photos.length > 1 ?
+                      <Image source={{ uri: Common.getImageUrl(item_review_photos[1]) }} style={[MyStyles.review_photo]} />
+                      :
+                      <Image style={[MyStyles.review_photo]} />
+                  }
                 </TouchableWithoutFeedback>
 
                 <TouchableWithoutFeedback onPress={() => { this.showImageZoomViewer(item_review_photos, 2) }}>
-                  <Image source={{ uri: item_review_photos.length > 2 ? Common.getImageUrl(item_review_photos[2]) : null }} style={[MyStyles.review_photo]} />
+                  {
+                    item_review_photos.length > 2 ?
+                      <Image source={{ uri: Common.getImageUrl(item_review_photos[2]) }} style={[MyStyles.review_photo]} />
+                      :
+                      <Image style={[MyStyles.review_photo]} />
+                  }
                 </TouchableWithoutFeedback>
 
                 <TouchableWithoutFeedback onPress={() => { this.showImageZoomViewer(item_review_photos, 3) }}>
-                  <Image source={{ uri: item_review_photos.length > 3 ? Common.getImageUrl(item_review_photos[3]) : null }} style={[MyStyles.review_photo]} />
+                  {
+                    item_review_photos.length > 3 ?
+                      <Image source={{ uri: Common.getImageUrl(item_review_photos[3]) }} style={[MyStyles.review_photo]} />
+                      :
+                      <Image style={[MyStyles.review_photo]} />
+                  }
                 </TouchableWithoutFeedback>
 
                 <TouchableWithoutFeedback onPress={() => { this.showImageZoomViewer(item_review_photos, 4) }}>
-                  <Image source={{ uri: item_review_photos.length > 4 ? Common.getImageUrl(item_review_photos[4]) : null }} style={[MyStyles.review_photo, { marginRight: 0 }]} />
+                  {
+                    item_review_photos.length > 4 ?
+                      <Image source={{ uri: Common.getImageUrl(item_review_photos[4]) }} style={[MyStyles.review_photo, { marginRight: 0 }]} />
+                      :
+                      <Image style={[MyStyles.review_photo]} />
+                  }
                 </TouchableWithoutFeedback>
               </View>
               : null}
@@ -556,7 +581,7 @@ export class FragmentProductDetailReviews extends React.Component {
                     <TouchableHighlight style={[MyStyles.review_photo]} onPress={() => {
                       if (this.state.review_photos.length > 0) {
                         this.selected_img_idx = 0
-                        this.setState({showImageRemoveModal : true})
+                        this.setState({ showImageRemoveModal: true })
                       }
                     }}>
                       <Image source={{ uri: this.state.review_photos.length > 0 ? this.state.review_photos[0].uri : null }} style={[MyStyles.review_photo_img]} />
@@ -564,7 +589,7 @@ export class FragmentProductDetailReviews extends React.Component {
                     <TouchableHighlight style={[MyStyles.review_photo]} onPress={() => {
                       if (this.state.review_photos.length > 1) {
                         this.selected_img_idx = 1
-                        this.setState({showImageRemoveModal : true})
+                        this.setState({ showImageRemoveModal: true })
                       }
                     }}>
                       <Image source={{ uri: this.state.review_photos.length > 1 ? this.state.review_photos[1].uri : null }} style={[MyStyles.review_photo_img]} />
@@ -572,7 +597,7 @@ export class FragmentProductDetailReviews extends React.Component {
                     <TouchableHighlight style={[MyStyles.review_photo]} onPress={() => {
                       if (this.state.review_photos.length > 2) {
                         this.selected_img_idx = 2
-                        this.setState({showImageRemoveModal : true})
+                        this.setState({ showImageRemoveModal: true })
                       }
                     }}>
                       <Image source={{ uri: this.state.review_photos.length > 2 ? this.state.review_photos[2].uri : null }} style={[MyStyles.review_photo_img]} />
@@ -580,7 +605,7 @@ export class FragmentProductDetailReviews extends React.Component {
                     <TouchableHighlight style={[MyStyles.review_photo]} onPress={() => {
                       if (this.state.review_photos.length > 3) {
                         this.selected_img_idx = 3
-                        this.setState({showImageRemoveModal : true})
+                        this.setState({ showImageRemoveModal: true })
                       }
                     }}>
                       <Image source={{ uri: this.state.review_photos.length > 3 ? this.state.review_photos[3].uri : null }} style={[MyStyles.review_photo_img]} />
@@ -588,7 +613,7 @@ export class FragmentProductDetailReviews extends React.Component {
                     <TouchableHighlight style={[MyStyles.review_photo]} onPress={() => {
                       if (this.state.review_photos.length > 4) {
                         this.selected_img_idx = 4
-                        this.setState({showImageRemoveModal : true})
+                        this.setState({ showImageRemoveModal: true })
                       }
                     }}>
                       <Image source={{ uri: this.state.review_photos.length > 4 ? this.state.review_photos[4].uri : null }} style={[MyStyles.review_photo_img]} />
@@ -718,7 +743,7 @@ export class FragmentProductDetailReviews extends React.Component {
         <Modal visible={this.state.zoomViewerModalVisible} transparent={true}
           onRequestClose={() => {
           }}>
-          <ImageLoad imageUrls={this.state.zoomViewerImages} index={this.state.zoomViewerIndex} />
+          <ImageViewer imageUrls={this.state.zoomViewerImages} index={this.state.zoomViewerIndex} />
           <TouchableOpacity activeOpacity={0.8} style={{ position: "absolute", top: 0, left: 0, padding: 15, marginTop: 30 }} onPress={() => {
             this.setState({ zoomViewerModalVisible: false });
           }}>
