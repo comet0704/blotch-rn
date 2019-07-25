@@ -84,9 +84,9 @@ export default class ProductDetailScreen extends React.Component {
   onShare = async () => {
     try {
       const result = await Share.share({
-        message: 'BAM: we\'re helping your business with awesome React Native apps',
-        url: 'http://bam.tech',
-        title: 'Wow, did you see that?'
+        message: 'Please check the cosmetics.\n' + this.state.product_detail_result_data.detail.brand_title + "/" + this.state.product_detail_result_data.detail.title + "..",
+        url: Common.getImageUrl(this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER)[0]),
+        title: "From Blotch'd app"
       }, {
           // Android only:
           dialogTitle: 'Share It',
