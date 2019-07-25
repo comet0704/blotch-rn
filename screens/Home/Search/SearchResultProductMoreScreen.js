@@ -56,7 +56,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
     const { weatherType, weatherInfo } = this.state;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 , marginTop: MyConstants.STATUSBAR_HEIGHT}}>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -71,7 +71,7 @@ export default class SearchResultProductMoreScreen extends React.Component {
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" >
             <View style={{ backgroundColor: "white" }}>
               {/* Search bar */}
-              <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white]}>
+              <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white, { marginTop: 0 }]}>
                 <TouchableOpacity
                   onPress={() => {
                     this.props.navigation.pop(2)

@@ -273,7 +273,7 @@ export default class LoginScreen extends React.Component {
                 </View>
               </View>
               <Image style={{ flex: 100 }} />
-              <MyAppText style={{ color: "white", marginBottom: 50 / 3, textAlign: "center", fontSize: 12, fontWeight: "100" }}>copyright © 2019 by Chemi. all rights reserved</MyAppText>
+              <MyAppText style={{ color: "white", marginBottom: 50 / 3, textAlign: "center", fontSize: 12, fontWeight: "100" }}>copyright © 2019 by Blotch'd. all rights reserved</MyAppText>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

@@ -45,7 +45,7 @@ export class BrandItem extends React.Component {
               :
               null
           }
-          <ImageLoad style={[{ width: item_width, height: item_width }, MyStyles.brandImage]} source={{ uri: Common.getImageUrl(item.image) }} />
+          <ImageLoad style={[{ width: item_width, height: item_width, borderRadius: item_width / 2 }, MyStyles.brandImage]} source={{ uri: Common.getImageUrl(item.image) }} />
         </TouchableOpacity>
 
         <MyAppText style={{ fontSize: 12, color: Colors.color_949191, marginTop: 5, textAlign: "center" }} numberOfLines={2}>Products{"\n" + "(" + item.product_count + ")"}</MyAppText>

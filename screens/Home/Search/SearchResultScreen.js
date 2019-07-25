@@ -154,7 +154,7 @@ export default class SearchResultScreen extends React.Component {
   render() {
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 , marginTop: MyConstants.STATUSBAR_HEIGHT}}>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -166,7 +166,7 @@ export default class SearchResultScreen extends React.Component {
         <Toast ref='toast' />
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
           {/* Search bar */}
-          <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white]}>
+          <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white, { marginTop: 0 }]}>
             <TouchableOpacity
               onPress={() => {
                 this.props.navigation.goBack(null)

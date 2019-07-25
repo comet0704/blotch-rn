@@ -166,7 +166,7 @@ export default class SearchBrandDetailScreen extends React.Component {
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
 
     return (
-      <View style={{ flex: 1, backgroundColor: Colors.color_f2f2f2 }}>
+      <View style={{ flex: 1, backgroundColor: Colors.color_f2f2f2, marginTop: MyConstants.STATUSBAR_HEIGHT }}>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -179,7 +179,7 @@ export default class SearchBrandDetailScreen extends React.Component {
 
 
         {/* Search bar */}
-        <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white]}>
+        <View style={[MyStyles.searchBoxCommon, { paddingRight: 15, }, MyStyles.bg_white, { marginTop: 0 }]}>
           <TouchableOpacity
             onPress={() => {
               if (this.state.searchBoxFocused) {
@@ -241,11 +241,14 @@ export default class SearchBrandDetailScreen extends React.Component {
                           :
                           null
                       }
-                      <Image style={[{ width: 85, height: 85 }, MyStyles.brandImage]} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
+                      <Image style={[{ width: 85, height: 85, borderRadius: 85 / 2 }, MyStyles.brandImage]} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
                     </View>
 
                   </TouchableOpacity>
-                  <MyAppText style={{ fontSize: 16, color: "white", bottom: -5, textAlign: "center", position: "absolute", width: "100%", textAlign: "center" }} numberOfLines={1}>{this.state.brand_detail_result_data.detail.title} <Image source={require('../../../assets/images/ic_more_right_white.png')} style={MyStyles.ic_more_right_white} /></MyAppText>
+                  <View style={{ flexDirection: "row", bottom: -5, position: "absolute", width: "100%", justifyContent: "center", alignItems: "center" }}>
+                    <MyAppText style={{ fontSize: 16, color: "white", textAlign: "center", textAlign: "center" }} numberOfLines={1}>{this.state.brand_detail_result_data.detail.title}</MyAppText>
+                    <Image source={require('../../../assets/images/ic_more_right_white.png')} style={MyStyles.ic_more_right_white} />
+                  </View>
                   {
                     this.state.brand_detail_result_data.detail.is_liked > 0
                       ?
@@ -322,8 +325,8 @@ export default class SearchBrandDetailScreen extends React.Component {
 
                         <View style={{ position: "absolute", bottom: -85 / 2 }}>
                           <View style={{ width: 85, height: 85 }}>
-                            <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, borderRadius: 50, }]}>
-                              <View style={[MyStyles.shadow_2, { borderRadius: 50 }]}>
+                            <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, borderRadius: 85 / 2, }]}>
+                              <View style={[MyStyles.shadow_2, { borderRadius: 85 / 2 }]}>
                                 { // 이미지가 없을 경우 브랜드 명을 가운데 현시해주자
                                   this.state.brand_detail_result_data.detail.image == null || this.state.brand_detail_result_data.detail.image.length <= 0
                                     ?
@@ -333,7 +336,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                                     :
                                     null
                                 }
-                                <ImageLoad style={{ width: 85, height: 85, borderRadius: 50, overflow: "hidden" }} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
+                                <ImageLoad style={{ width: 85, height: 85, borderRadius: 85 / 2, overflow: "hidden" }} source={{ uri: Common.getImageUrl(this.state.brand_detail_result_data.detail.image) }} />
                               </View>
                             </TouchableOpacity>
                             {
@@ -358,14 +361,14 @@ export default class SearchBrandDetailScreen extends React.Component {
                         <Image style={{ width: 14, height: 14 }} source={require("../../../assets/images/ic_close2.png")} />
                       </TouchableOpacity>
 
-                      <View style={{ marginTop: 200 / 3, }}>
-                        <View style={[{ flexDirection: "row", flex: 1, justifyContent: "center" }, MyStyles.container]}>
-                          <MyAppText style={[MyStyles.text_14, { flex: 1, alignSelf: "center" }]}>{this.state.brand_detail_result_data.detail.title}</MyAppText>
-                          <MyAppText style={{ fontSize: 12, color: "#949393", alignSelf: "center", paddingTop: 10, paddingBottom: 10 }} onPress={() => {
+                      <View style={{ marginTop: 200 / 3, marginBottom: 10 }}>
+                        <View style={[{ flexDirection: "row", alignItems: "center", paddingTop: 10, paddingBottom: 10 }, MyStyles.container]}>
+                          <MyAppText style={[MyStyles.text_14, { flex: 1 }]}>{this.state.brand_detail_result_data.detail.title}</MyAppText>
+                          <MyAppText style={{ fontSize: 12, color: "#949393" }} onPress={() => {
                             this.setState({ detailModalVisible: false });
                           }}>Products({this.state.product_list_result_data.product_list.length})</MyAppText>
                         </View>
-                        <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15, marginTop: 20 }]}></View>
+                        <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}></View>
 
                         <ScrollView style={{ maxHeight: 650 / 3 }}>
                           <MyAppText style={[MyStyles.container, { paddingTop: 20, paddingBottom: 40, overflow: "scroll" }, MyStyles.text_13_656565]}>

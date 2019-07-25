@@ -221,8 +221,8 @@ export default class SearchMainScreen extends React.Component {
                 {item.is_selected ? (
                   <Image style={item.image_style} source={item.image_on} />
                 ) : (
-                  <Image style={item.image_style} source={item.image_off} />
-                )}
+                    <Image style={item.image_style} source={item.image_off} />
+                  )}
               </TouchableOpacity>
               <MyAppText style={MyStyles.category_text} numberOfLines={1}>
                 {item.categoryName}
@@ -327,7 +327,7 @@ export default class SearchMainScreen extends React.Component {
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
 
     return (
-      <View style={{ flex: 1, backgroundColor: Colors.color_f2f2f2 }}>
+      <View style={{ flex: 1, backgroundColor: Colors.color_f2f2f2, marginTop: MyConstants.STATUSBAR_HEIGHT }}>
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -339,7 +339,7 @@ export default class SearchMainScreen extends React.Component {
         <Toast ref='toast' />
 
         {/* Search bar */}
-        <View style={[MyStyles.searchBoxCommon, MyStyles.bg_white]}>
+        <View style={[MyStyles.searchBoxCommon, MyStyles.bg_white, { marginTop: 0 }]}>
           <TouchableOpacity
             onPress={() => {
               this.handleBackButtonClick();
@@ -371,16 +371,16 @@ export default class SearchMainScreen extends React.Component {
               </TouchableOpacity> */}
             </View>
           ) : (
-            <View style={[MyStyles.searchBoxCover]}>
-              <Image style={{ flex: 1 }} />
-              {/* OCR */}
-              {/* <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }}
+              <View style={[MyStyles.searchBoxCover]}>
+                <Image style={{ flex: 1 }} />
+                {/* OCR */}
+                {/* <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }}
               // onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
               onPress={() => { this.setState({modalVisible:true}) }}>
                 <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
               </TouchableOpacity> */}
-            </View>
-          )}
+              </View>
+            )}
         </View>
 
         <Autocomplete
@@ -402,16 +402,15 @@ export default class SearchMainScreen extends React.Component {
           containerStyle={[
             {
               position: 'absolute',
-              top: 27,
+              top: 5,
               zIndex: 100,
               right: 80,
-              backgroundColor: 'transparent'
             },
             this.state.searchBoxFocused ? { left: 55 } : { left: 40 }
           ]}
           data={
             w_recentSearchWords.length === 1 &&
-            comp(query, w_recentSearchWords[0])
+              comp(query, w_recentSearchWords[0])
               ? []
               : w_recentSearchWords
           }
@@ -462,7 +461,7 @@ export default class SearchMainScreen extends React.Component {
                 </MyAppText>
                 {keyword.substring(
                   keyword.toLowerCase().indexOf(query.toLowerCase()) +
-                    query.length
+                  query.length
                 )}
               </MyAppText>
               <View

@@ -559,7 +559,7 @@ export default StyleSheet.create({
     textAlign: "center",
   },
   brandImage: {
-    borderColor: Colors.color_e3e5e4, borderWidth: 0.5, borderRadius: 50, overflow: "hidden",
+    borderColor: Colors.color_e3e5e4, borderWidth: 0.5, overflow: "hidden",
   },
   ic_skin_care: {
     width: 68 / 3,
