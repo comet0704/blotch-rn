@@ -609,8 +609,7 @@ export default class SearchResultScreen extends React.Component {
           return;
         }
 
-        this.props.navigation.pop(1);
-        this.props.navigation.navigate("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: responseJson.result_data.camera_product.id });
+        this.props.navigation.replace("ProductDetail", { [MyConstants.NAVIGATION_PARAMS.item_id]: responseJson.result_data.camera_product.id });
       })
       .catch((error) => {
         this.setState({
