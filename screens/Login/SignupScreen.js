@@ -197,7 +197,7 @@ export default class SignupScreen extends React.Component {
                   <TouchableHighlight onPress={() => {
                     this.setState({ askInputQueModal: false });
                     this.props.navigation.pop(1);
-                    this.props.navigation.navigate("Questionnare", {[MyConstants.NAVIGATION_PARAMS.is_from_sign_up] : true})
+                    this.props.navigation.navigate("Questionnare", { [MyConstants.NAVIGATION_PARAMS.is_from_sign_up]: true })
                   }}
                     style={[MyStyles.dlg_btn_primary_cover]}>
                     <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
@@ -249,22 +249,26 @@ export default class SignupScreen extends React.Component {
   }
 
   _pickImageFromGallery = async () => {
-    this.setState({ photoModalVisible: false })
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [1, 1],
-    });
+    const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+      });
 
-    console.log(result);
+      console.log(result);
 
-    if (!result.cancelled) {
-      this.setState({ selectedImage: result.uri });
-      this.setState({ selectedFile: result });
+      if (!result.cancelled) {
+        this.setState({ photoModalVisible: false })
+        this.setState({ selectedImage: result.uri });
+        this.setState({ selectedFile: result });
+      }
+    } else {
+      throw new Error('Location permission not granted');
     }
   };
 
   _pickImageFromCamera = async () => {
-    this.setState({ photoModalVisible: false })
     const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
     if (status === 'granted') {
       let result = await ImagePicker.launchCameraAsync({
@@ -275,6 +279,7 @@ export default class SignupScreen extends React.Component {
       console.log(result);
 
       if (!result.cancelled) {
+        this.setState({ photoModalVisible: false })
         this.setState({ selectedImage: result.uri });
         this.setState({ selectedFile: result });
       }
@@ -361,7 +366,7 @@ export default class SignupScreen extends React.Component {
           global.login_info = responseJson.result_data.login_user;
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.user_pwd, p_pwd);
-          
+
           this.setState({ askInputQueModal: true });
         }
 

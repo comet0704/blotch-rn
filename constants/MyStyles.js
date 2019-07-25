@@ -384,6 +384,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     height: 45,
     borderColor: "#a695fe",
+    backgroundColor: "white",
     justifyContent: "center",
   },
 
@@ -1238,8 +1239,8 @@ export default StyleSheet.create({
   },
   ingredient_section_header: {
     // overflow: "hidden",
-    borderTopRightRadius:5,
-    borderBottomRightRadius:5,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
     backgroundColor: "white",
     padding: 15,
     flex: 1, flexDirection: "row", alignItems: "center"
@@ -1383,11 +1384,12 @@ export default StyleSheet.create({
   },
   review_photo: {
     flex: 1, backgroundColor: "transparent", aspectRatio: 1.2, margin: 5,
+    borderWidth:0,
   },
   review_photo_img: {
     width: "100%",
     height: "100%",
-    borderWidth: 1,
+    borderWidth: 0,
   },
   ic_toner: {
     width: 18 / 3,

@@ -320,16 +320,21 @@ export class FragmentProductDetailReviews extends React.Component {
       this.props.toast.showBottom("Only up to 5 photos can be registered")
       return;
     }
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
+    const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+      });
 
-    console.log(result);
+      console.log(result);
 
-    if (!result.cancelled) {
-      this.state.review_photos.push(result);
-      this.setState({ review_photos: this.state.review_photos });
+      if (!result.cancelled) {
+        this.state.review_photos.push(result);
+        this.setState({ review_photos: this.state.review_photos });
+      }
+    } else {
+      throw new Error('Location permission not granted');
     }
   };
 
