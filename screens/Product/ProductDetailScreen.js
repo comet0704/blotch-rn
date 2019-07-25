@@ -299,21 +299,37 @@ export default class ProductDetailScreen extends React.Component {
               </View>
 
               <View style={{ flex: 1 }}>
-                <ModalDropdown ref="dropdown_2"
-                  style={[MyStyles.dropdown_2, { height: 30, width: 280 / 3, marginRight: 15 }]}
-                  defaultIndex={0}
-                  defaultValue="Save as ▾"
-                  textStyle={MyStyles.dropdown_2_text}
-                  dropdownStyle={MyStyles.dropdown_2_dropdown}
-                  options={this.state.album_list}
-                  renderButtonText={(rowData) => "Save as ▾"}
-                  renderRow={Common._dropdown_3_renderRow.bind(this)}
-                  onSelect={(idx, rowData) => {
-                    // this.requestCheckInMyList(rowData.id, item_id)
-                    this.requestAddToMyList(rowData.id, item_id)
-                  }}
-                  renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
-                />
+                {this.state.album_list.length > 0 ?
+                  <ModalDropdown ref="dropdown_2"
+                    style={[MyStyles.dropdown_2, { height: 30, width: 280 / 3, marginRight: 15 }]}
+                    defaultIndex={0}
+                    defaultValue="Save as ▾"
+                    textStyle={MyStyles.dropdown_2_text}
+                    dropdownStyle={MyStyles.dropdown_2_dropdown}
+                    options={this.state.album_list}
+                    enableEmptySections={true}
+                    renderButtonText={(rowData) => "Save as ▾"}
+                    renderRow={Common._dropdown_3_renderRow.bind(this)}
+                    onSelect={(idx, rowData) => {
+                      // this.requestCheckInMyList(rowData.id, item_id)
+                      this.requestAddToMyList(rowData.id, item_id)
+                    }}
+                    renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => Common._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
+                  />
+                  :
+                  <TouchableOpacity style={[MyStyles.dropdown_2, { height: 30, width: 280 / 3, marginRight: 15 }]} onPress={() => {
+                    Alert.alert(
+                      '',
+                      "Please add the list from the My list",
+                      [
+                        { text: 'OK', onPress: () => { } },
+                      ],
+                      { cancelable: false },
+                    );
+                  }}>
+                    <Text style={MyStyles.dropdown_2_text}>Save as ▾</Text>
+                  </TouchableOpacity>
+                }
               </View>
             </View>
             :
