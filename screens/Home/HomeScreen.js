@@ -77,7 +77,7 @@ export default class HomeScreen extends React.Component {
         image_list: "",
         title: "",
       },
-      modalVisible:false
+      modalVisible: false
     };
   }
 
@@ -439,8 +439,8 @@ export default class HomeScreen extends React.Component {
                     <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} placeholder="Search keyword"></TextInput>
                     {/* OCR */}
                     <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }}
-                    // onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
-                    onPress={() => { this.setState({modalVisible:true}) }}>
+                      // onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
+                      onPress={() => { this.setState({ modalVisible: true }) }}>
                       <Image source={require('../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                     </TouchableOpacity>
                   </View>
@@ -496,7 +496,9 @@ export default class HomeScreen extends React.Component {
                       :
                       <View style={{ alignSelf: "center", marginLeft: 10, width: 50, justifyContent: "center" }}>
                         {this.state.isGpsOn ?
-                          <Image source={require('../../assets/images/weather_loading.gif')} style={{ width: 15, height: 15, alignSelf: "center" }} />
+                          <View style={{width: 15, height: 15, alignSelf:"center"}}>
+                            <Image source={require('../../assets/images/weather_loading.gif')} style={{ width: 15, height: 15, alignSelf: "center" }} />
+                          </View>
                           : null}
                       </View>
                     }
@@ -848,7 +850,7 @@ export default class HomeScreen extends React.Component {
         <SearchModal
           navigation={this.props.navigation}
           visible={this.state.modalVisible}
-          onClose={()=>{this.setState({modalVisible:false})}}/>
+          onClose={() => { this.setState({ modalVisible: false }) }} />
       </View >
     );
   }

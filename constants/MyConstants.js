@@ -18,8 +18,8 @@ export default {
   STATUSBAR_HEIGHT: getStatusBarHeight(),
   // SERVER_URL: "http://api.barocomms.com:8002",
   // UPLOAD_SERVER_URL: "http://upload.barocomms.com:8002",
-  SERVER_URL: "http://chemi.rsad.kr",
-  UPLOAD_SERVER_URL: "http://upload.rsad.kr",
+  SERVER_URL: "http://api.blotchd.com",
+  UPLOAD_SERVER_URL: "http://upload.blotchd.com",
   SkinTypeName: {
     dry: "Dry",
     oily: "Oily",
