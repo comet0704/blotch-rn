@@ -1,7 +1,7 @@
 // common
 import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Platform } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import MyStyles from '../../constants/MyStyles'
@@ -52,6 +52,7 @@ export class FragmentProductDetailReviews extends React.Component {
       zoomViewerImages: [],
       isLoading: false,
       photoModalVisible: false,
+      commentEditing: false,
       comment_count: this.props.comment_count,
       starCount: 3,
       product_comment_list_result_data: {
@@ -279,7 +280,7 @@ export class FragmentProductDetailReviews extends React.Component {
             <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginTop: 5, marginRight: 5 }]} />
             <TextInput
               returnKeyType="go"
-              multiline={true}
+              multiline={Platform.OS == 'ios' ? false : true}
               onChangeText={(text) => { this.setState({ post_sub_comment: text }) }}
               placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
             </TextInput>
@@ -482,10 +483,21 @@ export class FragmentProductDetailReviews extends React.Component {
               <TextInput placeholder="Add a Comment"
                 returnKeyType="go"
                 // value={this.state.product_comment_list_result_data.user_comment == null ? "" : this.state.product_comment_list_result_data.user_comment.comment}
+                onFocus={() => {
+                  this.setState({ commentEditing: true })
+                  this.interval = setInterval(() => {
+                    _this.wScrollView.scrollToEnd({ animated: true })
+                    clearInterval(this.interval)
+                  }, 100)
+                }}
                 onChangeText={(text) => {
                   this.state.product_comment_list_result_data.user_comment.comment = text
                   this.state.comment_text = text
                   this.setState({ product_comment_list_result_data: this.state.product_comment_list_result_data, comment_text: this.state.comment_text })
+                  _this.wScrollView.scrollToEnd({ animated: true })
+                }}
+                onEndEditing={() => {
+                  this.setState({ commentEditing: false })
                 }}
                 multiline={true}
                 style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
@@ -628,7 +640,7 @@ export class FragmentProductDetailReviews extends React.Component {
           </View>
 
           {
-            this.state.photoModalVisible ? null :
+            this.state.photoModalVisible || this.state.commentEditing ? null :
               this.state.product_comment_list_result_data.comment_list.map((item, index) => this.renderComment(item, index))
           }
 

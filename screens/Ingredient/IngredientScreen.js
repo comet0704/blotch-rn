@@ -33,6 +33,7 @@ import { LinearGradient } from 'expo';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 import { exitAlert } from '../../components/androidBackButton/exitAlert';
 import Messages from '../../constants/Messages';
+import DismissKeyboard from 'dismissKeyboard';
 
 export default class IngredientScreen extends React.Component {
   offset = 0;
@@ -604,6 +605,7 @@ export default class IngredientScreen extends React.Component {
                     style={[MyStyles.btn_primary_cover, { width: 450 / 3, flex: 0, height: 100 / 3 }]}
                     onPress={
                       () => {
+                        DismissKeyboard();
                         this.setState({ loading_end: false })
                         if (this.state.searchKeyword == null) {
                           this.refs.modalToast.showBottom("Please input search keyword");
