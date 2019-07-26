@@ -29,9 +29,6 @@ import { exitAlert } from '../../components/androidBackButton/exitAlert';
 export default class ProductContainerScreen extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      initialPage: 0
-    }
   }
   componentDidMount() {
     handleAndroidBackButton(this, exitAlert);
@@ -46,8 +43,17 @@ export default class ProductContainerScreen extends React.Component {
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
         <NavigationEvents
           onWillFocus={payload => {
-            const initialPage = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.product_container_initial_page)
-            this.setState({ initialPage, initialPage });
+            var initialPage = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.product_container_initial_page)
+
+            this.props.navigation.setParams({ [MyConstants.NAVIGATION_PARAMS.product_container_initial_page]: null })
+            if (initialPage == undefined || initialPage == null) {
+            } else {
+              this.interval = setInterval(() => {
+                this.tabView.goToPage(initialPage);
+                clearInterval(this.interval)
+              }, 200)
+            }
+
             try {
               this.refs.recommendationTAB.onNavigationEvent()
             } catch (error) {
@@ -59,10 +65,9 @@ export default class ProductContainerScreen extends React.Component {
           this.props.navigation.goBack(null)
         }}></TopbarWithBlackBack>
         <ScrollableTabView
+          ref={(tabView) => { this.tabView = tabView }}
           style={{ height: 20, borderBottomWidth: 0, marginTop: 10 }}
-          initialPage={this.state.initialPage}
           tabBarInactiveTextColor={Colors.color_dcdedd}
-          page={this.state.initialPage}
           tabBarActiveTextColor={Colors.primary_dark}
           tabBarTextStyle={{ fontWeight: "400", fontSize: 14 }}
           tabBarUnderlineStyle={{ backgroundColor: Colors.primary_purple }}
