@@ -130,8 +130,6 @@ export default class QuestionnareScreen extends React.Component {
   onBabySelected = (p_babyName) => {
     const questionnaire_list = [...this.state.questionnaire_list]
     const index = questionnaire_list.findIndex(item => item.title === p_babyName)
-    console.log(p_babyName)
-    console.log(index);
     if (index == this.state.beforeBabyIdx) {// 선택했떤것을 또 선택했을때는 Questionnaire 편집으로 진행
       this.setState({ edit_baby_id: questionnaire_list[index].id, request_list_name: questionnaire_list[index].title, addBabyModalVisible: true })
       return
@@ -813,8 +811,6 @@ export default class QuestionnareScreen extends React.Component {
                                             update_brand_favorite += item
                                           })
 
-                                          console.log(update_brand_favorite);
-
                                           this.state.questionnaire_detail.brand_favourite = update_brand_favorite
                                           this.state.questionnaire_detail.brand_favourite_list = brand_favourite_list
                                           this.setState(this.state.questionnaire_detail)
@@ -871,8 +867,6 @@ export default class QuestionnareScreen extends React.Component {
                                             }
                                             update_brand_mostly += item
                                           })
-
-                                          console.log(update_brand_mostly);
 
                                           this.state.questionnaire_detail.brand_mostly = update_brand_mostly
                                           this.state.questionnaire_detail.brand_mostly_list = brand_mostly_list
@@ -1536,9 +1530,6 @@ export default class QuestionnareScreen extends React.Component {
 
 
   requestQuestionnaireList() {
-    this.setState({
-      isLoading: true,
-    });
     return fetch(Net.user.questionnaireList, {
       method: 'POST',
       headers: {
@@ -1551,11 +1542,6 @@ export default class QuestionnareScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
-
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return
@@ -1585,18 +1571,12 @@ export default class QuestionnareScreen extends React.Component {
         this.setState({ questionnaire_list: this.state.questionnaire_list })
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
         this.refs.toast.showBottom(error);
       })
       .done();
   }
 
   requestAddQuestionnaireItem(p_title) {
-    this.setState({
-      isLoading: true,
-    });
     return fetch(Net.user.addQuestionnaireItem, {
       method: 'POST',
       headers: {
@@ -1610,10 +1590,6 @@ export default class QuestionnareScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -1624,19 +1600,12 @@ export default class QuestionnareScreen extends React.Component {
 
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
         this.refs.toast.showBottom(error);
       })
       .done();
   }
 
   requestDeleteQuestionnaireItem(p_questionnaire_id) {
-    console.log(p_questionnaire_id);
-    this.setState({
-      isLoading: true,
-    });
     return fetch(Net.user.deleteQuestionnaireItem, {
       method: 'POST',
       headers: {
@@ -1650,10 +1619,6 @@ export default class QuestionnareScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -1665,18 +1630,12 @@ export default class QuestionnareScreen extends React.Component {
 
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
         this.refs.toast.showBottom(error);
       })
       .done();
   }
 
   requestCountryList() {
-    this.setState({
-      isLoading: true,
-    });
     return fetch(Net.user.countryList, {
       method: 'POST',
       headers: {
@@ -1689,9 +1648,6 @@ export default class QuestionnareScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        this.setState({
-          isLoading: false
-        });
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
@@ -1706,9 +1662,6 @@ export default class QuestionnareScreen extends React.Component {
         this.setState({ country_list: data })
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
         this.refs.toast.showBottom(error);
       })
       .done();
@@ -1731,7 +1684,6 @@ export default class QuestionnareScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           isLoading: false,
         });
@@ -1798,10 +1750,6 @@ export default class QuestionnareScreen extends React.Component {
   }
 
   requestUpdateQuestionnaireItem() {
-    console.log(this.state.questionnaire_detail);
-    this.setState({
-      isLoading: true,
-    });
     return fetch(Net.user.updateQuestionnaireItem, {
       method: 'POST',
       headers: {
@@ -1833,10 +1781,6 @@ export default class QuestionnareScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -1854,9 +1798,6 @@ export default class QuestionnareScreen extends React.Component {
 
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
         this.refs.toast.showBottom(error);
       })
       .done();
@@ -1864,9 +1805,6 @@ export default class QuestionnareScreen extends React.Component {
 
   // brand_favorite_list, brand_mostly_list 에 brand를 추가할때 이용하는 검색 api
   requestSearchBrand(p_keyword) {
-    this.setState({
-      isLoading: true,
-    });
     return fetch(Net.home.searchBrand, {
       method: 'POST',
       headers: {
@@ -1881,10 +1819,6 @@ export default class QuestionnareScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-        });
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -1895,9 +1829,6 @@ export default class QuestionnareScreen extends React.Component {
         });
       })
       .catch((error) => {
-        this.setState({
-          isLoading: false,
-        });
         this.refs.toast.showBottom(error);
       })
       .done();

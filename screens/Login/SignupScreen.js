@@ -196,8 +196,7 @@ export default class SignupScreen extends React.Component {
                 <View style={{ flexDirection: "row" }}>
                   <TouchableHighlight onPress={() => {
                     this.setState({ askInputQueModal: false });
-                    this.props.navigation.pop(1);
-                    this.props.navigation.navigate("Questionnare", { [MyConstants.NAVIGATION_PARAMS.is_from_sign_up]: true })
+                    this.props.navigation.replace("Questionnare", { [MyConstants.NAVIGATION_PARAMS.is_from_sign_up]: true })
                   }}
                     style={[MyStyles.dlg_btn_primary_cover]}>
                     <MyAppText style={MyStyles.btn_primary}>Yes</MyAppText>
