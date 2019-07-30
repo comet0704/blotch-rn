@@ -11,6 +11,7 @@ import { Camera, BarCodeScanner, Permissions } from 'expo';
 import Net from '../../../Net/Net';
 import Colors from '../../../constants/Colors';
 import { MyAppText } from '../../../components/Texts/MyAppText';
+import { NavigationEvents } from 'react-navigation';
 
 export default class SearchBarcodeScreen extends React.Component {
 
@@ -32,10 +33,12 @@ export default class SearchBarcodeScreen extends React.Component {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
       hasCameraPermission: status === 'granted',
+      is_screen_hidden: false, // 다른 페이지로 이동하였을때 카메라 초첨이 여전히 남아있으면 바코드인식이 계속 진행되는 현상을 없애기 위함.
     });
   };
 
   _handleBarCodeRead = result => {
+    this.setState({ is_screen_hidden: true })
     this.props.navigation.navigate("SearchResult", { [MyConstants.NAVIGATION_PARAMS.is_from_camera_search]: true, [MyConstants.NAVIGATION_PARAMS.scanned_barcode]: result.data });
     return
   };
@@ -48,7 +51,11 @@ export default class SearchBarcodeScreen extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
-
+        <NavigationEvents
+          onWillFocus={payload => {
+            this.setState({ is_screen_hidden: false })
+          }}
+        />
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
@@ -72,41 +79,44 @@ export default class SearchBarcodeScreen extends React.Component {
                 Camera permission is not granted
               </MyAppText>
               :
-              <Camera
-                onBarCodeScanned={this._handleBarCodeRead}
-                style={[StyleSheet.absoluteFill, styles.container]}
-                // onBarCodeScanned={(scan) => { alert(scan.data) }}
-                flashMode={this.state.isTorchOn ? 'torch' : 'off'}
-              >
-                <View style={styles.layerTop} />
-                <View style={styles.layerTopbarSpace} />
-                <View style={styles.layerCenter}>
-                  <View style={[styles.layerLeft, { zIndex: 1000 }]}>
-                  </View>
-                  <View style={styles.focused}>
-                    <Image source={require('../../../assets/images/ic_purple_border1.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", top: -3, left: -3 }]} />
-                    <Image source={require('../../../assets/images/ic_purple_border2.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", top: -3, right: -3 }]} />
-                    <Image source={require('../../../assets/images/ic_purple_border3.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", bottom: -3, left: -3 }]} />
-                    <Image source={require('../../../assets/images/ic_purple_border4.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", bottom: -3, right: -3 }]} />
+              this.state.is_screen_hidden == false ?
+                <Camera
+                  onBarCodeScanned={this._handleBarCodeRead}
+                  style={[StyleSheet.absoluteFill, styles.container]}
+                  // onBarCodeScanned={(scan) => { alert(scan.data) }}
+                  flashMode={this.state.isTorchOn ? 'torch' : 'off'}
+                >
+                  <View style={styles.layerTop} />
+                  <View style={styles.layerTopbarSpace} />
+                  <View style={styles.layerCenter}>
+                    <View style={[styles.layerLeft, { zIndex: 1000 }]}>
+                    </View>
+                    <View style={styles.focused}>
+                      <Image source={require('../../../assets/images/ic_purple_border1.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", top: -3, left: -3 }]} />
+                      <Image source={require('../../../assets/images/ic_purple_border2.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", top: -3, right: -3 }]} />
+                      <Image source={require('../../../assets/images/ic_purple_border3.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", bottom: -3, left: -3 }]} />
+                      <Image source={require('../../../assets/images/ic_purple_border4.png')} style={[MyStyles.ic_purple_border, { zIndex: 1000, position: "absolute", bottom: -3, right: -3 }]} />
 
-                    <View style={{ height: 2, width: "100%", backgroundColor: "#da3c2680" }} />
+                      <View style={{ height: 2, width: "100%", backgroundColor: "#da3c2680" }} />
+                    </View>
+                    <View style={styles.layerRight} />
                   </View>
-                  <View style={styles.layerRight} />
-                </View>
-                <View style={styles.layerBottom}/>
-                <View style={styles.layerDesc}>
-                  <View style={{ flex: 1, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
-                    <Image source={require('../../../assets/images/ic_bar_code.png')} style={[MyStyles.ic_bar_code]} />
-                    <MyAppText style={{ color: Colors.primary_dark, fontSize: 15, fontWeight: "500", marginTop: 10, textAlign: "center" }}>Point the camera on the other side of your{"\n"}phone at a Barcode</MyAppText>
+                  <View style={styles.layerBottom} />
+                  <View style={styles.layerDesc}>
+                    <View style={{ flex: 1, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
+                      <Image source={require('../../../assets/images/ic_bar_code.png')} style={[MyStyles.ic_bar_code]} />
+                      <MyAppText style={{ color: Colors.primary_dark, fontSize: 15, fontWeight: "500", marginTop: 10, textAlign: "center" }}>Point the camera on the other side of your{"\n"}phone at a Barcode</MyAppText>
+                    </View>
                   </View>
-                </View>
-              </Camera>
+                </Camera>
+                :
+                null
           }
           <View style={{ position: "absolute", top: 0, left: 0, right: 0 }}>
             <TopbarWithBlackBack rightBtn="true" isTorch={true} title="Barcode" onPress={() => {
-                this.props.navigation.pop(1);
-                // this.props.navigation.navigate("SearchCamera")
-              }} onRightBtnPress={() => { this._handleTorchPress() }}></TopbarWithBlackBack>
+              this.props.navigation.pop(1);
+              // this.props.navigation.navigate("SearchCamera")
+            }} onRightBtnPress={() => { this._handleTorchPress() }}></TopbarWithBlackBack>
             <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
           </View>
         </View>

@@ -215,7 +215,12 @@ export default class SearchBrandDetailScreen extends React.Component {
           </View>
         </View>
 
-        <ScrollView>
+        <ScrollView
+          onScroll={({ nativeEvent }) => {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+              this.requestProductList(this.state.brand_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, "", this.offset)
+            }
+          }}>
           <View>
             <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 10 }} ></LinearGradient>
 
@@ -290,12 +295,7 @@ export default class SearchBrandDetailScreen extends React.Component {
               }
 
               {/* product 나열 */}
-              <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag"
-                onScroll={({ nativeEvent }) => {
-                  if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
-                    this.requestProductList(this.state.brand_id, this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, "", this.offset)
-                  }
-                }}>
+              <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: "white" }} keyboardDismissMode="on-drag">
                 <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
                   <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Products({this.state.product_list_result_data.product_count})</MyAppText>
                   <FlatGrid
