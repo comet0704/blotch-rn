@@ -297,7 +297,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                   }
                 }}>
                 <View style={[MyStyles.padding_h_5, MyStyles.padding_v_main, { flex: 1 }]}>
-                  <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Products({this.state.product_list_result_data.product_list.length})</MyAppText>
+                  <MyAppText style={{ color: Colors.primary_dark, fontSize: 14, marginLeft: 10, fontWeight: "500" }}>Products({this.state.product_list_result_data.product_count})</MyAppText>
                   <FlatGrid
                     itemDimension={this.ScreenWidth / 2 - 30}
                     items={this.state.product_list_result_data.product_list}
@@ -366,7 +366,7 @@ export default class SearchBrandDetailScreen extends React.Component {
                           <MyAppText style={[MyStyles.text_14, { flex: 1 }]}>{this.state.brand_detail_result_data.detail.title}</MyAppText>
                           <MyAppText style={{ fontSize: 12, color: "#949393" }} onPress={() => {
                             this.setState({ detailModalVisible: false });
-                          }}>Products({this.state.product_list_result_data.product_list.length})</MyAppText>
+                          }}>Products({this.state.product_list_result_data.product_count})</MyAppText>
                         </View>
                         <View style={[MyStyles.seperate_line_e5e5e5, { marginLeft: 15 }]}></View>
 

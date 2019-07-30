@@ -218,7 +218,7 @@ export default StyleSheet.create({
   },
   ic_logo: {
     width: 276 / 3,
-    height: 85 / 3
+    height: 64 / 3
   },
   btn_more_cover: {
     justifyContent: "center",

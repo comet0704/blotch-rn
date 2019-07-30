@@ -15,6 +15,7 @@ import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBac
 import MyStyles from '../../constants/MyStyles'
 import Net from '../../Net/Net';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { MyAppText } from '../../components/Texts/MyAppText';
 import Toast from 'react-native-whc-toast';
 import MyConstants from '../../constants/MyConstants';
 

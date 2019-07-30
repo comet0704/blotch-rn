@@ -173,7 +173,6 @@ export default class LoginScreen extends React.Component {
               <TopbarWithWhiteBack onPress={() => { this.props.navigation.navigate('Home') }}></TopbarWithWhiteBack>
               <Image style={{ flex: 100 }} />
               <View style={[MyStyles.h_auto, { justifyContent: "center", flexDirection: "row" }]}>
-                <Image style={{ width: 10 }} />
                 <Image source={require('../../assets/images/Login/logo.png')} style={[MyStyles.h_auto, MyStyles.ic_logo]} />
               </View>
               <MyAppText style={{ marginLeft: "auto", marginRight: "auto", color: "white", marginTop: 8, fontSize: 12, fontWeight: "100" }} >Your Beauty Counselor</MyAppText>

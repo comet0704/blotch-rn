@@ -496,7 +496,7 @@ export default class HomeScreen extends React.Component {
                       :
                       <View style={{ alignSelf: "center", marginLeft: 10, width: 50, justifyContent: "center" }}>
                         {this.state.isGpsOn ?
-                          <View style={{width: 15, height: 15, alignSelf:"center"}}>
+                          <View style={{ width: 15, height: 15, alignSelf: "center" }}>
                             <Image source={require('../../assets/images/weather_loading.gif')} style={{ width: 15, height: 15, alignSelf: "center" }} />
                           </View>
                           : null}
