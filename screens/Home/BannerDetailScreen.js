@@ -1,7 +1,7 @@
 // common
 import React from 'react';
 import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Platform } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import MyStyles from '../../constants/MyStyles'
@@ -27,6 +27,7 @@ export default class BannerDetailScreen extends React.Component {
     this.state = {
       loading_end: false,
       reportModalVisible: false,
+      commentEditing: false,
       banner_detail_result_data: {
         detail: {
           "id": 0,
@@ -151,7 +152,7 @@ export default class BannerDetailScreen extends React.Component {
             <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginTop: 5, marginRight: 5 }]} />
             <TextInput
               returnKeyType="go"
-              multiline={true}
+              multiline={Platform.OS == 'ios' ? false : true}
               onChangeText={(text) => { this.setState({ post_sub_comment: text }) }}
               placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
             </TextInput>
@@ -210,7 +211,7 @@ export default class BannerDetailScreen extends React.Component {
         <Toast ref='toast' />
         <TopbarWithBlackBack rightBtn="true" title="Banner" onPress={() => { this.props.navigation.goBack() }} onRightBtnPress={() => { this.onShare() }}></TopbarWithBlackBack>
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-        <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
+        <ScrollView ref={(w_scrollview) => { this.wScrollView = w_scrollview }} style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({ nativeEvent }) => {
             if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
               this.isLoading = true
@@ -269,8 +270,21 @@ export default class BannerDetailScreen extends React.Component {
                   <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1]} />
                   <TextInput placeholder="Add a Comment"
                     returnKeyType="go"
+                    onFocus={() => {
+                      this.setState({ commentEditing: true })
+                      this.interval = setInterval(() => {
+                        this.wScrollView.scrollToEnd({ animated: true })
+                        clearInterval(this.interval)
+                      }, 100)
+                    }}
                     value={this.state.post_comment}
-                    onChangeText={(text) => { this.setState({ post_comment: text }) }}
+                    onChangeText={(text) => {
+                      this.setState({ post_comment: text })
+                      this.wScrollView.scrollToEnd({ animated: true })
+                    }}
+                    onEndEditing={() => {
+                      this.setState({ commentEditing: false })
+                    }}
                     multiline={true}
                     style={{ flex: 1, marginLeft: 10, marginRight: 10 }}></TextInput>
                   <TouchableOpacity activeOpacity={0.8} style={[MyStyles.purple_btn_r3, { width: 140 / 3, height: 84 / 3, }]} onPress={() => { this.requestPostBannerComment(item_id, this.state.post_comment, 0) }}>
@@ -280,7 +294,10 @@ export default class BannerDetailScreen extends React.Component {
                 <View style={[MyStyles.seperate_line_e5e5e5, { marginTop: 5 }]}></View>
               </View>
 
-              {this.state.banner_comment_list_result_data.comment_list.map((item, index) => this.renderComment(item, index))}
+              {
+                this.state.commentEditing ? null :
+                  this.state.banner_comment_list_result_data.comment_list.map((item, index) => this.renderComment(item, index))
+              }
             </View>
           </View>
         </ScrollView>
