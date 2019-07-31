@@ -31,6 +31,7 @@ export default class MyPointScreen extends React.Component {
 
   constructor(props) {
     super(props)
+    this.isLoading = false
     this.state = {
       "result_data": {
         "point_history": [
@@ -123,7 +124,8 @@ export default class MyPointScreen extends React.Component {
           <TopbarWithBlackBack title="My Point" onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
           <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
             onScroll={({ nativeEvent }) => {
-              if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+              if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+                this.isLoading = true
                 this.requestPointHistory(this.offset)
               }
             }}
@@ -181,7 +183,9 @@ export default class MyPointScreen extends React.Component {
 
         const point_history = this.state.result_data.point_history
         result = { point_history: [...point_history, ...responseJson.result_data.point_history] };
-        this.setState({ result_data: result })
+        this.setState({ result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         this.setState({

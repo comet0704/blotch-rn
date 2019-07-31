@@ -33,6 +33,7 @@ export class FragmentMatchdBrand extends React.Component {
 
   constructor(props) {
     super(props);
+    this.isLoading = false
     this.state = {
       showDeleteModal: false,
       categoryItems: Common.getCategoryItems(),
@@ -74,7 +75,8 @@ export class FragmentMatchdBrand extends React.Component {
         <Toast ref='toast' />
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+              this.isLoading = true
               this.requestUserBrandList(this.offset)
             }
           }}>
@@ -183,7 +185,9 @@ export class FragmentMatchdBrand extends React.Component {
         }
         const brand_list = this.state.brand_list_result_data.brand_list
         result = { brand_list: [...brand_list, ...responseJson.result_data.brand_list] };
-        this.setState({ brand_list_result_data: result })
+        this.setState({ brand_list_result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         this.setState({

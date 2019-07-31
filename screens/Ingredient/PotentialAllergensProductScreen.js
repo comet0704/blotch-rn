@@ -34,6 +34,7 @@ import { ProductItem2 } from '../../components/Products/ProductItem2';
 export default class PotentialAllergensProductScreen extends React.Component {
   constructor(props) {
     super(props)
+    this.isLoading = false
     this.state = {
       categoryItems: Common.getCategoryItems(),
       potentialAllergenProductList_result_data: {
@@ -140,7 +141,8 @@ export default class PotentialAllergensProductScreen extends React.Component {
 
         <ScrollView
           onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.loading_end == false) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.loading_end == false && this.isLoading == false) {
+              this.isLoading = true
               this.requestPotentialAllergenProductList(this.state.categoryItems[this.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
             }
           }}
@@ -249,7 +251,9 @@ export default class PotentialAllergensProductScreen extends React.Component {
         }
         const list = this.state.potentialAllergenProductList_result_data.list
         result = { list: [...list, ...responseJson.result_data.list] };
-        this.setState({ potentialAllergenProductList_result_data: result })
+        this.setState({ potentialAllergenProductList_result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         this.setState({

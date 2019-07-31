@@ -21,6 +21,7 @@ export default class ArticlesScreen extends React.Component {
   offset = 0;
   constructor(props) {
     super(props);
+    this.isLoading = false
     this.state = {
       loading_end: false,
       activeDotIndex: 0,
@@ -152,7 +153,8 @@ export default class ArticlesScreen extends React.Component {
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <ScrollView
           onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+              this.isLoading = true
               console.log("hehehe")
               this.requestArticleList(this.offset)
             }
@@ -236,7 +238,9 @@ export default class ArticlesScreen extends React.Component {
           return
         }
         result = { list: [...list, ...responseJson.result_data.list] };
-        this.setState({ result_data: result })
+        this.setState({ result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         this.setState({

@@ -34,6 +34,7 @@ export default class BlotchdListScreen extends React.Component {
   selectedSubCatName = "";
   constructor(props) {
     super(props);
+    this.isLoading = false
     this.state = {
       categoryItems: Common.getCategoryItems(),
       showDeleteModal: false,
@@ -147,7 +148,8 @@ export default class BlotchdListScreen extends React.Component {
 
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+              this.isLoading = true
               this.requestBlotchList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
             }
           }}>
@@ -281,7 +283,9 @@ export default class BlotchdListScreen extends React.Component {
         }
         const match_list = this.state.product_list_result_data.match_list
         result = { match_list: [...match_list, ...responseJson.result_data.match_list] };
-        this.setState({ product_list_result_data: result })
+        this.setState({ product_list_result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         this.setState({

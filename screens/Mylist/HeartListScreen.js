@@ -34,6 +34,7 @@ export default class HeartListScreen extends React.Component {
   selectedSubCatName = "";
   constructor(props) {
     super(props);
+    this.isLoading = false
   }
   componentDidMount() {
       // NavigationEvents 에서 처리해주면 됨.
@@ -189,7 +190,8 @@ export default class HeartListScreen extends React.Component {
 
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+              this.isLoading = true
               this.requestHeartList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
             }
           }}>
@@ -281,7 +283,9 @@ export default class HeartListScreen extends React.Component {
         }
         const like_list = this.state.product_list_result_data.like_list
         result = { like_list: [...like_list, ...responseJson.result_data.like_list] };
-        this.setState({ product_list_result_data: result })
+        this.setState({ product_list_result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         this.setState({

@@ -22,7 +22,7 @@ export default class ArticleDetailScreen extends React.Component {
   offset = 0;
   constructor(props) {
     super(props);
-
+    this.isLoading = false
     this.item_info = this.props.navigation.getParam(MyConstants.NAVIGATION_PARAMS.item_info)
     this.state = {
       loading_end: false,
@@ -214,7 +214,8 @@ export default class ArticleDetailScreen extends React.Component {
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+              this.isLoading = true
               this.requestArticleCommentList(item_id, this.offset);
             }
           }}>
@@ -408,7 +409,9 @@ export default class ArticleDetailScreen extends React.Component {
         }
         const comment_list = this.state.article_comment_list_result_data.comment_list
         result = { comment_list: [...comment_list, ...responseJson.result_data.comment_list] };
-        this.setState({ article_comment_list_result_data: result })
+        this.setState({ article_comment_list_result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         // this.setState({

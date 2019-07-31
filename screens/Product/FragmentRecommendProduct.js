@@ -35,6 +35,7 @@ export class FragmentRecommendProduct extends React.Component {
 
   constructor(props) {
     super(props)
+    this.isLoading = false
     this.state = {
       main_all_selected: 1, // 0 => 몇개만 선택, 1 => 전체선택, -1 => 전체 선택해제
       refreshing: false,
@@ -385,7 +386,8 @@ export class FragmentRecommendProduct extends React.Component {
   renderMainScreen = () => {
     return (<ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
       onScroll={({ nativeEvent }) => {
-        if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+        if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+          this.isLoading = true
           this.getRecommendList(this.offset)
         }
       }}
@@ -648,7 +650,9 @@ export class FragmentRecommendProduct extends React.Component {
         }
         const recomment_list = this.state.product_list_result_data.recomment_list
         result = { recomment_list: [...recomment_list, ...responseJson.result_data.recomment_list] };
-        this.setState({ product_list_result_data: result })
+        this.setState({ product_list_result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         this.setState({

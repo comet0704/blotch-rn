@@ -27,6 +27,7 @@ export default class FaqScreen extends React.Component {
 
   constructor(props) {
     super(props)
+    this.isLoading = false
 
     this.state = {
       isLoading: false,
@@ -108,7 +109,8 @@ export default class FaqScreen extends React.Component {
 
         <ScrollView style={{ fex: 1 }}
           onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+              this.isLoading = true
               this.requestFaqList(this.state.selectedCatName, this.offset)
             }
           }}>
@@ -221,7 +223,9 @@ export default class FaqScreen extends React.Component {
         }
         const faq_list = this.state.product_list_result_data.faq_list
         result = { faq_list: [...faq_list, ...responseJson.result_data.faq_list] };
-        this.setState({ faq_list_result_data: result })
+        this.setState({ faq_list_result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         this.setState({

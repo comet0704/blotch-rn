@@ -39,6 +39,7 @@ export default class SearchMainScreen extends React.Component {
   selectedSubCatName = '';
   constructor(props) {
     super(props);
+    this.isLoading = false
     this.currentRouteName = 'SearchMain';
     this.state = {
       searchBoxFocused: false,
@@ -507,8 +508,9 @@ export default class SearchMainScreen extends React.Component {
               onScroll={({ nativeEvent }) => {
                 if (
                   Common.scrollIsCloseToBottom(nativeEvent) &&
-                  this.state.loading_end == false
+                  this.state.loading_end == false && this.isLoading == false
                 ) {
+                  this.isLoading = true
                   this.requestBestList(
                     this.state.categoryItems[this.state.beforeCatIdx]
                       .categoryName,
@@ -615,7 +617,9 @@ export default class SearchMainScreen extends React.Component {
         result = {
           best_list: [...best_list, ...responseJson.result_data.best_list]
         };
-        this.setState({ product_list_result_data: result });
+        this.setState({ product_list_result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch(error => {
         this.setState({

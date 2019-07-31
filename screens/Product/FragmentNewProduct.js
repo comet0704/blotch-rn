@@ -34,6 +34,7 @@ export class FragmentNewProduct extends React.Component {
   selectedSubCatName = "";
   constructor(props) {
     super(props);
+    this.isLoading = false
   }
   componentDidMount() {
     this.requestNewList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
@@ -159,7 +160,8 @@ export class FragmentNewProduct extends React.Component {
         <Toast ref='toast' />
         <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag"
           onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+              this.isLoading = true
               this.requestNewList(this.state.categoryItems[this.state.beforeCatIdx].categoryName, this.selectedSubCatName, this.offset)
             }
           }}>
@@ -259,8 +261,6 @@ export class FragmentNewProduct extends React.Component {
   }
 
   requestNewList(p_category, p_sub_category, p_offset) {
-    console.log("category= " + p_category);
-    console.log("p_sub_category = " + p_sub_category)
     this.setState({
       isLoading: true,
     });
@@ -303,7 +303,9 @@ export class FragmentNewProduct extends React.Component {
         }
         const new_list = this.state.product_list_result_data.new_list
         result = { new_list: [...new_list, ...responseJson.result_data.new_list] };
-        this.setState({ product_list_result_data: result })
+        this.setState({ product_list_result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         this.setState({

@@ -27,6 +27,7 @@ export default class AnnouncementsScreen extends React.Component {
 
   constructor(props) {
     super(props)
+    this.isLoading = false
 
     this.state = {
       isLoading: false,
@@ -86,7 +87,8 @@ export default class AnnouncementsScreen extends React.Component {
 
         <ScrollView style={{ fex: 1 }}
           onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+              this.isLoading = true
               this.requestAnnounceList(this.offset)
             }
           }}>
@@ -252,7 +254,9 @@ export default class AnnouncementsScreen extends React.Component {
               }
             })
             result = { announce_list: [...announce_list, ...responseJson.result_data.announce_list] };
-            this.setState({ result_data: result })
+            this.setState({ result_data: result }, () => {
+              this.isLoading = false
+            })
             return;
           }
           )

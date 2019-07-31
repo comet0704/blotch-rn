@@ -39,6 +39,7 @@ export default class IngredientScreen extends React.Component {
   offset = 0;
   constructor(props) {
     super(props)
+    this.isLoading = false
     this.state = {
       refreshing: false,
       showLoginModal: false,
@@ -623,7 +624,8 @@ export default class IngredientScreen extends React.Component {
                   this.state.searchIngredient_result_data.ingredient_list.length > 0 ?
                     <ScrollView style={{ width: "100%", maxHeight: 200, marginBottom: 120 / 3 }}
                       onScroll={({ nativeEvent }) => {
-                        if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+                        if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+                          this.isLoading = true
                           this.requestSearchIngredient(this.state.searchKeyword, this.offset);
                         }
                       }}>
@@ -902,7 +904,9 @@ ingredients that can cause allergies.</MyAppText>
         }
         const ingredient_list = this.state.searchIngredient_result_data.ingredient_list
         result = { ingredient_list: [...ingredient_list, ...responseJson.result_data.ingredient_list] };
-        this.setState({ searchIngredient_result_data: result })
+        this.setState({ searchIngredient_result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         console.log(error);

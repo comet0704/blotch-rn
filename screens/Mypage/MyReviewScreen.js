@@ -20,6 +20,7 @@ export default class MyReviewScreen extends React.Component {
   
   constructor(props) {
     super(props);
+    this.isLoading = false
     this.state = {
       loading_end: false,
       isLoading: false,
@@ -100,7 +101,8 @@ export default class MyReviewScreen extends React.Component {
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <ScrollView
           onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+              this.isLoading = true
               this.requestMyCommentList(this.offset)
             }
           }}
@@ -145,7 +147,9 @@ export default class MyReviewScreen extends React.Component {
 
         const comment_list = this.state.result_data.comment_list
         result = { comment_list: [...comment_list, ...responseJson.result_data.comment_list] };
-        this.setState({ result_data: result })
+        this.setState({ result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         this.setState({

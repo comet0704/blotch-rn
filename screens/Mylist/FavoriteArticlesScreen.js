@@ -19,6 +19,7 @@ export default class FavoriteArticlesScreen extends React.Component {
   offset = 0;
   constructor(props) {
     super(props);
+    this.isLoading = false
     this.state = {
       loading_end: false,
       isLoading: false,
@@ -85,7 +86,8 @@ export default class FavoriteArticlesScreen extends React.Component {
         <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
         <ScrollView
           onScroll={({ nativeEvent }) => {
-            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false) {
+            if (Common.scrollIsCloseToBottom(nativeEvent) && this.state.loading_end == false && this.isLoading == false) {
+              this.isLoading = true
               this.requestArticleLikeList(this.offset)
             }
           }}
@@ -174,7 +176,9 @@ export default class FavoriteArticlesScreen extends React.Component {
 
         const article_list = this.state.result_data.article_list
         result = { article_list: [...article_list, ...responseJson.result_data.article_list] };
-        this.setState({ result_data: result })
+        this.setState({ result_data: result }, () => {
+          this.isLoading = false
+        })
       })
       .catch((error) => {
         this.setState({
