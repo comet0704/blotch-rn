@@ -25,6 +25,13 @@ export default {
     return MyConstants.UPLOAD_SERVER_URL + "/" + image_list.split(this.IMAGE_SPLITTER)[0] + "_thumb.jpg"
   },
 
+  getOriginalImageUrl(image_list) {
+    if (image_list == null) {
+      return null;
+    }
+    return MyConstants.UPLOAD_SERVER_URL + "/" + image_list.split(this.IMAGE_SPLITTER)[0]
+  },
+
   getLinkUrl(p_linkUrl) {
     if (p_linkUrl.indexOf("http://") > -1 || p_linkUrl.indexOf("https://") > -1) {
       return p_linkUrl

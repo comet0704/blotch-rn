@@ -66,7 +66,7 @@ export class FragmentBestProduct extends React.Component {
           }
         }}>
           <View>
-            <ImageLoad style={{ width: this.ScreenWidth, height: this.BannerHeight }} source={{ uri: Common.getImageUrl(item.image) }} />
+            <ImageLoad style={{ width: this.ScreenWidth, height: this.BannerHeight }} source={{ uri: Common.getOriginalImageUrl(item.image) }} />
             <View style={[MyStyles.banner_title]}>
               <MyAppText style={{ fontSize: 13, color: "white" }} numberOfLines={1}>{Common.removeHtmlTagsFromText(item.title)}</MyAppText>
               <MyAppText style={{ fontSize: 24, color: "white", fontWeight: "bold", marginTop: 3, lineHeight: 26 }} numberOfLines={3}>{Common.removeHtmlTagsFromText(item.content)}</MyAppText>

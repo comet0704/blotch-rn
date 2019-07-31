@@ -231,7 +231,7 @@ export default class BannerDetailScreen extends React.Component {
 
             {/* Description */}
             <View style={{ height: 780 / 3, flex: 1, marginTop: 5 }}>
-              <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getImageUrl(this.state.banner_detail_result_data.detail.image) }} />
+              <ImageLoad style={MyStyles.background_image} source={{ uri: Common.getOriginalImageUrl(this.state.banner_detail_result_data.detail.image) }} />
               {
                 this.state.banner_detail_result_data.detail.is_liked > 0
                   ?
