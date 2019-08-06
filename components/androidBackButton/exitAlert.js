@@ -14,6 +14,7 @@ const exitAlert = (_this) => {
                 text: 'OK', onPress: () => {
                     BackHandler.exitApp()
                     global.isExited =  true
+                    _this.props.navigation.navigate("Splash");
                     return true
                 }
             },
