@@ -12,7 +12,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.10",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -29,7 +29,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.blotch.chemi",
-      "buildNumber": "10"
+      "buildNumber": "11"
     },
     "android": {
       "package": "com.blotch.chemi",
