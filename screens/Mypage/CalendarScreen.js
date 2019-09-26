@@ -74,7 +74,7 @@ export default class CalendarScreen extends React.Component {
         />
         <Toast ref='toast' />
 
-        <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
+        <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column'}} behavior="padding" enabled   /*keyboardVerticalOffset={100}*/>
 
           <TopbarWithBlackBack onPress={() => { this.props.navigation.goBack() }}></TopbarWithBlackBack>
           {/* <ScrollView style={{ flex: 1, flexDirection: 'column' }} keyboardDismissMode="on-drag" > */}

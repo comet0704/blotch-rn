@@ -82,13 +82,13 @@ export default class ProductDetailScreen extends React.Component {
         url: Common.getImageUrl(this.state.product_detail_result_data.detail.image_list.split(Common.IMAGE_SPLITTER)[0]),
         title: "From Blotch'd app"
       }, {
-          // Android only:
-          dialogTitle: 'Share It',
-          // iOS only:
-          excludedActivityTypes: [
-            'com.apple.UIKit.activity.PostToTwitter'
-          ]
-        });
+        // Android only:
+        dialogTitle: 'Share It',
+        // iOS only:
+        excludedActivityTypes: [
+          'com.apple.UIKit.activity.PostToTwitter'
+        ]
+      });
 
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -316,7 +316,11 @@ export default class ProductDetailScreen extends React.Component {
                       '',
                       "Please add the list from the My list",
                       [
-                        { text: 'OK', onPress: () => { } },
+                        {
+                          text: 'OK', onPress: () => {
+                            this.props.navigation.navigate('MyList');
+                          }
+                        },
                       ],
                       { cancelable: false },
                     );
