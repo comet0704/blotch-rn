@@ -379,7 +379,7 @@ export default class HomeScreen extends React.Component {
       <View>
         <View style={[{ flexDirection: "row", color: "white" }]}>
           {/* <Image source={require('../../assets/images/Home/ic_face_type.png')} style={{ width: 13, height: 10, alignSelf: "center" }} /> */}
-          <MyAppText style={{ color: "white", fontSize: 13,/* marginLeft: 5*/ }}><MyAppText>{this.state.oneline_review_en} </MyAppText></MyAppText>
+          <MyAppText style={{ color: "white", fontSize: 13,/* marginLeft: 5*/ }}><MyAppText>{this.state.oneline_review_en == "" ? "Please complete the Questionnaire" : this.state.oneline_review_en} </MyAppText></MyAppText>
         </View>
         {/* <View style={[{ flexDirection: "row", color: "white" }]}>
           <Image source={require('../../assets/images/Home/ic_snow.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />

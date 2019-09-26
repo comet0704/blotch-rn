@@ -306,7 +306,7 @@ export default class MyPageScreen extends React.Component {
                     !(Common.isNeedToAddQuestionnaire()) ?
                       <View>
                         <View style={[{ flexDirection: "row", color: "white" }]}>
-                          <MyAppText style={{ color: Colors.color_656565, fontSize: 13, }}><MyAppText style={{}}>{this.state.oneline_review_en} </MyAppText></MyAppText>
+                          <MyAppText style={{ color: Colors.color_656565, fontSize: 13, }}><MyAppText style={{}}>{this.state.oneline_review_en == "" ? "Please complete the Questionnaire" : this.state.oneline_review_en} </MyAppText></MyAppText>
                         </View>
                       </View>
                       : global.login_info.token.length > 0 ? // 로그인한 회원의 경우만 설문 작성유무 판정
@@ -316,7 +316,7 @@ export default class MyPageScreen extends React.Component {
                     !(Common.isNeedToAddQuestionnaire()) ?
                       <View>
                         <View style={[{ flexDirection: "row", color: "white" }]}>
-                          <MyAppText style={{ color: Colors.color_656565, fontSize: 13, }}><MyAppText style={{}}>{this.state.oneline_review_en} </MyAppText></MyAppText>
+                          <MyAppText style={{ color: Colors.color_656565, fontSize: 13, }}><MyAppText style={{}}>{this.state.oneline_review_en == "" ? "Please complete the Questionnaire" : this.state.oneline_review_en} </MyAppText></MyAppText>
                         </View>
                       </View>
                       : global.login_info.token.length > 0 ? // 로그인한 회원의 경우만 설문 작성유무 판정
