@@ -1,34 +1,19 @@
 // common
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
+import { AsyncStorage, Dimensions, Image, Modal, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-whc-toast';
-import MyStyles from '../../../constants/MyStyles'
-import MyConstants from '../../../constants/MyConstants'
-import Common from '../../../assets/Common';
-import Net from '../../../Net/Net';
-import Colors from '../../../constants/Colors';
-import { MyAppText } from '../../../components/Texts/MyAppText';
-
-import {
-  StyleSheet,
-  KeyboardAvoidingView,
-  View,
-  Image,
-  Dimensions,
-  WebBrowser,
-  Modal,
-  TextInput,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native';
-import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
+import Toast from 'react-native-whc-toast';
+import Common from '../../../assets/Common';
 import { ProductBestItem } from '../../../components/Products/ProductBestItem';
-import Autocomplete from 'react-native-autocomplete-input';
+import { MyAppText } from '../../../components/Texts/MyAppText';
+import Colors from '../../../constants/Colors';
+import MyConstants from '../../../constants/MyConstants';
+import MyStyles from '../../../constants/MyStyles';
+import Net from '../../../Net/Net';
+
 
 export default class SearchBrandDetailScreen extends React.Component {
   offset = 0;

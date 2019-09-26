@@ -1,48 +1,25 @@
 // common
-import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles'
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import MyConstants from '../../constants/MyConstants'
-import Common from '../../assets/Common';
-import Net from '../../Net/Net';
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
-
-import {
-  Image,
-  PanResponder,
-  ScrollView,
-  Keyboard,
-  Alert,
-  ListView,
-  StyleSheet,
-  Text,
-  Modal,
-  TouchableOpacity,
-  View,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
-  Dimensions,
-  TouchableWithoutFeedback,
-  Animated,
-  TouchableHighlight,
-  Easing,
-} from 'react-native';
-
-import { NavigationEvents } from 'react-navigation';
-import { LinearGradient } from 'expo';
-import SortableList from 'react-native-sortable-list';
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
-import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
-import { exitAlert } from '../../components/androidBackButton/exitAlert';
-
+import { LinearGradient } from 'expo-linear-gradient';
 import 'prop-types';
+import React from 'react';
+import { Alert, Animated, AsyncStorage, Easing, Image, Keyboard, KeyboardAvoidingView, ListView, Modal, PanResponder, Platform, ScrollView, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+import SortableList from 'react-native-sortable-list';
+import { SwipeRow } from 'react-native-swipe-list-view';
+import Toast from 'react-native-whc-toast';
+import { NavigationEvents } from 'react-navigation';
+import { exitAlert } from '../../components/androidBackButton/exitAlert';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import Colors from '../../constants/Colors';
 import Messages from '../../constants/Messages';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
+
+
+
 
 class Row extends React.Component {
 

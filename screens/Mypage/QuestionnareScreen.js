@@ -1,36 +1,21 @@
-import React, { Component } from 'react';
+import { Updates } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { Dimensions, Image, Keyboard, KeyboardAvoidingView, Modal, ScrollView, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import ImageLoad from 'react-native-image-placeholder';
-import {
-  Image,
-  ScrollView,
-  Keyboard,
-  TouchableWithoutFeedback,
-  Modal,
-  StyleSheet,
-  Text,
-  Dimensions,
-  View,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  TouchableHighlight,
-  KeyboardAvoidingView,
-} from 'react-native';
-import { Updates, ImagePicker } from 'expo';
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import MyStyles from '../../constants/MyStyles'
-import Net from '../../Net/Net';
 import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-whc-toast';
-import MyConstants from '../../constants/MyConstants';
-import { LinearGradient } from 'expo';
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
-import Common from '../../assets/Common';
-
-import { FlatGrid } from 'react-native-super-grid';
 import { Dropdown } from 'react-native-material-dropdown';
+import { FlatGrid } from 'react-native-super-grid';
+import Toast from 'react-native-whc-toast';
+import Common from '../../assets/Common';
 import { BrandItem } from '../../components/Search/BrandItem';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import Colors from '../../constants/Colors';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
+
 
 export default class QuestionnareScreen extends React.Component {
 

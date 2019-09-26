@@ -1,20 +1,19 @@
 // common
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
+import { Alert, Image, KeyboardAvoidingView, Linking, Modal, Platform, ScrollView, Share, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage, Platform } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles'
-import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
-import Net from '../../Net/Net';
-import Colors from '../../constants/Colors';
 import { MyAppText } from '../../components/Texts/MyAppText';
-
-import { Image, Alert, Share, TouchableHighlight, Modal, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import { LinearGradient } from 'expo';
+import Colors from '../../constants/Colors';
 import Messages from '../../constants/Messages';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
+
 
 export default class ArticleDetailScreen extends React.Component {
 

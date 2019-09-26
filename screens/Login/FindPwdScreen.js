@@ -1,23 +1,12 @@
-import React, { Component } from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from 'react-native';
-import { ImagePicker } from 'expo';
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import MyStyles from '../../constants/MyStyles'
-import Net from '../../Net/Net';
+import React from 'react';
+import { KeyboardAvoidingView, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { MyAppText } from '../../components/Texts/MyAppText';
 import Toast from 'react-native-whc-toast';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
 
 export default class FindPwdScreen extends React.Component {
 

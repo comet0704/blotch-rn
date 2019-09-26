@@ -1,37 +1,18 @@
 // common
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage } from 'react-native';
+import { Dimensions, Image, KeyboardAvoidingView, ScrollView, TouchableOpacity, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { FlatGrid } from 'react-native-super-grid';
 import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles'
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
-import Net from '../../Net/Net';
-import Colors from '../../constants/Colors';
 import { MyAppText } from '../../components/Texts/MyAppText';
 import { TopbarWithWhiteBack } from '../../components/Topbars/TopbarWithWhiteBack';
+import Colors from '../../constants/Colors';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
 
-import {
-  Image,
-  ScrollView,
-  Text,
-  Modal,
-  TouchableOpacity,
-  View,
-  TextInput,
-  KeyboardAvoidingView,
-  Dimensions,
-  TouchableHighlight,
-} from 'react-native';
 
-import { FlatGrid } from 'react-native-super-grid';
-import { WebBrowser } from 'expo';
-import { NavigationEvents } from 'react-navigation';
-import { LinearGradient } from 'expo';
-import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
-import { exitAlert } from '../../components/androidBackButton/exitAlert';
 
 export default class WeCanSearcnItScreen extends React.Component {
 

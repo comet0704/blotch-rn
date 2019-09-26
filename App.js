@@ -1,14 +1,14 @@
-import { AsyncStorage } from 'react-native';
-import { SafeAreaView } from 'react-navigation';
-import MyConstants from './constants/MyConstants'
+import * as Icon from '@expo/vector-icons';
+import { AppLoading } from 'expo';
+import { Asset } from 'expo-asset';
+import Constants from 'expo-constants';
+import * as Font from 'expo-font';
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { AsyncStorage, StyleSheet, View } from 'react-native';
+import MyConstants from './constants/MyConstants';
 import AppNavigator from './navigation/AppNavigator';
 import AppNavigator1 from './navigation/AppNavigator1';
-import Net from './Net/Net'
-import { Constants } from 'expo';
+import Net from './Net/Net';
 
 // 사용하는 대역변수 나열
 global.login_info = null

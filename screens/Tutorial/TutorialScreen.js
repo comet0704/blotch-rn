@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
-import {
-  Text,
-  Image,
-  View,
-} from 'react-native';
-import { Dimensions, StatusBar } from 'react-native';
-
-import { MyAppText } from '../../components/Texts/MyAppText';
-import MyStyles from '../../constants/MyStyles';
-import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
+import { AsyncStorage, Dimensions, Image, StatusBar, View } from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 import { MyPagination } from '../../components/MyPagination';
-import Colors from '../../constants/Colors';
+import { MyAppText } from '../../components/Texts/MyAppText';
 import MyConstants from '../../constants/MyConstants';
+
 // import ModalDropdown from './ModalDropdown';
 export default class TutorialScreen extends Component {
   constructor(props) {

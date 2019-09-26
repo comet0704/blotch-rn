@@ -1,18 +1,16 @@
+import { Google, Updates } from "expo";
+import * as Facebook from 'expo-facebook';
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
-import { Modal, TouchableHighlight, StatusBar, TouchableWithoutFeedback, Keyboard, AsyncStorage, Button, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { AsyncStorage, Image, Keyboard, KeyboardAvoidingView, Modal, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
-import { TopbarWithWhiteBack } from '../../components/Topbars/TopbarWithWhiteBack';
-import MyStyles from '../../constants/MyStyles';
-import Models from '../../Net/Models';
-import Net from '../../Net/Net';
-import MyConstants from '../../constants/MyConstants';
-import { Updates, Facebook, Google } from "expo";
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
-import Common from '../../assets/Common';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import { TopbarWithWhiteBack } from '../../components/Topbars/TopbarWithWhiteBack';
+import Colors from '../../constants/Colors';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {

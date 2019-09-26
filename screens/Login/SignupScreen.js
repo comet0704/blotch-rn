@@ -1,16 +1,16 @@
-import { Updates, ImagePicker, Permissions } from 'expo';
+import { Updates } from 'expo';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
+import { AsyncStorage, Image, KeyboardAvoidingView, Modal, ScrollView, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
-import { TouchableWithoutFeedback, Image, AsyncStorage, KeyboardAvoidingView, Modal, ScrollView, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { MyAppText } from '../../components/Texts/MyAppText';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import Colors from '../../constants/Colors';
+import MyConstants from '../../constants/MyConstants';
 import MyStyles from '../../constants/MyStyles';
 import Net from '../../Net/Net';
-import MyConstants from '../../constants/MyConstants';
-import Models from '../../Net/Models';
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
 
 export default class SignupScreen extends React.Component {
 

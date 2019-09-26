@@ -1,33 +1,20 @@
 // common
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage } from 'react-native';
+import { Dimensions, Image, KeyboardAvoidingView, Modal, ScrollView, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles'
-import MyConstants from '../../constants/MyConstants'
-import Common from '../../assets/Common';
-import Net from '../../Net/Net';
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
-
-import {
-  KeyboardAvoidingView,
-  View,
-  Image,
-  Dimensions,
-  WebBrowser,
-  Text,
-  Modal,
-  ScrollView,
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native';
-import { LinearGradient } from 'expo';
 import { FlatGrid } from 'react-native-super-grid';
-import { ProductItem3 } from '../../components/Products/ProductItem3';
+import Toast from 'react-native-whc-toast';
 import { NavigationEvents } from 'react-navigation';
+import Common from '../../assets/Common';
+import { ProductItem3 } from '../../components/Products/ProductItem3';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import Colors from '../../constants/Colors';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
+
 
 export default class BlotchdListScreen extends React.Component {
   offset = 0;

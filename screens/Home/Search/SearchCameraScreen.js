@@ -1,41 +1,20 @@
 // common
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import {
-  Platform,
-  Image,
-  Alert,
-  Linking,
-  Dimensions,
-  LayoutAnimation,
-  Text,
-  TextInput,
-  View,
-  StatusBar,
-  StyleSheet,
-  TouchableOpacity,
-  KeyboardAvoidingView
-} from 'react-native';
+import { Image, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
+import uuid from 'uuid';
+import { MyAppText } from '../../../components/Texts/MyAppText';
 import { TopbarWithBlackBack } from '../../../components/Topbars/TopbarWithBlackBack';
+import Environment from '../../../config/environment';
+import Colors from '../../../constants/Colors';
 import MyConstants from '../../../constants/MyConstants';
 import MyStyles from '../../../constants/MyStyles';
-import { Camera, BarCodeScanner, Permissions } from 'expo';
-import Net from '../../../Net/Net';
-import Colors from '../../../constants/Colors';
-import { MyAppText } from '../../../components/Texts/MyAppText';
 /**
  * OCR
  */
 import firebase from '../../../utils/firebase';
-import uuid from 'uuid';
-import Environment from '../../../config/environment';
-import Autocomplete from 'react-native-autocomplete-input';
-import Common from '../../../assets/Common';
-import { FlatGrid } from 'react-native-super-grid';
-import { AsyncStorage } from 'react-native';
-import { ProductBestItem } from '../../../components/Products/ProductBestItem';
 
 export default class SearchCameraScreen extends React.Component {
   constructor(props) {

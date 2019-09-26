@@ -1,38 +1,20 @@
 // common
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-whc-toast';
-import MyStyles from '../../../constants/MyStyles';
-import MyConstants from '../../../constants/MyConstants';
-import Common from '../../../assets/Common';
-import Net from '../../../Net/Net';
-import Colors from '../../../constants/Colors';
-import { MyAppText } from '../../../components/Texts/MyAppText';
-
-import {
-  StyleSheet,
-  KeyboardAvoidingView,
-  View,
-  Image,
-  Dimensions,
-  WebBrowser,
-  TextInput,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TouchableHighlight,
-  BackHandler
-} from 'react-native';
-import { LinearGradient } from 'expo';
-import { FlatGrid } from 'react-native-super-grid';
-import { ProductBestItem } from '../../../components/Products/ProductBestItem';
+import { AsyncStorage, Dimensions, Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
-import {
-  handleAndroidBackButton,
-  removeAndroidBackButtonHandler
-} from '../../../components/androidBackButton/handleAndroidBackButton';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { FlatGrid } from 'react-native-super-grid';
+import Toast from 'react-native-whc-toast';
+import Common from '../../../assets/Common';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../../components/androidBackButton/handleAndroidBackButton';
+import { ProductBestItem } from '../../../components/Products/ProductBestItem';
+import { MyAppText } from '../../../components/Texts/MyAppText';
+import Colors from '../../../constants/Colors';
+import MyConstants from '../../../constants/MyConstants';
+import MyStyles from '../../../constants/MyStyles';
+import Net from '../../../Net/Net';
+
 
 export default class SearchMainScreen extends React.Component {
   offset = 0;

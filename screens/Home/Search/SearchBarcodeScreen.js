@@ -1,17 +1,18 @@
 // common
-import { LinearGradient } from 'expo';
+import * as Permissions from 'expo-permissions';
+
+import { LinearGradient } from 'expo-linear-gradient';
+import { Camera } from 'expo-camera';
 import React from 'react';
-import { Platform, Image, Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { Image, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
+import { NavigationEvents } from 'react-navigation';
+import { MyAppText } from '../../../components/Texts/MyAppText';
 import { TopbarWithBlackBack } from '../../../components/Topbars/TopbarWithBlackBack';
+import Colors from '../../../constants/Colors';
 import MyConstants from '../../../constants/MyConstants';
 import MyStyles from '../../../constants/MyStyles';
-import { Camera, BarCodeScanner, Permissions } from 'expo';
-import Net from '../../../Net/Net';
-import Colors from '../../../constants/Colors';
-import { MyAppText } from '../../../components/Texts/MyAppText';
-import { NavigationEvents } from 'react-navigation';
 
 export default class SearchBarcodeScreen extends React.Component {
 

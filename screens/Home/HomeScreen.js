@@ -1,44 +1,25 @@
 // common
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 import React from 'react';
+import { Alert, AsyncStorage, Dimensions, Image, KeyboardAvoidingView, Linking, RefreshControl, ScrollView, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import Carousel from 'react-native-snap-carousel';
 import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles';
-import MyConstants from '../../constants/MyConstants';
 import Common from '../../assets/Common';
-import Net from '../../Net/Net';
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
-import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
-import {
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  TextInput,
-  KeyboardAvoidingView,
-  Alert,
-  WebView,
-  Dimensions,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-  BackHandler,
-  RefreshControl,
-  Linking,
-} from 'react-native';
-import { Updates, Notifications, Permissions } from 'expo';
-import { WebBrowser } from 'expo';
-import { NavigationEvents } from 'react-navigation';
-import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 import { exitAlert } from '../../components/androidBackButton/exitAlert';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 import { LoginModal } from '../../components/Modals/LoginModal';
-import { MyPagination } from '../../components/MyPagination';
 /**
  *
  */
 import { SearchModal } from '../../components/Modals/SearchModal';
+import { MyPagination } from '../../components/MyPagination';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {

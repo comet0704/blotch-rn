@@ -1,30 +1,15 @@
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
+import { Image, KeyboardAvoidingView, View } from 'react-native';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import { NavigationEvents } from 'react-navigation';
+import { exitAlert } from '../../components/androidBackButton/exitAlert';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
-import {
-  KeyboardAvoidingView,
-  View,
-  Image,
-  Dimensions,
-  WebBrowser,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native';
-import { LinearGradient } from 'expo';
-import MyStyles from '../../constants/MyStyles';
-import { FlatGrid } from 'react-native-super-grid';
 import MyConstants from '../../constants/MyConstants';
-import { FragmentNewProduct } from './FragmentNewProduct';
 import { FragmentBestProduct } from './FragmentBestProduct';
+import { FragmentNewProduct } from './FragmentNewProduct';
 import { FragmentRecommendProduct } from './FragmentRecommendProduct';
-import { NavigationEvents } from 'react-navigation';
-import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
-import { exitAlert } from '../../components/androidBackButton/exitAlert';
 
 export default class ProductContainerScreen extends React.Component {
   constructor(props) {

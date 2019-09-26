@@ -1,21 +1,9 @@
-import React, { Component } from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  WebView,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from 'react-native';
-import { ImagePicker } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { KeyboardAvoidingView, View, WebView } from 'react-native';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import MyStyles from '../../constants/MyStyles';
 import Net from '../../Net/Net';
-import { LinearGradient } from 'expo';
 
 export default class AboutUsScreen extends React.Component {
 

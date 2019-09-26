@@ -1,35 +1,19 @@
 // common
+import { LinearGradient } from 'expo-linear-gradient';
+
+import * as Icon from '@expo/vector-icons';
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
-import { Platform, AsyncStorage } from 'react-native';
+import { Dimensions, Image, Keyboard, KeyboardAvoidingView, Modal, Platform, ScrollView, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-whc-toast';
-import MyStyles from '../../../constants/MyStyles'
-import MyConstants from '../../../constants/MyConstants'
-import Common from '../../../assets/Common';
-import Net from '../../../Net/Net';
-import Colors from '../../../constants/Colors';
-import { MyAppText } from '../../../components/Texts/MyAppText';
-import { Icon } from 'expo';
-import {
-  Image,
-  Keyboard,
-  ScrollView,
-  Text,
-  Modal,
-  TouchableOpacity,
-  View,
-  TextInput,
-  KeyboardAvoidingView,
-  Dimensions,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import { LinearGradient } from 'expo';
-import { NavigationEvents } from 'react-navigation';
 import { FlatGrid } from 'react-native-super-grid';
+import Toast from 'react-native-whc-toast';
 import { ProductItem2 } from '../../../components/Products/ProductItem2';
 import { BrandItem } from '../../../components/Search/BrandItem';
+import { MyAppText } from '../../../components/Texts/MyAppText';
+import Colors from '../../../constants/Colors';
+import MyConstants from '../../../constants/MyConstants';
+import MyStyles from '../../../constants/MyStyles';
+import Net from '../../../Net/Net';
 
 export default class SearchResultScreen extends React.Component {
   constructor(props) {

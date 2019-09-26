@@ -1,28 +1,15 @@
-import React, { Component } from 'react';
-import Common from '../../assets/Common';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  TouchableHighlight,
-  KeyboardAvoidingView,
-} from 'react-native';
-import { ImagePicker } from 'expo';
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import MyStyles from '../../constants/MyStyles'
-import Net from '../../Net/Net';
+import React from 'react';
+import { KeyboardAvoidingView, View } from 'react-native';
+import { CalendarList } from 'react-native-calendars';
 import Spinner from 'react-native-loading-spinner-overlay';
+import ModalDropdown from 'react-native-modal-dropdown';
 import Toast from 'react-native-whc-toast';
-import MyConstants from '../../constants/MyConstants';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-import Colors from '../../constants/Colors';
+import Common from '../../assets/Common';
 import { MyAppText } from '../../components/Texts/MyAppText';
-import ModalDropdown from 'react-native-modal-dropdown'
+import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import Colors from '../../constants/Colors';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
 
 export default class CalendarScreen extends React.Component {
 

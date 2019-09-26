@@ -1,9 +1,9 @@
 // common
 import React from 'react';
-import { Image, Modal, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import MyStyles from '../../constants/MyStyles';
-import Messages from '../../constants/Messages';
+import { Image, Modal, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { MyAppText } from '../../components/Texts/MyAppText';
+import Messages from '../../constants/Messages';
+import MyStyles from '../../constants/MyStyles';
 
 export class LoginModal extends React.Component {
     constructor(props) {

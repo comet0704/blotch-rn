@@ -1,58 +1,52 @@
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
-import { Platform, Icon, Image } from 'react-native';
-import {
-  createStackNavigator,
-  createBottomTabNavigator
-} from 'react-navigation';
-
+import { Image, Platform } from 'react-native';
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/Home/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import LoginScreen from '../screens/Login/LoginScreen';
-import SignupScreen from '../screens/Login/SignupScreen';
-import FindPwdScreen from '../screens/Login/FindPwdScreen';
-import FaqScreen from '../screens/Home/FaqScreen';
+import MyConstants from '../constants/MyConstants';
 import AboutUsScreen from '../screens/Home/AboutUsScreen';
-import BannerDetailScreen from '../screens/Home/BannerDetailScreen';
-import ArticlesScreen from '../screens/Home/ArticlesScreen';
-import Colors from '../constants/Colors';
-import ProductContainerScreen from '../screens/Product/ProductContainerScreen';
-import ProductDetailScreen from '../screens/Product/ProductDetailScreen';
 import ArticleDetailScreen from '../screens/Home/ArticleDetailScreen';
+import ArticlesScreen from '../screens/Home/ArticlesScreen';
+import BannerDetailScreen from '../screens/Home/BannerDetailScreen';
+import FaqScreen from '../screens/Home/FaqScreen';
+import HomeScreen from '../screens/Home/HomeScreen';
+import SearchBarcodeScreen from '../screens/Home/Search/SearchBarcodeScreen';
+import SearchBrandDetailScreen from '../screens/Home/Search/SearchBrandDetailScreen';
+import SearchCameraScreen from '../screens/Home/Search/SearchCameraScreen';
+import SearchMainScreen from '../screens/Home/Search/SearchMainScreen';
+import SearchResultIngredientMoreScreen from '../screens/Home/Search/SearchResultIngredientMoreScreen';
+import SearchResultProductMoreScreen from '../screens/Home/Search/SearchResultProductMoreScreen';
+import SearchResultScreen from '../screens/Home/Search/SearchResultScreen';
 import IngredientScreen from '../screens/Ingredient/IngredientScreen';
 import PotentialAllergensProductScreen from '../screens/Ingredient/PotentialAllergensProductScreen';
-import SearchMainScreen from '../screens/Home/Search/SearchMainScreen';
-import SearchResultScreen from '../screens/Home/Search/SearchResultScreen';
-import SearchBrandDetailScreen from '../screens/Home/Search/SearchBrandDetailScreen';
-import SearchResultProductMoreScreen from '../screens/Home/Search/SearchResultProductMoreScreen';
-import SearchResultIngredientMoreScreen from '../screens/Home/Search/SearchResultIngredientMoreScreen';
-import MyListScreen from '../screens/Mylist/MyListScreen';
-import SearchCameraScreen from '../screens/Home/Search/SearchCameraScreen';
-import SearchBarcodeScreen from '../screens/Home/Search/SearchBarcodeScreen';
-import MatchdListScreen from '../screens/Mylist/MatchdListScreen';
+import LinksScreen from '../screens/LinksScreen';
+import FindPwdScreen from '../screens/Login/FindPwdScreen';
+import LoginScreen from '../screens/Login/LoginScreen';
+import SignupScreen from '../screens/Login/SignupScreen';
+import SnsMoreInfoScreen from '../screens/Login/SnsMoreInfoScreen';
 import BlotchdListScreen from '../screens/Mylist/BlotchdListScreen';
-import HeartListScreen from '../screens/Mylist/HeartListScreen';
 import FavoriteArticlesScreen from '../screens/Mylist/FavoriteArticlesScreen';
-import MyPageScreen from '../screens/Mypage/MyPageScreen';
-import EditProfileScreen from '../screens/Mypage/EditProfileScreen';
+import HeartListScreen from '../screens/Mylist/HeartListScreen';
+import MatchdListScreen from '../screens/Mylist/MatchdListScreen';
+import MyListScreen from '../screens/Mylist/MyListScreen';
+import MyOwnListScreen from '../screens/Mylist/MyOwnListScreen';
+import AnnouncementsScreen from '../screens/Mypage/AnnouncementsScreen';
+import CalendarScreen from '../screens/Mypage/CalendarScreen';
 import ChangePwdScreen from '../screens/Mypage/ChangePwdScreen';
+import ContactUsScreen from '../screens/Mypage/ContactUsScreen';
+import EditProfileScreen from '../screens/Mypage/EditProfileScreen';
+import MyBeautyBoxScreen from '../screens/Mypage/MyBeautyBoxScreen';
+import MyPageScreen from '../screens/Mypage/MyPageScreen';
 import MyPointScreen from '../screens/Mypage/MyPointScreen';
 import MyReviewScreen from '../screens/Mypage/MyReviewScreen';
-import SettingScreen from '../screens/Mypage/SettingScreen';
-import PolicyScreen from '../screens/Mypage/PolicyScreen';
 import NotificationScreen from '../screens/Mypage/NotificationScreen';
-import AnnouncementsScreen from '../screens/Mypage/AnnouncementsScreen';
-import ContactUsScreen from '../screens/Mypage/ContactUsScreen';
-import MyBeautyBoxScreen from '../screens/Mypage/MyBeautyBoxScreen';
-import CalendarScreen from '../screens/Mypage/CalendarScreen';
+import PolicyScreen from '../screens/Mypage/PolicyScreen';
 import QuestionnareScreen from '../screens/Mypage/QuestionnareScreen';
+import SettingScreen from '../screens/Mypage/SettingScreen';
 import WeCanSearchItScreen from '../screens/Mypage/WeCanSearchItScreen';
-import MyOwnListScreen from '../screens/Mylist/MyOwnListScreen';
-import MyConstants from '../constants/MyConstants';
-import MyStyles from '../constants/MyStyles';
+import ProductContainerScreen from '../screens/Product/ProductContainerScreen';
+import ProductDetailScreen from '../screens/Product/ProductDetailScreen';
 import TutorialScreen from '../screens/Tutorial/TutorialScreen';
-import SnsMoreInfoScreen from '../screens/Login/SnsMoreInfoScreen';
+
 
 const HomeStack = createStackNavigator(
   {

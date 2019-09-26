@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity
-} from 'react-native';
-
-import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
+import { Text, TouchableOpacity, View } from 'react-native';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { MyPagination } from '../components/MyPagination';
+
 
 export default class MyCarousel extends Component {
   constructor(props) {

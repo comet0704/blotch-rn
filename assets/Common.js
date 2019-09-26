@@ -1,21 +1,9 @@
-import MyConstants from "../constants/MyConstants";
-import MyStyles from "../constants/MyStyles";
-import MyStrings from "../constants/MyStrings";
-import Colors from '../constants/Colors';
 import React from 'react';
-import {
-  KeyboardAvoidingView,
-  View,
-  Image,
-  Modal,
-  Dimensions,
-  WebBrowser,
-  Alert,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native';
+import { Text, TouchableHighlight, View } from 'react-native';
+import Colors from '../constants/Colors';
+import MyConstants from "../constants/MyConstants";
+import MyStrings from "../constants/MyStrings";
+import MyStyles from "../constants/MyStyles";
 
 export default {
   getImageUrl(image_list) {

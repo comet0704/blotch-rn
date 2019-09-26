@@ -1,21 +1,19 @@
 import React from 'react';
+import { AsyncStorage, Dimensions, Image, Keyboard, KeyboardAvoidingView, RefreshControl, ScrollView, TouchableOpacity, View } from 'react-native';
 import ImageLoad from 'react-native-image-placeholder';
-import { TouchableWithoutFeedback, Dimensions, Keyboard, AsyncStorage, Button, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View, RefreshControl } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import MovableView from 'react-native-movable-view';
 import Toast from 'react-native-whc-toast';
-import { TopbarWithWhiteBack } from '../../components/Topbars/TopbarWithWhiteBack';
-import MyStyles from '../../constants/MyStyles';
-import Models from '../../Net/Models';
-import Net from '../../Net/Net';
-import MyConstants from '../../constants/MyConstants';
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
-import Common from '../../assets/Common';
-
-import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
-import { exitAlert } from '../../components/androidBackButton/exitAlert';
 import { NavigationEvents } from 'react-navigation';
-import MovableView from 'react-native-movable-view'
+import Common from '../../assets/Common';
+import { exitAlert } from '../../components/androidBackButton/exitAlert';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import Colors from '../../constants/Colors';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
+
 
 export default class MyPageScreen extends React.Component {
   constructor(props) {

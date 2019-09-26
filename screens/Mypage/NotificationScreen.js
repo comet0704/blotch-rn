@@ -1,27 +1,14 @@
-import React, { Component } from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Switch,
-  AsyncStorage,
-  Text,
-  View,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from 'react-native';
-import { ImagePicker } from 'expo';
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import MyStyles from '../../constants/MyStyles'
-import Net from '../../Net/Net';
+import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { KeyboardAvoidingView, ScrollView, Switch, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
-import MyConstants from '../../constants/MyConstants';
-import { LinearGradient } from 'expo';
-import Colors from '../../constants/Colors';
 import { MyAppText } from '../../components/Texts/MyAppText';
+import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import Colors from '../../constants/Colors';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
 
 
 export default class NotificationScreen extends React.Component {

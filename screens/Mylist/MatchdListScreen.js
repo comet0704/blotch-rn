@@ -1,29 +1,11 @@
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
+import { KeyboardAvoidingView, View } from 'react-native';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import { NavigationEvents } from 'react-navigation';
 import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
-import {
-  KeyboardAvoidingView,
-  View,
-  Image,
-  Dimensions,
-  WebBrowser,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native';
-import { LinearGradient } from 'expo';
-import MyStyles from '../../constants/MyStyles';
-import { FlatGrid } from 'react-native-super-grid';
-import MyConstants from '../../constants/MyConstants';
-import { FragmentMatchdProduct } from './FragmentMatchdProduct';
-import { NavigationEvents } from 'react-navigation';
-import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
-import { exitAlert } from '../../components/androidBackButton/exitAlert';
 import { FragmentMatchdBrand } from './FragmentMatchdBrand';
+import { FragmentMatchdProduct } from './FragmentMatchdProduct';
 
 export default class MatchdListScreen extends React.Component {
   constructor(props) {

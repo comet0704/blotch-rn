@@ -1,25 +1,14 @@
-import React, { Component } from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from 'react-native';
-import { ImagePicker } from 'expo';
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import MyStyles from '../../constants/MyStyles'
-import Net from '../../Net/Net';
+import React from 'react';
+import { Image, KeyboardAvoidingView, ScrollView, TouchableOpacity, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
-import MyConstants from '../../constants/MyConstants';
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
 import Common from '../../assets/Common';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import Colors from '../../constants/Colors';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
 
 export default class MyPointScreen extends React.Component {
 

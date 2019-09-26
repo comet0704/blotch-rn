@@ -1,8 +1,7 @@
+import * as Icon from '@expo/vector-icons';
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
-import { Icon } from 'expo';
-
 import Colors from '../constants/Colors';
+
 
 export default class TabBarIcon extends React.Component {
   render() {

@@ -1,28 +1,15 @@
 // common
 import React from 'react';
+import { Image, TouchableOpacity, View } from 'react-native';
 import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles'
-import MyConstants from '../../constants/MyConstants'
-import Common from '../../assets/Common';
-import Net from '../../Net/Net';
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
 import StarRating from 'react-native-star-rating';
+import Common from '../../assets/Common';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import Colors from '../../constants/Colors';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
 
-import {
-  KeyboardAvoidingView,
-  View,
-  Image,
-  Dimensions,
-  WebBrowser,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native';
 
 
 export class BeautyBoxItem extends React.Component {

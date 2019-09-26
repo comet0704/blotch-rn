@@ -1,36 +1,22 @@
 // common
-import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage, Platform } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles'
-import MyConstants from '../../constants/MyConstants'
-import Common from '../../assets/Common';
-import Net from '../../Net/Net';
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
+import * as Permissions from 'expo-permissions';
 
-import StarRating from 'react-native-star-rating';
-import ProgressBarAnimated from 'react-native-progress-bar-animated';
-import {
-  TouchableWithoutFeedback,
-  Alert,
-  KeyboardAvoidingView,
-  View,
-  Modal,
-  Image,
-  TextInput,
-  Dimensions,
-  WebBrowser,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native';
-import { LinearGradient, ImagePicker, Permissions } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
+import * as ImagePicker from 'expo-image-picker';
+import React from 'react';
+import { Alert, Dimensions, Image, Modal, Platform, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import Spinner from 'react-native-loading-spinner-overlay';
+import ProgressBarAnimated from 'react-native-progress-bar-animated';
+import StarRating from 'react-native-star-rating';
+import Common from '../../assets/Common';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import Colors from '../../constants/Colors';
 import Messages from '../../constants/Messages';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
+
 
 export class FragmentProductDetailReviews extends React.Component {
   item_id = 0;
@@ -1019,4 +1005,4 @@ export class FragmentProductDetailReviews extends React.Component {
       })
       .done();
   }
-};
+}

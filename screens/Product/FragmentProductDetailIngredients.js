@@ -1,35 +1,18 @@
 // common
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage } from 'react-native';
+import { Alert, Image, Modal, TouchableOpacity, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import ModalDropdown from 'react-native-modal-dropdown';
 import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles'
-import MyConstants from '../../constants/MyConstants'
 import Common from '../../assets/Common';
-import Net from '../../Net/Net';
-import Colors from '../../constants/Colors';
 import { MyAppText } from '../../components/Texts/MyAppText';
-
-import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import {
-  KeyboardAvoidingView,
-  View,
-  Modal,
-  Image,
-  Dimensions,
-  WebBrowser,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  TouchableHighlight,
-  Alert,
-} from 'react-native';
-import { LinearGradient } from 'expo';
-import { FlatGrid } from 'react-native-super-grid';
-import ModalDropdown from 'react-native-modal-dropdown'
+import Colors from '../../constants/Colors';
 import Messages from '../../constants/Messages';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
+
 
 export class FragmentProductDetailIngredients extends React.Component {
   item_id = 0;

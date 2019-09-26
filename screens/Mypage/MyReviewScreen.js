@@ -1,20 +1,19 @@
 // common
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
+import { Image, KeyboardAvoidingView, ScrollView, TouchableOpacity, View } from 'react-native';
 import ImageLoad from 'react-native-image-placeholder';
-import { AsyncStorage } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles'
-import MyConstants from '../../constants/MyConstants'
-import Common from '../../assets/Common';
-import Net from '../../Net/Net';
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
-
-import { Image, Dimensions, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, TouchableHighlight, Linking } from 'react-native';
-import { LinearGradient } from 'expo';
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
 import StarRating from 'react-native-star-rating';
+import Toast from 'react-native-whc-toast';
+import Common from '../../assets/Common';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import Colors from '../../constants/Colors';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
+
 
 export default class MyReviewScreen extends React.Component {
   

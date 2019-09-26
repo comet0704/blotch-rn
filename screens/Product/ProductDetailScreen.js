@@ -1,29 +1,23 @@
 // common
 import React from 'react';
-import { AsyncStorage } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
-import Toast from 'react-native-whc-toast';
-import MyStyles from '../../constants/MyStyles'
-import MyConstants from '../../constants/MyConstants'
-import Common from '../../assets/Common';
-import Net from '../../Net/Net';
-import Colors from '../../constants/Colors';
-import { MyAppText } from '../../components/Texts/MyAppText';
-
+import { Alert, Dimensions, Image, KeyboardAvoidingView, ScrollView, Share, Text, TouchableOpacity, View } from 'react-native';
 import ImageLoad from 'react-native-image-placeholder';
-// import { Image } from "react-native-expo-image-cache";
-import { CacheManager } from "react-native-expo-image-cache";
-import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
-import { Dimensions, Share, TouchableHighlight, Modal, Image, TextInput, KeyboardAvoidingView, ScrollView, Text, View, TouchableOpacity, Linking } from 'react-native';
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import { LinearGradient } from 'expo';
+import Spinner from 'react-native-loading-spinner-overlay';
+import ModalDropdown from 'react-native-modal-dropdown';
+import Carousel from 'react-native-snap-carousel';
 import StarRating from 'react-native-star-rating';
+import Toast from 'react-native-whc-toast';
+import Common from '../../assets/Common';
+import { MyAppText } from '../../components/Texts/MyAppText';
+import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import Colors from '../../constants/Colors';
+import Messages from '../../constants/Messages';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
 import { FragmentProductDetailIngredients } from './FragmentProductDetailIngredients';
 import { FragmentProductDetailReviews } from './FragmentProductDetailReviews';
-import { Dropdown } from 'react-native-material-dropdown';
-import { Alert } from 'react-native';
-import Messages from '../../constants/Messages';
-import ModalDropdown from 'react-native-modal-dropdown'
+
 
 export default class ProductDetailScreen extends React.Component {
 

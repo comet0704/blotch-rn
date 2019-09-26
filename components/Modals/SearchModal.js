@@ -1,10 +1,12 @@
+import * as Permissions from 'expo-permissions';
+import { LinearGradient } from 'expo-linear-gradient';
+import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
-import { Modal, View, Image, TouchableOpacity } from 'react-native';
-import { LinearGradient, ImagePicker, Permissions } from 'expo';
-import { MyAppText } from '../Texts/MyAppText';
+import { Image, Modal, TouchableOpacity, View } from 'react-native';
 import Colors from '../../constants/Colors';
 import MyStyles from '../../constants/MyStyles';
 import OcrStyle from '../../constants/OcrStyle';
+import { MyAppText } from '../Texts/MyAppText';
 
 
 export class SearchModal extends React.Component {

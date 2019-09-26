@@ -1,26 +1,13 @@
-import React, { Component } from 'react';
-import {
-  Image,
-  ScrollView,
-  AsyncStorage,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Alert,
-} from 'react-native';
-import { ImagePicker } from 'expo';
-import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
-import MyStyles from '../../constants/MyStyles'
-import Net from '../../Net/Net';
+import React from 'react';
+import { Alert, AsyncStorage, KeyboardAvoidingView, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
-import MyConstants from '../../constants/MyConstants';
-import Messages from '../../constants/Messages';
 import { MyAppText } from '../../components/Texts/MyAppText';
+import { TopbarWithBlackBack } from '../../components/Topbars/TopbarWithBlackBack';
+import Messages from '../../constants/Messages';
+import MyConstants from '../../constants/MyConstants';
+import MyStyles from '../../constants/MyStyles';
+import Net from '../../Net/Net';
 
 export default class ChangePwdScreen extends React.Component {
 
