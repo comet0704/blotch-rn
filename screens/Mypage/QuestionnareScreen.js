@@ -1,7 +1,7 @@
 import { Updates } from 'expo';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Dimensions, Image, Keyboard, KeyboardAvoidingView, Modal, ScrollView, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, Dimensions, Image, Keyboard, KeyboardAvoidingView, Modal, ScrollView, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import ImageLoad from 'react-native-image-placeholder';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -1779,6 +1779,18 @@ export default class QuestionnareScreen extends React.Component {
         } else {
           this.state.questionnaire_list[this.state.beforeBabyIdx].title = this.state.questionnaire_detail.title
           this.setState(this.state.questionnaire_list)
+          Alert.alert(
+            '',
+            "The Questionnaire is complete",
+            [
+              {
+                text: 'OK', onPress: () => {
+                  // this.props.navigation.goBack();
+                }
+              },
+            ],
+            { cancelable: false },
+          );
         }
 
       })
