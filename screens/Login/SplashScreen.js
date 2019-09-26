@@ -11,6 +11,13 @@ export default class SplashScreen extends React.Component {
             console.log(Date() + ": On Navigation Events")
             this.interval = setInterval(() => {
               this.subinterval = setInterval(() => {
+                global.refreshStatus = {
+                  main: true,
+                  product_recommend: true,
+                  ingredient: true,
+                  mylist: true,
+                  mypage: true,
+                }
                 this.props.navigation.navigate("Home")
                 clearInterval(this.subinterval)
               }, 2000)
