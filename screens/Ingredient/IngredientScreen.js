@@ -928,9 +928,6 @@ ingredients that can cause allergies.</MyAppText>
         //   isLoading: false,
         // });
 
-
-        this.setState({ saveToModalVisible: false, searchModalVisible: false });
-
         if (responseJson.result_code < 0) {
           if (responseJson.result_code == -10) {
             Alert.alert(
@@ -939,7 +936,7 @@ ingredients that can cause allergies.</MyAppText>
               [
                 {
                   text: 'Cancel',
-                  onPress: () => console.log('Cancel Pressed'),
+                  onPress: () => { this.setState({ saveToModalVisible: false, searchModalVisible: false }); },
                   style: 'cancel',
                 },
                 { text: 'OK', onPress: () => this.requestAddUserIngredient(p_ingredient_id, p_type, p_questionnaire_id, 1) },
@@ -948,12 +945,18 @@ ingredients that can cause allergies.</MyAppText>
             );
             return
           } else {
+            this.setState({ saveToModalVisible: false, searchModalVisible: false });
             this.refs.toast.showBottom(responseJson.result_msg);
             return
           }
+        } else {
+          this.setState({ saveToModalVisible: false, searchModalVisible: false }, () => {
+            this.requestMyList(this.state.selected_questionnaire.id);
+          });
         }
 
-        this.requestMyList(this.state.selected_questionnaire.id);
+
+
       })
       .catch((error) => {
         this.setState({
