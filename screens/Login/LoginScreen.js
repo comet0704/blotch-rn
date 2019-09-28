@@ -1,7 +1,8 @@
-import { Google, Updates } from "expo";
+import { Updates } from "expo";
+import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
 import React from 'react';
-import { AsyncStorage, StatusBar, Image, Keyboard, KeyboardAvoidingView, Modal, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { AsyncStorage, Image, Keyboard, KeyboardAvoidingView, Modal, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
@@ -86,6 +87,8 @@ export default class LoginScreen extends React.Component {
   );
 
   onLoginWithFacebook = async () => {
+    this.refs.toast.showCenter("Coming soon.");
+    return;
     this.setState({
       isLoading: true,
     });
@@ -340,7 +343,7 @@ export default class LoginScreen extends React.Component {
           isLoading: false
         });
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
+          this.refs.toast.showCenter(responseJson.result_msg);
           return;
         } else {
           global.login_info = responseJson.result_data.login_user;
@@ -358,7 +361,7 @@ export default class LoginScreen extends React.Component {
         this.setState({
           isLoading: false,
         });
-        this.refs.toast.showBottom(error);
+        this.refs.toast.showCenter(error);
       })
       .done();
 
@@ -388,7 +391,7 @@ export default class LoginScreen extends React.Component {
           isLoading: false
         });
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
+          this.refs.toast.showCenter(responseJson.result_msg);
           return;
         } else {
           global.login_info = responseJson.result_data.login_user;
@@ -408,7 +411,7 @@ export default class LoginScreen extends React.Component {
         this.setState({
           isLoading: false,
         });
-        this.refs.toast.showBottom(error);
+        this.refs.toast.showCenter(error);
       })
       .done();
   }
@@ -436,7 +439,7 @@ export default class LoginScreen extends React.Component {
           isLoading: false
         });
         if (responseJson.result_code < 0) {
-          this.refs.toast.showBottom(responseJson.result_msg);
+          this.refs.toast.showCenter(responseJson.result_msg);
           return;
         } else {
           global.login_info = responseJson.result_data.login_user;
@@ -457,7 +460,7 @@ export default class LoginScreen extends React.Component {
         this.setState({
           isLoading: false,
         });
-        this.refs.toast.showBottom(error);
+        this.refs.toast.showCenter(error);
       })
       .done();
   }
