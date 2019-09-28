@@ -1,7 +1,7 @@
 import { Google, Updates } from "expo";
 import * as Facebook from 'expo-facebook';
 import React from 'react';
-import { AsyncStorage, Image, Keyboard, KeyboardAvoidingView, Modal, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { AsyncStorage, StatusBar, Image, Keyboard, KeyboardAvoidingView, Modal, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-whc-toast';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../components/androidBackButton/handleAndroidBackButton';
@@ -150,10 +150,6 @@ export default class LoginScreen extends React.Component {
     const { loginPressed, email, password } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        {/* <StatusBar
-          backgroundColor="transparent"
-          barStyle="dark-content"
-        /> */}
         <Spinner
           //visibility of Overlay Loading Spinner
           visible={this.state.isLoading}
