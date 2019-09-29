@@ -166,22 +166,26 @@ export default class EditProfileScreen extends React.Component {
   }
 
   _pickImageFromGallery = async () => {
-    this.setState({ photoModalVisible: false })
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [1, 1],
-    });
+    const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+      });
 
-    console.log(result);
+      console.log(result);
 
-    if (!result.cancelled) {
-      this.setState({ selectedImage: result.uri });
-      this.setState({ selectedFile: result });
+      if (!result.cancelled) {
+        this.setState({ photoModalVisible: false })
+        this.setState({ selectedImage: result.uri });
+        this.setState({ selectedFile: result });
+      }
+    } else {
+      throw new Error('Location permission not granted');
     }
   };
 
   _pickImageFromCamera = async () => {
-    this.setState({ photoModalVisible: false })
     const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
     if (status === 'granted') {
       let result = await ImagePicker.launchCameraAsync({
@@ -192,6 +196,7 @@ export default class EditProfileScreen extends React.Component {
       console.log(result);
 
       if (!result.cancelled) {
+        this.setState({ photoModalVisible: false })
         this.setState({ selectedImage: result.uri });
         this.setState({ selectedFile: result });
       }
