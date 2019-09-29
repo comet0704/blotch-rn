@@ -1323,7 +1323,7 @@ export default class QuestionnareScreen extends React.Component {
                       selectedItemColor={Colors.color_656565}
                       baseColor={Colors.primary_dark}
                       value={this.state.questionnaire_detail.location == null ? "" : this.state.questionnaire_detail.location}
-                      label='Please select your country'
+                      label='Please select your state'
                       onChangeText={(value, index, data) => {
                         this.state.questionnaire_detail.location = value
                         this.setState(this.state.questionnaire_detail)

@@ -232,94 +232,98 @@ export default class MyBeautyBoxScreen extends React.Component {
           visible={this.state.myRatingModalVisible}
           onRequestClose={() => {
           }}>
-          <Toast ref='modal_toast' />
-          <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-            <View style={{ flex: 1 }}>
-              <View style={MyStyles.modal_bg1}>
-                <View style={MyStyles.modalContainer}>
-                  {/* modal header */}
-                  <View style={MyStyles.modal_header}>
-                    <MyAppText style={MyStyles.modal_title}>My Rating</MyAppText>
-                    <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
-                      this.setState({ myRatingModalVisible: false });
-                    }}>
-                      <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
-                    </TouchableOpacity>
-                  </View>
-                  <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
-
-                  <View style={[MyStyles.padding_v_25, MyStyles.container]}>
-                    {/* 이미지, description 부분 */}
-                    <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 75 / 3 }}>
-                      <View style={[MyStyles.productItemContainer1, { width: 295 / 3, height: 270 / 3 }]}>
-                        <ImageLoad source={{ uri: Common.getImageUrl(this.state.product_detail_result_data.detail.image_list) }} style={[MyStyles.background_image]} />
+          <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled>
+            <View style={{ flex: 1, flexDirection: "column" }}>
+              <Toast ref='modal_toast' />
+              <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+                <View style={{ flex: 1 }}>
+                  <View style={MyStyles.modal_bg1}>
+                    <View style={MyStyles.modalContainer}>
+                      {/* modal header */}
+                      <View style={MyStyles.modal_header}>
+                        <MyAppText style={MyStyles.modal_title}>My Rating</MyAppText>
+                        <TouchableOpacity activeOpacity={0.8} style={[MyStyles.padding_h_main, MyStyles.padding_v_5, { position: "absolute", right: 0 }]} onPress={() => {
+                          this.setState({ myRatingModalVisible: false });
+                        }}>
+                          <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
+                        </TouchableOpacity>
                       </View>
-                      <View style={{ marginLeft: 10, flex: 1 }}>
-                        <MyAppText style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]}>{this.state.product_detail_result_data.detail.brand_title}</MyAppText>
-                        <MyAppText style={[MyStyles.productName, { textAlign: "left", height: 50 }]} numberOfLines={2}>{this.state.product_detail_result_data.detail.title}</MyAppText>
-                      </View>
-                    </View>
+                      <LinearGradient colors={['#eeeeee', '#f7f7f7']} style={{ height: 6 }} ></LinearGradient>
 
-                    <View style={[MyStyles.border_bottom_e5e5e5, { marginBottom: 75 / 3, marginRight: -15, }]} />
+                      <View style={[MyStyles.padding_v_25, MyStyles.container]}>
+                        {/* 이미지, description 부분 */}
+                        <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 75 / 3 }}>
+                          <View style={[MyStyles.productItemContainer1, { width: 295 / 3, height: 270 / 3 }]}>
+                            <ImageLoad source={{ uri: Common.getImageUrl(this.state.product_detail_result_data.detail.image_list) }} style={[MyStyles.background_image]} />
+                          </View>
+                          <View style={{ marginLeft: 10, flex: 1 }}>
+                            <MyAppText style={[MyStyles.productBrand, { textAlign: "left", marginTop: 0 }]}>{this.state.product_detail_result_data.detail.brand_title}</MyAppText>
+                            <MyAppText style={[MyStyles.productName, { textAlign: "left", height: 50 }]} numberOfLines={2}>{this.state.product_detail_result_data.detail.title}</MyAppText>
+                          </View>
+                        </View>
 
-                    {/* Are you satisfied with the product? 부분 */}
-                    <View style={{ justifyContent: "center", marginBottom: 75 / 3, alignItems: "center" }}>
-                      <MyAppText style={[{ textAlign: "center", fontWeight: "bold", marginBottom: 5, }, MyStyles.text_13_primary_dark]}>
-                        Are you satisfied with the product?
+                        <View style={[MyStyles.border_bottom_e5e5e5, { marginBottom: 75 / 3, marginRight: -15, }]} />
+
+                        {/* Are you satisfied with the product? 부분 */}
+                        <View style={{ justifyContent: "center", marginBottom: 75 / 3, alignItems: "center" }}>
+                          <MyAppText style={[{ textAlign: "center", fontWeight: "bold", marginBottom: 5, }, MyStyles.text_13_primary_dark]}>
+                            Are you satisfied with the product?
                       </MyAppText>
-                      <View style={[{ width: "100%", height: 38, borderWidth: 0.5, borderColor: Colors.color_e3e5e4, justifyContent: "center", alignItems: "center" }]}>
-                        <StarRating
-                          disabled={false}
-                          maxStars={5}
-                          containerStyle={[{ width: 200 / 3, },]}
-                          starSize={40 / 3}
-                          emptyStarColor={Colors.color_star_empty}
-                          rating={this.state.post_grade}
-                          selectedStar={(rating) => {
-                            this.state.post_grade = rating
-                            this.setState({ post_grade: this.state.post_grade })
-                          }}
-                          fullStarColor={Colors.primary_purple}
-                        />
-                        <Image style={[MyStyles.ic_arrow_down_gray_small, { position: "absolute", right: 15, top: 15 }]} source={require("../../assets/images/ic_arrow_down_gray_small.png")} />
+                          <View style={[{ width: "100%", height: 38, borderWidth: 0.5, borderColor: Colors.color_e3e5e4, justifyContent: "center", alignItems: "center" }]}>
+                            <StarRating
+                              disabled={false}
+                              maxStars={5}
+                              containerStyle={[{ width: 200 / 3, },]}
+                              starSize={40 / 3}
+                              emptyStarColor={Colors.color_star_empty}
+                              rating={this.state.post_grade}
+                              selectedStar={(rating) => {
+                                this.state.post_grade = rating
+                                this.setState({ post_grade: this.state.post_grade })
+                              }}
+                              fullStarColor={Colors.primary_purple}
+                            />
+                            <Image style={[MyStyles.ic_arrow_down_gray_small, { position: "absolute", right: 15, top: 15 }]} source={require("../../assets/images/ic_arrow_down_gray_small.png")} />
+                          </View>
+                        </View>
+
+                        <View>
+                          <MyAppText style={[{ textAlign: "center", fontWeight: "bold", marginBottom: 5, }, MyStyles.text_13_primary_dark]}>
+                            How about this product?
+                      </MyAppText>
+                          <TextInput
+                            textAlignVertical="top"
+                            multiline={true}
+                            value={this.state.post_comment}
+                            returnKeyType="go"
+                            onChangeText={(text) => { this.setState({ post_comment: text }) }}
+                            style={[MyStyles.text_input_with_border, { height: 100 }]}>
+                          </TextInput>
+                        </View>
+
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <TouchableOpacity
+                          style={[MyStyles.dlg_btn_primary_cover]} onPress={() => {
+                            if (this.state.post_grade == null || this.state.post_grade == 0) {
+                              this.refs.modal_toast.showBottom("Please select star");
+                              return
+                            }
+                            if (this.state.post_comment.length <= 0) {
+                              this.refs.modal_toast.showBottom("Please input comment");
+                              return
+                            }
+                            this.requestPostProductComment(this.state.selectedProductId, this.state.post_comment, 0, this.state.post_grade, null)
+                          }}>
+                          <MyAppText style={MyStyles.btn_primary}>Save</MyAppText>
+                        </TouchableOpacity>
                       </View>
                     </View>
-
-                    <View>
-                      <MyAppText style={[{ textAlign: "center", fontWeight: "bold", marginBottom: 5, }, MyStyles.text_13_primary_dark]}>
-                        How about this product?
-                      </MyAppText>
-                      <TextInput
-                        textAlignVertical="top"
-                        multiline={true}
-                        value={this.state.post_comment}
-                        returnKeyType="go"
-                        onChangeText={(text) => { this.setState({ post_comment: text }) }}
-                        style={[MyStyles.text_input_with_border, { height: 100 }]}>
-                      </TextInput>
-                    </View>
-
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity
-                      style={[MyStyles.dlg_btn_primary_cover]} onPress={() => {
-                        if (this.state.post_grade == null || this.state.post_grade == 0) {
-                          this.refs.modal_toast.showBottom("Please select star");
-                          return
-                        }
-                        if (this.state.post_comment.length <= 0) {
-                          this.refs.modal_toast.showBottom("Please input comment");
-                          return
-                        }
-                        this.requestPostProductComment(this.state.selectedProductId, this.state.post_comment, 0, this.state.post_grade, null)
-                      }}>
-                      <MyAppText style={MyStyles.btn_primary}>Save</MyAppText>
-                    </TouchableOpacity>
                   </View>
                 </View>
-              </View>
+              </TouchableWithoutFeedback>
             </View>
-          </TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
         </Modal>
 
         <Modal
