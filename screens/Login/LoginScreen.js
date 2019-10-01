@@ -119,9 +119,9 @@ export default class LoginScreen extends React.Component {
   }
 
   onLoginWithGoogle = async () => {
-    this.setState({
-      isLoading: true,
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
     try {
       const result = await Google.logInAsync({
         androidClientId:
@@ -137,14 +137,14 @@ export default class LoginScreen extends React.Component {
 
       } else {
         console.log("cancelled")
-        this.setState({
-          isLoading: false,
-        });
+        // this.setState({
+        //   isLoading: false,
+        // });
       }
     } catch (e) {
-      this.setState({
-        isLoading: false,
-      });
+      // this.setState({
+      //   isLoading: false,
+      // });
       console.log("error", e)
     }
   }
@@ -369,9 +369,9 @@ export default class LoginScreen extends React.Component {
 
   requestLoginGoogle(p_email, p_id, p_profile_image) {
     console.log(p_email + "_" + p_id + "_ " + p_profile_image)
-    // this.setState({
-    //   isLoading: true,
-    // });
+    this.setState({
+      isLoading: true,
+    });
     return fetch(Net.auth.loginGoogle, {
       method: 'POST',
       headers: {
