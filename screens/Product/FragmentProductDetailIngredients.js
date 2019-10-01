@@ -509,6 +509,7 @@ export class FragmentProductDetailIngredients extends React.Component {
 
 
         this.requestUserIngredientList(this.state.selected_questionnaire.id);
+        global.refreshStatus.ingredient = true
       })
       .catch((error) => {
         this.setState({

@@ -1784,7 +1784,7 @@ export default class QuestionnareScreen extends React.Component {
           this.setState(this.state.questionnaire_list)
           Alert.alert(
             '',
-            this.qnaCompleted ? "The Questionnaire is completed" : "The Questionnaire is saved",
+            this.qnaCompleted ? "The Questionnaire is completed" : "The Questionnaire has been saved",
             [
               {
                 text: 'OK', onPress: () => {
