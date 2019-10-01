@@ -72,7 +72,7 @@ export class FragmentProductDetailReviews extends React.Component {
 
     }
     comment_list[index].want_comment = true
-    const result = { comment_list: comment_list, product_user_sta: this.state.product_comment_list_result_data.product_user_sta };
+    const result = { user_comment: this.state.product_comment_list_result_data.user_comment, comment_list: comment_list, product_user_sta: this.state.product_comment_list_result_data.product_user_sta };
     this.beforeCommentIdx = index;
     this.setState({ product_comment_list_result_data: result })
   }

@@ -21,6 +21,7 @@ export default class QuestionnareScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.qnaCompleted = false
     this.state = {
       section_basic_info: false,
       section_skin_type: false,
@@ -198,9 +199,11 @@ export default class QuestionnareScreen extends React.Component {
       this.state.morning_care_types.findIndex(item => item.is_selected == true) >= 0 &&
       this.state.night_cleansing_types.findIndex(item => item.is_selected == true) >= 0 &&
       this.state.night_care_types.findIndex(item => item.is_selected == true) >= 0) {
+      this.qnaCompleted = true
       this.updateQuestionnaireItem()
     } else {
       this.setState({ noCompletedQuestionnaireModalVisible: true })
+      this.qnaCompleted = false
     }
   }
 
@@ -1781,7 +1784,7 @@ export default class QuestionnareScreen extends React.Component {
           this.setState(this.state.questionnaire_list)
           Alert.alert(
             '',
-            "The Questionnaire is complete",
+            this.qnaCompleted ? "The Questionnaire is completed" : "The Questionnaire is saved",
             [
               {
                 text: 'OK', onPress: () => {

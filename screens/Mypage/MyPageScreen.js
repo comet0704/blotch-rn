@@ -58,7 +58,6 @@ export default class MyPageScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.requestGetMyPosition();
     handleAndroidBackButton(this, exitAlert);
 
     if (global.login_info.skin_type != null && global.login_info.skin_type.length > 0) {
@@ -206,6 +205,7 @@ export default class MyPageScreen extends React.Component {
                 this.setState({ showLoginModal: true });
                 return;
               }
+              this.requestGetMyPosition();
               if (global.refreshStatus.mypage == true) {
                 global.refreshStatus.mypage = false
                 this.requestMyPage();
@@ -542,6 +542,11 @@ export default class MyPageScreen extends React.Component {
       (error) => {
         //가져오기 실패 했을 경우.
         // this.refs.toast.showBottom("Please allow location permissions in Settings.")
+        this.state.weatherInfo.main = ""
+        this.state.weatherInfo.temp = ""
+        this.state.weatherInfo.icon = ""
+        this.state.weatherInfo.city = ""
+        this.setState(this.state.weatherInfo)
       }, {
         //Accuracy가 높아야하는지, 위치를 가져오는데 max 시간, 가져온 위치의 마지막 시간과 현재의 차이
         enableHighAccuracy: false, timeout: 20000, maximumAge: 1000
