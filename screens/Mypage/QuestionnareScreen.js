@@ -15,6 +15,7 @@ import Colors from '../../constants/Colors';
 import MyConstants from '../../constants/MyConstants';
 import MyStyles from '../../constants/MyStyles';
 import Net from '../../Net/Net';
+import GlobalState from "../../store/GlobalState";
 
 
 export default class QuestionnareScreen extends React.Component {
@@ -1777,6 +1778,11 @@ export default class QuestionnareScreen extends React.Component {
         }
 
         global.login_info.questionnaire_id = this.state.questionnaire_detail.id
+        if(this.state.questionnaire_detail.title == "Me") {
+          global.login_info.concern = this.state.questionnaire_detail.concern
+          global.login_info.needs = this.state.questionnaire_detail.needs
+          global.refreshStatus.main = true
+        }
 
         if (is_from_sign_up) {
           // 로그인 되었으면 상태변경

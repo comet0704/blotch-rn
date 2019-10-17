@@ -64,6 +64,10 @@ export class FragmentProductDetailReviews extends React.Component {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
 
+  componentWillUnmount () {
+    this.keyboardDidHideListener.remove();
+  }
+  
   _keyboardDidHide = () => {
     this.refs.commentBox.blur();
   }

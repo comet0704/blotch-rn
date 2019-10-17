@@ -11,6 +11,7 @@ import Colors from '../../constants/Colors';
 import MyConstants from '../../constants/MyConstants';
 import MyStyles from '../../constants/MyStyles';
 import Net from '../../Net/Net';
+import GlobalState from "../../store/GlobalState";
 
 export default class SignupScreen extends React.Component {
 
