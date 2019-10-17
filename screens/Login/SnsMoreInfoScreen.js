@@ -158,8 +158,8 @@ export default class SnsMoreInfoScreen extends React.Component {
               <View style={MyStyles.modalContainer}>
                 <TouchableOpacity activeOpacity={0.8} style={MyStyles.modal_close_btn} onPress={() => {
                   this.setState({ askInputQueModal: false });
-                  // 로그인 되었으면 앱을 리로딩
-                  Updates.reload()
+                  // 로그인 되었으면 상태변경
+                  GlobalState.loginStatus = 1
                 }}>
                   <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                 </TouchableOpacity>
@@ -180,8 +180,8 @@ export default class SnsMoreInfoScreen extends React.Component {
                     style={[MyStyles.dlg_btn_primary_white_cover]}
                     onPress={() => {
                       this.setState({ askInputQueModal: false });
-                      // 로그인 되었으면 앱을 리로딩
-                      Updates.reload()
+                      // 로그인 되었으면 상태변경
+                      GlobalState.loginStatus = 1
                     }}>
                     <MyAppText style={MyStyles.btn_primary_white}>Not now</MyAppText>
                   </TouchableHighlight>

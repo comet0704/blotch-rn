@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react';
 import * as Icon from '@expo/vector-icons';
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
@@ -9,6 +10,7 @@ import MyConstants from './constants/MyConstants';
 import AppNavigator from './navigation/AppNavigator';
 import AppNavigator1 from './navigation/AppNavigator1';
 import Net from './Net/Net';
+import GlobalState from './store/GlobalState';
 
 // 사용하는 대역변수 나열
 global.login_info = null
@@ -25,10 +27,9 @@ global.refreshStatus = {
   mypage: true,
 }
 
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
     isLoadingComplete: false,
-    isLogined: 0, // 0 => 상태판정못함, -1 : 비로그인, 1: 로그인
   };
 
 
@@ -49,7 +50,7 @@ export default class App extends React.Component {
     result1 = await AsyncStorage.getItem(MyConstants.ASYNC_PARAMS.login_info)
     global.login_info = JSON.parse(result1);
     if (global.login_info == null) { // 로그인 정보가 없는경우는 아예 시도 안함.
-      this.setState({ isLogined: -1 })
+      GlobalState.loginStatus = -1
       // 토큰 항상 쓰는 값이므로 빈값으로 초기화라도 해주자
       global.login_info = {
         token: ""
@@ -74,7 +75,7 @@ export default class App extends React.Component {
         />
       );
     } else {
-      if (this.state.isLogined == 0) {
+      if (GlobalState.loginStatus == 0) {
         return (
           <AppLoading
             startAsync={this._loadResourcesAsync}
@@ -82,7 +83,7 @@ export default class App extends React.Component {
             onFinish={this._handleFinishLoading}
           />
         );
-      } else if (this.state.isLogined == -1) {
+      } else if (GlobalState.loginStatus == -1) {
         return (
           <View style={styles.container}>
             {/* <StatusBar
@@ -161,7 +162,7 @@ export default class App extends React.Component {
           global.login_info = {
             token: ""
           }
-          this.setState({ isLogined: -1 })
+          GlobalState.loginStatus = -1
           return;
         } else {
           global.login_info = responseJson.result_data.login_user;
@@ -170,12 +171,12 @@ export default class App extends React.Component {
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.user_pwd, p_pwd);
           global.user_pwd = p_pwd
-          this.setState({ isLogined: 1 })
+          GlobalState.loginStatus = 1
         }
 
       })
       .catch((error) => {
-        this.setState({ isLogined: -1 })
+        GlobalState.loginStatus = -1
         this.setState({
           isLoading: false,
         });
@@ -211,7 +212,7 @@ export default class App extends React.Component {
           global.login_info = {
             token: ""
           }
-          this.setState({ isLogined: -1 })
+          GlobalState.loginStatus = -1
           return;
         } else {
           global.login_info = responseJson.result_data.login_user;
@@ -219,12 +220,12 @@ export default class App extends React.Component {
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.login_info, JSON.stringify(responseJson.result_data.login_user));
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.setting, JSON.stringify(responseJson.result_data.setting));
 
-          this.setState({ isLogined: 1 })
+          GlobalState.loginStatus = 1
         }
 
       })
       .catch((error) => {
-        this.setState({ isLogined: -1 })
+        GlobalState.loginStatus = -1
         this.setState({
           isLoading: false,
         });
@@ -233,6 +234,7 @@ export default class App extends React.Component {
   }
 
 }
+export default (observer(App))
 
 const styles = StyleSheet.create({
   container: {

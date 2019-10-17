@@ -12,6 +12,7 @@ import Colors from '../../constants/Colors';
 import MyConstants from '../../constants/MyConstants';
 import MyStyles from '../../constants/MyStyles';
 import Net from '../../Net/Net';
+import GlobalState from "../../store/GlobalState";
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -284,8 +285,8 @@ export default class LoginScreen extends React.Component {
               <View style={MyStyles.modalContainer}>
                 <TouchableOpacity activeOpacity={0.8} style={MyStyles.modal_close_btn} onPress={() => {
                   this.setState({ askInputQueModal: false });
-                  // 로그인 되었으면 앱을 리로딩
-                  Updates.reload()
+                  // 로그인 되었으면 상태변경
+                  GlobalState.loginStatus = 1
                 }}>
                   <Image style={{ width: 14, height: 14 }} source={require("../../assets/images/ic_close.png")} />
                 </TouchableOpacity>
@@ -307,7 +308,7 @@ export default class LoginScreen extends React.Component {
                     onPress={() => {
                       this.setState({ askInputQueModal: false });
                       // 로그인 되었으면 앱을 리로딩
-                      Updates.reload()
+                      GlobalState.loginStatus = 1
                     }}>
                     <MyAppText style={MyStyles.btn_primary_white}>Not now</MyAppText>
                   </TouchableHighlight>
@@ -353,7 +354,7 @@ export default class LoginScreen extends React.Component {
           AsyncStorage.setItem(MyConstants.ASYNC_PARAMS.user_pwd, p_pwd);
           // this.props.navigation.navigate("Home")
           // 로그인 되었으면 앱을 리로딩
-          Updates.reload()
+          GlobalState.loginStatus = 1
         }
 
       })
@@ -402,7 +403,7 @@ export default class LoginScreen extends React.Component {
           if (responseJson.result_data.new_user == 1) {
             this.props.navigation.navigate('SnsMoreInfo')
           } else {
-            Updates.reload()
+            GlobalState.loginStatus = 1
           }
         }
 
@@ -451,7 +452,7 @@ export default class LoginScreen extends React.Component {
           if (responseJson.result_data.new_user == 1) {
             this.props.navigation.navigate('SnsMoreInfo')
           } else {
-            Updates.reload()
+            GlobalState.loginStatus = 1
           }
         }
 

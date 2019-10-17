@@ -337,7 +337,8 @@ export default class QuestionnareScreen extends React.Component {
 
           <TopbarWithBlackBack title="Questionnaire" onPress={() => {
             if (is_from_sign_up) {
-              Updates.reload()
+              // 로그인 되었으면 상태변경
+              GlobalState.loginStatus = 1
             } else {
               this.props.navigation.goBack()
             }
@@ -1778,7 +1779,8 @@ export default class QuestionnareScreen extends React.Component {
         global.login_info.questionnaire_id = this.state.questionnaire_detail.id
 
         if (is_from_sign_up) {
-          Updates.reload()
+          // 로그인 되었으면 상태변경
+          GlobalState.loginStatus = 1
         } else {
           this.state.questionnaire_list[this.state.beforeBabyIdx].title = this.state.questionnaire_detail.title
           this.setState(this.state.questionnaire_list)

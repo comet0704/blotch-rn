@@ -10,6 +10,7 @@ import Colors from '../../constants/Colors';
 import MyConstants from '../../constants/MyConstants';
 import MyStyles from '../../constants/MyStyles';
 import Net from '../../Net/Net';
+import GlobalState from '../../store/GlobalState';
 
 let pkg = require('../../app.json')
 export default class SettingScreen extends React.Component {
@@ -53,8 +54,10 @@ export default class SettingScreen extends React.Component {
         this.setState({
           isLoading: false,
         });
-        global.login_info = null;
-        Updates.reload()
+        global.login_info = {
+          token: ""
+        }
+        GlobalState.loginStatus = -1
       })
       .catch((error) => {
         this.setState({
