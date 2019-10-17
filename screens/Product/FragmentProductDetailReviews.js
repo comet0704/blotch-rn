@@ -4,7 +4,7 @@ import * as Permissions from 'expo-permissions';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
-import { Alert, Dimensions, Image, Modal, Platform, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, Alert, Dimensions, Image, Modal, Platform, TextInput, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
@@ -61,17 +61,26 @@ export class FragmentProductDetailReviews extends React.Component {
 
   componentDidMount() {
     this.requestProductCommentList(this.item_id, 0)
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+  }
+
+  _keyboardDidHide = () => {
+    this.refs.commentBox.blur();
   }
 
   beforeCommentIdx = -1;
   onAddCommentSelected = (index) => {
     const comment_list = this.state.product_comment_list_result_data.comment_list
-    try {
-      comment_list[this.beforeCommentIdx].want_comment = false
-    } catch (error) {
+    if (this.beforeCommentIdx == index) {
+      comment_list[index].want_comment = comment_list[index].want_comment == true ? false : true
+    } else {
+      try {
+        comment_list[this.beforeCommentIdx].want_comment = false
+      } catch (error) {
 
+      }
+      comment_list[index].want_comment = true
     }
-    comment_list[index].want_comment = true
     const result = { user_comment: this.state.product_comment_list_result_data.user_comment, comment_list: comment_list, product_user_sta: this.state.product_comment_list_result_data.product_user_sta };
     this.beforeCommentIdx = index;
     this.setState({ product_comment_list_result_data: result })
@@ -467,6 +476,7 @@ export class FragmentProductDetailReviews extends React.Component {
             <View style={{ marginTop: 10, flexDirection: "row" }}>
               <Image source={require("../../assets/images/ic_avatar1.png")} style={[MyStyles.ic_avatar1]} />
               <TextInput placeholder="Add a Comment"
+                ref='commentBox'
                 returnKeyType="go"
                 // value={this.state.product_comment_list_result_data.user_comment == null ? "" : this.state.product_comment_list_result_data.user_comment.comment}
                 onFocus={() => {
