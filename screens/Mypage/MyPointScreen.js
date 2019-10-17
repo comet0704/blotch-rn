@@ -50,7 +50,7 @@ export default class MyPointScreen extends React.Component {
           <Image source={require("../../assets/images/ic_hidden_pt_mark.png")} style={[MyStyles.ic_hidden_pt_mark, { position: "absolute", right: -65 / 3 }]} />
         </TouchableOpacity>
       </View>
-    } else if (item.type == 2) { // 미등록 제품스캔, 사진 업로드로 인한  인한 지급
+    } else if (item.type == 2 || item.type == 4) { // 미등록 제품스캔, 사진 업로드로 인한  인한 지급
       return (
         <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: 0 }]}>
           <TouchableOpacity activeOpacity={0.8} style={[MyStyles.ingredient_section_header]} onPress={() => {
@@ -87,6 +87,23 @@ export default class MyPointScreen extends React.Component {
             </View>
             <MyAppText style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<MyAppText style={{ color: Colors.primary_purple }}>P</MyAppText></MyAppText>
 
+            <Image source={require("../../assets/images/ic_hidden_pt_mark.png")} style={[MyStyles.ic_hidden_pt_mark, { position: "absolute", right: -65 / 3 }]} />
+          </TouchableOpacity>
+        </View>
+      );
+    } else if (item.type == 5) {
+      {/* 첫 댓글 완료시 지급 */ }
+      return (
+        <View key={index} style={[{ borderLeftColor: Colors.primary_purple }, MyStyles.ingredient_section, { marginTop: -3 }]}>
+          <TouchableOpacity activeOpacity={0.8} style={[MyStyles.ingredient_section_header]} onPress={() => {
+            this.setState({ section_allergic_show: !this.state.section_allergic_show })
+          }}>
+            <Image source={require("../../assets/images/ic_review_big.png")} style={[MyStyles.ic_review_big]} />
+            <View style={[MyStyles.padding_h_main, { flex: 1 }]}>
+              <MyAppText style={[MyStyles.ingredient_section_header_text1]}>Comment</MyAppText>
+              <MyAppText style={[MyStyles.ingredient_section_header_text2, { color: Colors.color_949292 }]}>You wrote the first comment</MyAppText>
+            </View>
+            <MyAppText style={{ color: Colors.color_212122, fontSize: 18, fontWeight: "bold" }}>{item.point}<MyAppText style={{ color: Colors.primary_purple }}>P</MyAppText></MyAppText>
             <Image source={require("../../assets/images/ic_hidden_pt_mark.png")} style={[MyStyles.ic_hidden_pt_mark, { position: "absolute", right: -65 / 3 }]} />
           </TouchableOpacity>
         </View>
