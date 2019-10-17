@@ -115,7 +115,9 @@ export default class HomeScreen extends React.Component {
     //   "remote": true,
     //   "userText": null,
     // }
-
+    if(p_notification.data.type == "4") { // 첫 댓글 완료시 포인트지금되므로 마이페이지 리로딩.
+      global.refreshStatus.mypage = true
+    }
     if (p_notification.origin == "selected") {
       if (p_notification.data.type == MyConstants.FCM_TYPES.FCM_TYPE_COMMENT) { // 댓글알림이면
         custom_data = JSON.parse(p_notification.data.custom_data)
