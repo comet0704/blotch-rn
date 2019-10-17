@@ -64,10 +64,10 @@ export class FragmentProductDetailReviews extends React.Component {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.keyboardDidHideListener.remove();
   }
-  
+
   _keyboardDidHide = () => {
     this.refs.commentBox.blur();
   }
@@ -279,7 +279,7 @@ export class FragmentProductDetailReviews extends React.Component {
             <Image source={require("../../assets/images/ic_reply_mark.png")} style={[MyStyles.ic_reply_mark, { marginLeft: 5, marginTop: 5, marginRight: 5 }]} />
             <TextInput
               returnKeyType="go"
-              multiline={Platform.OS == 'ios' ? false : true}
+              multiline={true}
               onChangeText={(text) => { this.setState({ post_sub_comment: text }) }}
               placeholder="Add a Comment" style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
             </TextInput>
