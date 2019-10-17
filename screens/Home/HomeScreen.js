@@ -449,15 +449,11 @@ export default class HomeScreen extends React.Component {
                       {this.state.refreshOneLineInfo ?
                         !(Common.isNeedToAddQuestionnaire()) ?
                           this.renderOneLineInfoSection()
-                          : global.login_info.token.length > 0 ? // 로그인한 회원의 경우만 설문 작성유무 판정
-                            <MyAppText style={{ color: "white", fontSize: 13 }}>Please complete the Questionnaire</MyAppText>
-                            : null
+                          : <MyAppText style={{ color: "white", fontSize: 13 }}>Please complete the Questionnaire</MyAppText>
                         :
                         !(Common.isNeedToAddQuestionnaire()) ?
                           this.renderOneLineInfoSection()
-                          : global.login_info.token.length > 0 ? // 로그인한 회원의 경우만 설문 작성유무 판정
-                            <MyAppText style={{ color: "white", fontSize: 13 }}>Please complete the Questionnaire</MyAppText>
-                            : null
+                          : <MyAppText style={{ color: "white", fontSize: 13 }}>Please complete the Questionnaire</MyAppText>
                       }
                     </View>
                     {this.state.weatherInfo.icon.length > 0 ?
