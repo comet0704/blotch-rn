@@ -14,6 +14,7 @@ import Colors from '../../../constants/Colors';
 import MyConstants from '../../../constants/MyConstants';
 import MyStyles from '../../../constants/MyStyles';
 import Net from '../../../Net/Net';
+import { SearchModal } from './../../../components/Modals/SearchModal';
 
 export default class SearchResultScreen extends React.Component {
   constructor(props) {
@@ -34,6 +35,7 @@ export default class SearchResultScreen extends React.Component {
         "brand_count": 0,
         "brand_list": []
       },
+      modalVisible: false
     };
   }
 
@@ -169,7 +171,7 @@ export default class SearchResultScreen extends React.Component {
                 <Image source={require("../../../assets/images/ic_search_box_bg1.png")} style={MyStyles.background_image_stretch} />
                 <Image source={require('../../../assets/images/Home/ic_search.png')} style={{ width: 13, height: 11, alignSelf: "center" }} />
                 <TextInput editable={false} style={{ fontSize: 13, flex: 1, paddingLeft: 5, paddingRight: 5 }} value={this.state.searchWord}></TextInput>
-                <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.props.navigation.navigate("SearchCamera") }}>
+                <TouchableOpacity activeOpacity={0.8} style={{ padding: 8, alignSelf: "center" }} onPress={() => { this.setState({ modalVisible: true }) }}>
                   <Image source={require('../../../assets/images/Home/ic_camera_black.png')} style={{ width: 19, height: 18, alignSelf: "center" }} />
                 </TouchableOpacity>
               </View>
@@ -323,6 +325,10 @@ export default class SearchResultScreen extends React.Component {
             </TouchableWithoutFeedback>
           </Modal>
         </KeyboardAvoidingView>
+        <SearchModal
+          navigation={this.props.navigation}
+          visible={this.state.modalVisible}
+          onClose={() => { this.setState({ modalVisible: false }) }} />
       </View >
     );
   }

@@ -38,7 +38,8 @@ export default class SearchMainScreen extends React.Component {
       },
       beforeCatIdx: 0,
       loading_end: false,
-      modalVisible: false
+      modalVisible: false,
+      cameFromCameraScreen: false
     };
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
@@ -88,7 +89,8 @@ export default class SearchMainScreen extends React.Component {
     await this.setState({
       query: keyword,
       searchWord: keyword,
-      searchBoxFocused: true
+      searchBoxFocused: true,
+      cameFromCameraScreen: true
     });
   };
 
@@ -97,6 +99,10 @@ export default class SearchMainScreen extends React.Component {
       this.setState({ searchBoxFocused: false, query: '' });
       this.refs.searchBox.blur();
       return true;
+    }
+    if(this.state.cameFromCameraScreen){
+      this.props.navigation.pop(2)
+      return;
     }
     this.props.navigation.goBack(null);
   }
