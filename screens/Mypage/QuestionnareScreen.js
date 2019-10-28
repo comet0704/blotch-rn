@@ -58,7 +58,7 @@ export default class QuestionnareScreen extends React.Component {
         "concern": "",
         "brand_favourite": "",
         "brand_mostly": "",
-        "buy_products_from": 0,
+        "buy_products_from": "",
         "product_count_in_day": 0,
         "time_for_care": 0,
         "skincare_routine_morning": null,
@@ -191,7 +191,7 @@ export default class QuestionnareScreen extends React.Component {
       this.state.questionnaire_detail.brand_mostly_list != null &&
       this.state.questionnaire_detail.brand_mostly_list.length > 0 &&
       this.state.questionnaire_detail.buy_products_from != null &&
-      this.state.questionnaire_detail.buy_products_from > 0 &&
+      this.state.questionnaire_detail.buy_products_from.length > 0 &&
       this.state.questionnaire_detail.product_count_in_day != null &&
       this.state.questionnaire_detail.product_count_in_day > 0 &&
       this.state.questionnaire_detail.time_for_care != null &&
@@ -736,7 +736,7 @@ export default class QuestionnareScreen extends React.Component {
                               this.state.questionnaire_detail.brand_mostly_list != null &&
                               this.state.questionnaire_detail.brand_mostly_list.length > 0 &&
                               this.state.questionnaire_detail.buy_products_from != null &&
-                              this.state.questionnaire_detail.buy_products_from > 0 &&
+                              this.state.questionnaire_detail.buy_products_from.length > 0 &&
                               this.state.questionnaire_detail.product_count_in_day != null &&
                               this.state.questionnaire_detail.product_count_in_day > 0 &&
                               this.state.questionnaire_detail.time_for_care != null &&
@@ -751,7 +751,7 @@ export default class QuestionnareScreen extends React.Component {
                           this.state.questionnaire_detail.brand_mostly_list != null &&
                           this.state.questionnaire_detail.brand_mostly_list.length > 0 &&
                           this.state.questionnaire_detail.buy_products_from != null &&
-                          this.state.questionnaire_detail.buy_products_from > 0 &&
+                          this.state.questionnaire_detail.buy_products_from.length > 0 &&
                           this.state.questionnaire_detail.product_count_in_day != null &&
                           this.state.questionnaire_detail.product_count_in_day > 0 &&
                           this.state.questionnaire_detail.time_for_care != null &&
@@ -887,33 +887,61 @@ export default class QuestionnareScreen extends React.Component {
                             <MyAppText style={[MyStyles.question_sub_text1]}>I buy products from</MyAppText>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 10 }]}>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                this.state.questionnaire_detail.buy_products_from = 1,
-                                  this.setState(this.state.questionnaire_detail)
+                                var buyFromList = this.state.questionnaire_detail.buy_products_from.split(",")
+                                var index = buyFromList.indexOf("1")
+                                if (index > -1) { // 선택되었던 상태이므로 선택해제한다.
+                                  buyFromList.splice(index, 1)
+                                } else {
+                                  buyFromList.push(1)
+                                }
+                                this.state.questionnaire_detail.buy_products_from = buyFromList.join(",")
+                                this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from.indexOf(1) > -1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Shopping mall</MyAppText>
                               </TouchableOpacity>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                this.state.questionnaire_detail.buy_products_from = 2,
-                                  this.setState(this.state.questionnaire_detail)
+                                var buyFromList = this.state.questionnaire_detail.buy_products_from.split(",")
+                                var index = buyFromList.indexOf("2")
+                                if (index > -1) { // 선택되었던 상태이므로 선택해제한다.
+                                  buyFromList.splice(index, 1)
+                                } else {
+                                  buyFromList.push(2)
+                                }
+                                this.state.questionnaire_detail.buy_products_from = buyFromList.join(",")
+                                this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 2 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from.indexOf(2) > -1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Internet</MyAppText>
                               </TouchableOpacity>
                             </View>
                             <View style={[{ flexDirection: "row", alignItems: "center", marginTop: 3 }]}>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                this.state.questionnaire_detail.buy_products_from = 3,
-                                  this.setState(this.state.questionnaire_detail)
+                                var buyFromList = this.state.questionnaire_detail.buy_products_from.split(",")
+                                var index = buyFromList.indexOf("3")
+                                if (index > -1) { // 선택되었던 상태이므로 선택해제한다.
+                                  buyFromList.splice(index, 1)
+                                } else {
+                                  buyFromList.push(3)
+                                }
+                                this.state.questionnaire_detail.buy_products_from = buyFromList.join(",")
+                                this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 3 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from.indexOf(3) > -1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Permanent shop</MyAppText>
                               </TouchableOpacity>
                               <TouchableOpacity activeOpacity={0.8} style={[{ flex: 1, alignItems: "center", flexDirection: "row" }]} onPress={() => {
-                                this.state.questionnaire_detail.buy_products_from = 4,
-                                  this.setState(this.state.questionnaire_detail)
+                                var buyFromList = this.state.questionnaire_detail.buy_products_from.split(",")
+                                var index = buyFromList.indexOf("4")
+                                if (index > -1) { // 선택되었던 상태이므로 선택해제한다.
+                                  buyFromList.splice(index, 1)
+                                } else {
+                                  buyFromList.push(4)
+                                }
+                                this.state.questionnaire_detail.buy_products_from = buyFromList.join(",")
+                                this.setState(this.state.questionnaire_detail)
                               }}>
-                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from == 4 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
+                                <Image style={{ width: 14, height: 14 }} source={this.state.questionnaire_detail.buy_products_from.indexOf(4) > -1 ? require("../../assets/images/ic_check_small_on.png") : require("../../assets/images/ic_check_small_off.png")} />
                                 <MyAppText style={[{ marginLeft: 5 }, MyStyles.text_12_949292]}>Medical shop</MyAppText>
                               </TouchableOpacity>
                             </View>
@@ -1567,6 +1595,7 @@ export default class QuestionnareScreen extends React.Component {
   }
 
   requestAddQuestionnaireItem(p_title) {
+    console.log("ddddddddddddd")
     return fetch(Net.user.addQuestionnaireItem, {
       method: 'POST',
       headers: {
@@ -1575,11 +1604,14 @@ export default class QuestionnareScreen extends React.Component {
         'x-access-token': global.login_info.token
       },
       body: JSON.stringify({
-        title: p_title
+        title: p_title,
+        buy_products_from: "",
       }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log("eeeeeeeeeeeee")
+        console.log(responseJson)
 
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
@@ -1590,6 +1622,8 @@ export default class QuestionnareScreen extends React.Component {
 
       })
       .catch((error) => {
+        console.log("ffffffffffff")
+        console.log(error)
         this.refs.toast.showBottom(error);
       })
       .done();
@@ -1760,7 +1794,7 @@ export default class QuestionnareScreen extends React.Component {
         concern: this.state.questionnaire_detail.concern,
         brand_favourite: this.state.questionnaire_detail.brand_favourite,
         brand_mostly: this.state.questionnaire_detail.brand_mostly,
-        buy_products_from: this.state.questionnaire_detail.buy_products_from == null ? null : this.state.questionnaire_detail.buy_products_from.toString(),
+        buy_products_from: this.state.questionnaire_detail.buy_products_from == null ? "" : this.state.questionnaire_detail.buy_products_from,
         product_count_in_day: this.state.questionnaire_detail.product_count_in_day == null ? null : this.state.questionnaire_detail.product_count_in_day.toString(),
         time_for_care: this.state.questionnaire_detail.time_for_care == null ? null : this.state.questionnaire_detail.time_for_care.toString(),
         morning_cleansing: this.state.questionnaire_detail.morning_cleansing,
@@ -1778,7 +1812,7 @@ export default class QuestionnareScreen extends React.Component {
         }
 
         global.login_info.questionnaire_id = this.state.questionnaire_detail.id
-        if(this.state.questionnaire_detail.title == "Me") {
+        if (this.state.questionnaire_detail.title == "Me") {
           global.login_info.concern = this.state.questionnaire_detail.concern
           global.login_info.needs = this.state.questionnaire_detail.needs
           global.refreshStatus.main = true

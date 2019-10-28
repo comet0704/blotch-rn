@@ -129,6 +129,10 @@ export default class LoginScreen extends React.Component {
           MyConstants.ANDROID_CLIENT_ID,
         iosClientId:
           MyConstants.IOS_CLIENT_ID,
+        androidStandaloneAppClientId:
+          MyConstants.ANDROID_CLIENT_ID,
+        iosStandaloneAppClientId:
+          MyConstants.IOS_CLIENT_ID,
         scopes: ["profile", "email"]
       })
 
