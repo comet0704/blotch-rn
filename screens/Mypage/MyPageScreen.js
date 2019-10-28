@@ -25,6 +25,7 @@ export default class MyPageScreen extends React.Component {
       oneline_review_en: "",
       profileEdited: false,
       questionnaire_title: "",
+      questionnaire_status: "",
       refreshOneLineInfo: false,
       weatherInfo: {
         main: "_____",
@@ -398,7 +399,7 @@ export default class MyPageScreen extends React.Component {
                       } */}
                     </View>
 
-                    {this.state.result_data.mypage.my_questionnaire_status > 0 ?
+                    {this.state.questionnaire_status > 0 ?
                       <MyAppText style={[MyStyles.ingredient_section_header_text2]}>Completed</MyAppText>
                       :
                       <MyAppText style={[MyStyles.ingredient_section_header_text2]}>-</MyAppText>
@@ -544,9 +545,9 @@ export default class MyPageScreen extends React.Component {
         this.state.weatherInfo.city = ""
         this.setState(this.state.weatherInfo)
       }, {
-        //Accuracy가 높아야하는지, 위치를 가져오는데 max 시간, 가져온 위치의 마지막 시간과 현재의 차이
-        enableHighAccuracy: false, timeout: 20000, maximumAge: 1000
-      });
+      //Accuracy가 높아야하는지, 위치를 가져오는데 max 시간, 가져온 위치의 마지막 시간과 현재의 차이
+      enableHighAccuracy: false, timeout: 20000, maximumAge: 1000
+    });
   }
 
   _getWeather = (latitude, longitude) => {
@@ -670,7 +671,8 @@ export default class MyPageScreen extends React.Component {
         }
 
         this.state.questionnaire_title = responseJson.result_data.questionnaire_detail.title
-        this.setState({ questionnaire_title: this.state.questionnaire_title })
+        this.state.questionnaire_status = responseJson.result_data.questionnaire_detail.status
+        this.setState({ questionnaire_title: this.state.questionnaire_title, questionnaire_status: this.state.questionnaire_status })
       })
       .catch((error) => {
         this.setState({
