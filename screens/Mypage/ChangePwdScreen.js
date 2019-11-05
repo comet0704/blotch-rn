@@ -159,9 +159,6 @@ export default class ChangePwdScreen extends React.Component {
   }
 
   requestChangePassword(p_pwd_old, p_pwd1, p_pwd2) {
-    this.setState({
-      isLoading: true,
-    });
     return fetch(Net.user.changePassword, {
       method: 'POST',
       headers: {
@@ -177,10 +174,6 @@ export default class ChangePwdScreen extends React.Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
-        this.setState({
-          isLoading: false
-        });
         if (responseJson.result_code < 0) {
           this.refs.toast.showBottom(responseJson.result_msg);
           return;
